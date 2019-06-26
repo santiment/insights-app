@@ -1,0 +1,33 @@
+-
+  const accents = {
+    'jungle-green': 'SAN-accent_jungle-green',
+    'dodger-blue': 'SAN-accent_dodger-blue',
+    'texas-rose': 'SAN-accent_texas-rose',
+  }
+
+  const variants = {
+    fill: 'SAN-btn_fill',
+    ghost: 'SAN-btn_ghost',
+    flat: 'SAN-btn_flat',
+  }
+
+mixin button()
+  -
+    const {
+      href,
+      variant,
+      accent,
+      border,
+      fluid,
+    } = attributes;
+    const classes = cx('SAN-btn', border && 'SAN-btn_bordered', fluid && 'SAN_fluid', accent && accents[accent], variant && variants[variant])
+
+    const attrs = omit(
+      ["accent", "border", "fluid", "variant"],
+      attributes
+    );
+
+    const tag = href ? 'a' : 'button'
+
+  #{tag}(class=classes)&attributes(attrs)
+    block

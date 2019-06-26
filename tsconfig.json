@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "noEmitHelpers": false,
+        "strictNullChecks": false,
+        "baseUrl": "./src",
+        "paths": {},
+        "lib": [
+            "dom",
+            "es6"
+        ],
+        "typeRoots": [ "./node_modules/@types" ],
+        "types": [
+            "node",
+            "jquery.datatables",
+            "jquery",
+            "jqueryui",
+            "source-map",
+            "uglify-js",
+            "webpack"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "bower_components",
+        "dist"
+    ],
+    "include": [
+        "src/**/*.svelte"
+    ],
+  "compileOnSave": false,
+  "buildOnSave": false,
+}

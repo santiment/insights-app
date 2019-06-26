@@ -1,0 +1,20 @@
+.overviewPage {
+  color: var(--mirage);
+}
+
+.section {
+  margin: 25px 0 50px;
+}
+
+.tabs {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 4px 10px 0;
+}
+
+.heading {
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: normal;
+}

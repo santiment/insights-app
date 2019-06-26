@@ -1,0 +1,13 @@
+mixin tabs()
+  div(class="SAN-tabs")&attributes(attributes)
+    block
+
+
+mixin tab()
+  -
+    const {href} = attributes
+
+    const tag = href ? 'a' : 'button'
+
+  #{tag}(class="SAN-tab")&attributes(attributes)
+    block

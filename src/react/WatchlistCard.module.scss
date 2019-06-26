@@ -1,0 +1,67 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+
+.wrapper {
+  @include text-normal;
+
+  border: 1px solid var(--porcelain);
+  border-radius: $border-radius;
+  display: inline-block;
+  padding: 16px 20px;
+  position: relative;
+  overflow: hidden;
+  color: var(--mirage);
+  cursor: pointer;
+  transition: all ease-in-out 0.1s;
+
+  @include responsive('laptop', 'desktop') {
+    &:hover {
+      box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
+      transform: translateY(-4px);
+
+      .name {
+        color: var(--jungle-green);
+      }
+    }
+  }
+}
+
+.name {
+  line-height: 20px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.flexRow {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  justify-content: space-between;
+}
+
+.volumeLabel {
+  color: var(--waterloo);
+  line-height: 20px;
+}
+
+.change {
+  margin-left: 0;
+  font-size: 14px;
+}
+
+.marketcap {
+  font-family: 'Rubik', sans-serif;
+  font-size: 22px;
+  line-height: 30px;
+  color: var(--mirage);
+  margin-top: 12px;
+  margin-bottom: 6px;
+}

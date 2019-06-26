@@ -1,0 +1,97 @@
+<script>
+  import { onMount, onDestroy } from 'svelte'
+  import InsightCardInternals from '@/components/insights/InsightCardInternals'
+  import ViewportObserver from '@/components/ViewportObserver'
+  import Line from './Line.svelte'
+  import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
+  import { noTrendTagsFilter } from '@/utils/insights'
+  import { client } from '@/apollo'
+  import { getTimeIntervalFromToday, MONTH } from '@/utils/dates'
+
+  let klass
+  export { klass as class }
+  export let insight
+
+  let graph = {}
+  let data
+  let observeWhile
+
+  const options = {
+    rootMargin: '200px',
+  }
+  const { from, to } = getTimeIntervalFromToday(-2, MONTH)
+  const isoFrom = from.toISOString()
+  const isoTo = to.toISOString()
+
+  const { tags, updatedAt } = insight
+
+  const filteredTags = tags.filter(noTrendTagsFilter)
+  const ticker = filteredTags.length > 0 ? filteredTags[0].name : ''
+
+  $: observeWhile = data ? false : ticker
+
+  function onIntersect() {
+    client
+      .query({
+        query: HISTORY_PRICE_QUERY,
+        variables: {
+          from: isoFrom,
+          to: isoTo,
+          interval: '1d',
+          ticker,
+        },
+      })
+      .then(({ data: { historyPrice } }) => (data = historyPrice))
+      .catch(e => {
+        console.warn(e)
+        observeWhile = false
+      })
+  }
+</script>
+
+<template lang="pug">
+include /ui/mixins
+
+ViewportObserver(top, {options}, on:intersect='{onIntersect}', {observeWhile})
+  +panel.wrapper(class="{klass}", bind:this="{graph}", data-date="{updatedAt}", data-ticker="{ticker}")
+    .left
+      InsightCardInternals({...insight})
+    +if('data')
+      .right
+        h3.title {ticker} price since publication
+        Line({data})
+        h4.change 0.00%
+</template>
+
+<style>
+  .wrapper {
+    display: flex;
+    min-width: 320px;
+    height: 200px;
+  }
+
+  .left {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .right {
+    width: 260px;
+    padding: 20px;
+    background: linear-gradient(180deg, var(--athens), hsla(0, 0%, 100%, 0));
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    color: var(--waterloo);
+    text-align: center;
+  }
+
+  .change {
+    color: var(--jungle-green);
+    text-align: right;
+  }
+</style>

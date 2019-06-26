@@ -1,0 +1,12 @@
+-
+  function cx(...classes){
+    return classes.filter(item => !!item).join(' ');
+  }
+
+  function omit(args, obj) {
+    const temp = Object.assign({}, obj);
+    args.forEach(arg => {
+      delete temp[arg];
+    });
+    return temp;
+  }

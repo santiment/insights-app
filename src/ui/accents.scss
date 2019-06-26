@@ -1,0 +1,9 @@
+@each $color in jungle-green, persimmon, lima, texas-rose, dodger-blue,
+  heliotrope, malibu
+{
+  .SAN-accent_#{$color} {
+    --accent-color: var(--#{$color});
+    --accent-color-hover: var(--#{$color}-hover);
+    --accent-color-light: var(--#{$color}-light);
+  }
+}

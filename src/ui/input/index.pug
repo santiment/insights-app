@@ -1,0 +1,17 @@
+mixin input()
+  -
+    const variants = {
+    }
+
+    const {
+      variant,
+      fluid,
+    } = attributes;
+    const classes = cx('SAN-input')
+
+    const attrs = omit(
+      [],
+      attributes
+    );
+
+  input(class=classes)&attributes(attrs)

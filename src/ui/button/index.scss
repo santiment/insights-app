@@ -1,0 +1,92 @@
+.SAN-btn {
+  --btn-accent-color: var(--accent-color, var(--mirage));
+  --btn-accent-color-hover: var(--accent-color-hover, var(--jungle-green));
+
+  display: inline-flex;
+  align-items: center;
+
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  height: 32px;
+  padding: 6px 12px;
+  line-height: 1;
+  border-radius: 4px;
+
+  background: var(--white);
+  color: var(--btn-accent-color);
+  fill: var(--btn-accent-color);
+
+  &:hover {
+    color: var(--btn-accent-color-hover);
+    fill: var(--btn-accent-color-hover);
+  }
+
+  &_fill {
+    background: var(
+      --accent-color
+    ); // NOTE(vanguard): fill withou accent color is just white space
+    color: var(--white);
+    fill: var(--white);
+
+    &:hover {
+      background: var(--btn-accent-color-hover);
+      color: var(--white);
+      fill: var(--white);
+    }
+  }
+
+  &_flat {
+    &:hover {
+      color: var(--jungle-green);
+      fill: var(--jungle-green);
+    }
+  }
+
+  &_ghost {
+    &:hover {
+      background: var(--grey-light);
+    }
+  }
+
+  &_bordered {
+    border: 1px solid var(--accent-color, var(--porcelain));
+  }
+
+  &.active {
+    &.SAN-btn_ghost {
+      color: var(--jungle-green);
+      fill: var(--jungle-green);
+    }
+
+    &.SAN-btn_flat {
+      color: var(--jungle-green);
+      fill: var(--jungle-green);
+      background: var(--jungle-green-light);
+    }
+  }
+
+  &.disabled {
+    color: var(--mystic) !important;
+    background: var(--white) !important;
+    border-color: var(--porcelain) !important;
+    fill: var(--mystic) !important;
+    pointer-events: none;
+
+    &:hover {
+      color: var(--mystic) !important;
+    }
+
+    &.SAN-btn_ghost,
+    &.SAN-btn_fill,
+    &.SAN-btn_bordered {
+      background: var(--athens) !important;
+    }
+  }
+}
+
+.SAN_fluid {
+  display: flex;
+  width: 100%;
+}

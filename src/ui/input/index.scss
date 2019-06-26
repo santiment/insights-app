@@ -1,0 +1,26 @@
+.SAN-input {
+  outline: none;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  padding: 6px 10px;
+  border-radius: 4px;
+  height: 32px;
+
+  &::placeholder {
+    color: var(--casper);
+  }
+
+  &:focus,
+  &:hover {
+    border-color: var(--jungle-green);
+  }
+
+  &.error {
+    border-color: var(--red);
+  }
+
+  &[disabled] {
+    color: var(--mystic);
+    background: var(--athens);
+  }
+}
