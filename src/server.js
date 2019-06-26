@@ -14,9 +14,11 @@ polka() // You can also use Express
     sapper.middleware({
       session: (req, res) => {
         const authCookie = '_sanbase_sid='
-        const sanCookie = req.headers.cookie
-          .split(' ')
-          .find(cookie => cookie.includes('_sanbase_sid='))
+        const sanCookie =
+          req.headers.cookie &&
+          req.headers.cookie
+            .split(' ')
+            .find(cookie => cookie.includes('_sanbase_sid='))
         return {
           isMobile: new MobileDetect(req.headers['user-agent']).mobile(),
           isLoggedIn: sanCookie && sanCookie.length > authCookie.length,
