@@ -13,7 +13,9 @@ include /ui/mixins
   slot
 </template>
 
-<style>
+<style lang="scss">
+  @import '@/mixins.scss';
+
   .wrapper {
     width: 500px;
     margin: 0 auto;
