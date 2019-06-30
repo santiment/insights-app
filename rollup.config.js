@@ -124,7 +124,7 @@ sass.render(
     if (!error) {
       postcss([
         cssModules({
-          scopeBehaviour: 'global',
+          generateScopedName: '[local]',
         }),
         cssnano(),
       ])

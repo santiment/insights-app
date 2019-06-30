@@ -1,10 +1,9 @@
 <script context="module">
   import { client } from '@/apollo'
-  import { getDateFormats } from '@/utils/dates'
   import { ALL_INSIGHTS_BY_PAGE_QUERY } from '@/gql/insights'
 
-  export async function preload() {
-    const res = await client.query({
+  export async function preload(_, __, { apollo = client }) {
+    const res = await apollo.query({
       query: ALL_INSIGHTS_BY_PAGE_QUERY,
       variables: {
         page: 1,

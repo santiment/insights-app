@@ -44,22 +44,14 @@ a.email__link(href='/login') All login options
 <style lang="scss">
   @import '@/mixins.scss';
 
-  .wrapper {
-    width: 500px;
-    margin: 0 auto;
-    padding: 30px 80px 36px;
-    text-align: center;
-
-    @include responsive('phone', 'phone-xs') {
-      width: 100%;
-      padding: 15px 30px;
-    }
-  }
-
   .title {
     font-weight: normal;
     font-size: 18px;
     line-height: 26px;
+
+    @include responsive('phone', 'phone-xs') {
+      color: red;
+    }
   }
 
   .options {

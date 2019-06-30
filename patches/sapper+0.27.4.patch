@@ -1,0 +1,80 @@
+diff --git a/node_modules/sapper/runtime/app.mjs b/node_modules/sapper/runtime/app.mjs
+index 1846337..1185271 100644
+--- a/node_modules/sapper/runtime/app.mjs
++++ b/node_modules/sapper/runtime/app.mjs
+@@ -299,7 +299,7 @@ async function hydrate_target(target)
+ 			path: page.path,
+ 			query: page.query,
+ 			params: {}
+-		}, $session);
++		}, $session, {});
+ 	}
+ 
+ 	let branch;
+@@ -336,7 +336,7 @@ async function hydrate_target(target)
+ 						path: page.path,
+ 						query: page.query,
+ 						params: part.params ? part.params(target.match) : {}
+-					}, $session)
++					}, $session, {})
+ 					: {};
+ 			} else {
+ 				preloaded = initial_data.preloaded[i + 1];
+diff --git a/node_modules/sapper/runtime/server.mjs b/node_modules/sapper/runtime/server.mjs
+index 9d3d9fb..4e6bfaf 100644
+--- a/node_modules/sapper/runtime/server.mjs
++++ b/node_modules/sapper/runtime/server.mjs
+@@ -2135,7 +2135,8 @@ fetch.Promise = global.Promise;
+ 
+ function get_page_handler(
+ 	manifest,
+-	session_getter
++	session_getter,
++  serverContext_getter
+ ) {
+ 	const get_build_info = dev
+ 		? () => JSON.parse(fs.readFileSync(path.join(build_dir, 'build.json'), 'utf-8'))
+@@ -2213,6 +2214,7 @@ function get_page_handler(
+ 		}
+ 
+ 		const session = session_getter(req, res);
++		const serverContext = serverContext_getter(req, res);
+ 
+ 		let redirect;
+ 		let preload_error;
+@@ -2276,7 +2278,7 @@ function get_page_handler(
+ 					path: req.path,
+ 					query: req.query,
+ 					params: {}
+-				}, session)
++				}, session, serverContext)
+ 				: {};
+ 
+ 			match = error ? null : page.pattern.exec(req.path);
+@@ -2295,7 +2297,7 @@ function get_page_handler(
+ 							path: req.path,
+ 							query: req.query,
+ 							params
+-						}, session)
++						}, session, serverContext)
+ 						: {};
+ 				}));
+ 			}
+@@ -2527,7 +2529,7 @@ function middleware(opts
+ 
+ 
+  = {}) {
+-	const { session, ignore } = opts;
++	const { session, serverContext, ignore } = opts;
+ 
+ 	let emitted_basepath = false;
+ 
+@@ -2578,7 +2580,7 @@ function middleware(opts
+ 
+ 		get_server_route_handler(manifest.server_routes),
+ 
+-		get_page_handler(manifest, session || noop)
++		get_page_handler(manifest, session || noop, serverContext || noop)
+ 	].filter(Boolean));
+ }
+ 

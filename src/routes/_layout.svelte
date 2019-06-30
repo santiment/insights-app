@@ -4,7 +4,6 @@
   import NavDesktop from '@/components/Nav'
   import NavMobile from '@/components/Mobile/Nav'
   import { getMobileComponent } from '@/utils/responsive'
-  import { beforeUpdate } from 'svelte'
 
   const Nav = getMobileComponent(NavMobile, NavDesktop)
 
