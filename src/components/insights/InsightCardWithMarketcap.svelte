@@ -41,7 +41,13 @@
           ticker,
         },
       })
-      .then(({ data: { historyPrice } }) => (data = historyPrice))
+      .then(({ data: { historyPrice } }) => {
+        if (!historyPrice.length) {
+          return Promise.reject(`${ticker} historyPrice has no data`)
+        }
+
+        data = historyPrice
+      })
       .catch(e => {
         console.warn(e)
         observeWhile = false

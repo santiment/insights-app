@@ -26,14 +26,14 @@
   import { getMobileComponent } from '@/utils/responsive'
 
   const InsightCard = getMobileComponent(InsightCardMobile, InsightCardDesktop)
+  const options = {
+    rootMargin: '650px',
+  }
 
   export let insights = []
   let page = 1
   let loading = false
   let hasMore = true
-
-  let target
-  let offsetHeight
 
   function getInsights() {
     loading = true
@@ -62,15 +62,11 @@
       getInsights()
     }
   }
-
-  const options = {
-    rootMargin: '650px',
-  }
 </script>
 
 <template lang="pug">
 
-.insights(bind:this="{target}", bind:offsetHeight)
+.insights
   ViewportObserver({options}, on:intersect='{onIntersect}', observeWhile='{hasMore}')
     Feed(items="{insights}", dateKey="updatedAt")
       div.insights__item(slot="item", let:item="{insight}")
