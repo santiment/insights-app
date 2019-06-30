@@ -8,7 +8,11 @@ import babel from 'rollup-plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import alias from 'rollup-plugin-alias'
 import config from 'sapper/config/rollup.js'
-import autoPreprocess, { scss, pug } from 'svelte-preprocess'
+import autoPreprocess, {
+  scss,
+  pug,
+  postcss as sveltePostcss,
+} from 'svelte-preprocess'
 import json from 'rollup-plugin-json'
 import sass from 'node-sass'
 import postcss from 'postcss'
@@ -85,12 +89,29 @@ const preprocess = {
     },
   }),
   style: code => {
+    if (code.attributes.lang !== 'scss') return { code: code.content }
+
     code.content = code.content.replace(
       /@import\s*("|')@\//g,
       `@import $1${aliases['@']}/`,
     )
-    const a = style(code)
-    return a
+
+    return style(code).then(css => {
+      return sveltePostcss({
+        plugins: [
+          cssModules({
+            scopeBehaviour: 'global',
+          }),
+          /* cssnano(), */
+        ],
+      })
+        .style({ content: css.code })
+        .then(postcss => {
+          css.code = postcss.code
+
+          return css
+        })
+    })
   },
 }
 
@@ -103,7 +124,7 @@ sass.render(
     if (!error) {
       postcss([
         cssModules({
-          generateScopedName: '[local]',
+          scopeBehaviour: 'global',
         }),
         cssnano(),
       ])
