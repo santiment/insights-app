@@ -9,4 +9,11 @@
       margin-left: 16px;
     }
   }
+
+  &__content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px 20px 0;
+    margin-bottom: 12px;
+  }
 }

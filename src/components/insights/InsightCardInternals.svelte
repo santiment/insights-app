@@ -36,7 +36,7 @@ include /ui/mixins
 
 .bottom
   .bottom__left
-    ProfileInfo(name="{user.username}", id="{user.id}", status="{time}")
+    ProfileInfo(name="{user.username}", id="{user.id}", status="{time}", withPic)
   LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
 
 </template>

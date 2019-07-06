@@ -26,7 +26,7 @@ slot(name='trigger')
     .top
       h2 {title}
       +icon('close')(on:click='{closeDialog}')
-    slot(name='dialog')
+    slot(name='content')
 
   .bg(on:click='{closeDialog}')
 </template>
@@ -43,6 +43,10 @@ slot(name='trigger')
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
     z-index: 10;
+    display: flex;
+    flex-direction: column;
+    max-width: 85%;
+    max-height: 85%;
   }
 
   .bg {
@@ -63,7 +67,6 @@ slot(name='trigger')
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
-    margin-bottom: 16px;
   }
 
   svg {

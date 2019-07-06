@@ -37,7 +37,7 @@ include /ui/mixins
     div 
       Dialog(bind:open, title='Are you sure you want to delete this draft?')
         +icon('remove')(slot='trigger').remove
-        +dialogActions(slot='dialog')
+        +dialogActions.actions(slot='content')
           +button()(on:click='{closeDialog}', border) Cancel 
           +button(variant='fill', accent='jungle-green') Delete Draft
 
@@ -85,5 +85,9 @@ include /ui/mixins
     &:hover {
       fill: var(--jungle-green);
     }
+  }
+
+  .actions {
+    margin-top: 16px;
   }
 </style>

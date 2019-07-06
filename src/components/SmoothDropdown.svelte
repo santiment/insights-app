@@ -1,68 +1,68 @@
 <script>
-  import { fade } from "svelte/transition";
+  import { fade } from 'svelte/transition'
 
-  export let trigger;
-  export let items;
-  export let offsetY = 10;
+  export let trigger
+  export let items
+  export let offsetY = 10
 
-  let lastTrigger;
-  let opened;
-  let style;
-  let clientHeight;
-  let clientWidth;
-  let firstTime;
-  let closeTimer;
+  let lastTrigger
+  let opened
+  let style
+  let clientHeight
+  let clientWidth
+  let firstTime
+  let closeTimer
 
-  const transition = { duration: 150 };
-  let content;
+  const transition = { duration: 150 }
+  let content
 
   $: {
-    clientHeight;
-    clientWidth;
-    style = trigger && computeStyles();
+    clientHeight
+    clientWidth
+    style = trigger && computeStyles()
   }
 
   $: if (trigger) {
-    opened = true;
-    stopCloseTimer();
-    trigger.onmouseleave = startCloseTimer;
+    opened = true
+    stopCloseTimer()
+    trigger.onmouseleave = startCloseTimer
   }
 
   function startCloseTimer() {
-    lastTrigger = trigger;
+    lastTrigger = trigger
     closeTimer = setTimeout(() => {
-      lastTrigger = undefined;
-      opened = false;
-    }, 300);
+      lastTrigger = undefined
+      opened = false
+    }, 200)
   }
 
   function stopCloseTimer() {
-    clearTimeout(closeTimer);
+    clearTimeout(closeTimer)
   }
 
-  let innerWidth;
+  let innerWidth
 
   function computeStyles() {
     const {
       offsetTop,
       offsetLeft,
       offsetHeight: triggerHeight,
-      offsetWidth: triggerWidth
-    } = trigger;
-    const { left } = trigger.getBoundingClientRect();
-    const halfDropdown = clientWidth / 2;
-    const halfTrigger = triggerWidth / 2;
-    const centered = halfDropdown - halfTrigger;
-    const overflowX = innerWidth - (left + halfTrigger + halfDropdown);
+      offsetWidth: triggerWidth,
+    } = trigger
+    const { left } = trigger.getBoundingClientRect()
+    const halfDropdown = clientWidth / 2
+    const halfTrigger = triggerWidth / 2
+    const centered = halfDropdown - halfTrigger
+    const overflowX = innerWidth - (left + halfTrigger + halfDropdown)
 
-    let viewportAlign = 0;
+    let viewportAlign = 0
     if (overflowX < 0) {
-      viewportAlign = overflowX;
+      viewportAlign = overflowX
     }
 
     return `left: ${offsetLeft - centered + viewportAlign}px; top: ${offsetY +
       offsetTop +
-      triggerHeight}px; height: ${clientHeight}px; width: ${clientWidth}px`;
+      triggerHeight}px; height: ${clientHeight}px; width: ${clientWidth}px`
   }
 </script>
 
