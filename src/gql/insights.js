@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag'
 
-const insightCommon = gql`
+export const insightCommon = gql`
   fragment insightCommon on Post {
     readyState
     id
@@ -21,7 +21,7 @@ const insightCommon = gql`
     }
     __typename
   }
-`;
+`
 
 export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
   query allInsights($page: Int) {
@@ -30,7 +30,7 @@ export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
     }
   }
   ${insightCommon}
-`;
+`
 
 export const INSIGHTS_BY_USERID_QUERY = gql`
   query allInsightsForUser($id: Int!) {
@@ -39,7 +39,7 @@ export const INSIGHTS_BY_USERID_QUERY = gql`
     }
   }
   ${insightCommon}
-`;
+`
 
 export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
   query allInsightsByTag($tag: String!) {
@@ -48,7 +48,7 @@ export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
     }
   }
   ${insightCommon}
-`;
+`
 
 export const FEATURED_INSIGHTS_QUERY = gql`
   query featuredInsights {
@@ -57,7 +57,7 @@ export const FEATURED_INSIGHTS_QUERY = gql`
     }
   }
   ${insightCommon}
-`;
+`
 
 export const INSIGHT_BY_ID_QUERY = gql`
   query insightById($id: ID!) {
@@ -68,4 +68,4 @@ export const INSIGHT_BY_ID_QUERY = gql`
   }
 
   ${insightCommon}
-`;
+`

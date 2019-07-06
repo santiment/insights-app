@@ -26,29 +26,30 @@
   let publishedIndex = 0,
     publishedPrice = 0
 
-  const { from, to } = getTimeIntervalFromToday(-2, MONTH)
+  const publishDate = insight.publishedAt || insight.updatedAt
+  const { from, to } = getTimeIntervalFromToday(-2, MONTH, {
+    from: new Date(publishDate),
+  })
+
   const isoFrom = from.toISOString()
   const isoTo = to.toISOString()
 
-  const { tags, updatedAt } = insight
-
-  const filteredTags = tags.filter(noTrendTagsFilter)
+  const filteredTags = insight.tags.filter(noTrendTagsFilter)
   const ticker = filteredTags.length > 0 ? filteredTags[0].name : ''
 
   let change
   $: if (data) {
     const { length } = data
 
-    const {
-      value: { priceUsd },
-      index,
-    } = binarySearchByDatetime(data, insight.publishedAt)
+    const { value, index } = binarySearchByDatetime(data, publishDate)
 
-    publishedIndex = index
-    publishedPrice = priceUsd
+    if (value) {
+      publishedIndex = index
+      publishedPrice = value.priceUsd
 
-    change =
-      (100 * (data[length - 1].priceUsd - publishedPrice)) / publishedPrice
+      change =
+        (100 * (data[length - 1].priceUsd - publishedPrice)) / publishedPrice
+    }
   }
 
   $: observeWhile = data ? false : ticker
@@ -82,7 +83,7 @@
 include /ui/mixins
 
 ViewportObserver(top, {options}, on:intersect='{onIntersect}', {observeWhile})
-  +panel.wrapper(class="{klass}", bind:this="{graph}", data-date="{updatedAt}", data-ticker="{ticker}")
+  +panel.wrapper(class="{klass}", bind:this="{graph}")
     .left
       InsightCardInternals({...insight})
     +if('data')
