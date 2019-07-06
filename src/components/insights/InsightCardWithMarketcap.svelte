@@ -2,11 +2,19 @@
   import { onMount, onDestroy } from 'svelte'
   import InsightCardInternals from '@/components/insights/InsightCardInternals'
   import ViewportObserver from '@/components/ViewportObserver'
+  import ValueChange, {
+    percentChange as formatter,
+  } from '@/components/ValueChange'
   import Line from './Line.svelte'
   import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
   import { noTrendTagsFilter } from '@/utils/insights'
   import { client } from '@/apollo'
   import { getTimeIntervalFromToday, MONTH } from '@/utils/dates'
+  import { binarySearchByDatetime } from '@/utils/search'
+
+  const options = {
+    rootMargin: '200px',
+  }
 
   let klass
   export { klass as class }
@@ -15,10 +23,9 @@
   let graph = {}
   let data
   let observeWhile
+  let publishedIndex = 0,
+    publishedPrice = 0
 
-  const options = {
-    rootMargin: '200px',
-  }
   const { from, to } = getTimeIntervalFromToday(-2, MONTH)
   const isoFrom = from.toISOString()
   const isoTo = to.toISOString()
@@ -27,6 +34,22 @@
 
   const filteredTags = tags.filter(noTrendTagsFilter)
   const ticker = filteredTags.length > 0 ? filteredTags[0].name : ''
+
+  let change
+  $: if (data) {
+    const { length } = data
+
+    const {
+      value: { priceUsd },
+      index,
+    } = binarySearchByDatetime(data, insight.publishedAt)
+
+    publishedIndex = index
+    publishedPrice = priceUsd
+
+    change =
+      (100 * (data[length - 1].priceUsd - publishedPrice)) / publishedPrice
+  }
 
   $: observeWhile = data ? false : ticker
 
@@ -65,8 +88,8 @@ ViewportObserver(top, {options}, on:intersect='{onIntersect}', {observeWhile})
     +if('data')
       .right
         h3.title {ticker} price since publication
-        Line({data})
-        h4.change 0.00%
+        Line({data}, {publishedIndex}, {publishedPrice}, {change})
+        ValueChange({formatter}, {change})
 </template>
 
 <style>
@@ -89,15 +112,11 @@ ViewportObserver(top, {options}, on:intersect='{onIntersect}', {observeWhile})
     background: linear-gradient(180deg, var(--athens), hsla(0, 0%, 100%, 0));
     display: flex;
     flex-direction: column;
+    text-align: right;
   }
 
   .title {
     color: var(--waterloo);
     text-align: center;
-  }
-
-  .change {
-    color: var(--jungle-green);
-    text-align: right;
   }
 </style>

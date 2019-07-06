@@ -1,7 +1,7 @@
 <script>
   import ProfileInfo from '@/components/ProfileInfo'
   import LikeBtn from '@/components/LikeBtn'
-  import { dateDifferenceInWords } from '@/utils/dates'
+  import { getDateFormats } from '@/utils/dates'
   import { getSEOLinkFromIdAndTitle, noTrendTagsFilter } from '@/utils/insights'
 
   let klass = ''
@@ -20,10 +20,9 @@
   let filteredTags
   $: filteredTags = tags.filter(noTrendTagsFilter)
 
-  const time = dateDifferenceInWords({
-    from: new Date(publishedAt || updatedAt),
-  })
   const seoLink = getSEOLinkFromIdAndTitle(id, title)
+  const { MMM, DD, YYYY } = getDateFormats(new Date(publishedAt || updatedAt))
+  const time = `${MMM} ${DD}, ${YYYY}`
 </script>
 
 <template lang="pug">
@@ -37,7 +36,7 @@ include /ui/mixins
 
 .bottom
   .bottom__left
-    ProfileInfo(name="{user.username}", id="{user.id}", status="{time}", withPic)
+    ProfileInfo(name="{user.username}", id="{user.id}", status="{time}")
   LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
 
 </template>
