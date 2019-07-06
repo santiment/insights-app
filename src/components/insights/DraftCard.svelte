@@ -5,6 +5,17 @@
 
   const { id, updatedAt, title, text } = insight
 
+ let rawText = ''
+
+ if(process.browser){
+   let div = document.createElement('div')
+   div.innerHTML = text
+   rawText = div.textContent.slice(0, 30)
+   div = undefined
+ }else {
+   rawText = require('striptags')(text)
+ }
+
   const link = getSEOLinkFromIdAndTitle(id, title)
   const ago = dateDifferenceInWords({ from: new Date(updatedAt) })
 </script>
@@ -13,8 +24,8 @@
 include /ui/mixins
 
 +panel(variant='box').wrapper
-  a.title(href='/insights/read/{link}') My Most Valuable Crypto Market Insights For 2018 and ...
-  h4 The result of spending hundreds and hundreds of hours reflecting with the disruptive experts at the forefront of the crypto space.
+  a.title(href='/insights/read/{link}') {title}
+  h4 {rawText}
   .bottom
     h3 Edited {ago}
     div 
