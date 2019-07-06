@@ -54,10 +54,6 @@ a.email__link(href='/login') All login options
     }
   }
 
-  .options {
-    margin: 29px 0 24px;
-  }
-
   .btn {
     display: flex;
     align-items: center;
@@ -67,10 +63,6 @@ a.email__link(href='/login') All login options
     fill: #fff;
     padding: 8px 12px;
     text-align: left;
-
-    &__icon {
-      margin-right: 10px;
-    }
   }
 
   .email {
@@ -91,12 +83,6 @@ a.email__link(href='/login') All login options
 
     &__link {
       font-size: 12px;
-    }
-
-    &__pointer {
-      transform: rotate(180deg);
-      margin-right: 5px;
-      vertical-align: middle;
     }
   }
 </style>

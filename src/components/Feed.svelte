@@ -1,24 +1,24 @@
 <script>
-  import { getDateFormats } from "@/utils/dates";
+  import { getDateFormats } from '@/utils/dates'
 
-  export let items;
-  export let dateKey;
+  export let items
+  export let dateKey
 
-  let lastDate;
+  let lastDate
 
-  let feed;
-  $: feed = feedInsights(items);
+  let feed
+  $: feed = feedInsights(items)
 
   function feedInsights(insights) {
     return insights.map(item => {
-      const { MMM, D } = getDateFormats(new Date(item[dateKey]));
-      const feedDate = `${MMM} ${D}`;
+      const { MMM, D } = getDateFormats(new Date(item[dateKey]))
+      const feedDate = `${MMM} ${D}`
       if (lastDate !== feedDate) {
-        item.__feedDate = feedDate;
-        lastDate = feedDate;
+        item.__feedDate = feedDate
+        lastDate = feedDate
       }
-      return item;
-    });
+      return item
+    })
   }
 </script>
 
@@ -34,6 +34,6 @@
     line-height: 22px;
     font-size: 14px;
     color: var(--waterloo);
-    margin: 40px 0px 16px;
+    margin: 0 0 16px;
   }
 </style>

@@ -19,28 +19,31 @@
 </script>
 
 <script>
-  import InsightCard from '@/components/insights/InsightCard'
+  import DraftCard from '@/components/insights/DraftCard'
 
   export let insights = []
+
+  const insightsUpdateDateSorter = ({ updatedAt: a }, { updatedAt: b }) =>
+    new Date(b) - new Date(a)
+
+  let sortedInsights
+
+  $: sortedInsights = insights.slice().sort(insightsUpdateDateSorter)
 </script>
 
 <template lang="pug">
 
 .insights
-  +each('insights as insight')
-    div.insights__item
-      InsightCard({insight})
+  +each('sortedInsights as insight')
+    DraftCard({insight})
 
 </template>
 
 <style lang="scss">
-  .insights {
-    display: flex;
-    flex-direction: column;
+  @import '@/mixins';
 
-    &__item {
-      margin-bottom: 24px;
-      width: 100%;
-    }
+  .insights {
+    @include grid-wrap(2);
+    grid-template-columns: minmax(0, 1fr) 1fr;
   }
 </style>

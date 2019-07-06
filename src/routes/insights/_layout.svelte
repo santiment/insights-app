@@ -23,10 +23,16 @@
 include /ui/mixins
 
 +if("!ROUTES_WITHOUT_TABS.has(segment)")
-  +tabs
+  +tabs.tabs
     +tab(href="/insights", class:active="{activePath === '/insights'}") All Insights
     +tab(href="/insights/my", class:active="{activePath === '/insights/my'}") My Insights
     +tab(href="/insights/my/drafts", class:active="{activePath === '/insights/my/drafts'}") My Drafts
 
 slot
 </template>
+
+<style>
+  .tabs {
+    margin-bottom: 40px;
+  }
+</style>

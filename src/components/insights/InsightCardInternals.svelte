@@ -44,18 +44,6 @@ include /ui/mixins
 <style lang="scss">
   @import '@/variables';
 
-  .wrapper {
-    padding: 20px;
-    min-width: 320px;
-    height: 200px;
-  }
-
-  .left {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
   .top {
     flex: 1;
   }
@@ -95,23 +83,6 @@ include /ui/mixins
       max-width: calc(70% - 40px);
       flex: 1;
     }
-
-    &__right {
-      user-select: none;
-      cursor: pointer;
-    }
-  }
-
-  .info {
-    position: relative;
-  }
-
-  .name {
-    position: absolute;
-    left: 0;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .awaiting {
