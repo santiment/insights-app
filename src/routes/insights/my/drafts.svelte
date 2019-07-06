@@ -34,7 +34,7 @@
 <template lang="pug">
 
 .insights
-  +each('sortedInsights as insight')
+  +each('sortedInsights as insight (insight.id)')
     DraftCard({insight})
 
 </template>

@@ -1,7 +1,13 @@
 <script>
+  import { stores } from '@sapper/app'
   import Dialog from '@/ui/dialog/index'
   import { dateDifferenceInWords } from '@/utils/dates'
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
+  import { client } from '@/apollo'
+  import { DELETE_INSIGHT_MUTATION } from '@/gql/insights'
+
+  const { session } = stores()
+
   export let insight
 
   const { id, updatedAt, title, text } = insight
@@ -24,6 +30,22 @@
   function closeDialog() {
     open = false
   }
+
+  function deleteDraft() {
+    client
+      .mutate({ mutation: DELETE_INSIGHT_MUTATION, variables: { id: +id } })
+      .then(() => {
+        session.update(ses => {
+          ses.currentUser.insights = ses.currentUser.insights.filter(
+            ({ id: _id }) => _id !== id,
+          )
+          return ses
+        })
+
+        closeDialog()
+      })
+      .catch(console.warn)
+  }
 </script>
 
 <template lang="pug">
@@ -39,7 +61,7 @@ include /ui/mixins
         +icon('remove')(slot='trigger').remove
         +dialogActions.actions(slot='content')
           +button()(on:click='{closeDialog}', border) Cancel 
-          +button(variant='fill', accent='jungle-green') Delete Draft
+          +button(variant='fill', accent='jungle-green', on:click='{deleteDraft}') Delete Draft
 
       a.edit(href='/insights/edit/{id}')
         +icon('edit')

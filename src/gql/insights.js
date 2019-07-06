@@ -69,3 +69,11 @@ export const INSIGHT_BY_ID_QUERY = gql`
 
   ${insightCommon}
 `
+
+export const DELETE_INSIGHT_MUTATION = gql`
+  mutation deleteInsight($id: ID!) {
+    deleteInsight(id: $id) {
+      id
+    }
+  }
+`

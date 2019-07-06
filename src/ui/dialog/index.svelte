@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
   export let title
   export let open = false
 
@@ -9,8 +9,21 @@
     open = false
   }
 
+  function onKeyup({ code }) {
+    if (code === 'Escape') {
+      closeDialog()
+    }
+  }
+
   onMount(() => {
     anc.nextElementSibling.onclick = () => (open = true)
+    window.addEventListener('keyup', onKeyup)
+  })
+
+  onDestroy(() => {
+    if (process.browser) {
+      window.removeEventListener('keyup', onKeyup)
+    }
   })
 </script>
 
