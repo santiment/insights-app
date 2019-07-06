@@ -11,18 +11,17 @@ import fetch from 'isomorphic-fetch'
 const { PORT, NODE_ENV } = process.env
 const dev = NODE_ENV === 'development'
 
-
 polka() // You can also use Express
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),
     sapper.middleware({
-      serverContext: (req, res) => {
+      serverContext: req => {
         return {
           apollo: new ApolloClient({
             ssrMode: true,
             link: createHttpLink({
-              uri: 'https://api-stage.santiment.net/graphql',
+              uri: 'https://api.santiment.net/graphql',
               headers: {
                 cookie: req.headers.cookie,
               },
@@ -33,18 +32,9 @@ polka() // You can also use Express
           }),
         }
       },
-      session: (req, res) => {
-
-        const authCookie = '_sanbase_sid='
-        const sanCookie =
-          req.headers.cookie &&
-          req.headers.cookie
-            .split(' ')
-            .find(cookie => cookie.includes('_sanbase_sid='))
-
+      session: req => {
         return {
           isMobile: new MobileDetect(req.headers['user-agent']).mobile(),
-          isLoggedIn: sanCookie && sanCookie.length > authCookie.length,
         }
       },
     }),
@@ -52,4 +42,3 @@ polka() // You can also use Express
   .listen(PORT, err => {
     if (err) console.log('error', err)
   })
-

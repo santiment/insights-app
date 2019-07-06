@@ -1,19 +1,15 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
-  import { goto } from '@sapper/app'
+  import { goto, stores } from '@sapper/app'
   import { parse } from 'query-string'
   import { client } from '@/apollo'
-  import { user } from '@/stores/user'
   import { VERIFY_EMAIL_MUTATION } from '@/gql/email_verify'
 
   let error, verifiedTimer
+  const { session } = stores()
 
-  function startSuccessTimer({
-    data: {
-      emailLoginVerify
-    },
-  }) {
-    user.set(emailLoginVerify.user)
+  function startSuccessTimer({ data: { emailLoginVerify } }) {
+    session.update(ses => ({ ...ses, currentUser: emailLoginVerify.user }))
     verifiedTimer = setTimeout(() => {
       goto('/')
     }, 3000)

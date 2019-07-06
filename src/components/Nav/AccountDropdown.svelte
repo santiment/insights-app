@@ -1,15 +1,20 @@
 <script>
-  import Toggle from "@/components/Toggle";
-  import ProfileInfo from "@/components/ProfileInfo";
-  import { darkMode } from "@/stores/ui";
-  import { user } from "@/stores/user";
+  import Toggle from '@/components/Toggle'
+  import ProfileInfo from '@/components/ProfileInfo'
+  import { darkMode } from '@/stores/ui'
+  import { stores } from '@sapper/app'
 
-  let username, sanBalance, id;
+  const { session } = stores()
 
-  if ($user) {
-    username = $user.username || $user.email;
-    sanBalance = $user.sanBalance.toFixed(2);
-    id = $user.id;
+  let username, sanBalance, id
+
+  let currentUser
+  $: currentUser = $session.currentUser
+
+  $: if (currentUser) {
+    username = currentUser.username || currentUser.email
+    sanBalance = currentUser.sanBalance.toFixed(2)
+    id = currentUser.id
   }
 </script>
 
@@ -17,7 +22,7 @@
 include /ui/mixins
 
 .wrapper
-  +if('$user')
+  +if('currentUser')
     ProfileInfo(name="{username}", id="{id}" status="{sanBalance} tokens available", classes="{{wrapper: 'account-dd__profile'}}")
     hr.divider
   .category.category_toggles
@@ -26,7 +31,7 @@ include /ui/mixins
     +button.item(variant='ghost', fluid) Beta Mode
   hr.divider
   .category.category_links
-    +if('$user')
+    +if('currentUser')
       +button.item(href="/account", variant='ghost', fluid) Account Settings
       +button.item(href="/logout", variant='ghost', fluid) Logout
       +else()

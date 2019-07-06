@@ -1,6 +1,7 @@
 <script context="module">
-  export async function preload(_, { isLoggedIn }) {
-    if (isLoggedIn) {
+  export async function preload(_, session) {
+    await session.loadingUser
+    if (session.currentUser) {
       return this.redirect(302, '')
     }
   }

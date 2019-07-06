@@ -4,7 +4,7 @@ import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { from } from 'apollo-link'
 
-if(!process.browser){
+if (!process.browser) {
   require('isomorphic-fetch')
 }
 

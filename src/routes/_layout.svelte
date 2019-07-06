@@ -1,3 +1,20 @@
+<script context="module">
+  import { CURRENT_USER_QUERY } from '@/gql/user'
+  export async function preload(page, session, { apollo }) {
+    if (typeof session.currentUser !== 'object') {
+      console.log('--- fetching currentUser ---')
+      // loadingUser is needed for synchronizing with '/login' for redirect
+      session.loadingUser = apollo.query({ query: CURRENT_USER_QUERY })
+      const {
+        data: { currentUser },
+      } = await session.loadingUser
+      console.log('--- done fetching ---')
+      session.currentUser = currentUser
+      session.loadingUser = null
+    }
+  }
+</script>
+
 <script>
   import Notifications from '@/components/Notifications'
   import LoadProgress from '@/components/LoadProgress.svelte'

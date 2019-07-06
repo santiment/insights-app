@@ -22,7 +22,9 @@
   import { getDateFormats } from '@/utils/dates'
   import ProfileInfo from '@/components/ProfileInfo'
   import Loadable from '@/components/Loadable'
-  import { user as userSt } from '@/stores/user'
+  import { stores } from '@sapper/app'
+
+  const { session } = stores()
 
   export let text, title, tags, user, votes, publishedAt, createdAt
 
@@ -46,7 +48,7 @@ svelte:head
   div.title {title}
   div.text {@html text}
 
-+if('$userSt === null')
++if('$session.currentUser === null')
   Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
 </template>
 
