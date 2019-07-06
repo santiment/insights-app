@@ -1,13 +1,19 @@
 <script context="module">
   import { client } from '@/apollo'
+  import { onlyPublishedFilter } from '@/utils/insights'
 
   export async function preload(_, session) {
     if (typeof session.currentUser !== 'object') {
       await session.loadingUser
     }
+    const { currentUser } = session
+
+    if (!currentUser) {
+      return this.redirect(302, '')
+    }
 
     return {
-      insights: session.currentUser.insights,
+      insights: currentUser.insights.filter(onlyPublishedFilter),
     }
   }
 </script>

@@ -3,18 +3,27 @@
   import { getInsightIdFromSEOLink } from '@/utils/insights'
   import { INSIGHT_BY_ID_QUERY } from '@/gql/insights'
 
-  export async function preload(page) {
+  export async function preload(page, session) {
     const { slug } = page.params
     const id = getInsightIdFromSEOLink(slug)
 
-    const res = await client.query({
+    const { data } = await client.query({
       query: INSIGHT_BY_ID_QUERY,
       variables: {
         id,
       },
     })
 
-    return { ...res.data.insight }
+    if (data.insight.readyState === 'draft') {
+      if (session.currentUser === undefined) await session.loadingUser
+
+      const { currentUser } = session
+      if (!currentUser || currentUser.id !== data.insight.user.id) {
+        this.redirect(302, '/insights')
+      }
+    }
+
+    return { ...data.insight }
   }
 </script>
 
