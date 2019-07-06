@@ -1,23 +1,29 @@
 <script>
+  import Dialog from '@/ui/dialog/index'
   import { dateDifferenceInWords } from '@/utils/dates'
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
   export let insight
 
   const { id, updatedAt, title, text } = insight
 
- let rawText = ''
+  let rawText = ''
+  let open
 
- if(process.browser){
-   let div = document.createElement('div')
-   div.innerHTML = text
-   rawText = div.textContent.slice(0, 30)
-   div = undefined
- }else {
-   rawText = require('striptags')(text)
- }
+  if (process.browser) {
+    let div = document.createElement('div')
+    div.innerHTML = text
+    rawText = div.textContent.slice(0, 30)
+    div = undefined
+  } else {
+    rawText = require('striptags')(text)
+  }
 
   const link = getSEOLinkFromIdAndTitle(id, title)
   const ago = dateDifferenceInWords({ from: new Date(updatedAt) })
+
+  function closeDialog() {
+    open = false
+  }
 </script>
 
 <template lang="pug">
@@ -29,9 +35,14 @@ include /ui/mixins
   .bottom
     h3 Edited {ago}
     div 
-      +icon('remove').remove
-      a(href='/insights/edit/{id}')
-        +icon('edit').edit
+      Dialog(bind:open, title='Are you sure you want to delete this draft?')
+        +icon('remove')(slot='trigger').remove
+        +dialogActions(slot='dialog')
+          +button()(on:click='{closeDialog}', border) Cancel 
+          +button(variant='fill', accent='jungle-green') Delete Draft
+
+      a.edit(href='/insights/edit/{id}')
+        +icon('edit')
 </template>
 
 <style lang="scss">
