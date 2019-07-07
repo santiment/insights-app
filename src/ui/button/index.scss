@@ -54,6 +54,11 @@
     border: 1px solid var(--accent-color, var(--porcelain));
   }
 
+  &_naked {
+    height: auto;
+    padding: 0;
+  }
+
   &.active {
     &.SAN-btn_ghost {
       color: var(--jungle-green);

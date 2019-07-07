@@ -19,11 +19,13 @@ mixin button()
       accent,
       border,
       fluid,
+      naked,
     } = attributes;
-    const classes = cx('SAN-btn', border && 'SAN-btn_bordered', fluid && 'SAN_fluid', accent && accents[accent], variant && variants[variant])
+
+    const classes = cx('SAN-btn', border && 'SAN-btn_bordered', fluid && 'SAN_fluid', naked && 'SAN-btn_naked', accent && accents[accent], variant && variants[variant])
 
     const attrs = omit(
-      ["accent", "border", "fluid", "variant"],
+      ["accent", "border", "fluid", "variant", "naked"],
       attributes
     );
 

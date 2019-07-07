@@ -1,7 +1,7 @@
 <script>
   import Toggle from '@/components/Toggle'
   import ProfileInfo from '@/components/ProfileInfo'
-  import { darkMode } from '@/stores/ui'
+  import { ui } from '@/stores/ui'
   import { stores } from '@sapper/app'
 
   const { session } = stores()
@@ -26,9 +26,10 @@ include /ui/mixins
     ProfileInfo(name="{username}", id="{id}" status="{sanBalance} tokens available", classes="{{wrapper: 'account-dd__profile'}}")
     hr.divider
   .category.category_toggles
-    +button.item.item_dark(variant='ghost', on:click="{darkMode.toggle}", fluid) Dark Mode
-      Toggle(active="{$darkMode}")
-    +button.item(variant='ghost', fluid) Beta Mode
+    +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Dark Mode
+      Toggle(active="{$ui.darkMode}")
+    +button.item.item_toggle(variant='ghost', on:click='{ui.toggleBetaMode}', fluid) Beta Mode
+      Toggle(active="{$ui.betaMode}")
   hr.divider
   .category.category_links
     +if('currentUser')
@@ -61,7 +62,7 @@ include /ui/mixins
     white-space: nowrap;
     width: 100%;
 
-    &_dark {
+    &_toggle {
       justify-content: space-between;
     }
   }

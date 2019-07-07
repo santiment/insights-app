@@ -1,31 +1,41 @@
-import { writable } from "svelte/store";
+import { writable } from 'svelte/store'
 
-let darkModeLS;
-let darkModeDefault;
+const uiLS = process.browser && localStorage.getItem('ui')
+let uiDefault = {}
 
-if (process.browser) {
-  darkModeLS = localStorage.getItem("darkMode");
-}
+if (uiLS) {
+  uiDefault = JSON.parse(uiLS) || {}
 
-if (darkModeLS) {
-  darkModeDefault = JSON.parse(darkModeLS);
-
-  if (darkModeDefault) {
-    document.body.classList.add("night-mode");
+  if (uiDefault.darkMode) {
+    document.body.classList.add('night-mode')
   }
 }
 
+function saveToLS(state) {
+  localStorage.setItem('ui', JSON.stringify(state))
+}
+
 function createDarkModeToggle() {
-  const { subscribe, set } = writable(darkModeDefault);
+  const { subscribe, update } = writable(uiDefault)
 
   return {
     subscribe,
-    toggle: () => {
-      const res = document.body.classList.toggle("night-mode");
-      set(res);
-      localStorage.setItem("darkMode", res);
-    }
-  };
+    toggleDarkMode: () => {
+      const res = document.body.classList.toggle('night-mode')
+      update(str => {
+        str.darkMode = res
+        saveToLS(str)
+        return str
+      })
+    },
+    toggleBetaMode: () => {
+      update(str => {
+        str.betaMode = !str.betaMode
+        saveToLS(str)
+        return str
+      })
+    },
+  }
 }
 
-export const darkMode = createDarkModeToggle();
+export const ui = createDarkModeToggle()

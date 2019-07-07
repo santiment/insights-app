@@ -1,0 +1,18 @@
+mixin setting()
+  -
+    const {
+      title,
+    } = attributes;
+
+    const attrs = omit(
+      ["title"],
+      attributes
+    );
+
+  .SAN-panel.SAN-setting&attributes(attrs)
+    h2.SAN-setting__title #{title}
+    block
+
+mixin settingRow()
+  .SAN-setting__row&attributes(attributes)
+    block

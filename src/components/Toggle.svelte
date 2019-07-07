@@ -1,5 +1,5 @@
 <script>
-  export let active;
+  export let active
 </script>
 
 <template lang="pug">
@@ -8,7 +8,7 @@
 </template>
 
 <style lang="scss">
-  @import "@/variables.scss";
+  @import '@/variables';
 
   .toggle {
     user-select: none;
@@ -22,7 +22,7 @@
 
     &::before {
       display: inline-block;
-      content: "";
+      content: '';
       position: absolute;
       width: 14px;
       height: 14px;
