@@ -1,5 +1,8 @@
 <script>
   import AccountGeneral from '@/components/account/General'
+  import AccountConnections from '@/components/account/Connections'
+  import AccountNotifications from '@/components/account/Notifications'
+  import AccountAPIKeys from '@/components/account/APIKeys'
 
   let hash = process.browser && (location.hash || '#general')
 
@@ -19,11 +22,12 @@ h1 Account Settings
   +tab(href='/account#general', class:active="{hash === '#general'}") General
   +tab(href='/account#connections', class:active="{hash === '#connections'}") Connections
   +tab(href='/account#notifications', class:active="{hash === '#notifications'}") Notifications
-  +tab(href='/account#get-tokens', class:active="{hash === '#get-tokens'}") Get tokens
   +tab(href='/account#api-keys', class:active="{hash === '#api-keys'}") API keys
 
 AccountGeneral
-
+AccountConnections 
+AccountNotifications
+AccountAPIKeys 
 </template>
 
 <style lang="scss">
