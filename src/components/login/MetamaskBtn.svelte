@@ -1,4 +1,5 @@
 <script>
+  import { stores } from '@sapper/app'
   import { detectMetamask } from '@/utils/web3'
   import { handleEthLogin } from '@/utils/login'
 
@@ -6,13 +7,20 @@
   export { klass as class }
 
   const hasMetamask = detectMetamask()
+
+  function login(ethLogin) {
+    handleEthLogin().then(ethLogin => {
+      const { session } = stores()
+      session.update(ses => ({ ...ses, currentUser: ethLogin.user }))
+    })
+  }
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
 +if('hasMetamask')
-  +button.btn(on:click='{handleEthLogin}', fluid) Metamask
+  +button.btn(on:click='{login}', fluid) Metamask
 
   +else()
     +panel.wrapper

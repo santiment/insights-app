@@ -21,7 +21,7 @@ polka() // You can also use Express
           apollo: new ApolloClient({
             ssrMode: true,
             link: createHttpLink({
-              uri: 'https://api.santiment.net/graphql',
+              uri: 'https://api-stage.santiment.net/graphql',
               headers: {
                 cookie: req.headers.cookie,
               },

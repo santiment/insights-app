@@ -1,3 +1,12 @@
+<script context="module">
+  export async function preload(_, session) {
+    await session.loadingUser
+    if (!session.currentUser) {
+      return this.redirect(302, '')
+    }
+  }
+</script>
+
 <script>
   import AccountGeneral from '@/components/account/General'
   import AccountConnections from '@/components/account/Connections'

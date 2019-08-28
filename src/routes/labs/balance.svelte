@@ -1,7 +1,7 @@
 <script>
-  import React from '@/components/React'
+  /* import React from '@/components/React' */
 </script>
 
 <template lang="pug">
-React
+//React
 </template>

@@ -13,7 +13,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@santiment-network/ui": "^0.5.10",
+    "@santiment-network/ui": "^0.5.42",
     "apexcharts": "^3.8.0",
     "apollo-boost": "^0.4.0",
     "apollo-client": "^2.6.0",
@@ -46,6 +46,7 @@
     "recharts": "^1.6.2",
     "redux": "^4.0.1",
     "rollup-plugin-alias": "^1.5.1",
+    "rxjs": "^6.5.2",
     "sirv": "^0.4.0",
     "stream": "^0.0.2",
     "striptags": "^3.1.1",

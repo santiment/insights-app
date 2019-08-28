@@ -19,7 +19,7 @@ const authLink = setContext((_, { headers }) => {
 })
 
 const httpLink = createHttpLink({
-  uri: 'https://api.santiment.net/graphql',
+  uri: 'https://api-stage.santiment.net/graphql',
   fetch,
   credentials: 'include',
 })

@@ -1,5 +1,14 @@
 <script>
   import Toggle from '@/components/Toggle'
+  import { stores } from '@sapper/app'
+
+  const { session } = stores()
+
+  let subscription
+  $: {
+    const { settings } = $session.currentUser
+    subscription = settings.newsletterSubscription
+  }
 </script>
 
 <template lang="pug">
@@ -24,9 +33,9 @@ include /ui/mixins
         br
         |personalized based on your interests.
     div
-      +button.var.active(variant='flat') Daily
-      +button.var(variant='flat') Weekly
-      +button.var(variant='flat') Off
+      +button.var(variant='flat', class:active="{subscription === 'DAILY'}") Daily
+      +button.var(variant='flat', class:active="{subscription === 'WEEKLY'}") Weekly
+      +button.var(variant='flat', class:active="{subscription === 'OFF'}") Off
 </template>
 
 <style lang="scss">

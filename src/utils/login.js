@@ -28,13 +28,12 @@ const loginWithEthereum = () => {
 export const handleEthLogin = consent =>
   loginWithEthereum()
     .then(({ data: { ethLogin } }) => {
-      const { session } = stores()
-      session.update(ses => ({ ...ses, currentUser: ethLogin.user }))
-
       notifications.add({
         type: 'success',
         title: 'You are logged in!',
       })
+
+      return ethLogin
     })
     .catch(console.warn)
 
