@@ -1,12 +1,17 @@
 <script>
   import ProfileInfo from '@/components/ProfileInfo'
   import LikeBtn from '@/components/LikeBtn'
+  import Tag from '@/components/insights/Tag'
+  import Tags from './Tags.svelte'
   import { getDateFormats } from '@/utils/dates'
-  import { getSEOLinkFromIdAndTitle, noTrendTagsFilter } from '@/utils/insights'
+  import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
 
   let klass = ''
   export { klass as class }
-  export let id,
+  export let insight
+
+  let {
+    id,
     user,
     title,
     tags,
@@ -15,10 +20,8 @@
     publishedAt,
     state,
     votes,
-    votedAt
-
-  let filteredTags
-  $: filteredTags = tags.filter(noTrendTagsFilter)
+    votedAt,
+  } = insight
 
   const seoLink = getSEOLinkFromIdAndTitle(id, title)
   const { MMM, DD, YYYY } = getDateFormats(new Date(publishedAt || updatedAt))
@@ -30,8 +33,7 @@ include /ui/mixins
 
 .top
   div
-    +each('filteredTags as {name}')
-      +button.tag(href="/tags/{name}", border) {name}
+    Tags({tags})
   a.title(href="/read/{seoLink}") {title}
 
 .bottom
@@ -46,20 +48,6 @@ include /ui/mixins
 
   .top {
     flex: 1;
-  }
-
-  :global(.tag) {
-    height: auto;
-    padding: 1px 6px;
-    color: var(--grey-dark-2);
-    box-sizing: border-box;
-    border: 1px solid var(--grey-light-2);
-    line-height: 20px;
-    font-size: 12px;
-    display: inline-block;
-    margin-right: 4px;
-    text-decoration: none;
-    text-transform: lowercase;
   }
 
   .title {
@@ -82,20 +70,6 @@ include /ui/mixins
     &__left {
       max-width: calc(70% - 40px);
       flex: 1;
-    }
-  }
-
-  .awaiting {
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-    line-height: 18px;
-    fill: var(--casper);
-    color: var(--casper);
-
-    &__icon {
-      width: 12px;
-      margin-right: 5px;
     }
   }
 </style>

@@ -11,7 +11,7 @@
 include /ui/mixins
 
 +panel.wrapper(class="{klass}")
-  InsightCardInternals({...insight})
+  InsightCardInternals({insight})
 </template>
 
 <style lang="scss">

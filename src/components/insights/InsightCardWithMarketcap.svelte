@@ -16,7 +16,7 @@
     rootMargin: '200px',
   }
 
-  let klass
+  let klass = ''
   export { klass as class }
   export let insight
 
@@ -85,7 +85,7 @@ include /ui/mixins
 ViewportObserver(top, {options}, on:intersect='{onIntersect}', {observeWhile})
   +panel.wrapper(class="{klass}", bind:this="{graph}")
     .left
-      InsightCardInternals({...insight})
+      InsightCardInternals({insight})
     +if('data')
       .right
         h3.title {ticker} price since publication

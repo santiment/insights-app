@@ -28,14 +28,16 @@
 </script>
 
 <script>
-  import { getDateFormats } from '@/utils/dates'
+  import { stores } from '@sapper/app'
+  import Tags from '@/components/insights/Tags'
+  import LikeBtn from '@/components/LikeBtn'
   import ProfileInfo from '@/components/ProfileInfo'
   import Loadable from '@/components/Loadable'
-  import { stores } from '@sapper/app'
+  import { getDateFormats } from '@/utils/dates'
 
   const { session } = stores()
 
-  export let text, title, tags, user, votes, publishedAt, createdAt
+  export let id, text, title, tags, user, votes, publishedAt, createdAt, votedAt
 
   let clientHeight
 
@@ -53,27 +55,35 @@ svelte:head
   meta(name='description', property='og:description', content='{text.slice(0,140)}')
 
 .insight(bind:clientHeight)
-  ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
   div.title {title}
+  ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
   div.text {@html text}
+
+.bottom
+  Tags({tags})
+  .info
+    ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
+    .info__right
+      LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+    
 
 +if('$session.currentUser === null')
   Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
 </template>
 
 <style lang="scss">
+ @import '@/mixins';
+
   .title {
-    font-weight: 800;
-    line-height: 50px;
-    font-size: 38px;
-    margin: 25px 0 14px;
-    font-family: sans-serif;
+    @include text('h2', 'm')
+    margin: 14px 0 25px;
   }
 
   .text {
+    margin: 25px 0 0;
+
     :global(*) {
-      font-size: 18px;
-      line-height: 28px;
+      @include text('body-1')
     }
 
     :global(.md-block-image) {
@@ -97,5 +107,18 @@ svelte:head
         list-style: disc outside;
       }
     }
+  }
+
+  .bottom {
+    margin-top: 30px;
+  }
+
+  .info {
+    margin-top: 16px;
+    border-top: 1px solid var(--porcelain);
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 </style>
