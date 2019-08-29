@@ -154,6 +154,7 @@ export default {
         'process.env.NODE_ENV': JSON.stringify(
           dev ? 'development' : 'production',
         ),
+        'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
       }),
       rollPostcss({
         extensions: ['.scss'],
@@ -232,6 +233,7 @@ export default {
         'process.env.NODE_ENV': JSON.stringify(
           dev ? 'development' : 'production',
         ),
+        'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
       }),
       babel({
         extensions: ['.js'],
@@ -267,6 +269,7 @@ export default {
         'process.env.NODE_ENV': JSON.stringify(
           dev ? 'development' : 'production',
         ),
+        'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
       }),
       commonjs(),
       !dev && terser(),

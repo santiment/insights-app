@@ -11,6 +11,8 @@
       session.loadingUser = null
     }
   }
+
+  console.log(process.env.BACKEND_URL)
 </script>
 
 <script>
