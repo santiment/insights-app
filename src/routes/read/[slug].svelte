@@ -46,6 +46,9 @@
   const insightDate = `${MMM} ${D}, ${YYYY}`
 
   const loadBanner = () => import('@/components/Banner/BannerInsight')
+
+  const shareLink =
+    process.browser && window.location.origin + window.location.pathname
 </script>
 
 <template lang="pug">
@@ -66,7 +69,7 @@ svelte:head
     ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
     .info__right
       LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
-      ShareBtn.info__share
+      ShareBtn.info__share(link='{shareLink}')
 
 +if('$session.currentUser === null')
   Loadable(load="{loadBanner}", insightHeight='{clientHeight}')

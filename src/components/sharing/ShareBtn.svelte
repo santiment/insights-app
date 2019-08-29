@@ -4,13 +4,24 @@
 
   let klass = ''
   export { klass as class }
-  export let shareLink = '123'
+  export let link = '123'
+  export let title = 'Sanbase'
+  export let text = 'Hey! Look what I have found at the app.santiment.net!'
 
   let open
   let btnLabel = 'Copy link'
 
+  let encodedLink
+  let encodedTitle
+  let encodedText
+  $: {
+    encodedLink = encodeURIComponent(link)
+    encodedTitle = encodeURIComponent(title)
+    encodedText = encodeURIComponent(text)
+  }
+
   function copyLink() {
-    copy(shareLink)
+    copy(link)
     notify()
   }
 
@@ -27,23 +38,28 @@ include /ui/mixins
   var socials = [
     {
       label: 'Twitter',
-      icon: 'twitter'
+      icon: 'twitter',
+      href: 'https://twitter.com/intent/tweet?url={encodedLink}&via=santimentfeed&text={encodedText}'
     },
     {
       label: 'Facebook',
-      icon: 'facebook'
+      icon: 'facebook',
+      href: 'https://www.facebook.com/sharer/sharer.php?u={encodedLink}'
     },
     {
       label: 'LinkedIn',
-      icon: 'linked-in'
+      icon: 'linked-in',
+      href: 'https://www.linkedin.com/shareArticle?mini=true&title={encodedTitle}&summary={encodedText}&source=santiment.net&url={encodedLink}'
     },
     {
       label: 'Telegram',
-      icon: 'telegram'
+      icon: 'telegram',
+      href: 'https://telegram.me/share/url?text={encodedText}&url={encodedLink}'
     },
     {
       label: 'Reddit',
-      icon: 'reddit'
+      icon: 'reddit',
+      href: 'https://reddit.com/submit?title={encodedTitle}&url={encodedLink}'
     },
   ]
 
@@ -52,11 +68,11 @@ Dialog(bind:open, title='Share insight')
     +icon('share').icon-share
   +dialogScrollContent.content(slot='content')
     .link
-      +input(value='{shareLink}', readonly)
+      +input(value='{link}', readonly)
       +button.copy(on:click='{copyLink}') {btnLabel}
     .btns
       each social in socials
-        +button.btn(href='', target='_blank', rel='noopened noreferrer', fluid, border)
+        +button.btn(href=social.href, target='_blank', rel='noopened noreferrer', fluid, border)
           +icon(social.icon)(class='icon')
           |Share on #{social.label}
 
