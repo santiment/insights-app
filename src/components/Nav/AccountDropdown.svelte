@@ -20,6 +20,7 @@
 
 <template lang="pug">
 include /ui/mixins
+- var appPath = 'https://app.santiment.net'
 
 .wrapper
   +if('currentUser')
@@ -33,7 +34,7 @@ include /ui/mixins
   hr.divider
   .category.category_links
     +if('currentUser')
-      +button.item(href="/account", variant='ghost', fluid) Account Settings
+      +button.item(href=appPath+"/account", variant='ghost', fluid) Account Settings
       +button.item(href="/logout", variant='ghost', fluid) Logout
       +else()
         +button.item(href="/login", variant='ghost', fluid) Login

@@ -24,23 +24,24 @@
 
 <template lang="pug">
 include /ui/mixins
+- var appPath = 'https://app.santiment.net'
 
 button(on:click!="{() => notifications.add({title: 'test'})}") notific
 
 header
   .container
     nav.nav
-      a.logo(href="/") Santiment
-      +button.link(href="/", variant="flat", class:active="{segment === undefined}") Dashboard
-      +button.link(href="/assets", variant="flat", class:active="{segment === 'assets'}", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
-      +button.link(href="/insights", variant="flat", class:active="{segment === 'insights'}", prefetch) Insights
-      +button.link(href="/labs", variant="flat", class:active="{segment === 'labs'}", on:mouseenter="{onTriggerEnter}", id="labs-trigger") Labs
+      a.logo(href='/') Santiment
+      +button.link(href=appPath+'/', variant="flat") Dashboard
+      +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
+      +button.link.active(href="/", variant="flat", prefetch) Insights
+      +button.link(href=appPath+'/labs', variant="flat", on:mouseenter="{onTriggerEnter}", id="labs-trigger") Labs
 
     .right
       ProjectsSearch.search
-      +button(href="/help", variant="flat", on:mouseenter="{onTriggerEnter}", id="help-trigger", aria-label="Help menu")
+      +button(href=appPath+'/help', variant="flat", on:mouseenter="{onTriggerEnter}", id="help-trigger", aria-label="Help menu")
         +icon('question-round').icon-question
-      +button(href="/account", class:active="{segment === 'account'}", variant="flat", on:mouseenter="{onTriggerEnter}", id="account-trigger", aria-label="Profile menu")
+      +button(href=appPath+'/account', class:active="{segment === 'account'}", variant="flat", on:mouseenter="{onTriggerEnter}", id="account-trigger", aria-label="Profile menu")
         +icon('user').icon-user
 
   SmoothDropdown(trigger="{activeTrigger}", items="{dropdownItems}")

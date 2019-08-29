@@ -11,27 +11,29 @@ import fetch from 'isomorphic-fetch'
 const { PORT, NODE_ENV } = process.env
 const dev = NODE_ENV === 'development'
 
+function getServerContext(req) {
+  return {
+    apollo: new ApolloClient({
+      ssrMode: true,
+      link: createHttpLink({
+        uri: 'https://api-stage.santiment.net/graphql',
+        headers: {
+          cookie: req.headers.cookie,
+        },
+        fetch,
+        credentials: 'include',
+      }),
+      cache: new InMemoryCache(),
+    }),
+  }
+}
+
 polka() // You can also use Express
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),
     sapper.middleware({
-      serverContext: req => {
-        return {
-          apollo: new ApolloClient({
-            ssrMode: true,
-            link: createHttpLink({
-              uri: 'https://api-stage.santiment.net/graphql',
-              headers: {
-                cookie: req.headers.cookie,
-              },
-              fetch,
-              credentials: 'include',
-            }),
-            cache: new InMemoryCache(),
-          }),
-        }
-      },
+      serverContext: getServerContext,
       session: req => {
         return {
           isMobile: new MobileDetect(req.headers['user-agent']).mobile(),

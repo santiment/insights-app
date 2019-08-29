@@ -31,8 +31,8 @@ include /ui/mixins
 .top
   div
     +each('filteredTags as {name}')
-      +button.tag(href="/insights/tags/{name}", border) {name}
-  a.title(href="/insights/read/{seoLink}") {title}
+      +button.tag(href="/tags/{name}", border) {name}
+  a.title(href="/read/{seoLink}") {title}
 
 .bottom
   .bottom__left

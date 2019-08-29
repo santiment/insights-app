@@ -24,6 +24,18 @@ import SVGSpriter from 'svg-sprite'
 import mkdirp from 'mkdirp'
 import glob from 'glob'
 
+const ALIASES = {
+  '@': path.resolve(__dirname, 'src/'),
+  resolve: ['.svelte', '.js'],
+}
+
+const mode = process.env.NODE_ENV
+const dev = mode === 'development'
+const legacy = !!process.env.SAPPER_LEGACY_BUILD
+
+const { style } = scss()
+const { markup } = pug()
+
 glob('src/ui/icons/*.svg', null, (er, files) => {
   mkdirp.sync('static/san-icons/')
 
@@ -65,18 +77,6 @@ glob('src/ui/icons/*.svg', null, (er, files) => {
   })
 })
 
-const mode = process.env.NODE_ENV
-const dev = mode === 'development'
-const legacy = !!process.env.SAPPER_LEGACY_BUILD
-
-const aliases = {
-  '@': path.resolve(__dirname, 'src/'),
-  resolve: ['.svelte', '.js'],
-}
-
-const { style } = scss()
-const { markup } = pug()
-
 const preprocess = {
   ...autoPreprocess({
     postcss: false,
@@ -85,7 +85,7 @@ const preprocess = {
     less: false,
     stylus: false,
     pug: {
-      basedir: aliases['@'],
+      basedir: ALIASES['@'],
     },
   }),
   style: code => {
@@ -93,7 +93,7 @@ const preprocess = {
 
     code.content = code.content.replace(
       /@import\s*("|')@\//g,
-      `@import $1${aliases['@']}/`,
+      `@import $1${ALIASES['@']}/`,
     )
 
     return style(code).then(css => {
@@ -148,7 +148,7 @@ export default {
     output: config.client.output(),
     plugins: [
       json(),
-      alias(aliases),
+      alias(ALIASES),
       replace({
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(
@@ -226,7 +226,7 @@ export default {
     output: config.server.output(),
     plugins: [
       json(),
-      alias(aliases),
+      alias(ALIASES),
       replace({
         'process.browser': false,
         'process.env.NODE_ENV': JSON.stringify(

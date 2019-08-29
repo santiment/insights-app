@@ -13,7 +13,7 @@
       img(src="profile-fallback.svg", alt="Profile picture")
 
   .info(class="{classes.info}")
-    a.name(href="/insights/user/{id}") {name}
+    a.name(href="/user/{id}") {name}
     +if('status')
       .status {status}
 
