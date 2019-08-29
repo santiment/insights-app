@@ -21,6 +21,7 @@
     "apollo-link-context": "^1.0.17",
     "apollo-link-http": "^1.5.14",
     "compression": "^1.7.1",
+    "copy-to-clipboard": "^3.2.0",
     "draft-convert": "^2.1.5",
     "draft-js": "^0.10.5",
     "emitter": "^0.0.5",

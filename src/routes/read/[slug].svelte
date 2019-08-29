@@ -31,6 +31,7 @@
   import { stores } from '@sapper/app'
   import Tags from '@/components/insights/Tags'
   import LikeBtn from '@/components/LikeBtn'
+  import ShareBtn from '@/components/sharing/ShareBtn'
   import ProfileInfo from '@/components/ProfileInfo'
   import Loadable from '@/components/Loadable'
   import { getDateFormats } from '@/utils/dates'
@@ -65,25 +66,24 @@ svelte:head
     ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
     .info__right
       LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
-    
+      ShareBtn.info__share
 
 +if('$session.currentUser === null')
   Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
 </template>
 
 <style lang="scss">
- @import '@/mixins';
+  @import '@/mixins';
 
   .title {
-    @include text('h2', 'm')
-    margin: 14px 0 25px;
+    @include text('h2', 'm') margin: 14px 0 25px;
   }
 
   .text {
     margin: 25px 0 0;
 
     :global(*) {
-      @include text('body-1')
+      @include text('body-1');
     }
 
     :global(.md-block-image) {
@@ -120,5 +120,14 @@ svelte:head
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    &__right {
+      display: flex;
+    }
+
+    :global(&__share) {
+      margin-left: 30px;
+      fill: var(--waterloo);
+    }
   }
 </style>
