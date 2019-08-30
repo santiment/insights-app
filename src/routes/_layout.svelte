@@ -57,8 +57,9 @@ Nav({segment})
 
 main(class:isMobile)
   +if("!ROUTES_WITHOUT_TABS.has(segment)")
-    h1 Insights
-    Select({options}, bind:selected)
+    .top
+      h1 Insights
+      Select({options}, bind:selected)
   
     +tabs.tabs(class:tabs_mobile='{isMobile}')
       +tab(href="/", class:active="{activePath === '/'}") All Insights
@@ -78,8 +79,14 @@ Notifications
 <style lang="scss">
   @import '@/mixins';
 
-  h1 {
+  .top {
+    display: flex;
+    align-items: center;
     margin: 0 0 20px;
+    justify-content: space-between;
+  }
+
+  h1 {
     @include text('h3', 'm');
 
     @include responsive('phone', 'phone-xs') {

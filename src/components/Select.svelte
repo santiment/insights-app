@@ -33,6 +33,9 @@
         e.preventDefault()
         newCursor = cursor + 1
         break
+      case 'Escape':
+        currentTarget.blur()
+        break
       case 'Enter':
         selected = options[cursor]
         currentTarget.blur()
