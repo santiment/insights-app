@@ -19,6 +19,7 @@
 
 <script>
   import { onMount } from 'svelte'
+  import { insightSorter } from '@/stores/insights'
   import Feed from '@/components/Feed'
   import ViewportObserver from '@/components/ViewportObserver'
   import InsightCardDesktop from '@/components/insights/InsightCardWithMarketcap'
@@ -31,6 +32,8 @@
   }
 
   export let insights = []
+  $: insights = [...insights].sort($insightSorter)
+
   let page = 1
   let loading = false
   let hasMore = true
@@ -72,7 +75,7 @@ svelte:head
 
 .insights
   ViewportObserver({options}, on:intersect='{onIntersect}', observeWhile='{hasMore}')
-    Feed(items="{insights}", dateKey="updatedAt")
+    Feed(items="{insights}", dateKey="publishedAt")
       div.insights__item(slot="item", let:item="{insight}")
         InsightCard({insight})
 

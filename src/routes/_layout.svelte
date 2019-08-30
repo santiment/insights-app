@@ -17,6 +17,7 @@
 
 <script>
   import { stores } from '@sapper/app'
+  import { insightSorter } from '@/stores/insights'
   import Notifications from '@/components/Notifications'
   import LoadProgress from '@/components/LoadProgress.svelte'
   import NavDesktop from '@/components/Nav'
@@ -46,6 +47,7 @@
 
   const options = ['Newest', 'Popular']
   let selected = options[0]
+  $: $insightSorter = selected
 </script>
 
 <template lang="pug">

@@ -9,8 +9,22 @@ export const getSEOLinkFromIdAndTitle = (id, title) =>
       .join('-')}-${id}`,
   )
 
-export const publishDateSorter = ({ createdAt: a }, { createdAt: b }) =>
-  new Date(a) < new Date(b) ? 1 : -1
+export const publishDateSorter = ({ publishedAt: a }, { publishedAt: b }) =>
+  new Date(b) - new Date(a)
+
+export const popularitySorter = (
+  { publishedAt: aCreatedAt, votes: { totalVotes: aTotalVotes } },
+  { publishedAt: bCreatedAt, votes: { totalVotes: bTotalVotes } },
+) => {
+  const aDate = new Date(aCreatedAt)
+  const bDate = new Date(bCreatedAt)
+
+  return (
+    aDate.getDate() === bDate.getDate() &&
+    aDate.getMonth() === bDate.getMonth() &&
+    bTotalVotes - aTotalVotes
+  )
+}
 
 export const noTrendTagsFilter = ({ name }) => {
   return !name.endsWith('-trending-words')
@@ -20,3 +34,8 @@ export const onlyPublishedFilter = ({ readyState }) =>
   readyState === 'published'
 
 export const onlyDraftsFilter = ({ readyState }) => readyState === 'draft'
+
+export const InsightSorter = {
+  Newest: publishDateSorter,
+  Popular: popularitySorter,
+}

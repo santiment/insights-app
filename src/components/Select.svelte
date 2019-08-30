@@ -1,7 +1,8 @@
 <script>
   export let options = []
   export let selected
-  export let focused
+  export let align = 'right'
+  export let focused = false
   export let maxSuggestions = options.length
 
   let selectorWidth = 0
@@ -9,7 +10,6 @@
 
   $: {
     selected
-
     cursor = 0
   }
 
@@ -39,7 +39,6 @@
       case 'Enter':
         selected = options[cursor]
         currentTarget.blur()
-        console.log(selected)
       default:
         return
     }
@@ -56,11 +55,12 @@
 include /ui/mixins
 
 .select
-  button.trigger(on:focus='{onFocus}', on:blur='{onBlur}', on:keydown='{onKeyDown}', bind:offsetWidth='{selectorWidth}')
+  button.trigger(on:click='{onFocus}', on:blur='{onBlur}', on:keydown='{onKeyDown}', bind:offsetWidth='{selectorWidth}')
     |{selected}
     +icon('arrow-down').arrow
   +if('focused')
-    +panel.dropdown(variant='context', style='min-width: {selectorWidth}px')
+    .clickaway(on:click='{onBlur}')
+    +panel.dropdown(variant='context', style='min-width: {selectorWidth}px', class='dropdown_{align}')
       +each('options as option, index')
         +button.option(variant='ghost', fluid, class:active='{option === selected}', class:cursored='{index === cursor}', on:mousedown!='{() => selected = option}') {option}
     
@@ -72,6 +72,8 @@ include /ui/mixins
   .select {
     position: relative;
     display: inline-block;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   .trigger {
@@ -103,7 +105,6 @@ include /ui/mixins
 
   .dropdown {
     position: absolute;
-    left: 0;
     top: 100%;
     margin-top: 4px;
     z-index: 1;
@@ -111,6 +112,14 @@ include /ui/mixins
     display: flex;
     flex-direction: column;
     padding: 8px;
+
+    &_right {
+      right: 0;
+    }
+
+    &_left {
+      left: 0;
+    }
   }
 
   .option {
@@ -119,5 +128,14 @@ include /ui/mixins
 
   .cursored {
     background: var(--porcelain);
+  }
+
+  .clickaway {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
   }
 </style>

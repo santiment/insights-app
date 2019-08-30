@@ -3,6 +3,7 @@
 
   export let items
   export let dateKey
+  const feedDates = new Map()
 
   let lastDate
 
@@ -10,11 +11,13 @@
   $: feed = feedInsights(items)
 
   function feedInsights(insights) {
+    feedDates.clear()
+    lastDate = undefined
     return insights.map(item => {
       const { MMM, D } = getDateFormats(new Date(item[dateKey]))
       const feedDate = `${MMM} ${D}`
       if (lastDate !== feedDate) {
-        item.__feedDate = feedDate
+        feedDates.set(item, feedDate)
         lastDate = feedDate
       }
       return item
@@ -24,8 +27,8 @@
 
 <template lang="pug">
 +each('feed as item (item.id)')
-  +if('item.__feedDate')
-    h4.date {item.__feedDate}
+  +if('feedDates.get(item)')
+    h4.date {feedDates.get(item)}
   slot(name='item', item='{item}')
 </template>
 
