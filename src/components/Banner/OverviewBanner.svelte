@@ -1,5 +1,20 @@
 <script>
+  import { loginEmail } from '@/logic/login'
   export let banner
+
+  let loading = false
+  let success
+
+  function onSubmit({ currentTarget }) {
+    loginEmail(currentTarget.email.value).then(isSuccess)
+
+    loading = true
+  }
+
+  function isSuccess({ data: { emailLogin } }) {
+    success = emailLogin.success
+    loading = false
+  }
 </script>
 
 <template lang="pug">
@@ -9,9 +24,9 @@ include /ui/mixins
   h2 Never miss a post!
   h3 Get Santiment Crypto Market Updates direct to your inbox
 
-  form
-    +input(type='email', placeholder='Enter your email')
-    +button(type='submit') Subscribe
+  form(on:submit|preventDefault='{onSubmit}')
+    +input(name='email', type='email', placeholder='Enter your email')
+    +button(type='submit', class:loading) Subscribe
 
 </template>
 
@@ -64,5 +79,6 @@ include /ui/mixins
   button {
     background: $mirage;
     color: $white;
+    --loading-dot-color: #{$white};
   }
 </style>

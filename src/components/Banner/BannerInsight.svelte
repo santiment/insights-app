@@ -1,11 +1,14 @@
 <script>
   import OverviewBanner from './OverviewBanner.svelte'
   import ViewportObserver from '@/components/ViewportObserver'
+  import { loginEmail } from '@/logic/login'
 
   export let insightHeight
 
   let banner
   let isShown = false
+  let loading = false
+  let success
 
   const options = {
     rootMargin: '-50px',
@@ -15,8 +18,15 @@
     isShown = !isShown
   }
 
-  function onSubmit(e) {
-    console.log(e)
+  function onSubmit({ currentTarget }) {
+    loginEmail(currentTarget.email.value).then(isSuccess)
+
+    loading = true
+  }
+
+  function isSuccess({ data: { emailLogin } }) {
+    success = emailLogin.success
+    loading = false
   }
 </script>
 
@@ -34,8 +44,8 @@ ViewportObserver({options}, on:intersect='{toggleVisibility}', on:leaving='{togg
         h2.title Want more crypto insights?
         p.desc Read daily analysis of top emerging words/stories
       form.form(on:submit|preventDefault='{onSubmit}')
-        +input(type='email', placeholder='Enter your email')
-        +button.submit(variant='fill', accent='jungle-green', type='submit') Get started
+        +input(name='email', type='email', placeholder='Enter your email')
+        +button.submit(variant='fill', accent='jungle-green', type='submit', class:loading) Get started
 </template>
 
 <style lang="scss">
