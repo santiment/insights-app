@@ -18,7 +18,7 @@ const PrePublishPopup = ({
       trigger={
         <Button accent='positive' border>
           Publish insight
-          <IconArrowUp className={styles.icon} />
+          {React.cloneElement(IconArrowUp, { className: styles.icon })}
         </Button>
       }
     >

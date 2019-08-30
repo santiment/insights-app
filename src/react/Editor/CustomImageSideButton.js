@@ -1,6 +1,7 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
+import IconPicture from '@santiment-network/ui/Icon/IconPicture'
 import { ImageSideButton, Block, addNewBlock } from 'medium-draft'
 import { notifications } from '../../stores/notifications'
 import styles from './CustomImageSideButton.module.scss'
@@ -67,7 +68,7 @@ class CustomImageSideButton extends ImageSideButton {
     return (
       <div className='md-sd-button'>
         <label className={styles.label} htmlFor='md-sd-img-button'>
-          {/* <Icon type='picture' height={17} /> */}
+          {React.cloneElement(IconPicture, { height: 17 })}
         </label>
         <input
           className={styles.input}

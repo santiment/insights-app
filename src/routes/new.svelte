@@ -6,15 +6,25 @@
   let reactMount
   let Component
 
+  const updateDraft = console.log
+  const publishDraft = console.log
+
   $: if (Component) {
-    ReactDOM.render(React.createElement(Component, {
-    }), reactMount)
+    ReactDOM.render(
+      React.createElement(Component, {
+        updateDraft,
+        publishDraft,
+      }),
+      reactMount,
+    )
   }
 
   onMount(() => {
-    import('@/react/InsightEditor/InsightEditor').then(({ default: loaded }) => {
-      Component = loaded
-    })
+    import('@/react/InsightEditor/InsightEditor').then(
+      ({ default: loaded }) => {
+        Component = loaded
+      },
+    )
   })
 </script>
 

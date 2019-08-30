@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { ApolloProvider } from 'react-apollo'
 import PropTypes from 'prop-types'
 import sanitizeHtml from 'sanitize-html/dist/sanitize-html'
 import debounce from 'lodash.debounce'
@@ -9,6 +10,7 @@ import { createEditorState } from 'medium-draft'
 import Editor from '../Editor/Editor'
 import InsightEditorBottom from './InsightEditorBottom'
 import InsightEditorTitle from './InsightEditorTitle'
+import { client } from '../../apollo'
 import styles from './InsightEditor.module.scss'
 
 const removeAmpersandRepetitions = str =>
@@ -150,27 +152,29 @@ class InsightEditor extends Component {
     const isLoading = isEditing || isUpdating
 
     return (
-      <div className={styles.wrapper}>
-        <div className={styles.insightWrapper}>
-          <InsightEditorTitle
-            defaultValue={title}
-            onChange={this.onTitleChange}
-          />
-          <Editor
-            defaultEditorContent={this.defaultEditorContent}
-            placeholder='Write something interesting ...'
-            onChange={this.onTextChange}
+      <ApolloProvider client={client}>
+        <div className={styles.wrapper}>
+          <div className={styles.insightWrapper}>
+            <InsightEditorTitle
+              defaultValue={title}
+              onChange={this.onTitleChange}
+            />
+            <Editor
+              defaultEditorContent={this.defaultEditorContent}
+              placeholder='Write something interesting ...'
+              onChange={this.onTextChange}
+            />
+          </div>
+          <InsightEditorBottom
+            defaultTags={tags}
+            updatedAt={updatedAt}
+            onTagsChange={this.onTagsChange}
+            isLoading={isLoading}
+            hasMetTextRequirements={this.isTitleAndTextOk()}
+            onPublishClick={() => publishDraft(id)}
           />
         </div>
-        <InsightEditorBottom
-          defaultTags={tags}
-          updatedAt={updatedAt}
-          onTagsChange={this.onTagsChange}
-          isLoading={isLoading}
-          hasMetTextRequirements={this.isTitleAndTextOk()}
-          onPublishClick={() => publishDraft(id)}
-        />
-      </div>
+      </ApolloProvider>
     )
   }
 }
