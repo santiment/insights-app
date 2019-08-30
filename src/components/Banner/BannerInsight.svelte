@@ -38,7 +38,7 @@ ViewportObserver({options}, on:intersect='{toggleVisibility}', on:leaving='{togg
 
 +if('isShown')
   +panel.banner
-    img(src='sticky_banner_img.png')
+    img(src='sticky_banner_img.png', alt='Banner')
     .content
       .text
         h2.title Want more crypto insights?

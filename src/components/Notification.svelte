@@ -42,9 +42,9 @@
 <template lang="pug">
 include /ui/mixins
 
-+panel.not()(on:click!="{() => notifications.remove(notification)}", variant='context', style='--y-offset: {yOffset}',transition:notify )
++panel().not(on:click!="{() => notifications.remove(notification)}", variant='context', style='--y-offset: {yOffset}',transition:notify )
   +icon('{type}').icon
-  | [{id}] {title}
+  |[{id}] {title}
 
 </template>
 
