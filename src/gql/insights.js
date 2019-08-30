@@ -77,3 +77,11 @@ export const DELETE_INSIGHT_MUTATION = gql`
     }
   }
 `
+
+export const ALL_TAGS_QUERY = gql`
+  query allTags {
+    tags: allTags {
+      name
+    }
+  }
+`

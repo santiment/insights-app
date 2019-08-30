@@ -1,11 +1,14 @@
 <template lang="pug">
 include /ui/mixins
 
+-
+  appLink = 'https://app.santiment.net'
+
 .wrapper
-  +button.item(variant='ghost', fluid) Social trends 🔥
-  +button.item(variant='ghost', fluid) ETH spent
-  +button.item(href="/labs/balance", variant='ghost', fluid) Historical balance
-  +button.item(variant='ghost', fluid) Dashboards
+  +button.item(variant='ghost', fluid, href=appLink+'/labs/trends') Social trends 🔥
+  +button.item(variant='ghost', fluid, href=appLink+'/ethereum-spent') ETH spent
+  +button.item(variant='ghost', fluid, href=appLink+'/labs/balance') Historical balance
+  +button.item(variant='ghost', fluid, href=appLink+'/dashboards') Dashboards
 </template>
 
 <style lang="scss">

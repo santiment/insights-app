@@ -178,9 +178,17 @@ export default {
       }),
       resolve({ preferBuiltins: false }),
       commonjs({
-        exclude: [/react-dom-server/],
         namedExports: {
-          'node_modules/draft-js/lib/Draft.js': ['convertToRaw'],
+          'node_modules/draft-js/lib/Draft.js': [
+            'convertToRaw',
+            'CharacterMetadata',
+            'ContentBlock',
+            'Entity',
+            'BlockMapBuilder',
+            'genKey',
+            'SelectionState',
+            'ContentState',
+          ],
           'node_modules/react-dom/index.js': ['findDOMNode'],
           'node_modules/react/index.js': [
             'createContext',
@@ -206,6 +214,11 @@ export default {
             'getTickValuesFixedDomain',
           ],
           'node_modules/react-is/index.js': ['isValidElementType'],
+          'node_modules/immutable/dist/immutable.js': [
+            'OrderedSet',
+            'Map',
+            'List',
+          ],
         },
       }),
       legacy &&
@@ -250,9 +263,7 @@ export default {
       }),
       svelte({ generate: 'ssr', dev, preprocess }),
       resolve({ preferBuiltins: false }),
-      commonjs({
-        exclude: [/react-dom-server/],
-      }),
+      commonjs({}),
     ],
     external: Object.keys(pkg.dependencies).concat(
       require('module').builtinModules ||

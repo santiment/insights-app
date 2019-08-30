@@ -1,16 +1,22 @@
 <template lang="pug">
 include /ui/mixins
 
+-
+  var app = 'https://app.santiment.net/assets/'
+  function list(name){
+    return app + 'list?name=' + encodeURIComponent(name) + '#shared'
+  }
+
 .wrapper
   .categories
     h4.title Categories
-    +button.item(variant='ghost', fluid) All Assets
-    +button.item(variant='ghost', fluid) ERC20
-    +button.item(variant='ghost', fluid) Top 50 ERC20
-    +button.item(variant='ghost', fluid) Stablecoins
-    +button.item(variant='ghost', fluid) US-Based Projects
-    +button.item(variant='ghost', fluid) Decentralized Exchanges
-    +button.item(variant='ghost', fluid) Centralized Exchanges
+    +button.item(variant='ghost', fluid, href=app+'all') All Assets
+    +button.item(variant='ghost', fluid, href=app+'erc20') ERC20
+    +button.item(variant='ghost', fluid, href=list('top 50 erc20')) Top 50 ERC20
+    +button.item(variant='ghost', fluid, href=list('stablecoins')) Stablecoins
+    +button.item(variant='ghost', fluid, href=list('centralized exchanges')) Centralized Exchanges
+    +button.item(variant='ghost', fluid, href=list('decentralized exchanges')) Decentralized Exchanges
+    +button.item(variant='ghost', fluid, href=list('trending assets')) Emerging Trending Assets
   .categories.categories_watchlist
     h4.title My Watatchlists
     .anon

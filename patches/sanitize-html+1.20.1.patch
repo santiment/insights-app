@@ -1,0 +1,13 @@
+diff --git a/node_modules/sanitize-html/dist/sanitize-html.js b/node_modules/sanitize-html/dist/sanitize-html.js
+index 7dbc194..cba1e70 100644
+--- a/node_modules/sanitize-html/dist/sanitize-html.js
++++ b/node_modules/sanitize-html/dist/sanitize-html.js
+@@ -16647,7 +16647,7 @@ Item.prototype.run = function () {
+     this.fun.apply(null, this.array);
+ };
+ process.title = 'browser';
+-process.browser = true;
++// process.browser = true;
+ process.env = {};
+ process.argv = [];
+ process.version = ''; // empty string to avoid regexp issues
