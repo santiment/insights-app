@@ -65,6 +65,10 @@
 </script>
 
 <template lang="pug">
+svelte:head
+  title Insights
+  meta(property='og:title', content='Insight')
+  meta(name='description', property='og:description', content='All Commmunity Insights')
 
 .insights
   ViewportObserver({options}, on:intersect='{onIntersect}', observeWhile='{hasMore}')

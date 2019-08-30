@@ -31,6 +31,10 @@
 </script>
 
 <template lang="pug">
+svelte:head
+  title My Insights
+  meta(property='og:title', content='My Insights')
+  meta(name='description', property='og:description', content='My Commmunity Insights')
 
 .insights
   Feed(items="{insights}", dateKey="updatedAt")

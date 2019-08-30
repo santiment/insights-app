@@ -7,12 +7,12 @@
 </script>
 
 <template lang="pug">
-.wrapper(class="{classes.wrapper}")
+.wrapper(class="{classes.wrapper || ''}")
   +if('withPic')
     .icon
       img(src="profile-fallback.svg", alt="Profile picture")
 
-  .info(class="{classes.info}")
+  .info(class="{classes.info || ''}")
     a.name(href="/user/{id}") {name}
     +if('status')
       .status {status}

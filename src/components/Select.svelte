@@ -1,0 +1,120 @@
+<script>
+  export let options = []
+  export let selected
+  export let focused
+  export let maxSuggestions = options.length
+
+  let selectorWidth = 0
+  let cursor = 0
+
+  $: {
+    selected
+
+    cursor = 0
+  }
+
+  function onFocus() {
+    focused = true
+  }
+  function onBlur() {
+    focused = false
+  }
+
+  function onKeyDown(e) {
+    const { key, currentTarget } = e
+    let newCursor = cursor
+
+    switch (key) {
+      case 'ArrowUp':
+        e.preventDefault()
+        newCursor = cursor - 1
+        break
+      case 'ArrowDown':
+        e.preventDefault()
+        newCursor = cursor + 1
+        break
+      case 'Enter':
+        selected = options[cursor]
+        currentTarget.blur()
+        console.log(selected)
+      default:
+        return
+    }
+
+    const maxCursor =
+      options.length > maxSuggestions ? maxSuggestions : options.length
+
+    newCursor = newCursor % maxCursor
+    cursor = newCursor < 0 ? maxCursor - 1 : newCursor
+  }
+</script>
+
+<template lang="pug">
+include /ui/mixins
+
+.select
+  button.trigger(on:focus='{onFocus}', on:blur='{onBlur}', on:keydown='{onKeyDown}', bind:offsetWidth='{selectorWidth}')
+    |{selected}
+    +icon('arrow-down').arrow
+  +if('focused')
+    +panel.dropdown(variant='context', style='min-width: {selectorWidth}px')
+      +each('options as option, index')
+        +button.option(variant='ghost', fluid, class:active='{option === selected}', class:cursored='{index === cursor}', on:mousedown!='{() => selected = option}') {option}
+    
+</template>
+
+<style lang="scss">
+  @import '@/mixins';
+
+  .select {
+    position: relative;
+    display: inline-block;
+  }
+
+  .trigger {
+    border: 1px solid var(--porcelain);
+    padding: 6px 28px 6px 12px;
+    outline: none;
+    background: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      border-color: var(--jungle-green);
+    }
+
+    &:focus .arrow {
+      transform: translateY(-50%) rotate(180deg);
+    }
+  }
+
+  .arrow {
+    @include size(7px, 4px);
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    fill: var(--waterloo);
+  }
+
+  .dropdown {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin-top: 4px;
+    z-index: 1;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+  }
+
+  .option {
+    padding: 6px 8px;
+  }
+
+  .cursored {
+    background: var(--porcelain);
+  }
+</style>

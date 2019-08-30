@@ -16,7 +16,7 @@
 include /ui/mixins
 
 span.change(class='{klass} {res}')
-  +icon('arrow-up').triangle
+  +icon('triangle-up').triangle
   | {formatter(Math.abs(change))}
 </template>
 

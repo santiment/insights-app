@@ -33,6 +33,7 @@ nav
     --icon-primary: var(--mirage);
     --icon-secondary: var(--porcelain);
 
+    z-index: 5;
     display: flex;
     align-items: flex-end;
     justify-content: space-evenly;
@@ -42,7 +43,6 @@ nav
     left: 0;
     right: 0;
     height: 60px;
-    z-index: 1000;
     background: var(--white);
     border-top: 1px solid var(--porcelain);
     border-top-left-radius: 10px;
