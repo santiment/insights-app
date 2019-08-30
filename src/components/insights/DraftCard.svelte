@@ -52,7 +52,7 @@
 include /ui/mixins
 
 +panel(variant='box').wrapper
-  a.title(href='/insights/read/{link}') {title}
+  a.title(href='/read/{link}') {title}
   h4 {rawText}
   .bottom
     h3 Edited {ago}
@@ -63,7 +63,7 @@ include /ui/mixins
           +button()(on:click='{closeDialog}', border) Cancel 
           +button(variant='fill', accent='jungle-green', on:click='{deleteDraft}') Delete Draft
 
-      a.edit(href='/insights/edit/{id}')
+      a.edit(href='/edit/{id}')
         +icon('edit')
 </template>
 

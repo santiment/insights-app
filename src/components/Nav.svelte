@@ -26,14 +26,14 @@
 include /ui/mixins
 - var appPath = 'https://app.santiment.net'
 
-button(on:click!="{() => notifications.add({title: 'test'})}") notific
+// button(on:click!="{() => notifications.add({title: 'test'})}") notific
 
 header
   .container
     nav.nav
       a.logo(href='/') Santiment
-      +button.link(href=appPath+'/', variant="flat") Dashboard
       +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
+      +button.link(href=appPath+'/sonar', variant="flat") Sonar
       +button.link.active(href="/", variant="flat", prefetch) Insights
       +button.link(href=appPath+'/labs', variant="flat", on:mouseenter="{onTriggerEnter}", id="labs-trigger") Labs
 
@@ -54,6 +54,7 @@ header
   .icon- {
     &question {
       @include size(15px);
+      margin-left: 12px;
     }
     &user {
       @include size(14px, 16px);
