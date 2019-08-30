@@ -28,7 +28,7 @@ slaveTemplates.dockerTemplate { label ->
             docker.withRegistry("https://${awsRegistry}", "ecr:eu-central-1:ecr-credentials") {
               sh "docker build -t ${awsRegistry}/insights-app:${env.BRANCH_NAME} -t ${awsRegistry}/insights-app:${scmVars.GIT_COMMIT} ."
               sh "docker push ${awsRegistry}/insights-app:${env.BRANCH_NAME}"
-              sh "docker push ${awsRegistry}/insightsia-app:${scmVars.GIT_COMMIT}"
+              sh "docker push ${awsRegistry}/insights-app:${scmVars.GIT_COMMIT}"
             }
           }
         }
