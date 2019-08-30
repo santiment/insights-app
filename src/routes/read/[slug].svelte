@@ -63,6 +63,9 @@ svelte:head
   ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
   div.text {@html text}
 
++if('$session.currentUser === null')
+  Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
+
 .bottom
   Tags({tags})
   .info
@@ -71,8 +74,6 @@ svelte:head
       LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
       ShareBtn.info__share(link='{shareLink}')
 
-+if('$session.currentUser === null')
-  Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
 </template>
 
 <style lang="scss">
