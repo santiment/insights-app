@@ -32,7 +32,7 @@
 
   const { page } = stores()
 
-  const ROUTES_WITHOUT_TABS = new Set(['new', 'read'])
+  const ROUTES_WITHOUT_TABS = new Set(['new', 'read', 'edit'])
   $: activePath = getActivePath($page.path)
 
   function getActivePath(path) {

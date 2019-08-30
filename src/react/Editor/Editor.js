@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import nprogress from 'nprogress'
 import IconTextBig from '@santiment-network/ui/Icon/IconTextBig'
 import IconTextSmall from '@santiment-network/ui/Icon/IconTextSmall'
 import IconTextBold from '@santiment-network/ui/Icon/IconTextBold'
@@ -62,10 +61,10 @@ class SanEditor extends React.Component {
   onImgLoad = state => {
     switch (state) {
       case 'start':
-        return nprogress.start()
+      /* return nprogress.start() */
       case 'done':
       default:
-        return nprogress.done()
+      /* return nprogress.done() */
     }
   }
 
