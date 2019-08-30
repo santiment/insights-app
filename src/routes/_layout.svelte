@@ -51,6 +51,11 @@
 <template lang="pug">
 include /ui/mixins
 
+mixin newInsight()
+  +button(href='/new', variant='fill', accent='jungle-green')&attributes(attributes)
+    +icon('plus-round').plus
+    |Write insight
+
 LoadProgress
 
 Nav({segment})
@@ -59,16 +64,17 @@ main(class:isMobile)
   +if("!ROUTES_WITHOUT_TABS.has(segment)")
     .top
       h1 Insights
-      Select({options}, bind:selected)
+      .right
+        Select({options}, bind:selected)
+        +if('!isMobile')
+          +newInsight().btn
   
     +tabs.tabs(class:tabs_mobile='{isMobile}')
       +tab(href="/", class:active="{activePath === '/'}") All Insights
       +tab(href="/my", class:active="{activePath === '/my'}") My Insights
       +tab(href="/my/drafts", class:active="{activePath === '/my/drafts'}") My Drafts
     +if('isMobile')
-      +button.btn(href='/new', variant='fill', accent='jungle-green', fluid)
-        +icon('plus-round').plus
-        |Write insight
+      +newInsight().btn_mobile(fluid)
 
   slot
 
@@ -86,6 +92,10 @@ Notifications
     justify-content: space-between;
   }
 
+  .right {
+    display: flex;
+  }
+
   h1 {
     @include text('h3', 'm');
 
@@ -100,8 +110,12 @@ Notifications
   }
 
   .btn {
-    justify-content: center;
-    margin-bottom: 20px;
+    margin-left: 16px;
+
+    &_mobile {
+      justify-content: center;
+      margin-bottom: 20px;
+    }
   }
 
   main {
