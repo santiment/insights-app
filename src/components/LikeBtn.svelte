@@ -1,8 +1,10 @@
 <script>
+  import { stores } from '@sapper/app'
   import { client } from '@/apollo'
   import { LIKE_INSIGHT_MUTATION, UNLIKE_INSIGHT_MUTATION } from '@/gql/likes'
   import { debounce } from '@/utils/func'
 
+  const { session } = stores()
   export let id, likes, liked
 
   let wasLiked = liked
@@ -37,7 +39,7 @@
 <template lang="pug">
 include /ui/mixins
 
-.btn(on:click='{toggleLike}')
+button(disabled='{!$session.currentUser}', on:click='{toggleLike}')
   +icon('liked').icon(class:liked)
   | {_likes}
 </template>
@@ -45,21 +47,34 @@ include /ui/mixins
 <style lang="scss">
   @import '@/mixins';
 
-  .btn {
+  button {
     user-select: none;
     cursor: pointer;
+    background: none;
+    border: none;
+    outline: none;
+
+    &:hover .icon {
+      transform: scale(1);
+    }
+
+    &[disabled] {
+      pointer-events: none;
+      color: var(--waterloo);
+      fill: var(--mystic);
+      cursor: default;
+    }
   }
 
   .icon {
-    @include size(18px, 16px);
-    margin-right: 6px;
-    stroke-width: 1.5;
-    stroke: var(--casper);
-    fill: transparent;
+    @include size(16px, 14px);
+    fill: var(--casper);
+    transform: scale(0.75);
+    margin: -2px 4px 0 0;
+    transition: transform 0.2s ease-in-out;
   }
 
   .liked {
     fill: var(--persimmon);
-    stroke: var(--persimmon);
   }
 </style>

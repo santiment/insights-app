@@ -6,14 +6,13 @@
 
   const { session } = stores()
 
-  let username, sanBalance, id
+  let username, id
 
   let currentUser
   $: currentUser = $session.currentUser
 
   $: if (currentUser) {
     username = currentUser.username || currentUser.email
-    sanBalance = currentUser.sanBalance.toFixed(2)
     id = currentUser.id
   }
 </script>
@@ -24,7 +23,7 @@ include /ui/mixins
 
 .wrapper
   +if('currentUser')
-    ProfileInfo(name="{username}", id="{id}" status="{sanBalance} tokens available", classes="{{wrapper: 'account-dd__profile'}}")
+    ProfileInfo(name="{username}", id="{id}" status="Free plan", classes="{{wrapper: 'account-dd__profile'}}")
     hr.divider
   .category.category_toggles
     +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Dark Mode

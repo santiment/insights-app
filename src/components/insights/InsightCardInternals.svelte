@@ -38,12 +38,13 @@ include /ui/mixins
 
 .bottom
   .bottom__left
-    ProfileInfo(name="{user.username}", id="{user.id}", status="{time}", withPic)
+    ProfileInfo(name="{user.username}", id="{user.id}", status="{time}")
   LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
 
 </template>
 
 <style lang="scss">
+  @import '@/mixins';
   @import '@/variables';
 
   .top {
@@ -51,9 +52,8 @@ include /ui/mixins
   }
 
   .title {
-    line-height: 26px;
-    font-size: 18px;
-    margin-top: 18px;
+    @include text('h4', 'm');
+    margin-top: 14px;
     display: block;
     word-break: break-word;
 

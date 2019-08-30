@@ -13,7 +13,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@santiment-network/ui": "^0.5.42",
+    "@santiment-network/ui": "^0.5.80",
     "apexcharts": "^3.8.0",
     "apollo-boost": "^0.4.0",
     "apollo-client": "^2.6.0",
