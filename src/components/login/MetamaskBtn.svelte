@@ -20,7 +20,9 @@
 include /ui/mixins
 
 +if('hasMetamask')
-  +button.btn(on:click='{login}', fluid) Metamask
+  +button.btn(on:click='{login}', fluid)
+    img(src='metamask-inverse.svg', alt='Metamask Icon')
+    |Metamask
 
   +else()
     +panel.wrapper
@@ -28,11 +30,14 @@ include /ui/mixins
       p.text We can auth you with a Metamask account. It's secure and easy.
       .bottom
         a(target='_blank', rel='noopener noreferrer', href='https://metamask.io/#how-it-works') How Metamask works?
-        a(target='_blank', rel='noopener noreferrer', href='https://metamask.io/') Link
+        a(target='_blank', rel='noopener noreferrer', href='https://metamask.io/')
+          img(src='metamask-download.png', alt='Download Metamask', width='128')
 
 </template>
 
-<style>
+<style lang="scss">
+  @import '@/mixins';
+
   .btn {
     background: #f6851b;
     fill: #fff;
@@ -47,8 +52,18 @@ include /ui/mixins
   }
 
   .bottom {
+    margin: 6px 0 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  img {
+    margin-right: 10px;
+  }
+
+  .title {
+    @include text('body-1');
+    margin: 0 0 6px;
   }
 </style>

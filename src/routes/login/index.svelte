@@ -8,7 +8,9 @@ include /ui/mixins
 h2.title Log in your account with
 .options
   MetamaskBtn
-  +button.btn(href='/login/email', fluid) Email
+  +button.btn(href='/login/email', fluid)
+    +icon('email')
+    |Email
 
 </template>
 
@@ -29,5 +31,10 @@ h2.title Log in your account with
     height: 40px;
     margin: 8px 0;
     background: #7a859e;
+  }
+
+  svg {
+    @include size(16px, 14px);
+    margin-right: 10px;
   }
 </style>

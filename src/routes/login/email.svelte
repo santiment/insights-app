@@ -30,7 +30,9 @@ h2.title.email__title Authenticate
       +input(placeholder="your@email.com",name="email",type="email",autocomplete='off', required)
       +button.email__btn(variant="fill", accent='jungle-green', type='submit', class:loading) Continue
 
-a.email__link(href='/login') All login options
+a.email__link(href='/login')
+  +icon('pointer-right')
+  |All login options
 </template>
 
 <style lang="scss">
@@ -77,5 +79,11 @@ a.email__link(href='/login') All login options
 
   input {
     width: 100%;
+  }
+
+  svg {
+    transform: rotate(180deg);
+    @include size(11px, 5px);
+    margin-right: 5px;
   }
 </style>
