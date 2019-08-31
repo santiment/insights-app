@@ -27,7 +27,7 @@ h2.title.email__title Authenticate
   +else()
     h3.email__subtitle To sign up or log in, fill in your email address below
     form.email__form(on:submit|preventDefault="{onSubmit}")
-      +input.input(placeholder="your@email.com",name="email",type="email",autocomplete='off', required)
+      +input(placeholder="your@email.com",name="email",type="email",autocomplete='off', required)
       +button.email__btn(variant="fill", accent='jungle-green', type='submit', class:loading) Continue
 
 a.email__link(href='/login') All login options
@@ -37,13 +37,7 @@ a.email__link(href='/login') All login options
   @import '@/mixins.scss';
 
   .title {
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 26px;
-
-    @include responsive('phone', 'phone-xs') {
-      color: red;
-    }
+    @include text('body-1');
   }
 
   .btn {
@@ -59,14 +53,15 @@ a.email__link(href='/login') All login options
 
   .email {
     &__subtitle {
-      font-size: 12px;
-      font-weight: normal;
-      line-height: 18px;
+      @include text('caption');
       margin: 10px 0;
     }
 
     &__form {
       margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     &__btn {
@@ -75,6 +70,12 @@ a.email__link(href='/login') All login options
 
     &__link {
       font-size: 12px;
+      color: var(--casper);
+      fill: var(--casper);
     }
+  }
+
+  input {
+    width: 100%;
   }
 </style>

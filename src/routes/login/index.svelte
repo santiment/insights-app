@@ -14,10 +14,9 @@ h2.title Log in your account with
 
 <style lang="scss">
   @import '@/mixins.scss';
+
   .title {
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 26px;
+    @include text('body-1');
   }
 
   .options {

@@ -52,7 +52,7 @@ nav
     .menu__links
       a.menu__link(href=appPath+'account') Account settings
       a.menu__link(href=appPath+'support') Support
-    +button.login(variant='fill', accent='jungle-green', href='{loginHref}', fluid, on:click='{hideMenu}') {loginLabel}
+    +button.login(variant='fill', accent='jungle-green', href='{loginHref}', on:click='{hideMenu}', fluid ) {loginLabel}
 
 </template>
 

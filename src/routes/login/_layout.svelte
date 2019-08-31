@@ -10,14 +10,22 @@
 <template lang="pug">
 include /ui/mixins
 
-+panel.wrapper
-  slot
+
+.wrapper
+  +panel.content
+    slot
 </template>
 
 <style lang="scss">
   @import '@/mixins.scss';
 
   .wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  .content {
     width: 500px;
     margin: 0 auto;
     padding: 30px 80px 36px;

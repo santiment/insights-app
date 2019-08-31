@@ -129,11 +129,14 @@ Notifications
   main {
     max-width: 1024px;
     margin: 0 auto;
-    padding: 25px 0;
+    padding: 95px 0 25px;
+    height: 100%;
   }
 
   .isMobile {
-    padding: 16px 16px 65px;
+    padding: 16px 16px 76px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .tabs {

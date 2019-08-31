@@ -65,6 +65,10 @@ header
     border-bottom: 1px solid var(--porcelain);
     background: var(--white);
     padding: 18px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
   }
 
   .container {
