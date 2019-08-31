@@ -1,8 +1,9 @@
 <script context="module">
   import { client } from '@/apollo'
+  import { ALL_USER_INSIGHTS } from '@/gql/insights'
   import { onlyPublishedFilter } from '@/utils/insights'
 
-  export async function preload(_, session) {
+  export async function preload(_, session, { apollo = client }) {
     if (typeof session.currentUser !== 'object') {
       await session.loadingUser
     }
@@ -12,8 +13,19 @@
       return this.redirect(302, '')
     }
 
+    const {
+      data: {
+        currentUser: { insights },
+      },
+    } = await apollo.query({
+      query: ALL_USER_INSIGHTS,
+      fetchPolicy: 'network-only',
+    })
+
+    currentUser.insights = insights
+
     return {
-      insights: currentUser.insights.filter(onlyPublishedFilter),
+      insights: insights.filter(onlyPublishedFilter),
     }
   }
 </script>

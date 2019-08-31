@@ -116,3 +116,17 @@ export const PUBLISH_INSIGHT_DRAFT_MUTATION = gql`
     }
   }
 `
+
+export const ALL_USER_INSIGHTS = gql`
+  query currentUser {
+    currentUser {
+      id
+      insights {
+        ...insightCommon
+        state
+        text
+      }
+    }
+  }
+  ${insightCommon}
+`

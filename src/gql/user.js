@@ -1,5 +1,4 @@
 import gql from 'graphql-tag'
-import { insightCommon } from './insights'
 
 export const CURRENT_USER_QUERY = gql`
   query currentUser {
@@ -15,11 +14,6 @@ export const CURRENT_USER_QUERY = gql`
         address
         sanBalance
       }
-      insights {
-        ...insightCommon
-        state
-        text
-      }
       settings {
         hasTelegramConnected
         newsletterSubscription
@@ -28,5 +22,4 @@ export const CURRENT_USER_QUERY = gql`
       }
     }
   }
-  ${insightCommon}
 `
