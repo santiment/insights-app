@@ -37,6 +37,7 @@
   import { getDateFormats } from '@/utils/dates'
 
   const { session } = stores()
+  const classes = { wrapper: 'info__profile' }
 
   export let id, text, title, tags, user, votes, publishedAt, createdAt, votedAt
 
@@ -69,7 +70,7 @@ svelte:head
 .bottom
   Tags({tags})
   .info
-    ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
+    ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes='{classes}', withPic)
     .info__right
       LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
       ShareBtn.info__share(link='{shareLink}')
@@ -124,6 +125,11 @@ svelte:head
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 100%;
+
+    :global(&__profile) {
+      max-width: 65%;
+    }
 
     &__right {
       display: flex;
@@ -132,6 +138,9 @@ svelte:head
     :global(&__share) {
       margin-left: 30px;
       fill: var(--waterloo);
+      @include responsive('phone-xs') {
+        margin-left: 16px;
+      }
     }
   }
 </style>

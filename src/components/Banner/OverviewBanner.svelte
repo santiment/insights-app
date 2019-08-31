@@ -44,6 +44,7 @@ include /ui/mixins
     padding: 32px;
     position: relative;
     z-index: 0;
+    border-radius: 4px;
 
     &::after {
       z-index: -1;
@@ -71,10 +72,6 @@ include /ui/mixins
     margin: 0 auto;
     display: flex;
     max-width: 400px;
-
-    @include responsive('phone', 'phone-xs') {
-      flex-direction: column;
-    }
   }
 
   input {
@@ -87,5 +84,19 @@ include /ui/mixins
     background: $mirage;
     color: $white;
     --loading-dot-color: #{$white};
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    form {
+      flex-direction: column;
+    }
+
+    input {
+      margin: 0 0 8px;
+    }
+
+    button {
+      justify-content: center;
+    }
   }
 </style>

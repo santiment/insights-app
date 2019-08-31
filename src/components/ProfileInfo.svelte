@@ -43,10 +43,10 @@
   }
 
   .info {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    max-width: 100%;
-    flex: 1;
+    max-width: calc(100% - 44px);
   }
 
   .name {
