@@ -92,6 +92,10 @@ Dialog(bind:open, title='Share insight')
 
   .content {
     min-width: 700px;
+
+    @include responsive('phone', 'phone-xs') {
+      min-width: initial;
+    }
   }
 
   .link {

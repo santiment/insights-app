@@ -78,7 +78,7 @@ include /ui/mixins
 
   .trigger {
     border: 1px solid var(--porcelain);
-    padding: 6px 28px 7px 12px;
+    padding: 5px 28px 5px 12px;
     outline: none;
     background: none;
     border-radius: 4px;

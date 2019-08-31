@@ -92,4 +92,16 @@ slot(name='trigger')
       fill: var(--jungle-green);
     }
   }
+
+ @include responsive('phone', 'phone-xs') {
+   .dialog {
+     max-width: 100%;
+     max-height: 90%;
+     transform: initial;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     top: initial;
+   }
+ }
 </style>

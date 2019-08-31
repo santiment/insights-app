@@ -30,9 +30,15 @@
   const Nav = getMobileComponent(NavMobile, NavDesktop)
   const isMobile = Nav === NavMobile
 
-  const { page } = stores()
+  const { page, session } = stores()
 
-  const ROUTES_WITHOUT_TABS = new Set(['new', 'read', 'edit'])
+  const ROUTES_WITHOUT_TABS = new Set([
+    'new',
+    'read',
+    'edit',
+    'login',
+    'logout',
+  ])
   $: activePath = getActivePath($page.path)
 
   function getActivePath(path) {
@@ -60,7 +66,7 @@ mixin newInsight()
 
 LoadProgress
 
-Nav({segment})
+Nav({segment}, isLoggedIn='{$session.currentUser}')
 
 main(class:isMobile)
   +if("!ROUTES_WITHOUT_TABS.has(segment)")
