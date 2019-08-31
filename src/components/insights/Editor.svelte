@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from 'svelte'
+  import { onMount } from 'svelte'
   import { goto } from '@sapper/app'
   import React from 'react'
   import ReactDOM from 'react-dom'
@@ -75,11 +75,10 @@
         Component = loaded
       },
     )
-  })
-
-  onDestroy(() => {
-    if (reactMount) {
-      ReactDOM.unmountComponentAtNode(reactMount)
+    return () => {
+      if (reactMount) {
+        ReactDOM.unmountComponentAtNode(reactMount)
+      }
     }
   })
 </script>

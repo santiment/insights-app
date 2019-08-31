@@ -6,6 +6,8 @@
   import { getDateFormats } from '@/utils/dates'
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
 
+  const AWAITING_APPROVAL_STATE = 'awaiting_approval'
+
   let klass = ''
   export { klass as class }
   export let insight
@@ -25,7 +27,10 @@
 
   const seoLink = getSEOLinkFromIdAndTitle(id, title)
   const { MMM, DD, YYYY } = getDateFormats(new Date(publishedAt || updatedAt))
-  const time = `${MMM} ${DD}, ${YYYY}`
+  const status =
+    state === AWAITING_APPROVAL_STATE
+      ? 'Awaiting approval'
+      : `${MMM} ${DD}, ${YYYY}`
 </script>
 
 <template lang="pug">
@@ -38,7 +43,7 @@ include /ui/mixins
 
 .bottom
   .bottom__left
-    ProfileInfo(name="{user.username}", id="{user.id}", status="{time}")
+    ProfileInfo(name="{user.username}", id="{user.id}", status="{status}")
   LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
 
 </template>

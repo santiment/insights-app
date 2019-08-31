@@ -2,6 +2,7 @@
   import OverviewBanner from './OverviewBanner.svelte'
   import ViewportObserver from '@/components/ViewportObserver'
   import { loginEmail } from '@/logic/login'
+  import { isMobile } from '@/utils/responsive'
 
   export let insightHeight
 
@@ -9,6 +10,7 @@
   let isShown = false
   let loading = false
   let success
+  let isNotMobile = !isMobile()
 
   const options = {
     rootMargin: '-50px',
@@ -34,9 +36,9 @@
 include /ui/mixins
 
 ViewportObserver({options}, on:intersect='{toggleVisibility}', on:leaving='{toggleVisibility}', top)
-  OverviewBanner
+  OverviewBanner.banner-overview
 
-+if('isShown')
++if('isNotMobile && isShown')
   +panel.banner
     img(src='sticky_banner_img.png', alt='Banner')
     .content
@@ -106,5 +108,9 @@ ViewportObserver({options}, on:intersect='{toggleVisibility}', on:leaving='{togg
     position: absolute;
     top: 4px;
     right: 4px;
+  }
+
+  :global(.banner-overview) {
+    margin-top: 30px;
   }
 </style>

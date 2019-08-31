@@ -2,7 +2,7 @@ import { writable } from 'svelte/store'
 import { InsightSorter } from '@/utils/insights'
 
 function createInsightSorterStore() {
-  const { subscribe, set } = writable()
+  const { subscribe, set } = writable(InsightSorter.Newest)
 
   return {
     subscribe,

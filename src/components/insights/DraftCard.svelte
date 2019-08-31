@@ -72,6 +72,8 @@ include /ui/mixins
 
   .wrapper {
     padding: 20px 24px 22px 20px;
+    display: flex;
+    flex-direction: column;
   }
 
   .title {
@@ -87,6 +89,10 @@ include /ui/mixins
   h4,
   h3 {
     @include text('body-3') color: var(--waterloo);
+  }
+
+  h4 {
+    flex: 1;
   }
 
   .bottom {

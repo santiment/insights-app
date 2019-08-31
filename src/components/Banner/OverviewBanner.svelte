@@ -1,6 +1,9 @@
 <script>
   import { loginEmail } from '@/logic/login'
+
   export let banner
+  let klass = ''
+  export { klass as class }
 
   let loading = false
   let success
@@ -20,7 +23,7 @@
 <template lang="pug">
 include /ui/mixins
 
-.wrapper(bind:this="{banner}")
+.wrapper(class='{klass}', bind:this="{banner}")
   h2 Never miss a post!
   h3 Get Santiment Crypto Market Updates direct to your inbox
 
@@ -68,6 +71,10 @@ include /ui/mixins
     margin: 0 auto;
     display: flex;
     max-width: 400px;
+
+    @include responsive('phone', 'phone-xs') {
+      flex-direction: column;
+    }
   }
 
   input {

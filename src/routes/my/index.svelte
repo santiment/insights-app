@@ -20,6 +20,7 @@
 
 <script>
   import Feed from '@/components/Feed'
+  import { insightSorter } from '@/stores/insights'
   import ViewportObserver from '@/components/ViewportObserver'
   import InsightCardDesktop from '@/components/insights/InsightCardWithMarketcap'
   import InsightCardMobile from '@/components/insights/InsightCard'
@@ -37,7 +38,7 @@ svelte:head
   meta(name='description', property='og:description', content='My Commmunity Insights')
 
 .insights
-  Feed(items="{insights}", dateKey="updatedAt")
+  Feed(items="{insights.sort($insightSorter)}", dateKey="updatedAt")
     div.insights__item(slot="item", let:item="{insight}")
       InsightCard({insight})
 
