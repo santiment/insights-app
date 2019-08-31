@@ -24,6 +24,9 @@ import SVGSpriter from 'svg-sprite'
 import mkdirp from 'mkdirp'
 import glob from 'glob'
 
+const dedupe = importee =>
+  importee === 'svelte' || importee.startsWith('svelte/')
+
 const ALIASES = {
   '@': path.resolve(__dirname, 'src/'),
   resolve: ['.svelte', '.js'],
@@ -176,7 +179,10 @@ export default {
           '@babel/plugin-transform-classes',
         ],
       }),
-      resolve({ preferBuiltins: false }),
+      resolve({
+        browser: true,
+        dedupe,
+      }),
       commonjs({
         namedExports: {
           'node_modules/draft-js/lib/Draft.js': [
@@ -235,6 +241,7 @@ export default {
       !dev && terser({ module: true }),
     ],
   },
+
   server: {
     input: config.server.input(),
     output: config.server.output(),
@@ -262,8 +269,10 @@ export default {
         extensions: ['.scss'],
       }),
       svelte({ generate: 'ssr', dev, preprocess }),
-      resolve({ preferBuiltins: false }),
-      commonjs({}),
+      resolve({
+        dedupe,
+      }),
+      commonjs(),
     ],
     external: Object.keys(pkg.dependencies).concat(
       require('module').builtinModules ||
