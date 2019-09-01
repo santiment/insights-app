@@ -1,5 +1,6 @@
 FROM node:11-alpine AS builder
 
+ARG BACKEND_URL
 ARG GIT_HEAD
 RUN GIT_HEAD=$GIT_HEAD
 
