@@ -10,8 +10,9 @@ yarn dev
 ## Deployment
 
 ### Building
+`BACKEND_URL` should be passed as the env variable
 ```bash
-yarn build
+BACKEND_URL=https://api-stage.santiment.net yarn build
 ```
 
 ### Starting the server

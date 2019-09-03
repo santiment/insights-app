@@ -38,6 +38,7 @@
     'edit',
     'login',
     'logout',
+    'gdpr',
   ])
   $: activePath = getActivePath($page.path)
 
