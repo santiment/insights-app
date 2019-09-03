@@ -1,5 +1,7 @@
 <script context="module">
   import { CURRENT_USER_QUERY } from '@/gql/user'
+  import { checkGDPR } from '@/logic/gdpr'
+
   export async function preload(page, session, { apollo }) {
     if (typeof session.currentUser !== 'object') {
       // loadingUser is needed for synchronizing with '/login' for redirect
@@ -7,8 +9,13 @@
       const {
         data: { currentUser },
       } = await session.loadingUser
+
       session.currentUser = currentUser
       session.loadingUser = null
+    }
+
+    if (page.path !== '/gdpr') {
+      checkGDPR(session.currentUser, this)
     }
   }
 

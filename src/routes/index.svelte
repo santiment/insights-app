@@ -1,8 +1,15 @@
 <script context="module">
   import { client } from '@/apollo'
   import { ALL_INSIGHTS_BY_PAGE_QUERY } from '@/gql/insights'
+  import { checkGDPR } from '@/logic/gdpr'
 
-  export async function preload(_, __, { apollo = client }) {
+  export async function preload(_, session, { apollo = client }) {
+    await session.loadingUser
+    if(checkGDPR(session.currentUser, this)){
+      return
+    }
+    
+
     const res = await apollo.query({
       query: ALL_INSIGHTS_BY_PAGE_QUERY,
       variables: {

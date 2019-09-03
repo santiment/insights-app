@@ -29,6 +29,7 @@
     left: 0;
     right: 0;
     height: 4px;
+    z-index: 999;
   }
 
   .loader {
