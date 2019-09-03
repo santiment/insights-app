@@ -7,7 +7,7 @@
 
   function onClick() {
     loading = true
-    setGDPR(false).then(console.log)
+    setGDPR(true)
   }
 </script>
 
