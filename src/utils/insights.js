@@ -9,6 +9,9 @@ export const getSEOLinkFromIdAndTitle = (id, title) =>
       .join('-')}-${id}`,
   )
 
+export const updateDateSorter = ({ updatedAt: a }, { updatedAt: b }) =>
+  new Date(b) - new Date(a)
+
 export const publishDateSorter = ({ publishedAt: a }, { publishedAt: b }) =>
   new Date(b) - new Date(a)
 

@@ -15,7 +15,7 @@
 include /ui/mixins
 
 .page
-  +panel.wrapper()
+  +panel.wrapper(variant='box')
     h2 Last step to get your SANBase experience.
     p Please, accept our updated Privacy Policy by May, 2018 to continue using SANBase
     div

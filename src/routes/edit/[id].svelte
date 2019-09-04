@@ -9,7 +9,7 @@
     const { currentUser } = session
 
     if (!currentUser) {
-      return this.redirect(302, '')
+      return this.redirect(302, '/experience')
     }
 
     const { id } = page.params
