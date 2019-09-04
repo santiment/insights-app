@@ -1,4 +1,4 @@
-import { goto } from '@sapper/app'
+import { goto, stores } from '@sapper/app'
 import gql from 'graphql-tag'
 import { client } from '@/apollo'
 
@@ -24,7 +24,20 @@ export function setGDPR(privacyPolicyAccepted) {
         data: {
           updateTermsAndConditions: { privacyPolicyAccepted },
         },
-      }) => privacyPolicyAccepted && goto('/'),
+      }) => {
+        const { session } = stores()
+        session.update(ses => ({
+          ...ses,
+          currentUser: {
+            ...ses.currentUser,
+            privacyPolicyAccepted,
+          },
+        }))
+
+        if (privacyPolicyAccepted) {
+          goto('/')
+        }
+      },
     )
 }
 

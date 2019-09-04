@@ -75,7 +75,7 @@ main(class:isMobile)
       h1 Insights
       .right
         +if('!isMobile')
-          +newInsight().btn
+          +newInsight(rel='prefetch').btn
   
     +tabs.tabs(class:tabs_mobile='{isMobile}')
       +tab(href="/", class:active="{activePath === '/'}", prefetch) All Insights
