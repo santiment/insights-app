@@ -47,7 +47,7 @@
 <template lang="pug">
 +if('points')
   div(bind:clientWidth='{width}', bind:clientHeight='{height}', style='{changeColor}')
-    svg(viewBox='0 0 {width} {height}', style='height:{height}')
+    svg(viewBox='0 0 {width} {height}', style='height:{height}px')
       polyline({points})
       circle({cx},{cy})
 </template>
