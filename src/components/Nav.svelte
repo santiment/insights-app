@@ -48,8 +48,8 @@ header
 </template>
 
 <style lang="scss">
-  @import '@/variables.scss';
-  @import '@/mixins.scss';
+  @import '@/variables';
+  @import '@/mixins';
 
   .icon- {
     &question {
@@ -64,7 +64,7 @@ header
   header {
     border-bottom: 1px solid var(--porcelain);
     background: var(--white);
-    padding: 18px 0;
+    padding: 13px 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -72,7 +72,7 @@ header
   }
 
   .container {
-    max-width: 1045px;
+    max-width: $desktop-container-width;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;

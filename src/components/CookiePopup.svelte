@@ -34,14 +34,15 @@ include /ui/mixins
 
 <style lang="scss">
   @import '@/mixins';
+  @import '@/variables';
 
   .wrapper {
+    max-width: $desktop-container-width;
     position: fixed;
     z-index: 9999;
     bottom: 8px;
     left: 0;
     right: 0;
-    max-width: 1024px;
     margin: 0 auto;
     padding: 23px 24px 21px;
     border-radius: 10px;

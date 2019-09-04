@@ -52,8 +52,10 @@ ViewportObserver({options}, on:intersect='{toggleVisibility}', on:leaving='{togg
 
 <style lang="scss">
   @import '@/mixins';
+  @import '@/variables';
 
   .banner {
+    max-width: $desktop-container-width;
     height: 90px;
     box-shadow: 0px 10px 20px rgba(24, 27, 43, 0.1);
     position: fixed;
@@ -65,7 +67,6 @@ ViewportObserver({options}, on:intersect='{toggleVisibility}', on:leaving='{togg
     z-index: 10;
     padding: 3px 18px;
     display: flex;
-    max-width: 1024px;
   }
 
   img {
