@@ -23,9 +23,10 @@
 <script>
   import { stores } from '@sapper/app'
   import Notifications from '@/components/Notifications'
-  import LoadProgress from '@/components/LoadProgress.svelte'
+  import LoadProgress from '@/components/LoadProgress'
   import NavDesktop from '@/components/Nav'
   import NavMobile from '@/components/Mobile/Nav'
+  import CookiePopup from '@/components/CookiePopup/CookiePopup'
   import { getMobileComponent } from '@/utils/responsive'
 
   export let segment
@@ -66,6 +67,8 @@ mixin newInsight()
     |Write insight
 
 LoadProgress
+
+CookiePopup
 
 Nav({segment}, isLoggedIn='{$session.currentUser}')
 
