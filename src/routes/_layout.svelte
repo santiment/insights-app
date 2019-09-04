@@ -18,18 +18,15 @@
       checkGDPR(session.currentUser, this)
     }
   }
-
-  console.log(process.env.BACKEND_URL)
 </script>
 
 <script>
   import { stores } from '@sapper/app'
-  import { insightSorter } from '@/stores/insights'
   import Notifications from '@/components/Notifications'
-  import LoadProgress from '@/components/LoadProgress.svelte'
+  import LoadProgress from '@/components/LoadProgress'
   import NavDesktop from '@/components/Nav'
   import NavMobile from '@/components/Mobile/Nav'
-  import Select from '@/components/Select'
+  import CookiePopup from '@/components/CookiePopup'
   import { getMobileComponent } from '@/utils/responsive'
 
   export let segment
@@ -46,6 +43,7 @@
     'login',
     'logout',
     'gdpr',
+    'experience',
   ])
   $: activePath = getActivePath($page.path)
 
@@ -58,10 +56,6 @@
         return '/'
     }
   }
-
-  const options = ['Newest', 'Popular']
-  let selected = options[0]
-  $: $insightSorter = selected
 </script>
 
 <template lang="pug">
@@ -74,6 +68,8 @@ mixin newInsight()
 
 LoadProgress
 
+CookiePopup
+
 Nav({segment}, isLoggedIn='{$session.currentUser}')
 
 main(class:isMobile)
@@ -81,9 +77,8 @@ main(class:isMobile)
     .top
       h1 Insights
       .right
-        Select({options}, bind:selected)
         +if('!isMobile')
-          +newInsight().btn
+          +newInsight(rel='prefetch').btn
   
     +tabs.tabs(class:tabs_mobile='{isMobile}')
       +tab(href="/", class:active="{activePath === '/'}", prefetch) All Insights

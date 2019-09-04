@@ -1,92 +1,98 @@
 <script>
-  import { onMount } from "svelte";
-  import { client } from "@/apollo";
-  import { ALL_PROJECTS_SEARCH_QUERY } from "@/gql/projects";
+  import { onMount } from 'svelte'
+  import { client } from '@/apollo'
+  import { ALL_PROJECTS_SEARCH_QUERY } from '@/gql/projects'
 
-  let klass;
-  export { klass as class };
-  export let maxSuggestions = 5;
+  let klass
+  export { klass as class }
+  export let maxSuggestions = 5
 
-  let searchTerm = "";
-  let projects = [];
-  let isFocused = false;
-  let cursor = 0;
-  let suggestions = [];
-  let isSearching = false;
+  let searchTerm = ''
+  let projects = []
+  let isFocused = false
+  let cursor = 0
+  let suggestions = []
+  let isSearching = false
 
-  let debounceTimer;
+  let debounceTimer
   const debounce = (clb, time) => clbArgs => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => clb(clbArgs), time);
-  };
+    clearTimeout(debounceTimer)
+    debounceTimer = setTimeout(() => clb(clbArgs), time)
+  }
 
   const filterData = debounce(() => {
     suggestions = projects
       .filter(predicate(searchTerm))
       .sort(sorter)
-      .slice(0, maxSuggestions);
-    cursor = 0;
-    isSearching = false;
-    console.log("Filtering");
-  }, 300);
+      .slice(0, maxSuggestions)
+    cursor = 0
+    isSearching = false
+    console.log('Filtering')
+  }, 300)
 
   function sorter({ name: { length: a } }, { name: { length: b } }) {
-    return a - b;
+    return a - b
   }
 
   function predicate(searchTerm) {
-    const upperCaseSearchTerm = searchTerm.toUpperCase();
+    const upperCaseSearchTerm = searchTerm.toUpperCase()
     return ({ ticker, name }) =>
       name.toUpperCase().includes(upperCaseSearchTerm) ||
-      ticker.toUpperCase().includes(upperCaseSearchTerm);
+      ticker.toUpperCase().includes(upperCaseSearchTerm)
   }
 
   function onFocus() {
-    isFocused = true;
+    isFocused = true
   }
   function onBlur() {
-    isFocused = false;
+    isFocused = false
   }
 
   function onKeyDown(e) {
-    const { key, currentTarget } = e;
-    let newCursor = cursor;
-    let selectedSuggestion;
+    const { key, currentTarget } = e
+    let newCursor = cursor
+    let selectedSuggestion
 
     switch (key) {
-      case "ArrowUp":
-        e.preventDefault();
-        newCursor = cursor - 1;
-        break;
-      case "ArrowDown":
-        e.preventDefault();
-        newCursor = cursor + 1;
-        break;
-      case "Enter":
-        selectedSuggestion = suggestions[cursor];
-        currentTarget.blur();
-        console.log(selectedSuggestion);
+      case 'ArrowUp':
+        e.preventDefault()
+        newCursor = cursor - 1
+        break
+      case 'ArrowDown':
+        e.preventDefault()
+        newCursor = cursor + 1
+        break
+      case 'Enter':
+        selectedSuggestion = suggestions[cursor]
+        currentTarget.blur()
+        window.location.href = `https://app.santiment.net/projects/${
+          selectedSuggestion.slug
+        }`
       default:
-        return;
+        return
     }
 
     const maxCursor =
-      suggestions.length > maxSuggestions ? maxSuggestions : suggestions.length;
+      suggestions.length > maxSuggestions ? maxSuggestions : suggestions.length
 
-    newCursor = newCursor % maxCursor;
-    cursor = newCursor < 0 ? maxCursor - 1 : newCursor;
+    newCursor = newCursor % maxCursor
+    cursor = newCursor < 0 ? maxCursor - 1 : newCursor
+  }
+
+  function onMouseDown({ currentTarget: { href } }) {
+    window.location.href = href
   }
 
   onMount(() => {
     client
       .query({ query: ALL_PROJECTS_SEARCH_QUERY })
-      .then(({ data: { allProjects } }) => (projects = allProjects));
-  });
+      .then(({ data: { allProjects } }) => (projects = allProjects))
+  })
 
   $: {
     if (searchTerm) {
-      isSearching = true;
-      filterData(searchTerm);
+      isSearching = true
+      filterData(searchTerm)
     }
   }
 </script>
@@ -99,7 +105,10 @@ include /ui/mixins
   +if('isFocused && searchTerm !== ""')
     +panel.suggestions(variant='context')
       +each('suggestions as suggestion, index')
-        +button.suggestion(variant='ghost', fluid, class:cursored='{index === cursor}') {suggestion.name}
+        +button.suggestion(href='https://app.santiment.net/projects/{suggestion.slug}', variant='ghost', fluid, class:cursored='{index === cursor}', on:mousedown='{onMouseDown}')
+          img(src='{suggestion.logoUrl}', alt='Project logo', width='16', height='16')
+          |{suggestion.name}
+          span ({suggestion.ticker})
         +else()
           .suggestion.noresults
             +if('isSearching')
@@ -148,5 +157,16 @@ include /ui/mixins
       /* background-color: inherit !important; */
       color: var(--waterloo);
     }
+  }
+
+  span {
+    color: var(--waterloo);
+    margin-left: 3px;
+  }
+
+  img {
+    min-width: 16px;
+    min-height: 16px;
+    margin-right: 5px;
   }
 </style>
