@@ -65,7 +65,7 @@
       case "Enter":
         selectedSuggestion = suggestions[cursor];
         currentTarget.blur();
-        console.log(selectedSuggestion);
+        window.location.href = `https://app.santiment.net/projects/${selectedSuggestion.slug}`
       default:
         return;
     }
@@ -76,6 +76,10 @@
     newCursor = newCursor % maxCursor;
     cursor = newCursor < 0 ? maxCursor - 1 : newCursor;
   }
+
+ function onMouseDown({currentTarget: {href}}) {
+   window.location.href = href
+ }
 
   onMount(() => {
     client
@@ -99,7 +103,9 @@ include /ui/mixins
   +if('isFocused && searchTerm !== ""')
     +panel.suggestions(variant='context')
       +each('suggestions as suggestion, index')
-        +button.suggestion(variant='ghost', fluid, class:cursored='{index === cursor}') {suggestion.name}
+        +button.suggestion(href='https://app.santiment.net/projects/{suggestion.slug}', variant='ghost', fluid, class:cursored='{index === cursor}', on:mousedown='{onMouseDown}')
+          img(src='{suggestion.logoUrl}', alt='Project logo', width='16', height='16')
+          |{suggestion.name}
         +else()
           .suggestion.noresults
             +if('isSearching')
@@ -149,4 +155,10 @@ include /ui/mixins
       color: var(--waterloo);
     }
   }
+
+ img {
+   min-width: 16px;
+   min-height: 16px;
+   margin-right: 6px;
+ }
 </style>
