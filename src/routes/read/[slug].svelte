@@ -55,9 +55,10 @@
 <template lang="pug">
 
 svelte:head
-  title Community Insight: {title} - SANbase
-  meta(property='og:title', content='Community Insight: {title} - SANbase')
-  meta(name='description', property='og:description', content='{text.slice(0,140)}')
+  title {title} - Santiment Community Insights
+  meta(property='og:type', content='article')
+  meta(property='og:title', content='{title} - Santiment Community Insights')
+  meta(property='og:description', content='{text.slice(0,140)}')
 
 .insight(bind:clientHeight)
   div.title {title}

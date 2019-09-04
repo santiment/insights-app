@@ -63,9 +63,9 @@ ViewportObserver({options}, on:intersect='{toggleVisibility}', on:leaving='{togg
     margin: 0 auto;
     border-radius: 10px;
     z-index: 10;
-    max-width: 85%;
     padding: 3px 18px;
     display: flex;
+    max-width: 1024px;
   }
 
   img {

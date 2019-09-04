@@ -1,6 +1,11 @@
 <template lang="pug">
 include /ui/mixins
 
+svelte:head
+  title Experience Santiment Insights
+  meta(property='og:title', content='Experience Santiment Insights')
+  meta(property='og:description', content='By having a Sanbase account, you can see more data and insights about crypto projects')
+
 .page
   +panel.wrapper(variant='box')
     h2 Create an account to get your Sanbase experience.

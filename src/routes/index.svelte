@@ -5,10 +5,9 @@
 
   export async function preload(_, session, { apollo = client }) {
     await session.loadingUser
-    if(checkGDPR(session.currentUser, this)){
+    if (checkGDPR(session.currentUser, this)) {
       return
     }
-    
 
     const res = await apollo.query({
       query: ALL_INSIGHTS_BY_PAGE_QUERY,
@@ -77,8 +76,8 @@
 <template lang="pug">
 svelte:head
   title Insights
-  meta(property='og:title', content='Insight')
-  meta(name='description', property='og:description', content='All Commmunity Insights')
+  meta(property='og:title', content='Insights')
+  meta(property='og:description', content='All Commmunity Insights')
 
 .insights
   ViewportObserver({options}, on:intersect='{onIntersect}', observeWhile='{hasMore}')
