@@ -34,6 +34,8 @@
   import ShareBtn from '@/components/sharing/ShareBtn'
   import ProfileInfo from '@/components/ProfileInfo'
   import Loadable from '@/components/Loadable'
+  import Dialog from '@/ui/dialog/index'
+  import Modal from '@/components/Modal'
   import { getDateFormats } from '@/utils/dates'
 
   const { session } = stores()
@@ -50,9 +52,19 @@
 
   const shareLink =
     process.browser && window.location.origin + window.location.pathname
+
+  let enlargedImgSrc
+  function enlargeImg({ target }) {
+    if (target.tagName !== 'IMG') return
+    enlargedImgSrc = target.src
+  }
+  function closeModal() {
+    enlargedImgSrc = undefined
+  }
 </script>
 
 <template lang="pug">
+include /ui/mixins
 
 svelte:head
   title {title} - Santiment Community Insights
@@ -63,7 +75,7 @@ svelte:head
 .insight(bind:clientHeight)
   div.title {title}
   ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
-  div.text {@html text}
+  div.text(on:click='{enlargeImg}') {@html text}
 
 +if('$session.currentUser === null')
   Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
@@ -75,6 +87,11 @@ svelte:head
     .info__right
       LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
       ShareBtn.info__share(link='{shareLink}')
+
+Modal(bind:open='{enlargedImgSrc}')
+  .enlarger(slot='content')
+    +icon('close').enlarger__close(on:click='{closeModal}')
+    img.enlarger__img(src='{enlargedImgSrc}', alt='Modal pic')
 
 </template>
 
@@ -99,6 +116,7 @@ svelte:head
 
     :global(img) {
       max-width: 70%;
+      cursor: pointer;
     }
 
     :global(.md-inline-link) {
@@ -142,6 +160,29 @@ svelte:head
       @include responsive('phone-xs') {
         margin-left: 16px;
       }
+    }
+  }
+
+  .enlarger {
+    width: 85%;
+    margin: 5% auto 0;
+    position: relative;
+
+    &__close {
+      @include size(12px);
+      position: absolute;
+      top: 0;
+      right: -18px;
+      fill: #fff;
+      cursor: pointer;
+
+      &:hover {
+        fill: var(--jungle-green);
+      }
+    }
+
+    &__img {
+      width: 100%;
     }
   }
 </style>

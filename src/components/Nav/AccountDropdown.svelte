@@ -49,6 +49,13 @@ include /ui/mixins
 
   :global(.account-dd__profile) {
     padding: 15px 20px 12px 16px;
+    .status {
+      text-transform: lowercase;
+
+      &:first-letter {
+        text-transform: uppercase;
+      }
+    }
   }
 
   .category {
