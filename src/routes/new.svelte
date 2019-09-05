@@ -18,5 +18,9 @@
 </script>
 
 <template lang="pug">
+svelte:head
+  title Creating New Insight - Santiment Insights
+  meta(property='og:title', content='Creating New Insight - Santiment Insights')
+
 Editor
 </template>

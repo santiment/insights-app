@@ -95,6 +95,7 @@ Notifications
 
 <style lang="scss">
   @import '@/mixins';
+  @import '@/variables';
 
   .top {
     display: flex;
@@ -130,7 +131,7 @@ Notifications
   }
 
   main {
-    max-width: 1024px;
+    max-width: $desktop-container-width;
     margin: 0 auto;
     padding: 95px 0 25px;
     height: 100%;

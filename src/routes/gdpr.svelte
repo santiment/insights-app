@@ -14,6 +14,10 @@
 <template lang="pug">
 include /ui/mixins
 
+svelte:head
+  title GDPR - Santiment Insights
+  meta(property='og:title', content='GDPR - Santiment Insights')
+
 .page
   +panel.wrapper(variant='box')
     h2 Last step to get your SANBase experience.

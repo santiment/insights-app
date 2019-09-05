@@ -5,7 +5,7 @@
   import NavHelpDropdown from '@/components/Nav/HelpDropdown'
   import NavAccountDropdown from '@/components/Nav/AccountDropdown'
   import ProjectsSearch from '@/components/ProjectsSearch'
-  import { notifications } from '@/stores/notifications'
+  import UpgradeBtn from '@/components/UpgradeBtn'
 
   export let segment
 
@@ -26,8 +26,6 @@
 include /ui/mixins
 - var appPath = 'https://app.santiment.net'
 
-// button(on:click!="{() => notifications.add({title: 'test'})}") notific
-
 header
   .container
     nav.nav
@@ -36,6 +34,7 @@ header
       +button.link(href=appPath+'/sonar', variant="flat") Sonar
       +button.link.active(href="/", variant="flat", prefetch) Insights
       +button.link(href=appPath+'/labs', variant="flat", on:mouseenter="{onTriggerEnter}", id="labs-trigger") Labs
+      UpgradeBtn
 
     .right
       ProjectsSearch.search
@@ -48,8 +47,8 @@ header
 </template>
 
 <style lang="scss">
-  @import '@/variables.scss';
-  @import '@/mixins.scss';
+  @import '@/variables';
+  @import '@/mixins';
 
   .icon- {
     &question {
@@ -64,7 +63,7 @@ header
   header {
     border-bottom: 1px solid var(--porcelain);
     background: var(--white);
-    padding: 18px 0;
+    padding: 13px 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -72,7 +71,7 @@ header
   }
 
   .container {
-    max-width: 1045px;
+    max-width: $desktop-container-width;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;

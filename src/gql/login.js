@@ -39,6 +39,16 @@ export const ETH_LOGIN_QUERY = gql`
           address
           sanBalance
         }
+        subscriptions {
+          id
+          plan {
+            id
+            name
+            product {
+              id
+            }
+          }
+        }
       }
     }
   }

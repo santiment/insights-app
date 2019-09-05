@@ -35,6 +35,9 @@
 </script>
 
 <template lang="pug">
+svelte:head
+  title Santiment User Insights
+  meta(property='og:title', content='Santiment User Insights')
 
 .insights
   Feed(items="{insights}", dateKey="createdAt")
