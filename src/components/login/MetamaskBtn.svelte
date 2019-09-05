@@ -3,12 +3,14 @@
   import { detectMetamask } from '@/utils/web3'
   import { handleEthLogin } from '@/utils/login'
 
-  let klass
+  let klass = ''
   export { klass as class }
 
   const hasMetamask = detectMetamask()
 
+  let loading = false
   function login(ethLogin) {
+    loading = true
     handleEthLogin().then(ethLogin => {
       const { session } = stores()
       session.update(ses => ({ ...ses, currentUser: ethLogin.user }))
@@ -20,7 +22,7 @@
 include /ui/mixins
 
 +if('hasMetamask')
-  +button.btn(on:click='{login}', fluid)
+  +button.btn(on:click='{login}', fluid, class:loading)
     img(src='metamask-inverse.svg', alt='Metamask Icon')
     |Metamask
 
@@ -39,6 +41,7 @@ include /ui/mixins
   @import '@/mixins';
 
   .btn {
+    --loading-dot-color: var(--white);
     background: #f6851b;
     fill: #fff;
     color: #fff;
@@ -59,7 +62,7 @@ include /ui/mixins
   }
 
   img {
-    margin-right: 10px;
+    margin: -2px 2px 0 -8px;
   }
 
   .title {

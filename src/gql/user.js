@@ -14,11 +14,15 @@ export const CURRENT_USER_QUERY = gql`
         address
         sanBalance
       }
-      settings {
-        hasTelegramConnected
-        newsletterSubscription
-        signalNotifyEmail
-        signalNotifyTelegram
+      subscriptions {
+        id
+        plan {
+          id
+          name
+          product {
+            id
+          }
+        }
       }
     }
   }

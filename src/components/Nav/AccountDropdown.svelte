@@ -1,12 +1,13 @@
 <script>
+  import { stores } from '@sapper/app'
   import Toggle from '@/components/Toggle'
   import ProfileInfo from '@/components/ProfileInfo'
   import { ui } from '@/stores/ui'
-  import { stores } from '@sapper/app'
+  import { getCurrentSanbaseSubscription } from '@/utils/plans'
 
   const { session } = stores()
 
-  let username, id
+  let username, id, plan
 
   let currentUser
   $: currentUser = $session.currentUser
@@ -14,6 +15,8 @@
   $: if (currentUser) {
     username = currentUser.username || currentUser.email
     id = currentUser.id
+    const sub = getCurrentSanbaseSubscription(currentUser)
+    plan = sub ? sub.plan.name : 'Free'
   }
 </script>
 
@@ -23,7 +26,7 @@ include /ui/mixins
 
 .wrapper
   +if('currentUser')
-    ProfileInfo(name="{username}", id="{id}" status="Free plan", classes="{{wrapper: 'account-dd__profile'}}")
+    ProfileInfo(name="{username}", id="{id}" status="{plan} plan", classes="{{wrapper: 'account-dd__profile'}}")
     hr.divider
   .category.category_toggles
     +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Dark Mode
