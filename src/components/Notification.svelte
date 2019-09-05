@@ -60,6 +60,11 @@ include /ui/mixins
     transition-delay: 200ms;
     left: 0;
     width: 200px;
+
+    @include responsive('phone', 'phone-xs') {
+      width: 100%;
+      transform: translateY(calc(var(--y-offset) * -1));
+    }
   }
 
   svg {
