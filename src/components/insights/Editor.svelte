@@ -44,6 +44,7 @@
         },
       })
       .then(setUpdateTime)
+      .catch(console.warn)
   }
 
   function setUpdateTime({ data: { updatedDraft } }) {
