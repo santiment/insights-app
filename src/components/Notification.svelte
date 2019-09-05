@@ -14,14 +14,6 @@
   }
 
   let timer
-  onMount(() => {
-    timer = setTimeout(destroy, dismissAfter)
-  })
-
-  onDestroy(() => {
-    console.log('Destroying notification ->', notification)
-  })
-
   let yOffset
   $: yOffset = `calc(-${i}00% - ${i}0px)`
 
@@ -37,14 +29,22 @@
       },
     }
   }
+
+  onMount(() => {
+    timer = setTimeout(destroy, dismissAfter)
+  })
+  onDestroy(() => {
+    clearTimeout(timer)
+    console.log('Destroying notification ->', notification)
+  })
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
 +panel().not(on:click!="{() => notifications.remove(notification)}", variant='context', style='--y-offset: {yOffset}',transition:notify )
-  +icon('{type}').icon
-  |[{id}] {title}
+  +icon('{type}')(class='{type}')
+  |{title}
 
 </template>
 
@@ -52,6 +52,7 @@ include /ui/mixins
   @import '@/mixins';
 
   .not {
+    font-weight: bold;
     padding: 15px 20px;
     position: absolute;
     transform: translateY(var(--y-offset));
@@ -61,7 +62,21 @@ include /ui/mixins
     width: 200px;
   }
 
-  .icon {
-    @include size(15px);
+  svg {
+    @include size(15.5px);
+    margin: -3px 16px 0 0;
+  }
+
+  .error {
+    fill: var(--persimmon);
+  }
+  .info {
+    fill: var(--dodger-blue);
+  }
+  .success {
+    fill: var(--lima);
+  }
+  .warning {
+    fill: var(--texas-rose);
   }
 </style>
