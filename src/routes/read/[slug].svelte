@@ -99,7 +99,8 @@ Modal(bind:open='{enlargedImgSrc}')
   @import '@/mixins';
 
   .title {
-    @include text('h2', 'm') margin: 14px 0 25px;
+    @include text('h2', 'm');
+    margin: 0 0 25px;
   }
 
   .text {

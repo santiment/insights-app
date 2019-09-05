@@ -1,0 +1,12 @@
+diff --git a/node_modules/@santiment-network/ui/mixins.scss b/node_modules/@santiment-network/ui/mixins.scss
+index bcd6395..a4b1f31 100644
+--- a/node_modules/@santiment-network/ui/mixins.scss
++++ b/node_modules/@santiment-network/ui/mixins.scss
+@@ -87,7 +87,6 @@
+ }
+ 
+ @mixin text($type, $mod: null) {
+-  font-family: Rubik, sans-serif;
+   font-weight: 400;
+ 
+   @if $type == 'h1' {
