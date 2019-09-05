@@ -80,7 +80,7 @@ svelte:head
 +if('$session.currentUser === null')
   Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
 
-.bottom
+.bottom.bot-scroll
   Tags({tags})
   .info
     ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes='{classes}', withPic)

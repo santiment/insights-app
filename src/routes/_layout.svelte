@@ -138,9 +138,11 @@ Notifications
   }
 
   .isMobile {
-    padding: 16px 16px 76px;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+    padding: 16px 16px;
+
+    :global(.bot-scroll) {
+      padding-bottom: 76px;
+    }
   }
 
   .tabs {

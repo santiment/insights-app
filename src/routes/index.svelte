@@ -79,7 +79,7 @@ svelte:head
   meta(property='og:title', content='Insights')
   meta(property='og:description', content='All Commmunity Insights')
 
-.insights
+.insights.bot-scroll
   ViewportObserver({options}, on:intersect='{onIntersect}', observeWhile='{hasMore}')
     Feed(items="{insights}", dateKey="publishedAt")
       div.insights__item(slot="item", let:item="{insight}")

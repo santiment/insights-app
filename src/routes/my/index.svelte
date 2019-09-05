@@ -49,7 +49,7 @@ svelte:head
   meta(property='og:title', content='My Insights')
   meta(name='description', property='og:description', content='My Commmunity Insights')
 
-.insights
+.insights.bot-scroll
   Feed(items="{insights.sort(updateDateSorter)}", dateKey="updatedAt")
     div.insights__item(slot="item", let:item="{insight}")
       InsightCard({insight})

@@ -45,7 +45,7 @@
 
 <template lang="pug">
 
-.insights
+.insights.bot-scroll
   +each('sortedInsights as insight (insight.id)')
     DraftCard({insight})
 

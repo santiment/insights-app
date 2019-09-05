@@ -73,12 +73,13 @@ nav
     display: flex;
     align-items: flex-end;
     justify-content: space-evenly;
-    padding: 9px 0px 4px;
+    padding: 9px 0px 6px;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     height: 60px;
+    color: var(--casper);
     background: var(--white);
     border-top: 1px solid var(--porcelain);
     border-top-left-radius: 10px;
