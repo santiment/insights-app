@@ -164,7 +164,7 @@ Modal(bind:open='{enlargedImgSrc}')
   }
 
   .enlarger {
-    width: 85%;
+    width: 84%;
     margin: 5% auto 0;
     position: relative;
 
@@ -172,7 +172,7 @@ Modal(bind:open='{enlargedImgSrc}')
       @include size(12px);
       position: absolute;
       top: 0;
-      right: -18px;
+      right: -20px;
       fill: #fff;
       cursor: pointer;
 
