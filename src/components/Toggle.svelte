@@ -1,9 +1,11 @@
 <script>
+  let klass = ''
+  export { klass as class }
   export let active
 </script>
 
 <template lang="pug">
-.toggle(on:click, class:active)
+.toggle(on:click, class:active, class='{klass}')
   img(src="/toggle.svg", alt="toggle")
 </template>
 

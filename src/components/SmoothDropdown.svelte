@@ -88,6 +88,7 @@ svelte:window(bind:innerWidth)
     background: var(--white);
     animation-timing-function: ease !important;
     transition: left 200ms, top 200ms, height 200ms, width 200ms, opacity 150ms;
+    box-sizing: content-box;
 
     &_first {
       transition: none;
