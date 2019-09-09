@@ -13,11 +13,14 @@
   let isNotMobile = !isMobile()
 
   const options = {
-    rootMargin: '-50px',
+    rootMargin: '1000px 0px -50px',
   }
 
-  function toggleVisibility() {
-    isShown = !isShown
+  function hideBanner() {
+    isShown = false
+  }
+  function showBanner() {
+    isShown = true
   }
 
   function onSubmit({ currentTarget }) {
@@ -35,7 +38,7 @@
 <template lang="pug">
 include /ui/mixins
 
-ViewportObserver({options}, on:intersect='{toggleVisibility}', on:leaving='{toggleVisibility}', top)
+ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner}', top)
   OverviewBanner.banner-overview
 
 +if('isNotMobile && isShown')

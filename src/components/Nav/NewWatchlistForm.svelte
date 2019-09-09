@@ -105,7 +105,7 @@ form(on:submit|preventDefault='{onSubmit}')
   }
 
   :global(.watchlists-toggle) {
-    vertical-align: middle;
+    vertical-align: top;
     margin-right: 12px;
   }
 

@@ -73,13 +73,13 @@ svelte:head
   meta(property='og:description', content='{text.slice(0,140)}')
 
 
-+if('$session.currentUser === null')
-  Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
-
 .insight(bind:clientHeight)
   div.title {title}
   ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
   div.text(on:click='{enlargeImg}') {@html text}
+
+  +if('$session.currentUser === null')
+    Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
 
   .bottom.bot-scroll
     Tags({tags})

@@ -29,7 +29,7 @@ include /ui/mixins
     ProfileInfo(name="{username}", id="{id}" status="{plan} plan", classes="{{wrapper: 'account-dd__profile'}}")
     hr.divider
   .category.category_toggles
-    +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Dark Mode
+    +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Night mode
       Toggle(active="{$ui.darkMode}")
     +button.item.item_toggle(variant='ghost', on:click='{ui.toggleBetaMode}', fluid) Beta Mode
       Toggle(active="{$ui.betaMode}")
