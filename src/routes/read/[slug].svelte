@@ -145,6 +145,7 @@ Modal(bind:open='{enlargedImgSrc}')
   }
 
   .info {
+    margin-top: 16px;
     border-top: 1px solid var(--porcelain);
     padding: 20px 0;
     display: flex;
