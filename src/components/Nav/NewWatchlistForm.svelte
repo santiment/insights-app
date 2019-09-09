@@ -1,9 +1,9 @@
 <script>
   import Toggle from '@/components/Toggle'
-  import { CREATE_USER_WATCHLIST } from '@/gql/watchlists'
+  import { ALL_USER_WATCHLISTS, CREATE_USER_WATCHLIST } from '@/gql/watchlists'
   import { client } from '@/apollo'
 
-  export let watchlists = []
+  export let watchlists
   export let open
 
   let isSecret = false
@@ -38,7 +38,20 @@
         },
       })
       .then(({ data: { createWatchlist: { id } } }) => {
-        watchlists = [...watchlists, { id, isPublic, name: value }]
+        watchlists = [
+          ...watchlists,
+          { id, isPublic, name: value, __typename: 'UserList' },
+        ]
+
+        const data = client.readQuery({
+          query: ALL_USER_WATCHLISTS,
+        })
+        data.watchlists = watchlists
+        client.writeQuery({
+          query: ALL_USER_WATCHLISTS,
+          data,
+        })
+
         value = ''
         loading = false
         open = false
@@ -54,7 +67,7 @@ form(on:submit|preventDefault='{onSubmit}')
     label(for='watchlist')
       |Name 
       span ({value.length}/25)
-    +input(name='watchlist', type='text', placeholder='For example, Favorites', maxlength='25', required, class:error, bind:value, readonly='{loading}')
+    +input(name='watchlist', type='text', placeholder='For example, Favorites', maxlength='25', required, class:error, bind:value)
     +if('error')
       .error-msg {error}
   .row.row_actions
@@ -62,7 +75,7 @@ form(on:submit|preventDefault='{onSubmit}')
       Toggle.watchlists-toggle(active='{isSecret}', on:click='{togglePublicity}')
       |Secret
     .right
-      +button()(border, on:click='{closeDialog}') Cancel
+      +button()(type='button', border, on:click='{closeDialog}') Cancel
       +button.create(type='submit', variant='fill', accent='jungle-green', class:disabled='{error}', class:loading) Create
 </template>
 
