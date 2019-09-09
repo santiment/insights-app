@@ -43,6 +43,7 @@
 
   export let id, text, title, tags, user, votes, publishedAt, createdAt, votedAt
 
+  let liked = !!votedAt
   let clientHeight
 
   const { MMM, D, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
@@ -79,15 +80,18 @@ svelte:head
   div.text(on:click='{enlargeImg}') {@html text}
 
   +if('$session.currentUser === null')
-    Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
+    Loadable(load="{loadBanner}")
 
   .bottom.bot-scroll
     Tags({tags})
     .info
       ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes='{classes}', withPic)
       .info__right
-        LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+        LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
         ShareBtn.info__share(link='{shareLink}')
+      .info__fixed
+        LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
+        ShareBtn.fixed-share(link='{shareLink}')
 
 Modal(bind:open='{enlargedImgSrc}')
   .enlarger(slot='content')
@@ -161,6 +165,18 @@ Modal(bind:open='{enlargedImgSrc}')
       display: flex;
     }
 
+    &__fixed {
+      display: none;
+      @include responsive('desktop', 'laptop') {
+        position: fixed;
+        top: 200px;
+        flex-direction: column;
+        display: flex;
+        align-items: start;
+        left: calc((50% - 360px) / 2);
+      }
+    }
+
     :global(&__share) {
       margin-left: 30px;
       fill: var(--waterloo);
@@ -191,5 +207,9 @@ Modal(bind:open='{enlargedImgSrc}')
     &__img {
       width: 100%;
     }
+  }
+
+  :global(.fixed-share) {
+    margin-top: 16px;
   }
 </style>

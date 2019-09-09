@@ -4,8 +4,6 @@
   import { loginEmail } from '@/logic/login'
   import { isMobile } from '@/utils/responsive'
 
-  export let insightHeight
-
   let banner
   let isShown = false
   let loading = false
