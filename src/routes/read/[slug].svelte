@@ -72,21 +72,22 @@ svelte:head
   meta(property='og:title', content='{title} - Santiment Community Insights')
   meta(property='og:description', content='{text.slice(0,140)}')
 
+
++if('$session.currentUser === null')
+  Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
+
 .insight(bind:clientHeight)
   div.title {title}
   ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
   div.text(on:click='{enlargeImg}') {@html text}
 
-+if('$session.currentUser === null')
-  Loadable(load="{loadBanner}", insightHeight='{clientHeight}')
-
-.bottom.bot-scroll
-  Tags({tags})
-  .info
-    ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes='{classes}', withPic)
-    .info__right
-      LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
-      ShareBtn.info__share(link='{shareLink}')
+  .bottom.bot-scroll
+    Tags({tags})
+    .info
+      ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes='{classes}', withPic)
+      .info__right
+        LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+        ShareBtn.info__share(link='{shareLink}')
 
 Modal(bind:open='{enlargedImgSrc}')
   .enlarger(slot='content')
@@ -97,6 +98,11 @@ Modal(bind:open='{enlargedImgSrc}')
 
 <style lang="scss">
   @import '@/mixins';
+
+  .insight {
+    max-width: 720px;
+    margin: 0 auto;
+  }
 
   .title {
     @include text('h2', 'm');
@@ -139,7 +145,6 @@ Modal(bind:open='{enlargedImgSrc}')
   }
 
   .info {
-    margin-top: 16px;
     border-top: 1px solid var(--porcelain);
     padding: 20px 0;
     display: flex;

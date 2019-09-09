@@ -63,11 +63,15 @@ header
   header {
     border-bottom: 1px solid var(--porcelain);
     background: var(--white);
-    padding: 13px 0;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
+    padding: 13px 15px;
+
+    @include responsive('desktop') {
+      padding: 13px 0;
+    }
   }
 
   .container {
@@ -81,8 +85,8 @@ header
     font-weight: bold;
     font-size: 22px;
     line-height: 30px;
-    margin-right: 72px;
     color: var(--mirage) !important;
+    margin-right: 46px;
   }
 
   .nav {

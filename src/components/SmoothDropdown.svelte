@@ -45,7 +45,6 @@
   function computeStyles() {
     const {
       offsetTop,
-      offsetLeft,
       offsetHeight: triggerHeight,
       offsetWidth: triggerWidth,
     } = trigger
@@ -53,14 +52,16 @@
     const halfDropdown = clientWidth / 2
     const halfTrigger = triggerWidth / 2
     const centered = halfDropdown - halfTrigger
-    const overflowX = innerWidth - (left + halfTrigger + halfDropdown)
+    const leftPosition = left - centered
 
     let viewportAlign = 0
-    if (overflowX < 0) {
-      viewportAlign = overflowX
+    if (leftPosition < 0) {
+      viewportAlign = leftPosition
+    } else if (leftPosition + clientWidth > innerWidth) {
+      viewportAlign = leftPosition + clientWidth - innerWidth
     }
 
-    return `left: ${offsetLeft - centered + viewportAlign}px; top: ${offsetY +
+    return `left: ${leftPosition - viewportAlign}px; top: ${offsetY +
       offsetTop +
       triggerHeight}px; height: ${clientHeight}px; width: ${clientWidth}px`
   }

@@ -133,8 +133,12 @@ Notifications
   main {
     max-width: $desktop-container-width;
     margin: 0 auto;
-    padding: 95px 0 25px;
     height: 100%;
+    padding: 95px 15px 25px;
+
+    @include responsive('desktop') {
+      padding: 95px 0 25px;
+    }
   }
 
   .isMobile {
