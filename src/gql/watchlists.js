@@ -9,3 +9,11 @@ export const ALL_USER_WATCHLISTS = gql`
     }
   }
 `
+
+export const CREATE_USER_WATCHLIST = gql`
+  mutation createWatchlist($isPublic: Boolean, $name: String!) {
+    createWatchlist(isPublic: $isPublic, name: $name) {
+      id
+    }
+  }
+`

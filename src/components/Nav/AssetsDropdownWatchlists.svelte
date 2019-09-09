@@ -1,10 +1,13 @@
 <script>
   import { onMount } from 'svelte'
   import { stores } from '@sapper/app'
+  import Dialog from '@/ui/dialog/index'
+  import NewWatchlistForm from './NewWatchlistForm.svelte'
   import { client } from '@/apollo'
   import { ALL_USER_WATCHLISTS } from '@/gql/watchlists'
 
   let watchlists = []
+  let open = false
 
   const { session } = stores()
 
@@ -36,9 +39,13 @@ include /ui/mixins
         +button.watchlist(href='{getWatchlistLink(watchlist)}', variant='ghost', fluid) {watchlist.name}
             +icon('{watchlist.isPublic ? "eye-small" : "lock-small"}').watchlist__icon
 
-  +button.new(border, fluid)
-    +icon('plus-round').new__icon
-    |New Watchlist
+  Dialog(bind:open, title='New watchlist')
+    +button.new(slot='trigger', border, fluid)
+      +icon('plus-round').new__icon
+      |New Watchlist
+    .form(slot='content')
+      NewWatchlistForm(bind:watchlists, bind:open)
+
   +else()
     .anon
       h3.expl Easy assets tracking
