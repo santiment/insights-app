@@ -95,6 +95,7 @@ include /ui/mixins
 svelte:head
   title Insights
   meta(property='og:title', content='Insights')
+  meta(name='description', content='All Community Insights')
   meta(property='og:description', content='All Commmunity Insights')
 
 .insights.bot-scroll

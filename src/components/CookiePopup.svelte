@@ -27,7 +27,7 @@ include /ui/mixins
     h2 We are using cookies
     .bottom
       p This website uses the following types of cookies: strictly necessary, functional, performance and marketing cookies. By using this website, you accept our 
-        a(href='https://santiment.net/terms-conditions/', target='_blank') Terms & Conditions
+        a(href='https://santiment.net/terms-conditions/', rel='noopener noreferrer', target='_blank') Terms & Conditions
       +button(variant='fill', accent='jungle-green', on:click='{onClick}') Accept
 
 </template>
