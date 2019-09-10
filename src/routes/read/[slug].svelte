@@ -33,7 +33,6 @@
   import LikeBtn from '@/components/LikeBtn'
   import ShareBtn from '@/components/sharing/ShareBtn'
   import ProfileInfo from '@/components/ProfileInfo'
-  import FollowBtn from '@/components/FollowBtn'
   import Loadable from '@/components/Loadable'
   import Dialog from '@/ui/dialog/index'
   import Modal from '@/components/Modal'
@@ -52,6 +51,7 @@
 
   const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
   const loadBanner = () => import('@/components/Banner/FollowBanner')
+  const loadFollowBtn = () => import('@/components/FollowBtn')
 
   const shareLink =
     process.browser && window.location.origin + window.location.pathname
@@ -79,8 +79,9 @@ svelte:head
 .insight(bind:clientHeight)
   h1.title {title}
   .insight__info
-    ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
-    FollowBtn(targetId='{user.id}')
+    ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes!='{{wrapper: "insight__profile"}}', withPic)
+    +if('$session.currentUser')
+      Loadable(load="{loadFollowBtn}", targetId='{user.id}')
   div.text(on:click='{enlargeImg}') {@html text}
 
   +if('$session.currentUser === null')
@@ -93,7 +94,8 @@ svelte:head
     .info
       .info__block.info__block_left
         ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes='{classes}', withPic)
-        FollowBtn(targetId='{user.id}')
+        +if('$session.currentUser')
+          Loadable(load="{loadFollowBtn}", targetId='{user.id}')
       .info__block
         LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
         ShareBtn.info__share(link='{shareLink}')
@@ -114,6 +116,10 @@ Modal(bind:open='{enlargedImgSrc}')
   .insight {
     max-width: 720px;
     margin: 0 auto;
+
+    :global(&__profile) {
+      max-width: 80%;
+    }
 
     &__info {
       display: flex;
@@ -172,6 +178,10 @@ Modal(bind:open='{enlargedImgSrc}')
 
     :global(&__profile) {
       max-width: 65%;
+
+      @include responsive('phone', 'phone-xs') {
+        max-width: 100%;
+      }
     }
 
     &__block {
@@ -179,11 +189,16 @@ Modal(bind:open='{enlargedImgSrc}')
 
       &_left {
         align-items: flex-start;
+
+        @include responsive('phone', 'phone-xs') {
+          max-width: 50%;
+        }
       }
     }
 
     &__fixed {
       display: none;
+
       @include responsive('desktop', 'laptop') {
         position: fixed;
         top: 200px;

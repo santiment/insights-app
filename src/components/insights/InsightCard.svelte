@@ -10,7 +10,7 @@
 <template lang="pug">
 include /ui/mixins
 
-+panel.wrapper(class="{klass}")
++panel.wrapper(variant='box', class="{klass}")
   InsightCardInternals({insight})
 </template>
 

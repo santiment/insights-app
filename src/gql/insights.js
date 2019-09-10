@@ -53,10 +53,19 @@ export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
 export const FEATURED_INSIGHTS_QUERY = gql`
   query featuredInsights {
     insights: featuredInsights {
-      ...insightCommon
+      id
+      title
+      publishedAt
+      votedAt
+      votes {
+        totalVotes
+      }
+      user {
+        id
+        username
+      }
     }
   }
-  ${insightCommon}
 `
 
 export const INSIGHT_BY_ID_QUERY = gql`

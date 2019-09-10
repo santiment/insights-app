@@ -83,7 +83,7 @@
 include /ui/mixins
 
 ViewportObserver(top, {options}, on:intersect='{onIntersect}', {observeWhile})
-  +panel.wrapper(class="{klass}", bind:this="{graph}")
+  +panel.wrapper(variant='box', class="{klass}", bind:this="{graph}")
     .left
       InsightCardInternals({insight})
     +if('data')

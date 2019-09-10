@@ -20,6 +20,8 @@
 </template>
 
 <style lang="scss">
+  @import '@/mixins';
+
   .wrapper {
     display: flex;
     align-items: center;
@@ -57,6 +59,10 @@
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
+
+    @include responsive('phone', 'phone-xs') {
+      min-width: auto;
+    }
   }
 
   .status {
