@@ -189,6 +189,7 @@ Modal(bind:open='{enlargedImgSrc}')
 
       &_left {
         align-items: flex-start;
+        flex: 1;
 
         @include responsive('phone', 'phone-xs') {
           max-width: 50%;

@@ -54,15 +54,10 @@
   .name {
     line-height: 15px;
     height: 15px;
-    min-width: 180px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
-
-    @include responsive('phone', 'phone-xs') {
-      min-width: auto;
-    }
   }
 
   .status {
@@ -70,5 +65,6 @@
     line-height: 1;
     font-size: 12px;
     color: var(--waterloo);
+    white-space: nowrap;
   }
 </style>
