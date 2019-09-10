@@ -3,6 +3,7 @@
 
   export let items
   export let dateKey
+  export let preIndex = undefined
   const feedDates = new Map()
 
   let lastDate
@@ -26,7 +27,9 @@
 </script>
 
 <template lang="pug">
-+each('feed as item (item.id)')
++each('feed as item, index (item.id)')
+  +if('index === preIndex')
+    slot(name='preIndex')
   +if('feedDates.get(item)')
     h4.date {feedDates.get(item)}
   slot(name='item', item='{item}')

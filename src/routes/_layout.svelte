@@ -142,7 +142,7 @@ Notifications
   }
 
   .isMobile {
-    padding: 16px 16px;
+    padding: 16px;
 
     :global(.bot-scroll) {
       padding-bottom: 76px;

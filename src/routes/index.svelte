@@ -34,6 +34,7 @@
 
 <script>
   import { onMount } from 'svelte'
+  import { stores } from '@sapper/app'
   import Feed from '@/components/Feed'
   import ViewportObserver from '@/components/ViewportObserver'
   import InsightCardDesktop from '@/components/insights/InsightCardWithMarketcap'
@@ -41,6 +42,8 @@
   import InsightSmallCard from '@/components/insights/SmallCard'
   import { publishDateSorter } from '@/utils/insights'
   import { getMobileComponent } from '@/utils/responsive'
+
+  const { session } = stores()
 
   const InsightCard = getMobileComponent(InsightCardMobile, InsightCardDesktop)
   const options = {
@@ -97,21 +100,81 @@ svelte:head
 .insights.bot-scroll
   .insights__all
     ViewportObserver({options}, on:intersect='{onIntersect}', observeWhile='{hasMore}')
-      Feed(items="{insights}", dateKey="publishedAt")
+      Feed(items="{insights}", dateKey="publishedAt", preIndex='{4}')
         div.insights__item(slot="item", let:item="{insight}")
           InsightCard({insight})
-  .insights__featured
-    h2 Featured insights
-    +panel(variant='box').featured
-      .featured__scroll
-        +each('featured as insight')
-          .featured__item
-            InsightSmallCard({insight})
+        div(slot='preIndex')
+          +if('$session.isMobile')
+            .mobile-featured
+              h2.mobile-featured__title Featured insights
+              .mobile-featured__list
+                .mobile-featured__visible
+                  .mobile-featured__scroll
+                    +each('featured as insight')
+                      +panel(variant='box').mobile-featured__item
+                        InsightSmallCard({insight})
+            
+  +if('!$session.isMobile')
+    .insights__featured
+      h2 Featured insights
+      +panel(variant='box').featured
+        .featured__scroll
+          +each('featured as insight')
+            .featured__item
+              InsightSmallCard({insight})
 
 </template>
 
 <style lang="scss">
   @import '@/mixins';
+
+  $mob-card-height: 139;
+
+  .mobile-featured {
+    display: flex;
+    flex-direction: column;
+    margin: 0 -16px 24px;
+
+    background-color: var(--athens);
+    padding: 16px 0 0;
+
+    &__title {
+      margin: 0 16px 12px;
+    }
+
+    &__list {
+      height: #{$mob-card-height + 16}px;
+      overflow: hidden;
+    }
+
+    &__visible {
+      height: #{$mob-card-height + 20}px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      position: relative;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+
+    &__scroll {
+      display: flex;
+      position: absolute;
+      height: #{$mob-card-height}px;
+    }
+
+    &__item {
+      margin: 0 8px 0 0;
+      padding: 18px 24px;
+      width: 270px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      &:first-child {
+        margin-left: 16px;
+      }
+    }
+  }
 
   .insights {
     display: flex;
