@@ -33,6 +33,7 @@
   import LikeBtn from '@/components/LikeBtn'
   import ShareBtn from '@/components/sharing/ShareBtn'
   import ProfileInfo from '@/components/ProfileInfo'
+  import FollowBtn from '@/components/FollowBtn'
   import Loadable from '@/components/Loadable'
   import Dialog from '@/ui/dialog/index'
   import Modal from '@/components/Modal'
@@ -49,7 +50,8 @@
   const { MMM, D, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
   const insightDate = `${MMM} ${D}, ${YYYY}`
 
-  const loadBanner = () => import('@/components/Banner/BannerInsight')
+  const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
+  const loadBanner = () => import('@/components/Banner/FollowBanner')
 
   const shareLink =
     process.browser && window.location.origin + window.location.pathname
@@ -75,18 +77,24 @@ svelte:head
 
 
 .insight(bind:clientHeight)
-  div.title {title}
-  ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
+  h1.title {title}
+  .insight__info
+    ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", withPic)
+    FollowBtn(targetId='{user.id}')
   div.text(on:click='{enlargeImg}') {@html text}
 
   +if('$session.currentUser === null')
-    Loadable(load="{loadBanner}")
+    Loadable(load="{loadAnonBanner}")
+    +else()
+      Loadable(load="{loadBanner}", targetId='{user.id}')
 
   .bottom.bot-scroll
     Tags({tags})
     .info
-      ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes='{classes}', withPic)
-      .info__right
+      .info__block.info__block_left
+        ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes='{classes}', withPic)
+        FollowBtn(targetId='{user.id}')
+      .info__block
         LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
         ShareBtn.info__share(link='{shareLink}')
       .info__fixed
@@ -106,6 +114,11 @@ Modal(bind:open='{enlargedImgSrc}')
   .insight {
     max-width: 720px;
     margin: 0 auto;
+
+    &__info {
+      display: flex;
+      align-items: flex-start;
+    }
   }
 
   .title {
@@ -161,8 +174,12 @@ Modal(bind:open='{enlargedImgSrc}')
       max-width: 65%;
     }
 
-    &__right {
+    &__block {
       display: flex;
+
+      &_left {
+        align-items: flex-start;
+      }
     }
 
     &__fixed {

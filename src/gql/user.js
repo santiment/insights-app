@@ -10,6 +10,9 @@ export const CURRENT_USER_QUERY = gql`
       marketingAccepted
       consent_id
       sanBalance
+      following {
+        id: userId
+      }
       ethAccounts {
         address
         sanBalance
@@ -24,6 +27,22 @@ export const CURRENT_USER_QUERY = gql`
           }
         }
       }
+    }
+  }
+`
+
+export const FOLLOW_USER_MUTATION = gql`
+  mutation follow($id: ID!) {
+    follow(userId: $id) {
+      id
+    }
+  }
+`
+
+export const UNFOLLOW_USER_MUTATION = gql`
+  mutation unfollow($id: ID!) {
+    unfollow(userId: $id) {
+      id
     }
   }
 `
