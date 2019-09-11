@@ -1,13 +1,12 @@
 <script>
   import OverviewBanner from './OverviewBanner.svelte'
   import ViewportObserver from '@/components/ViewportObserver'
-  import { loginEmail } from '@/logic/login'
+  import { WEEKLY_SUBSCRIPTION_FLAG, loginEmail } from '@/logic/login'
   import { isMobile } from '@/utils/responsive'
 
   let banner
   let isShown = false
   let loading = false
-  let success
   let isNotMobile = !isMobile()
 
   const options = {
@@ -28,8 +27,8 @@
   }
 
   function isSuccess({ data: { emailLogin } }) {
-    success = emailLogin.success
     loading = false
+    window.localStorage.setItem(WEEKLY_SUBSCRIPTION_FLAG, '+')
   }
 </script>
 
@@ -37,11 +36,10 @@
 include /ui/mixins
 
 ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner}', top)
-  OverviewBanner.banner-overview
+  OverviewBanner.banner-overview({loading}, {onSubmit}, {isSuccess})
 
 +if('isNotMobile && isShown')
   +panel.banner
-    img(src='sticky_banner_img.png', alt='Banner')
     .content
       .text
         h2.title Want more crypto insights?
@@ -66,13 +64,9 @@ ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner
     margin: 0 auto;
     border-radius: 10px;
     z-index: 10;
-    padding: 3px 18px;
+    padding: 3px 18px 3px 151px;
     display: flex;
-  }
-
-  img {
-    width: 93px;
-    margin-right: 19px;
+    background: var(--white) url('/newsletter.svg') no-repeat 18px 50%;
   }
 
   .content {
@@ -110,6 +104,7 @@ ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner
     position: absolute;
     top: 4px;
     right: 4px;
+    --loading-dot-color: var(--white);
   }
 
   :global(.banner-overview) {

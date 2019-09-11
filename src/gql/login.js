@@ -1,20 +1,24 @@
 import gql from 'graphql-tag'
 import { userFragment } from '@/gql/user'
 
-export const LOGOUT_MUTATION = gql`
-  mutation logout {
-    logout {
-      success
-    }
-  }
-`
-
 export const EMAIL_REGISTRATION = gql`
   mutation($email: String!, $consent: String!) {
     emailLogin(email: $email, consent: $consent) {
       success
     }
   }
+`
+
+export const VERIFY_EMAIL_MUTATION = gql`
+  mutation emailLoginVerify($email: String!, $token: String!) {
+    emailLoginVerify(email: $email, token: $token) {
+      token
+      user {
+        ...userFragment
+      }
+    }
+  }
+  ${userFragment}
 `
 
 export const ETH_LOGIN_QUERY = gql`
@@ -35,4 +39,12 @@ export const ETH_LOGIN_QUERY = gql`
     }
   }
   ${userFragment}
+`
+
+export const LOGOUT_MUTATION = gql`
+  mutation logout {
+    logout {
+      success
+    }
+  }
 `

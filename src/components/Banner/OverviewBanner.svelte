@@ -1,23 +1,11 @@
 <script>
-  import { loginEmail } from '@/logic/login'
-
   export let banner
   let klass = ''
   export { klass as class }
 
-  let loading = false
-  let success
-
-  function onSubmit({ currentTarget }) {
-    loginEmail(currentTarget.email.value).then(isSuccess)
-
-    loading = true
-  }
-
-  function isSuccess({ data: { emailLogin } }) {
-    success = emailLogin.success
-    loading = false
-  }
+  export let loading = false
+  export let onSubmit
+  export let isSuccess
 </script>
 
 <template lang="pug">

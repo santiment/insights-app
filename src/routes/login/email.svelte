@@ -42,17 +42,6 @@ a.email__link(href='/login')
     @include text('body-1');
   }
 
-  .btn {
-    display: flex;
-    align-items: center;
-    background: #7a859e;
-    border-radius: 4px;
-    color: #fff;
-    fill: #fff;
-    padding: 8px 12px;
-    text-align: left;
-  }
-
   .email {
     &__subtitle {
       @include text('caption');
@@ -67,6 +56,7 @@ a.email__link(href='/login')
     }
 
     &__btn {
+      --loading-dot-color: var(--white);
       margin: 15px 0 30px;
     }
 

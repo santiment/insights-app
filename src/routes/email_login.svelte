@@ -3,7 +3,7 @@
   import { goto, stores } from '@sapper/app'
   import { parse } from 'query-string'
   import { client } from '@/apollo'
-  import { VERIFY_EMAIL_MUTATION } from '@/gql/email_verify'
+  import { VERIFY_EMAIL_MUTATION } from '@/gql/login'
 
   let error, verifiedTimer
   const { session } = stores()

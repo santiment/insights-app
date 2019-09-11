@@ -28,6 +28,7 @@
       const suggestedBreakIndex =
         initialText.length - parseInt(initialText.length / maxLines, 10)
       container.textContent = initialText.slice(0, suggestedBreakIndex) + '...'
+      // TODO(vanguard): repeatedly check if a new text fits in the container
     }
   }
 </script>

@@ -51,7 +51,7 @@
   const insightDate = `${MMM} ${D}, ${YYYY}`
 
   const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
-  const loadBanner = () => import('@/components/Banner/FollowBanner')
+  const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
   const loadFollowBtn = () => import('@/components/FollowBtn')
 
   const shareLink =
@@ -97,10 +97,10 @@ svelte:head
       Loadable(load="{loadFollowBtn}", targetId='{user.id}')
   div.text(on:click='{enlargeImg}') {@html text}
 
-  +if('$session.currentUser === null')
-    Loadable(load="{loadAnonBanner}")
+  +if('$session.currentUser')
+    Loadable(load="{loadFollowBanner}", targetId='{user.id}')
     +else()
-      Loadable(load="{loadBanner}", targetId='{user.id}')
+      Loadable(load="{loadAnonBanner}")
 
   .bottom.bot-scroll
     Tags({tags})

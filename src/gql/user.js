@@ -51,3 +51,13 @@ export const UNFOLLOW_USER_MUTATION = gql`
     }
   }
 `
+
+export const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
+  mutation changeNewsletterSubscription(
+    $subscription: NewsletterSubscriptionType
+  ) {
+    changeNewsletterSubscription(newsletterSubscription: $subscription) {
+      newsletterSubscription
+    }
+  }
+`
