@@ -53,10 +53,17 @@ export const logout = () =>
     .catch(console.warn)
 
 export const loginEmail = email =>
-  client.mutate({
-    mutation: EMAIL_REGISTRATION,
-    variables: {
-      email,
-      consent: '',
-    },
-  })
+  client
+    .mutate({
+      mutation: EMAIL_REGISTRATION,
+      variables: {
+        email,
+        consent: '',
+      },
+    })
+    .then(data => {
+      notifications.add({
+        title: 'Verification email was sent to the provided email',
+      })
+      return data
+    })

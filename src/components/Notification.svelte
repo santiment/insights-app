@@ -59,9 +59,12 @@ include /ui/mixins
     transition: transform 350ms;
     transition-delay: 200ms;
     left: 0;
-    width: 200px;
+    max-width: 70vw;
+    white-space: nowrap;
 
     @include responsive('phone', 'phone-xs') {
+      white-space: normal;
+      max-width: initial;
       width: 100%;
       transform: translateY(calc(var(--y-offset) * -1));
     }
