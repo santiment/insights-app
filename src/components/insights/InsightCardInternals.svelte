@@ -1,6 +1,7 @@
 <script>
   import ProfileInfo from '@/components/ProfileInfo'
   import LikeBtn from '@/components/LikeBtn'
+  import MultilineText from '@/components/MultilineText'
   import Tag from '@/components/insights/Tag'
   import Tags from './Tags.svelte'
   import { getDateFormats } from '@/utils/dates'
@@ -39,7 +40,8 @@ include /ui/mixins
 .top
   div
     Tags({tags})
-  a.title(href="/read/{seoLink}") {title}
+  a.title(href="/read/{seoLink}")
+    MultilineText(maxLines='{2}') {title}
 
 .bottom
   .bottom__left

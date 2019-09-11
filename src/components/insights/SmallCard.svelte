@@ -1,5 +1,6 @@
 <script>
   import LikeBtn from '@/components/LikeBtn'
+  import MultilineText from '@/components/MultilineText'
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
 
   let klass = ''
@@ -14,7 +15,8 @@
 <template lang="pug">
 include /ui/mixins
 
-a.title(href="/read/{seoLink}") {title}
+a.title(href="/read/{seoLink}")
+  MultilineText(maxLines='{3}') {title}
 
 .bottom
   a.user(href='/users/{user.id}') {user.username}
