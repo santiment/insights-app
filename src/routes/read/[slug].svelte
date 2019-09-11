@@ -29,6 +29,7 @@
 
 <script>
   import { stores } from '@sapper/app'
+  import ViewportObserver from '@/components/ViewportObserver'
   import Tags from '@/components/insights/Tags'
   import LikeBtn from '@/components/LikeBtn'
   import ShareBtn from '@/components/sharing/ShareBtn'
@@ -64,6 +65,18 @@
   function closeModal() {
     enlargedImgSrc = undefined
   }
+
+  const options = {
+    rootMargin: '100% 0px 20px',
+  }
+
+  let hidden = true
+  function hideSidebar() {
+    hidden = true
+  }
+  function showSidebar() {
+    hidden = false
+  }
 </script>
 
 <template lang="pug">
@@ -96,10 +109,11 @@ svelte:head
         ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes='{classes}', withPic)
         +if('$session.currentUser')
           Loadable(load="{loadFollowBtn}", targetId='{user.id}')
-      .info__block
-        LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
-        ShareBtn.info__share(link='{shareLink}')
-      .info__fixed
+      ViewportObserver({options}, on:intersect='{hideSidebar}', on:leaving='{showSidebar}', top)
+        .info__block
+          LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
+          ShareBtn.info__share(link='{shareLink}')
+      .info__fixed(class:hidden)
         LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
         ShareBtn.fixed-share(link='{shareLink}')
 
@@ -199,6 +213,12 @@ Modal(bind:open='{enlargedImgSrc}')
 
     &__fixed {
       display: none;
+      transition: opacity 150ms ease-in;
+      opacity: 1;
+      &.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
 
       @include responsive('desktop', 'laptop') {
         position: fixed;
