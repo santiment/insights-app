@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import { userFragment } from '@/gql/user'
 
 export const LOGOUT_MUTATION = gql`
   mutation logout {
@@ -29,27 +30,9 @@ export const ETH_LOGIN_QUERY = gql`
     ) {
       token
       user {
-        id
-        email
-        username
-        sanBalance
-        privacyPolicyAccepted
-        marketingAccepted
-        ethAccounts {
-          address
-          sanBalance
-        }
-        subscriptions {
-          id
-          plan {
-            id
-            name
-            product {
-              id
-            }
-          }
-        }
+        ...userFragment
       }
     }
   }
+  ${userFragment}
 `

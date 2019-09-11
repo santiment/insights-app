@@ -1,7 +1,7 @@
 <script>
   import { stores } from '@sapper/app'
   import { detectMetamask } from '@/utils/web3'
-  import { handleEthLogin } from '@/utils/login'
+  import { handleEthLogin } from '@/logic/login'
 
   let klass = ''
   export { klass as class }

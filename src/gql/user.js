@@ -1,34 +1,39 @@
 import gql from 'graphql-tag'
 
-export const CURRENT_USER_QUERY = gql`
-  query currentUser {
-    currentUser {
-      id
-      email
-      username
-      privacyPolicyAccepted
-      marketingAccepted
-      consent_id
+export const userFragment = gql`
+  fragment userFragment on User {
+    id
+    email
+    username
+    privacyPolicyAccepted
+    marketingAccepted
+    following {
+      id: userId
+    }
+    ethAccounts {
+      address
       sanBalance
-      following {
-        id: userId
-      }
-      ethAccounts {
-        address
-        sanBalance
-      }
-      subscriptions {
+    }
+    subscriptions {
+      id
+      plan {
         id
-        plan {
+        name
+        product {
           id
-          name
-          product {
-            id
-          }
         }
       }
     }
   }
+`
+
+export const CURRENT_USER_QUERY = gql`
+  query currentUser {
+    currentUser {
+      ...userFragment
+    }
+  }
+  ${userFragment}
 `
 
 export const FOLLOW_USER_MUTATION = gql`

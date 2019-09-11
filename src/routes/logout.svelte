@@ -1,7 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import { goto } from '@sapper/app'
-  import { logout } from '@/utils/login'
+  import { logout } from '@/logic/login'
 
   let timer
   onMount(() => {
