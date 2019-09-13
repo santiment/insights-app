@@ -21,6 +21,20 @@
     <!-- This contains the contents of the <svelte:head> component, if
 	     the current page has one -->
     %sapper.head%
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-100571693-11"
+    ></script>
+    <script>
+     window.dataLayer = window.dataLayer || []
+     function gtag() {
+       dataLayer.push(arguments)
+     }
+     gtag('js', new Date())
+
+     gtag('config', 'UA-100571693-11')
+    </script>
   </head>
   <body>
     <!-- The application will be rendered inside this element,

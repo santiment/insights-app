@@ -3,6 +3,7 @@
   import ViewportObserver from '@/components/ViewportObserver'
   import { WEEKLY_SUBSCRIPTION_FLAG, loginEmail } from '@/logic/login'
   import { isMobile } from '@/utils/responsive'
+  import { sendEvent } from '@/analytics'
 
   let banner
   let isShown = false
@@ -22,8 +23,11 @@
 
   function onSubmit({ currentTarget }) {
     loginEmail(currentTarget.email.value).then(isSuccess)
-
     loading = true
+    sendEvent('sign_up', {
+      method: 'email',
+      cta: `${currentTarget.dataset.label} banner`,
+    })
   }
 
   function isSuccess({ data: { emailLogin } }) {
@@ -44,7 +48,7 @@ ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner
       .text
         h2.title Want more crypto insights?
         p.desc Read daily analysis of top emerging words/stories
-      form.form(on:submit|preventDefault='{onSubmit}')
+      form.form(on:submit|preventDefault='{onSubmit}', data-label='Sticky')
         +input(name='email', type='email', placeholder='Enter your email', required)
         +button.submit(variant='fill', accent='jungle-green', type='submit', class:loading) Get started
 </template>

@@ -15,7 +15,7 @@ include /ui/mixins
   h2 Never miss a post!
   h3 Get Santiment Crypto Market Updates direct to your inbox
 
-  form(on:submit|preventDefault='{onSubmit}')
+  form(on:submit|preventDefault='{onSubmit}', data-label='Static')
     +input(name='email', type='email', placeholder='Enter your email', required)
     +button(type='submit', class:loading) Subscribe
 

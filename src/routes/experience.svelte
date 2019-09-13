@@ -1,3 +1,11 @@
+<script>
+  import { sendEvent } from '@/analytics'
+
+  function onClick() {
+    sendEvent('experience_cta')
+  }
+</script>
+
 <template lang="pug">
 include /ui/mixins
 
@@ -11,7 +19,7 @@ svelte:head
     h2 Create an account to get your Sanbase experience.
     p By having a Sanbase account, you can see more data and insights about crypto projects. You can vote and comment on all you favorite insights and more.
     .btn
-      +button(href='/login', variant='fill', accent='jungle-green') Get started
+      +button(href='/login', variant='fill', accent='jungle-green', on:click='{onClick}') Get started
 </template>
 
 <style lang="scss">

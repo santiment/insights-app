@@ -2,6 +2,7 @@
   import { stores } from '@sapper/app'
   import { detectMetamask } from '@/utils/web3'
   import { handleEthLogin } from '@/logic/login'
+  import { sendEvent } from '@/analytics'
 
   let klass = ''
   export { klass as class }
@@ -11,6 +12,9 @@
   let loading = false
   function login(ethLogin) {
     loading = true
+    sendEvent('sign_up', {
+      method: 'metamask',
+    })
     handleEthLogin().then(ethLogin => {
       const { session } = stores()
       session.update(ses => ({ ...ses, currentUser: ethLogin.user }))

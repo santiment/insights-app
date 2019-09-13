@@ -1,13 +1,16 @@
 <script>
   import { loginEmail } from '@/logic/login'
+  import { sendEvent } from '@/analytics'
 
   let loading = false
   let success
 
   function onSubmit({ currentTarget }) {
     loginEmail(currentTarget.email.value).then(isSuccess)
-
     loading = true
+    sendEvent('sign_up', {
+      method: 'email',
+    })
   }
 
   function isSuccess({ data: { emailLogin } }) {
