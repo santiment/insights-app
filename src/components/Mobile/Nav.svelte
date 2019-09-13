@@ -69,16 +69,17 @@ nav
     --icon-primary: var(--mirage);
     --icon-secondary: var(--porcelain);
 
+    box-shadow: 0 0 20px rgba(24, 27, 43, 0.05);
     z-index: 5;
     display: flex;
     align-items: flex-end;
     justify-content: space-evenly;
-    padding: 9px 0px 6px;
+    padding: 9px 0px 4px;
+    height: 53px;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 60px;
     color: var(--casper);
     background: var(--white);
     border-top: 1px solid var(--porcelain);
@@ -87,6 +88,7 @@ nav
   }
 
   .btn {
+    @include text('caption');
     display: flex;
     flex-direction: column;
     height: 100%;

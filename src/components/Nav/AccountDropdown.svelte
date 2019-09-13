@@ -31,18 +31,26 @@ include /ui/mixins
   .category.category_toggles
     +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Night mode
       Toggle(active="{$ui.darkMode}")
-    +button.item.item_toggle(variant='ghost', on:click='{ui.toggleBetaMode}', fluid) Beta Mode
-      Toggle(active="{$ui.betaMode}")
+  hr.divider
+  .category.category_links
+    +button.item(href=appPath+'/sonar/my-signals', variant='ghost', fluid) My signals
+    +button.item(href=appPath+'/assets', variant='ghost', fluid) My watchlists
+    +button.item(href='/my', variant='ghost', fluid) My insights
   hr.divider
   .category.category_links
     +if('currentUser')
       +button.item(href=appPath+"/account", variant='ghost', fluid) Account Settings
-      +button.item(href="/logout", variant='ghost', fluid) Logout
+      +button.item.item_logout(href="/logout", variant='ghost', fluid)
+        +icon('logout').logout
+        |Logout
       +else()
         +button.item(href="/login", variant='ghost', fluid) Login
+
 </template>
 
 <style lang="scss">
+  @import '@/mixins';
+
   .wrapper {
     width: 260px;
   }
@@ -75,5 +83,20 @@ include /ui/mixins
     &_toggle {
       justify-content: space-between;
     }
+
+    &_logout {
+      color: var(--persimmon);
+      fill: var(--persimmon);
+
+      &:hover {
+        color: var(--persimmon-hover);
+        fill: var(--persimmon-hover);
+      }
+    }
+  }
+
+  .logout {
+    @include size(16px);
+    margin: 0 8px 0 -1px;
   }
 </style>
