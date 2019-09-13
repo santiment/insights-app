@@ -59,13 +59,17 @@ include /ui/mixins
   }
 
   .title {
-    @include text('h4', 'm');
+    @include text('h4');
     margin-top: 14px;
     display: block;
     word-break: break-word;
 
     &:hover {
       color: var(--jungle-green);
+    }
+
+    @include responsive('phone', 'phone-xs') {
+      @include text('body-1');
     }
   }
 

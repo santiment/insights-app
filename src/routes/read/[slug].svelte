@@ -144,6 +144,10 @@ Modal(bind:open='{enlargedImgSrc}')
   .title {
     @include text('h2', 'm');
     margin: 0 0 25px;
+
+    @include responsive('phone', 'phone-xs') {
+      @include text('h3', 'm');
+    }
   }
 
   .text {
