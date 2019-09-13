@@ -31,11 +31,12 @@ include /ui/mixins
   .category.category_toggles
     +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Night mode
       Toggle(active="{$ui.darkMode}")
-  hr.divider
-  .category.category_links
-    +button.item(href=appPath+'/sonar/my-signals', variant='ghost', fluid) My signals
-    +button.item(href=appPath+'/assets', variant='ghost', fluid) My watchlists
-    +button.item(href='/my', variant='ghost', fluid) My insights
+  +if('currentUser')
+    hr.divider
+    .category.category_links
+      +button.item(href=appPath+'/sonar/my-signals', variant='ghost', fluid) My signals
+      +button.item(href=appPath+'/assets', variant='ghost', fluid) My watchlists
+      +button.item(href='/my', variant='ghost', fluid) My insights
   hr.divider
   .category.category_links
     +if('currentUser')
