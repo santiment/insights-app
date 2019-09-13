@@ -2,7 +2,9 @@
   import { sendEvent } from '@/analytics'
 
   function onClick() {
-    sendEvent('experience_cta')
+    sendEvent('experience_cta', {
+      event_category: 'engagement',
+    })
   }
 </script>
 

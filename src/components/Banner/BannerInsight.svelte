@@ -25,8 +25,7 @@
     loginEmail(currentTarget.email.value).then(isSuccess)
     loading = true
     sendEvent('sign_up', {
-      method: 'email',
-      cta: `${currentTarget.dataset.label} banner`,
+      method: `${currentTarget.dataset.label} banner`,
     })
   }
 
