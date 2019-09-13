@@ -38,11 +38,14 @@
   import Dialog from '@/ui/dialog/index'
   import Modal from '@/components/Modal'
   import { getDateFormats } from '@/utils/dates'
+  import { getRawText, grabFirstImageLink } from '@/utils/insights'
 
   const { session } = stores()
   const classes = { wrapper: 'info__profile' }
 
   export let id, text, title, tags, user, votes, publishedAt, createdAt, votedAt
+
+  const previewImgLink = grabFirstImageLink(text)
 
   let liked = !!votedAt
   let clientHeight
@@ -86,8 +89,11 @@ svelte:head
   title {title} - Santiment Community Insights
   meta(property='og:type', content='article')
   meta(property='og:title', content='{title} - Santiment Community Insights')
-  meta(property='og:description', content='{text.slice(0,140)}')
-
+  meta(property='og:description', content='{getRawText(text).slice(0,140)}')
+  +if('previewImgLink')
+    meta(name='twitter:card',content='summary_large_image')
+    meta(name='twitter:image', content='{previewImgLink}')
+    
 
 .insight(bind:clientHeight)
   h1.title {title}

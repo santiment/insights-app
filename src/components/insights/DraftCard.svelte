@@ -2,7 +2,7 @@
   import { stores } from '@sapper/app'
   import Dialog from '@/ui/dialog/index'
   import { dateDifferenceInWords } from '@/utils/dates'
-  import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
+  import { getSEOLinkFromIdAndTitle, getRawText } from '@/utils/insights'
   import { client } from '@/apollo'
   import { DELETE_INSIGHT_MUTATION } from '@/gql/insights'
 
@@ -12,17 +12,8 @@
 
   const { id, updatedAt, title, text } = insight
 
-  let rawText = ''
+  const rawText = getRawText(text).slice(0, 30)
   let open
-
-  if (process.browser) {
-    let div = document.createElement('div')
-    div.innerHTML = text
-    rawText = div.textContent.slice(0, 30)
-    div = undefined
-  } else {
-    rawText = require('striptags')(text)
-  }
 
   const link = getSEOLinkFromIdAndTitle(id, title)
   const ago = dateDifferenceInWords({ from: new Date(updatedAt) })

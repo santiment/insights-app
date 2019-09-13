@@ -42,3 +42,22 @@ export const InsightSorter = {
   Newest: publishDateSorter,
   Popular: popularitySorter,
 }
+
+const IMG_SRC_ATTR_START = 'src="'
+const IMG_SRC_ATTR_START_LENGTH = IMG_SRC_ATTR_START.length
+export const grabFirstImageLink = text => {
+  const start = text.indexOf(IMG_SRC_ATTR_START)
+
+  if (start === -1) {
+    return
+  }
+
+  const linkStart = start + IMG_SRC_ATTR_START_LENGTH
+
+  return text.slice(linkStart, text.indexOf('"', linkStart))
+}
+
+export const getRawText = text => {
+  const res = text.split(/<.*?>/g).join('')
+  return res[0] === ' ' ? res.slice(1) : res
+}
