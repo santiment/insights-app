@@ -6,6 +6,7 @@
   import { sendEvent } from '@/analytics'
 
   let banner
+  let isVisibleInSession = true
   let isShown = false
   let loading = false
   let isNotMobile = !isMobile()
@@ -14,6 +15,9 @@
     rootMargin: '1000px 0px -50px',
   }
 
+  function closeBanner() {
+    isVisibleInSession = false
+  }
   function hideBanner() {
     isShown = false
   }
@@ -41,9 +45,9 @@ include /ui/mixins
 ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner}', top)
   OverviewBanner.banner-overview({loading}, {onSubmit}, {isSuccess})
 
-+if('isNotMobile && isShown')
++if('isNotMobile && isShown && isVisibleInSession')
   +panel.banner
-    +button(aria-label='Close').close
+    +button(aria-label='Close', on:click='{closeBanner}').close
       +icon('close')
     .content
       .text
