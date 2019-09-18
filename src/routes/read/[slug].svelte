@@ -57,10 +57,14 @@
   const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
   const loadFollowBtn = () => import('@/components/FollowBtn')
 
- const isNotFollowed = $session.currentUser && $session.currentUser.following.every((following) => following.id !== user.id)
+  const isNotFollowed =
+    $session.currentUser &&
+    $session.currentUser.following.every(following => following.id !== user.id)
 
   const shareLink =
     process.browser && window.location.origin + window.location.pathname
+
+  const metaDescriptionText = getRawText(text).slice(0, 140)
 
   let enlargedImgSrc
   function enlargeImg({ target }) {
@@ -89,12 +93,14 @@ include /ui/mixins
 
 svelte:head
   title {title} - Santiment Community Insights
+  meta(name='description', content='{metaDescriptionText}')
   meta(property='og:type', content='article')
   meta(property='og:title', content='{title} - Santiment Community Insights')
-  meta(property='og:description', content='{getRawText(text).slice(0,140)}')
+  meta(property='og:description', content='{metaDescriptionText}')
   +if('previewImgLink')
     meta(name='twitter:card',content='summary_large_image')
     meta(name='twitter:image', content='{previewImgLink}')
+    meta(name='og:image', content='{previewImgLink}')
     
 
 .insight(bind:clientHeight)
