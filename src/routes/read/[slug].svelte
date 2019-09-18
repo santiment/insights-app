@@ -46,6 +46,7 @@
   export let id, text, title, tags, user, votes, publishedAt, createdAt, votedAt
 
   const previewImgLink = grabFirstImageLink(text)
+  const accessibleText = text.replace(/<img/g, '<img alt=""')
 
   let liked = !!votedAt
   let clientHeight
@@ -109,7 +110,7 @@ svelte:head
     ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes!='{{wrapper: "insight__profile"}}', withPic)
     +if('$session.currentUser')
       Loadable(load="{loadFollowBtn}", targetId='{user.id}')
-  div.text(on:click='{enlargeImg}') {@html text}
+  div.text(on:click='{enlargeImg}') {@html accessibleText}
 
   +if('$session.currentUser')
     +if('isNotFollowed')
