@@ -34,7 +34,7 @@
         wasFollowed = !wasFollowed
         followed = wasFollowed
       })
-  }, 1000)
+  }, 500)
 
   function updateFollowings() {
     session.update(ses => {

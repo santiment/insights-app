@@ -57,6 +57,8 @@
   const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
   const loadFollowBtn = () => import('@/components/FollowBtn')
 
+ const isNotFollowed = $session.currentUser && $session.currentUser.following.every((following) => following.id !== user.id)
+
   const shareLink =
     process.browser && window.location.origin + window.location.pathname
 
@@ -104,7 +106,8 @@ svelte:head
   div.text(on:click='{enlargeImg}') {@html text}
 
   +if('$session.currentUser')
-    Loadable(load="{loadFollowBanner}", targetId='{user.id}')
+    +if('isNotFollowed')
+      Loadable(load="{loadFollowBanner}", targetId='{user.id}')
     +else()
       Loadable(load="{loadAnonBanner}")
 
