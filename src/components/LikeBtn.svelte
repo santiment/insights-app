@@ -39,7 +39,7 @@
 <template lang="pug">
 include /ui/mixins
 
-button(disabled='{!$session.currentUser}', on:click='{toggleLike}')
+button(disabled='{!$session.currentUser}', on:click='{toggleLike}', aria-label='Like')
   +icon('liked').icon(class:liked)
   | {_likes}
 </template>

@@ -43,12 +43,14 @@ ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner
 
 +if('isNotMobile && isShown')
   +panel.banner
+    +button(aria-label='Close').close
+      +icon('close')
     .content
       .text
         h2.title Want more crypto insights?
         p.desc Read daily analysis of top emerging words/stories
       form.form(on:submit|preventDefault='{onSubmit}', data-label='Sticky')
-        +input(name='email', type='email', placeholder='Enter your email', required)
+        +input(name='email', type='email', placeholder='Enter your email', aria-label='Your email', required)
         +button.submit(variant='fill', accent='jungle-green', type='submit', class:loading) Get started
 </template>
 
@@ -67,7 +69,7 @@ ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner
     margin: 0 auto;
     border-radius: 10px;
     z-index: 10;
-    padding: 3px 18px 3px 151px;
+    padding: 3px 150px 3px 151px;
     display: flex;
     background: var(--white) url('/newsletter.svg') no-repeat 18px 50%;
   }
@@ -112,5 +114,20 @@ ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner
 
   :global(.banner-overview) {
     margin-top: 30px;
+  }
+
+  svg {
+    @include size(12px);
+  }
+
+  .close {
+    fill: var(--casper);
+    position: absolute;
+    top: 8px;
+    right: 8px;
+
+    &:hover {
+      fill: var(--mirage);
+    }
   }
 </style>
