@@ -183,7 +183,20 @@ Modal(bind:open='{enlargedImgSrc}')
       cursor: pointer;
     }
 
+    :global(.md-inline-bold) {
+      font-weight: bold;
+    }
+
     :global(.md-inline-link) {
+      text-decoration: underline;
+      color: var(--jungle-green);
+    }
+
+    :global(.md-block-image-caption) {
+      font-size: 13px;
+    }
+
+    :global(.md-inline-underline) {
       text-decoration: underline;
     }
 
@@ -194,6 +207,31 @@ Modal(bind:open='{enlargedImgSrc}')
       :global(li) {
         list-style: disc outside;
       }
+    }
+
+    :global(.md-block-blockquote) {
+      @include text('h4');
+      padding: 23px 32px;
+      background: var(--athens);
+      border-radius: 4px;
+      color: var(--mirage);
+      position: relative;
+
+      &::before {
+        content: '“';
+        position: absolute;
+        display: block;
+        left: 28px;
+        top: 1px;
+        font-size: 74px;
+        font-family: sans-serif;
+        font-weight: bold;
+        color: var(--casper);
+      }
+    }
+
+    :global(.md-block-blockquote + .md-block-blockquote::before) {
+      display: none;
     }
   }
 

@@ -85,5 +85,5 @@
 </script>
 
 <template lang="pug">
-#react-mount-node(bind:this="{reactMount}")
+#react-mount-node.bot-scroll(bind:this="{reactMount}")
 </template>

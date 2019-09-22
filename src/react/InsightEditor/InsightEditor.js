@@ -156,6 +156,7 @@ class InsightEditor extends Component {
         <div className={styles.wrapper}>
           <div className={styles.insightWrapper}>
             <InsightEditorTitle
+              maxLength='140'
               defaultValue={title}
               onChange={this.onTitleChange}
             />

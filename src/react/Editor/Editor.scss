@@ -8,7 +8,7 @@
     position: relative;
 
     & span::selection {
-      background: var(--green-light-2);
+      background: var(--jungle-green-light-2);
     }
 
     @include text('body-1', 't');
@@ -16,6 +16,18 @@
     @include responsive('phone-xs') {
       font-size: 14px;
       line-height: 20px;
+    }
+
+    & .public-DraftStyleDefault-ul {
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 40px;
+    }
+
+    & .public-DraftStyleDefault-unorderedListItem {
+      list-style: disc;
     }
 
     & .public-DraftEditor-content {
@@ -66,6 +78,7 @@
   }
 
   .md-editor-toolbar {
+    @include text('caption');
     height: 32px;
     position: absolute;
     background: $fiord;
@@ -79,17 +92,25 @@
     visibility: hidden;
     box-shadow: 0 2px 2px rgba(21, 24, 31, 0.04), 0 2px 6px rgba(0, 0, 0, 0.08),
       0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: 6px 0;
+    padding: 6px 10px;
+    align-items: center;
 
     &.md-editor-toolbar--isopen {
       visibility: visible;
     }
 
-    a {
-      color: var(--green);
-      text-decoration: none;
-      padding: 3px 8px;
+    button:hover {
+      color: var(--jungle-green-hover);
     }
+
+    a {
+      color: var(--jungle-green);
+      text-decoration: none;
+    }
+  }
+
+  .md-editor-toolbar-unlink-button {
+    margin: 0 8px;
   }
 
   .md-RichEditor-controls {
@@ -113,7 +134,7 @@
   }
 
   .md-RichEditor-activeButton {
-    fill: var(--green);
+    fill: var(--jungle-green);
   }
 
   [class*='hint--'] {
@@ -133,7 +154,7 @@
       position: absolute;
       border: 6px solid transparent;
       z-index: 1000001;
-      margin-top: 15px;
+      margin-top: 11px;
     }
 
     &::after,
@@ -142,7 +163,7 @@
       visibility: hidden;
       opacity: 0;
       left: 50%;
-      transform: translate3d(-50%, -32px, 0);
+      transform: translate3d(-50%, -30px, 0);
       z-index: 1000000;
       pointer-events: none;
       transition: 0.3s ease;
@@ -333,11 +354,12 @@
   #nprogress {
     .bar {
       height: 3px;
-      background: var(--green);
+      background: var(--jungle-green);
     }
 
     .peg {
-      box-shadow: 0 0 10px var(--green-light-2), 0 0 5px var(--green-light-2);
+      box-shadow: 0 0 10px var(--jungle-green-light-2),
+        0 0 5px var(--jungle-green-light-2);
     }
   }
 }
