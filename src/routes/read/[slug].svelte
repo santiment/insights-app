@@ -102,7 +102,7 @@ svelte:head
     meta(name='twitter:card',content='summary_large_image')
     meta(name='twitter:image', content='{previewImgLink}')
     meta(name='og:image', content='{previewImgLink}')
-    
+
 
 .insight(bind:clientHeight)
   h1.title {title}
@@ -168,6 +168,7 @@ Modal(bind:open='{enlargedImgSrc}')
 
   .text {
     margin: 25px 0 0;
+    word-break: break-word;
 
     :global(*) {
       @include text('body-1');
