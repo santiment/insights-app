@@ -32,7 +32,7 @@
 include /ui/mixins
 
 +if('$session.currentUser')
-  h4.title My Watatchlists
+  h4.title My Watchlists
   .watchlists
     .watchlists__scroll
       +each('watchlists as watchlist')
@@ -65,6 +65,14 @@ include /ui/mixins
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
+  }
+
+  .title {
+    line-height: 18px;
+    font-size: 12px;
+    color: var(--waterloo);
+    margin: 3px 11px 8px;
+    font-weight: 500;
   }
 
   .expl {

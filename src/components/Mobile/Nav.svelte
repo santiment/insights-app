@@ -33,7 +33,7 @@ nav
   a.btn(href='https://app.santiment.net/assets')
     +icon('assets')
     |Assets
-    
+
   a.btn(href='https://app.santiment.net/sonar')
     +icon('sonar')
     |Sonar
@@ -72,10 +72,9 @@ nav
     box-shadow: 0 0 20px rgba(24, 27, 43, 0.05);
     z-index: 5;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-evenly;
-    padding: 9px 0px 4px;
-    height: 53px;
+    padding: 0;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -88,9 +87,12 @@ nav
   }
 
   .btn {
-    @include text('caption');
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    @include text('body-3');
     display: flex;
     flex-direction: column;
+    padding: 12px 16px 7px;
     height: 100%;
     justify-content: space-between;
     align-items: center;
@@ -104,6 +106,7 @@ nav
 
   svg {
     @include size(18px);
+    margin-bottom: 3px;
   }
 
   .menu {
@@ -118,7 +121,7 @@ nav
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 35px 16px 95px;
+    padding: 15vh 16px 105px;
 
     &__links {
       display: flex;
