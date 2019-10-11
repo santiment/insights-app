@@ -8,6 +8,7 @@ include /ui/mixins
   +button.item(variant='ghost', fluid, href=appLink+'/labs/trends') Social trends 🔥
   +button.item(variant='ghost', fluid, href=appLink+'/ethereum-spent') ETH spent
   +button.item(variant='ghost', fluid, href=appLink+'/labs/balance') Historical balance
+  +button.item(variant='ghost', fluid, href=appLink+'/labs/buidl-heroes') Buidl heroes
   +button.item(variant='ghost', fluid, href=appLink+'/dashboards') Dashboards
 </template>
 
