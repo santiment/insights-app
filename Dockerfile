@@ -1,4 +1,4 @@
-FROM node:11-alpine AS builder
+FROM node:12-alpine AS builder
 
 ARG BACKEND_URL
 ARG GIT_HEAD
@@ -12,7 +12,7 @@ RUN npm install -g yarn
 RUN yarn install
 RUN yarn build
 
-FROM node:11-alpine
+FROM node:12-alpine
 
 WORKDIR /app
 
