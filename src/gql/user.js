@@ -8,7 +8,9 @@ export const userFragment = gql`
     privacyPolicyAccepted
     marketingAccepted
     following {
-      id: userId
+      users {
+        id
+      }
     }
     ethAccounts {
       address

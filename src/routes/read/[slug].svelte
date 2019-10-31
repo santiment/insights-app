@@ -60,7 +60,9 @@
 
   const isNotFollowed =
     $session.currentUser &&
-    $session.currentUser.following.every(following => following.id !== user.id)
+    $session.currentUser.following.users.every(
+      following => following.id !== user.id,
+    )
 
   const shareLink =
     process.browser && window.location.origin + window.location.pathname
