@@ -1,4 +1,4 @@
-FROM node:11-alpine AS builder
+FROM node:12-alpine AS builder
 
 ARG BACKEND_URL
 ARG GIT_HEAD
