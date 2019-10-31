@@ -12,7 +12,7 @@
 
   let wasFollowed, followed
   $: {
-    followed = wasFollowed = $session.currentUser.following.some(
+    followed = wasFollowed = $session.currentUser.following.users.some(
       ({ id }) => id === targetId,
     )
   }
@@ -38,8 +38,8 @@
 
   function updateFollowings() {
     session.update(ses => {
-      const followings = ses.currentUser.following
-      ses.currentUser.following = wasFollowed
+      const followings = ses.currentUser.following.users
+      ses.currentUser.following.users = wasFollowed
         ? [...followings, { id: targetId }]
         : followings.filter(({ id }) => targetId !== id)
       return ses
