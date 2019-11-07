@@ -12,6 +12,7 @@
       variables: {
         id,
       },
+      fetchPolicy: process.browser ? undefined : 'network-only',
     })
 
     if (data.insight.readyState === 'draft') {
@@ -19,7 +20,7 @@
 
       const { currentUser } = session
       if (!currentUser || currentUser.id !== data.insight.user.id) {
-        this.redirect(302, '/insights')
+        this.redirect(302, '/')
       }
     }
 
@@ -58,6 +59,7 @@
   const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
   const loadFollowBtn = () => import('@/components/FollowBtn')
 
+  const isAuthor = $session.currentUser && user.id === $session.currentUser.id
   const isNotFollowed =
     $session.currentUser &&
     $session.currentUser.following.users.every(
@@ -110,12 +112,12 @@ svelte:head
   h1.title {title}
   .insight__info
     ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes!='{{wrapper: "insight__profile"}}', withPic)
-    +if('$session.currentUser')
+    +if('$session.currentUser && !isAuthor')
       Loadable(load="{loadFollowBtn}", targetId='{user.id}')
   div.text(on:click='{enlargeImg}') {@html accessibleText}
 
   +if('$session.currentUser')
-    +if('isNotFollowed')
+    +if('isNotFollowed && !isAuthor')
       Loadable(load="{loadFollowBanner}", targetId='{user.id}')
     +else()
       Loadable(load="{loadAnonBanner}")
@@ -125,15 +127,21 @@ svelte:head
     .info
       .info__block.info__block_left
         ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes='{classes}', withPic)
-        +if('$session.currentUser')
+        +if('$session.currentUser && !isAuthor')
           Loadable(load="{loadFollowBtn}", targetId='{user.id}')
       ViewportObserver({options}, on:intersect='{hideSidebar}', on:leaving='{showSidebar}', top)
         .info__block
           LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
           ShareBtn.info__share(link='{shareLink}')
+          +if('isAuthor')
+            a.edit.edit_fixed(href='/edit/{id}')
+              +icon('edit').edit__icon
       .info__fixed(class:hidden)
         LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
         ShareBtn.fixed-share(link='{shareLink}')
+        +if('isAuthor')
+          a.edit(href='/edit/{id}')
+            +icon('edit').edit__icon
 
 Modal(bind:open='{enlargedImgSrc}')
   .enlarger(slot='content')
@@ -320,6 +328,22 @@ Modal(bind:open='{enlargedImgSrc}')
 
     &__img {
       width: 100%;
+    }
+  }
+
+  .edit {
+    margin: 20px 0 0;
+
+    &_fixed {
+      margin: 0 0 0 30px;
+    }
+  }
+  .edit__icon {
+    @include size(16px);
+    cursor: pointer;
+
+    &:hover {
+      fill: var(--jungle-green);
     }
   }
 

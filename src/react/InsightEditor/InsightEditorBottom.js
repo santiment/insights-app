@@ -17,11 +17,13 @@ const InsightEditorBottom = ({
   onPublishClick,
   isLoading,
   hasMetTextRequirements,
+  isDraft,
 }) => {
   const options = { from: new Date(updatedAt) }
   const hasMetRequirements =
     hasMetTextRequirements.title && hasMetTextRequirements.text
   const tags = defaultTags.filter(noTrendTagsFilter)
+  const actionTargetLabel = isDraft ? 'Publish' : 'Update'
   return (
     <div className={styles.bottom}>
       <div className={styles.container}>
@@ -31,7 +33,7 @@ const InsightEditorBottom = ({
               'Saving...'
             ) : (
               <>
-                Draft saved{' '}
+                {isDraft ? 'Draft saved ' : 'Insight updated '}
                 <Timer interval={1000 * 60}>
                   {() => dateDifferenceInWords(options)}
                 </Timer>
@@ -46,7 +48,7 @@ const InsightEditorBottom = ({
             trigger={
               <div>
                 <Button border disabled>
-                  Publish insight
+                  {actionTargetLabel} insight
                   {React.cloneElement(IconArrowUp, { className: styles.icon })}
                 </Button>
               </div>
@@ -65,6 +67,7 @@ const InsightEditorBottom = ({
             onTagsChange={onTagsChange}
             defaultTags={tags}
             onPublishClick={onPublishClick}
+            actionTargetLabel={actionTargetLabel}
           />
         )}
       </div>

@@ -14,7 +14,7 @@
 
     const { id } = page.params
 
-    const res = await apollo.query({
+    const { data } = await apollo.query({
       query: INSIGHT_BY_ID_QUERY,
       variables: {
         id: +id,
@@ -22,8 +22,12 @@
       fetchPolicy: 'network-only',
     })
 
+    if (currentUser.id !== data.insight.user.id) {
+      this.redirect(302, '/')
+    }
+
     return {
-      draft: res.data.insight,
+      draft: data.insight,
     }
   }
 </script>
