@@ -9,6 +9,7 @@
     UPDATE_INSIGHT_DRAFT_MUTATION,
     CREATE_INSIGHT_DRAFT_MUTATION,
     PUBLISH_INSIGHT_DRAFT_MUTATION,
+    INSIGHT_BY_ID_QUERY,
   } from '@/gql/insights'
 
   export let draft = {}
@@ -44,11 +45,29 @@
         },
       })
       .then(setUpdateTime)
+      .then(() => {
+        if (draft.readyState !== 'published') return
+
+        client
+          .query({
+            query: INSIGHT_BY_ID_QUERY,
+            variables: {
+              id: +draft.id,
+            },
+            fetchPolicy: 'network-only',
+          })
+          .then(() => goto(`/read/${draft.id}`))
+
+        notifications.add({
+          type: 'success',
+          title: 'Your insight was successfully updated',
+        })
+      })
       .catch(console.warn)
   }
 
   function setUpdateTime({ data: { updatedDraft } }) {
-    draft = updatedDraft
+    draft = { ...draft, ...updatedDraft }
     isUpdating = false
   }
 

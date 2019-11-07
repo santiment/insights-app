@@ -43,6 +43,7 @@ class InsightEditor extends Component {
   static defaultProps = {
     title: '',
     text: '',
+    readyState: 'draft',
     tags: [],
   }
 
