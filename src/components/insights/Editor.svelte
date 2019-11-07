@@ -44,6 +44,15 @@
         },
       })
       .then(setUpdateTime)
+      .then(() => {
+        if (draft.readyState === 'draft') return
+
+        goto(`/read/${draft.id}`)
+        notifications.add({
+          type: 'success',
+          title: 'Your insight was successfully updated',
+        })
+      })
       .catch(console.warn)
   }
 
