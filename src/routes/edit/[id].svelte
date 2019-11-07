@@ -22,6 +22,7 @@
       fetchPolicy: 'network-only',
     })
 
+// TODO: Redirect to /my if insight is not owned [@vanguard | Nov 07, 2019]
     return {
       draft: res.data.insight,
     }

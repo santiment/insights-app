@@ -47,6 +47,7 @@ class InsightEditor extends Component {
   }
 
   defaultEditorContent = convertToRaw(mediumDraftImporter(this.props.text))
+  isDraft = this.props.readyState === 'draft'
 
   state = {
     title: this.props.title,
@@ -72,9 +73,9 @@ class InsightEditor extends Component {
     this.setState(
       {
         title,
-        isEditing: true,
+        isEditing: this.isDraft,
       },
-      this.updateDraft,
+      this.isDraft ? this.updateDraft : undefined,
     )
   }
 
@@ -90,9 +91,9 @@ class InsightEditor extends Component {
     this.setState(
       {
         textEditorState,
-        isEditing: true,
+        isEditing: this.isDraft,
       },
-      () => this.updateDraft(currentContent),
+      this.isDraft ? () => this.updateDraft(currentContent) : undefined,
     )
   }
 
@@ -100,10 +101,10 @@ class InsightEditor extends Component {
     this.setState(
       {
         tags,
-        isEditing: true,
+        isEditing: this.isDraft,
         isTagsModified: true,
       },
-      this.updateDraft,
+      this.isDraft ? this.updateDraft : undefined,
     )
   }
 
@@ -123,9 +124,8 @@ class InsightEditor extends Component {
   updateDraft = debounce(
     (currentContent = this.state.textEditorState.getCurrentContent()) => {
       const { title, tags } = this.state
-      const { readyState } = this.props
 
-      if (readyState === 'published' || !this.isTitleAndTextOk()) {
+      if (!this.isTitleAndTextOk()) {
         return
       }
 
@@ -145,7 +145,14 @@ class InsightEditor extends Component {
   )
 
   render() {
-    const { id, title, updatedAt, isUpdating, publishDraft } = this.props
+    const {
+      id,
+      title,
+      updatedAt,
+      isUpdating,
+      publishDraft,
+      readyState,
+    } = this.props
     const { isEditing, defaultTags, isTagsModified } = this.state
     const tags = isTagsModified ? this.state.tags : defaultTags
 
@@ -172,7 +179,10 @@ class InsightEditor extends Component {
             onTagsChange={this.onTagsChange}
             isLoading={isLoading}
             hasMetTextRequirements={this.isTitleAndTextOk()}
-            onPublishClick={() => publishDraft(id)}
+            onPublishClick={() =>
+              this.isDraft ? publishDraft(id) : this.updateDraft()
+            }
+            isDraft={this.isDraft}
           />
         </div>
       </ApolloProvider>

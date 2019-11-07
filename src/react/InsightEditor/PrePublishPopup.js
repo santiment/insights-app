@@ -11,13 +11,15 @@ const PrePublishPopup = ({
   defaultTags = [],
   onTagsChange,
   isLoading,
+  isDraft,
+  actionTargetLabel,
 }) => {
   return (
     <ContextMenu
       align='end'
       trigger={
         <Button accent='positive' border>
-          Publish insight
+          {isDraft ? 'Publish' : 'Update'} insight
           {React.cloneElement(IconArrowUp, { className: styles.icon })}
         </Button>
       }
@@ -43,7 +45,7 @@ const PrePublishPopup = ({
           onClick={onPublishClick}
           isLoading={isLoading}
         >
-          Publish insight
+          {actionTargetLabel} insight
         </Button>
       </Panel>
     </ContextMenu>
