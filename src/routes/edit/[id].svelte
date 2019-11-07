@@ -14,7 +14,7 @@
 
     const { id } = page.params
 
-    const res = await apollo.query({
+    const { data } = await apollo.query({
       query: INSIGHT_BY_ID_QUERY,
       variables: {
         id: +id,
@@ -22,9 +22,12 @@
       fetchPolicy: 'network-only',
     })
 
-// TODO: Redirect to /my if insight is not owned [@vanguard | Nov 07, 2019]
+    if (currentUser.id !== data.insight.user.id) {
+      this.redirect(302, '/')
+    }
+
     return {
-      draft: res.data.insight,
+      draft: data.insight,
     }
   }
 </script>

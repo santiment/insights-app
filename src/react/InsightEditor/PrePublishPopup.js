@@ -11,7 +11,6 @@ const PrePublishPopup = ({
   defaultTags = [],
   onTagsChange,
   isLoading,
-  isDraft,
   actionTargetLabel,
 }) => {
   return (
@@ -19,7 +18,7 @@ const PrePublishPopup = ({
       align='end'
       trigger={
         <Button accent='positive' border>
-          {isDraft ? 'Publish' : 'Update'} insight
+          {actionTargetLabel} insight
           {React.cloneElement(IconArrowUp, { className: styles.icon })}
         </Button>
       }

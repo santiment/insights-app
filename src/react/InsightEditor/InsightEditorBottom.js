@@ -67,7 +67,6 @@ const InsightEditorBottom = ({
             onTagsChange={onTagsChange}
             defaultTags={tags}
             onPublishClick={onPublishClick}
-            isDraft={isDraft}
             actionTargetLabel={actionTargetLabel}
           />
         )}

@@ -20,7 +20,7 @@
 
       const { currentUser } = session
       if (!currentUser || currentUser.id !== data.insight.user.id) {
-        this.redirect(302, '/insights')
+        this.redirect(302, '/')
       }
     }
 
