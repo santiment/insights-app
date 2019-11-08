@@ -187,7 +187,7 @@ Modal(bind:open='{enlargedImgSrc}')
 
     :global(.md-block-image) {
       text-align: center;
-      margin: 10px;
+      margin: 16px 0 32px;
     }
 
     :global(img) {
@@ -205,7 +205,16 @@ Modal(bind:open='{enlargedImgSrc}')
     }
 
     :global(.md-block-image-caption) {
-      font-size: 13px;
+      font-size: 14px;
+      line-height: 20px;
+      font-style: italic;
+      color: var(--waterloo);
+    }
+
+    :global(.md-block-image-caption a) {
+      font-size: 14px;
+      line-height: 20px;
+      font-style: italic;
     }
 
     :global(.md-inline-underline) {
