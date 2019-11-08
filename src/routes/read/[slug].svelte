@@ -40,24 +40,25 @@
   import Modal from '@/components/Modal'
   import { getDateFormats } from '@/utils/dates'
   import { getRawText, grabFirstImageLink } from '@/utils/insights'
+  const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
+  const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
+  const loadFollowBtn = () => import('@/components/FollowBtn')
+
+  export let id, text, title, tags, user, votes, publishedAt, createdAt, votedAt
+
+  let liked = !!votedAt
+  let clientHeight
+  let enlargedImgSrc
+  let hidden = true
 
   const { session } = stores()
   const classes = { wrapper: 'info__profile' }
 
-  export let id, text, title, tags, user, votes, publishedAt, createdAt, votedAt
-
   const previewImgLink = grabFirstImageLink(text)
   const accessibleText = text.replace(/<img/g, '<img alt=""')
 
-  let liked = !!votedAt
-  let clientHeight
-
   const { MMM, D, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
   const insightDate = `${MMM} ${D}, ${YYYY}`
-
-  const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
-  const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
-  const loadFollowBtn = () => import('@/components/FollowBtn')
 
   const isAuthor = $session.currentUser && user.id === $session.currentUser.id
   const isNotFollowed =
@@ -71,23 +72,23 @@
 
   const metaDescriptionText = getRawText(text).slice(0, 140)
 
-  let enlargedImgSrc
-  function enlargeImg({ target }) {
-    if (target.tagName !== 'IMG') return
-    enlargedImgSrc = target.src
-  }
-  function closeModal() {
-    enlargedImgSrc = undefined
-  }
-
   const options = {
     rootMargin: '100% 0px 20px',
   }
 
-  let hidden = true
+  function enlargeImg({ target }) {
+    if (target.tagName !== 'IMG') return
+    enlargedImgSrc = target.src
+  }
+
+  function closeModal() {
+    enlargedImgSrc = undefined
+  }
+
   function hideSidebar() {
     hidden = true
   }
+
   function showSidebar() {
     hidden = false
   }

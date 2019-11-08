@@ -72,6 +72,6 @@
     fill: var(--white);
     stroke: var(--change);
     stroke-width: 1.5px;
-    r: 4;
+    r: 3.5;
   }
 </style>

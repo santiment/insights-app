@@ -100,6 +100,7 @@ include /ui/mixins
   svg {
     @include size(16px);
     cursor: pointer;
+    fill: var(--casper);
 
     &:hover {
       fill: var(--jungle-green);

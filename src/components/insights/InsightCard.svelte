@@ -18,7 +18,7 @@ include /ui/mixins
   .wrapper {
     padding: 20px;
     min-width: 320px;
-    height: 200px;
+    min-height: 190px;
     display: flex;
     flex-direction: column;
   }
