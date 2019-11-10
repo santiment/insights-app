@@ -97,19 +97,19 @@ ViewportObserver(top, {options}, on:intersect='{onIntersect}', {observeWhile})
   .wrapper {
     display: flex;
     min-width: 320px;
-    height: 200px;
+    min-height: 190px;
   }
 
   .left {
     flex: 1;
-    padding: 20px;
+    padding: 24px 24px 28px;
     display: flex;
     flex-direction: column;
   }
 
   .right {
     width: 260px;
-    padding: 20px;
+    padding: 21px 20px 29px;
     background: linear-gradient(180deg, var(--athens), hsla(0, 0%, 100%, 0));
     display: flex;
     flex-direction: column;

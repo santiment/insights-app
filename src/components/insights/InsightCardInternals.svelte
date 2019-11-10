@@ -7,8 +7,6 @@
   import { getDateFormats } from '@/utils/dates'
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
 
-  const AWAITING_APPROVAL_STATE = 'awaiting_approval'
-
   let klass = ''
   export { klass as class }
   export let insight
@@ -26,6 +24,7 @@
     votedAt,
   } = insight
 
+  const AWAITING_APPROVAL_STATE = 'awaiting_approval'
   const seoLink = getSEOLinkFromIdAndTitle(id, title)
   const { MMM, DD, YYYY } = getDateFormats(new Date(publishedAt || updatedAt))
   const status =
@@ -38,15 +37,16 @@
 include /ui/mixins
 
 .top
-  div
-    Tags({tags})
   a.title(href="/read/{seoLink}")
     MultilineText(maxLines='{2}') {title}
+  ProfileInfo(name="{user.username}", id="{user.id}", status="{status}",
+  withPic, classes="{{wrapper: 'card__profile'}}")
 
 .bottom
   .bottom__left
-    ProfileInfo(name="{user.username}", id="{user.id}", status="{status}")
-  LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+    LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+  div
+    Tags({tags})
 
 </template>
 
@@ -56,13 +56,19 @@ include /ui/mixins
 
   .top {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--porcelain);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
   }
 
   .title {
     @include text('h4');
-    margin-top: 14px;
     display: block;
     word-break: break-word;
+    margin-bottom: 14px;
 
     &:hover {
       color: var(--jungle-green);
@@ -82,5 +88,9 @@ include /ui/mixins
       max-width: calc(70% - 40px);
       flex: 1;
     }
+  }
+
+  :global(.card__profile) {
+    max-width: 400px;
   }
 </style>

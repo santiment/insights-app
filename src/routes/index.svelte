@@ -205,7 +205,7 @@ svelte:head
 
   h2 {
     @include text('h4', 'm');
-    margin: 0 0 12px;
+    margin: 0 0 23px;
   }
 
   .featured {
