@@ -1,7 +1,6 @@
 <script>
   export let data
-  export let change
-
+  export let change = 0
   export let width = 64,
     height = 29
 
