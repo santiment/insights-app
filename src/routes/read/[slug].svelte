@@ -2,6 +2,8 @@
   import { client } from '@/apollo'
   import { getInsightIdFromSEOLink } from '@/utils/insights'
   import { INSIGHT_BY_ID_QUERY } from '@/gql/insights'
+  import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
+  import { getTimeIntervalFromToday, DAY } from '@/utils/dates'
 
   export async function preload(page, session) {
     const { slug } = page.params
@@ -24,7 +26,32 @@
       }
     }
 
-    return { ...data.insight }
+    const { from, to } = getTimeIntervalFromToday(-7, DAY)
+
+    const isoFrom = from.toISOString()
+    const isoTo = to.toISOString()
+
+    const assets = await Promise.all(
+      data.insight.tags.map(({ name: ticker }) =>
+        client
+          .query({
+            query: HISTORY_PRICE_QUERY,
+            variables: {
+              ticker,
+              from: isoFrom,
+              to: isoTo,
+              interval: '6h',
+            },
+          })
+          .then(({ data: { historyPrice } }) => ({
+            name: ticker,
+            historyPrice,
+          }))
+          .catch(() => {}),
+      ),
+    )
+
+    return { ...data.insight, assets: assets.filter(Boolean) }
   }
 </script>
 
@@ -38,13 +65,23 @@
   import ProfileInfo from '@/components/ProfileInfo'
   import Loadable from '@/components/Loadable'
   import Dialog from '@/ui/dialog/index'
+  import FeaturedAssets from '@/components/assets/FeaturedAssets'
   import { getDateFormats } from '@/utils/dates'
   import { getRawText, grabFirstImageLink } from '@/utils/insights'
   const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
   const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
   const loadFollowBtn = () => import('@/components/FollowBtn')
 
-  export let id, text, title, tags, user, votes, publishedAt, createdAt, votedAt
+  export let id,
+    text,
+    title,
+    tags,
+    user,
+    votes,
+    publishedAt,
+    createdAt,
+    votedAt,
+    assets
 
   let liked = !!votedAt
   let clientHeight
@@ -133,11 +170,22 @@ svelte:head
           a.edit(href='/edit/{id}')
             +icon('edit').edit__icon
 
+  +if('assets.length')
+    .assets
+      FeaturedAssets({assets})
+
 
 </template>
 
 <style lang="scss">
   @import '@/mixins';
+
+  .assets {
+    position: absolute;
+    top: 110px;
+    right: -40px;
+    transform: translateX(100%);
+  }
 
   .insight {
     max-width: 720px;
