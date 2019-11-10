@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from 'svelte'
+
   export let data
   export let publishedIndex = 0
   export let publishedPrice = 0
