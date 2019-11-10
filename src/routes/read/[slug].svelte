@@ -32,12 +32,12 @@
   import { stores } from '@sapper/app'
   import ViewportObserver from '@/components/ViewportObserver'
   import Tags from '@/components/insights/Tags'
+  import Text from '@/components/insights/Text'
   import LikeBtn from '@/components/LikeBtn'
   import ShareBtn from '@/components/sharing/ShareBtn'
   import ProfileInfo from '@/components/ProfileInfo'
   import Loadable from '@/components/Loadable'
   import Dialog from '@/ui/dialog/index'
-  import Modal from '@/components/Modal'
   import { getDateFormats } from '@/utils/dates'
   import { getRawText, grabFirstImageLink } from '@/utils/insights'
   const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
@@ -48,14 +48,12 @@
 
   let liked = !!votedAt
   let clientHeight
-  let enlargedImgSrc
   let hidden = true
 
   const { session } = stores()
   const classes = { wrapper: 'info__profile' }
 
   const previewImgLink = grabFirstImageLink(text)
-  const accessibleText = text.replace(/<img/g, '<img alt=""')
 
   const { MMM, D, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
   const insightDate = `${MMM} ${D}, ${YYYY}`
@@ -74,15 +72,6 @@
 
   const options = {
     rootMargin: '100% 0px 20px',
-  }
-
-  function enlargeImg({ target }) {
-    if (target.tagName !== 'IMG') return
-    enlargedImgSrc = target.src
-  }
-
-  function closeModal() {
-    enlargedImgSrc = undefined
   }
 
   function hideSidebar() {
@@ -115,11 +104,11 @@ svelte:head
     ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes!='{{wrapper: "insight__profile"}}', withPic)
     +if('$session.currentUser && !isAuthor')
       Loadable(load="{loadFollowBtn}", targetId='{user.id}')
-  div.text(on:click='{enlargeImg}') {@html accessibleText}
+  Text({text})
 
   +if('$session.currentUser')
     +if('isNotFollowed && !isAuthor')
-      Loadable(load="{loadFollowBanner}", targetId='{user.id}')
+      Loadable(load="{loadFollowBanner}", targetId='{user.id}', author='{user.username}')
     +else()
       Loadable(load="{loadAnonBanner}")
 
@@ -144,10 +133,6 @@ svelte:head
           a.edit(href='/edit/{id}')
             +icon('edit').edit__icon
 
-Modal(bind:open='{enlargedImgSrc}')
-  .enlarger(slot='content')
-    +icon('close').enlarger__close(on:click='{closeModal}')
-    img.enlarger__img(src='{enlargedImgSrc}', alt='Modal pic')
 
 </template>
 
@@ -174,85 +159,6 @@ Modal(bind:open='{enlargedImgSrc}')
 
     @include responsive('phone', 'phone-xs') {
       @include text('h3', 'm');
-    }
-  }
-
-  .text {
-    margin: 25px 0 0;
-    word-break: break-word;
-
-    :global(*) {
-      @include text('body-1');
-    }
-
-    :global(.md-block-image) {
-      text-align: center;
-      margin: 16px 0 32px;
-    }
-
-    :global(img) {
-      max-width: 70%;
-      cursor: pointer;
-    }
-
-    :global(.md-inline-bold) {
-      font-weight: bold;
-    }
-
-    :global(.md-inline-link) {
-      text-decoration: underline;
-      color: var(--jungle-green);
-    }
-
-    :global(.md-block-image-caption) {
-      font-size: 14px;
-      line-height: 20px;
-      font-style: italic;
-      color: var(--waterloo);
-    }
-
-    :global(.md-block-image-caption a) {
-      font-size: 14px;
-      line-height: 20px;
-      font-style: italic;
-    }
-
-    :global(.md-inline-underline) {
-      text-decoration: underline;
-    }
-
-    :global(.md-block-unordered-list-item) {
-      padding-left: 35px;
-      margin: 10px 0 40px;
-
-      :global(li) {
-        list-style: disc outside;
-      }
-    }
-
-    :global(.md-block-blockquote) {
-      @include text('h4');
-      padding: 23px 32px;
-      background: var(--athens);
-      border-radius: 4px;
-      color: var(--mirage);
-      position: relative;
-
-      &::before {
-        content: '“';
-        position: absolute;
-        display: block;
-        left: 28px;
-        top: 1px;
-        font-size: 74px;
-        font-family: sans-serif;
-        font-weight: bold;
-        color: var(--casper);
-      }
-    }
-
-    :global(.md-block-blockquote + .md-block-blockquote::before) {
-      display: none;
     }
   }
 
@@ -315,29 +221,6 @@ Modal(bind:open='{enlargedImgSrc}')
       @include responsive('phone-xs') {
         margin-left: 16px;
       }
-    }
-  }
-
-  .enlarger {
-    width: 84%;
-    margin: 5% auto 0;
-    position: relative;
-
-    &__close {
-      @include size(12px);
-      position: absolute;
-      top: 0;
-      right: -20px;
-      fill: #fff;
-      cursor: pointer;
-
-      &:hover {
-        fill: var(--jungle-green);
-      }
-    }
-
-    &__img {
-      width: 100%;
     }
   }
 

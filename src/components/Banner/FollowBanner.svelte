@@ -1,6 +1,7 @@
 <script>
   import FollowBtn from '@/components/FollowBtn'
 
+  export let author = ''
   export let targetId
   let klass = ''
   export { klass as class }
@@ -10,9 +11,9 @@
 include /ui/mixins
 
 .wrapper(class='{klass}')
-  h2 Never miss a post!
-  h3 Get Santiment Crypto Market Updates direct to your inbox
-  FollowBtn({targetId}).follow-banner-btn
+  h2 Never miss a post from {author}!
+  h3 Get 'early bird' alerts for new insights from this author
+  FollowBtn({targetId}).follow-banner-btn {' '+author}
 
 </template>
 
@@ -21,7 +22,7 @@ include /ui/mixins
   @import '@/variables';
 
   .wrapper {
-    background: var(--jungle-green);
+    background: var(--mirage);
     color: var(--white);
     text-align: center;
     padding: 32px;
@@ -32,7 +33,7 @@ include /ui/mixins
 
     &::after {
       z-index: -1;
-      opacity: 0.2;
+      opacity: 0.08;
       content: '';
       background: url('/overview_banner.svg') no-repeat 100%;
       position: absolute;
@@ -55,10 +56,11 @@ include /ui/mixins
   :global(.follow-banner-btn) {
     font-size: inherit !important;
     line-height: inherit !important;
-    width: 100px;
+    min-width: 100px;
     height: 32px !important;
     justify-content: center;
-    background: $mirage !important;
-    margin: 0;
+    background: $jungle-green !important;
+    color: $white !important;
+    margin: 0 !important;
   }
 </style>

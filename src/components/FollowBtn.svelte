@@ -57,9 +57,10 @@ include /ui/mixins
 
 +button()(class='{klass}', on:click='{toggleFollow}')
   +if('followed')
-    |Unfollow
+    |Following
     +else
       |Follow
+      slot
 </template>
 
 <style lang="scss">
@@ -68,8 +69,7 @@ include /ui/mixins
 
   button {
     @include text('caption');
-    margin-top: -2px;
-    margin-left: 8px;
+    margin: -2px 0 0 8px;
     height: auto;
     padding: 1px 8px;
     background: $casper;
