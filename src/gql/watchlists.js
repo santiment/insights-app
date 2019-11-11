@@ -10,9 +10,32 @@ export const ALL_USER_WATCHLISTS = gql`
   }
 `
 
+export const ALL_USER_WATCHLISTS_WITH_ITEMS = gql`
+  query fetchWatchlists {
+    watchlists: fetchWatchlists {
+      id
+      name
+      isPublic
+      listItems {
+        project {
+          id
+        }
+      }
+    }
+  }
+`
+
 export const CREATE_USER_WATCHLIST = gql`
   mutation createWatchlist($isPublic: Boolean, $name: String!) {
     createWatchlist(isPublic: $isPublic, name: $name) {
+      id
+    }
+  }
+`
+
+export const UPDATE_WATCHLIST = gql`
+  mutation updateUserList($id: Int!, $listItems: [InputListItem]) {
+    updateUserList(id: $id, listItems: $listItems) {
       id
     }
   }

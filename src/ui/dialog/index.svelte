@@ -9,6 +9,12 @@
     open = false
   }
 
+  function onClickaway({ target, currentTarget }) {
+    if (target === currentTarget) {
+      closeDialog()
+    }
+  }
+
   function onKeyup({ code }) {
     if (code === 'Escape') {
       closeDialog()
@@ -35,13 +41,12 @@ p(bind:this='{anc}')
 slot(name='trigger')
 
 +if('open')
-  +panel.dialog(variant='context')
-    .top
-      h2 {title}
-      +icon('close')(on:click='{closeDialog}')
-    slot(name='content')
-
-  .bg(on:click='{closeDialog}')
+  .bg(on:click='{onClickaway}')
+    +panel.dialog(variant='context')
+      .top
+        h2 {title}
+        +icon('close')(on:click='{closeDialog}')
+      slot(name='content')
 </template>
 
 <style lang="scss">
@@ -50,26 +55,24 @@ slot(name='trigger')
     display: none;
   }
 
-  .dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    max-width: 85%;
-    max-height: 85%;
-  }
-
   .bg {
     position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: rgba(0, 0, 0, 0.7);
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 9;
+    z-index: 10;
+  }
+
+  .dialog {
+    display: flex;
+    flex-direction: column;
+    max-width: 85%;
+    max-height: 85%;
   }
 
   .top {
@@ -93,15 +96,15 @@ slot(name='trigger')
     }
   }
 
- @include responsive('phone', 'phone-xs') {
-   .dialog {
-     max-width: 100%;
-     max-height: 90%;
-     transform: initial;
-     left: 0;
-     right: 0;
-     bottom: 0;
-     top: initial;
-   }
- }
+  @include responsive('phone', 'phone-xs') {
+    .dialog {
+      max-width: 100%;
+      max-height: 90%;
+      transform: initial;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: initial;
+    }
+  }
 </style>

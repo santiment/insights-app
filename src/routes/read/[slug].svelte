@@ -2,10 +2,15 @@
   import { client } from '@/apollo'
   import { getInsightIdFromSEOLink } from '@/utils/insights'
   import { INSIGHT_BY_ID_QUERY } from '@/gql/insights'
+  import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
+  import { ALL_PROJECTS_SEARCH_QUERY } from '@/gql/projects'
+  import { getTimeIntervalFromToday, DAY } from '@/utils/dates'
 
   export async function preload(page, session) {
     const { slug } = page.params
     const id = getInsightIdFromSEOLink(slug)
+
+    const allProjectsQuery = client.query({ query: ALL_PROJECTS_SEARCH_QUERY })
 
     const { data } = await client.query({
       query: INSIGHT_BY_ID_QUERY,
@@ -24,7 +29,55 @@
       }
     }
 
-    return { ...data.insight }
+    if (session.isMobile) {
+      return { ...data.insight }
+    }
+
+    const { from, to } = getTimeIntervalFromToday(-7, DAY)
+
+    const isoFrom = from.toISOString()
+    const isoTo = to.toISOString()
+
+    const {
+      data: { allProjects },
+    } = await allProjectsQuery
+
+    const projectTikers = data.insight.tags.map(({ name }) => name)
+    const tickersLength = projectTikers.length
+    const projects = []
+
+    const projectsLength = allProjects.length
+    for (let i = 0; i < projectsLength; i++) {
+      const project = allProjects[i]
+      if (projectTikers.includes(project.ticker)) {
+        if (projects.push(project) === tickersLength) {
+          console.log('Breaking')
+          break
+        }
+      }
+    }
+
+    const assets = await Promise.all(
+      projects.map(project =>
+        client
+          .query({
+            query: HISTORY_PRICE_QUERY,
+            variables: {
+              slug: project.slug,
+              from: isoFrom,
+              to: isoTo,
+              interval: '6h',
+            },
+          })
+          .then(({ data: { historyPrice } }) => ({
+            ...project,
+            historyPrice,
+          }))
+          .catch(() => {}),
+      ),
+    )
+
+    return { ...data.insight, assets: assets.filter(Boolean) }
   }
 </script>
 
@@ -38,13 +91,24 @@
   import ProfileInfo from '@/components/ProfileInfo'
   import Loadable from '@/components/Loadable'
   import Dialog from '@/ui/dialog/index'
+  // TODO: Lazy load FeaturedAssets [@vanguard | Nov 11, 2019]
+  import FeaturedAssets from '@/components/assets/FeaturedAssets'
   import { getDateFormats } from '@/utils/dates'
   import { getRawText, grabFirstImageLink } from '@/utils/insights'
   const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
   const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
   const loadFollowBtn = () => import('@/components/FollowBtn')
 
-  export let id, text, title, tags, user, votes, publishedAt, createdAt, votedAt
+  export let id,
+    text,
+    title,
+    tags,
+    user,
+    votes,
+    publishedAt,
+    createdAt,
+    votedAt,
+    assets = []
 
   let liked = !!votedAt
   let clientHeight
@@ -133,11 +197,25 @@ svelte:head
           a.edit(href='/edit/{id}')
             +icon('edit').edit__icon
 
+  +if('assets.length && !$session.isMobile')
+    .assets
+      FeaturedAssets({assets})
+
 
 </template>
 
 <style lang="scss">
   @import '@/mixins';
+
+  .assets {
+    position: absolute;
+    top: 110px;
+    left: calc(100% + 40px);
+
+    @media screen and (min-width: 1320px) {
+      left: calc(100% + 80px);
+    }
+  }
 
   .insight {
     max-width: 720px;
@@ -211,7 +289,7 @@ svelte:head
         flex-direction: column;
         display: flex;
         align-items: start;
-        left: calc((50% - 360px) / 2);
+        right: calc(50% + 440px);
       }
     }
 
