@@ -8,7 +8,7 @@
     name = 'Storj',
     slug,
     ticker,
-    logo = 'https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_storj.png',
+    logoUrl = 'https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_storj.png',
     historyPrice,
   } = asset
 
@@ -21,13 +21,11 @@
 <template lang="pug">
 include /ui/mixins
 
-+panel.card(variant='box', href='https://app.santiment.net/projects/{name}')
++panel.card(variant='box', href='https://app.santiment.net/projects/{slug}')
   .head
-    +if('false')
-      img(src='{logo}', alt='{ticker} logo')
-    h3 {asset.name}
-      +if('false')
-        span {ticker}
+    img(src='{logoUrl}', alt='{name} logo')
+    h3 {name}
+      span {ticker}
   .body
     .body__top
       h4 $ {currentPrice.toFixed(2)}

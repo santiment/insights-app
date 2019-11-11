@@ -3,11 +3,14 @@
   import { getInsightIdFromSEOLink } from '@/utils/insights'
   import { INSIGHT_BY_ID_QUERY } from '@/gql/insights'
   import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
+  import { ALL_PROJECTS_SEARCH_QUERY } from '@/gql/projects'
   import { getTimeIntervalFromToday, DAY } from '@/utils/dates'
 
   export async function preload(page, session) {
     const { slug } = page.params
     const id = getInsightIdFromSEOLink(slug)
+
+    const allProjectsQuery = client.query({ query: ALL_PROJECTS_SEARCH_QUERY })
 
     const { data } = await client.query({
       query: INSIGHT_BY_ID_QUERY,
@@ -31,20 +34,39 @@
     const isoFrom = from.toISOString()
     const isoTo = to.toISOString()
 
+    const {
+      data: { allProjects },
+    } = await allProjectsQuery
+
+    const projectTikers = data.insight.tags.map(({ name }) => name)
+    const tickersLength = projectTikers.length
+    const projects = []
+
+    const projectsLength = allProjects.length
+    for (let i = 0; i < projectsLength; i++) {
+      const project = allProjects[i]
+      if (projectTikers.includes(project.ticker)) {
+        if (projects.push(project) === tickersLength) {
+          console.log('Breaking')
+          break
+        }
+      }
+    }
+
     const assets = await Promise.all(
-      data.insight.tags.map(({ name: ticker }) =>
+      projects.map(project =>
         client
           .query({
             query: HISTORY_PRICE_QUERY,
             variables: {
-              ticker,
+              slug: project.slug,
               from: isoFrom,
               to: isoTo,
               interval: '6h',
             },
           })
           .then(({ data: { historyPrice } }) => ({
-            name: ticker,
+            ...project,
             historyPrice,
           }))
           .catch(() => {}),
