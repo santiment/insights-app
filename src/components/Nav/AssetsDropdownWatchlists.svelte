@@ -2,12 +2,11 @@
   import { onMount } from 'svelte'
   import { stores } from '@sapper/app'
   import Dialog from '@/ui/dialog/index'
-  import NewWatchlistForm from './NewWatchlistForm.svelte'
+  import NewWatchlistDialog from './NewWatchlistDialog.svelte'
   import { client } from '@/apollo'
   import { ALL_USER_WATCHLISTS } from '@/gql/watchlists'
 
   let watchlists = []
-  let open = false
 
   const { session } = stores()
 
@@ -39,12 +38,7 @@ include /ui/mixins
         +button.watchlist(href='{getWatchlistLink(watchlist)}', variant='ghost', fluid) {watchlist.name}
             +icon('{watchlist.isPublic ? "eye-small" : "lock-small"}').watchlist__icon
 
-  Dialog(bind:open, title='New watchlist')
-    +button.new(slot='trigger', border, fluid)
-      +icon('plus-round').new__icon
-      |New Watchlist
-    .form(slot='content')
-      NewWatchlistForm(bind:watchlists, bind:open)
+  NewWatchlistDialog(bind:watchlists)
 
   +else()
     .anon
@@ -119,16 +113,6 @@ include /ui/mixins
       &:hover {
         fill: var(--mirage);
       }
-    }
-  }
-
-  .new {
-    justify-content: center;
-
-    &__icon {
-      @include size(16px);
-      fill: var(--casper);
-      margin: 0 8px 0 0;
     }
   }
 </style>

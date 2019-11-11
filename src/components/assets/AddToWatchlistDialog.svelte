@@ -4,6 +4,7 @@
   import { get } from 'svelte/store'
   import Dialog from '@/ui/dialog/index'
   import Checkbox from '@/components/Checkbox'
+  import NewWatchlistDialog from '@/components/Nav/NewWatchlistDialog'
   import {
     ALL_USER_WATCHLISTS_WITH_ITEMS,
     UPDATE_WATCHLIST,
@@ -26,7 +27,7 @@
 
   const { session } = stores()
 
-  $: if (open) {
+  $: if (open && watchlists.length === 0) {
     client
       .query({
         query: ALL_USER_WATCHLISTS_WITH_ITEMS,
@@ -43,6 +44,7 @@
           initialHash = getSelectedWatchlistHash([...sel])
         }
 
+        console.log('Updating selected')
         selected = sel
         watchlists = data.watchlists
       })
@@ -75,6 +77,8 @@
     selected = new Set(selected)
   }
 
+  $: console.log({ initialSelectedWatchlists, selected })
+
   function applyChanges() {
     loading = true
 
@@ -94,20 +98,19 @@
     initialHash = getSelectedWatchlistHash([...selected])
     initialSelectedWatchlists = selected
 
+    // TODO: Correctly update watchlist cache [@vanguard | Nov 11, 2019]
+    watchlists.forEach(watchlist => {
+      const { listItems = [] } = watchlist
+      watchlist.listItems = listItems
+    })
+
     return Promise.all(
       additionTargets
-        .map(watchlist => {
-          addProjectToWatchlist(project, watchlist)
-          // TODO: Correctly update watchlist cache [@vanguard | Nov 11, 2019]
-          watchlist.listItems.push({ project: { id: projectId } })
-        })
+        .map(watchlist => addProjectToWatchlist(project, watchlist))
         .concat(
-          deletionTargets.map(watchlist => {
-            removeProjectFromWatchlist(project, watchlist)
-            watchlist.listItems = watchlist.listItems.filter(
-              ({ project: { id } }) => id !== projectId,
-            )
-          }),
+          deletionTargets.map(watchlist =>
+            removeProjectFromWatchlist(project, watchlist),
+          ),
         ),
     ).then(() => {
       loading = false
@@ -142,6 +145,7 @@ Dialog(bind:open, title='Add to watchlist')
           +icon('{watchlist.isPublic ? "eye-small" : "lock-small"}').icon_is-public
         +else
           .loading.process
+    NewWatchlistDialog(bind:watchlists)
   +dialogActions(slot='content')
     +button()(border, on:click='{closeDialog}') Cancel
     +button.apply(variant='fill', accent='jungle-green',
@@ -157,6 +161,7 @@ class:loading, on:click='{applyChanges}') Apply
     min-width: 270px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 15px;
   }
 
   .item {
