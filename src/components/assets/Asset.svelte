@@ -1,16 +1,12 @@
 <script>
   import ValueChange, { percentChange } from '@/components/ValueChange'
   import ChangeChart from './ChangeChart.svelte'
+  import AddToWatchlistDialog from './AddToWatchlistDialog.svelte'
 
   export let asset
+  let open = false
 
-  let {
-    name = 'Storj',
-    slug,
-    ticker,
-    logoUrl = 'https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_storj.png',
-    historyPrice,
-  } = asset
+  let { name, slug, ticker, logoUrl, historyPrice } = asset
 
   const { length } = historyPrice
   const { priceUsd: currentPrice } = historyPrice[length - 1]
@@ -21,8 +17,8 @@
 <template lang="pug">
 include /ui/mixins
 
-+panel.card(variant='box', href='https://app.santiment.net/projects/{slug}')
-  .head
++panel.card(variant='box')
+  a.head(href='https://app.santiment.net/projects/{slug}')
     img(src='{logoUrl}', alt='{name} logo')
     h3 {name}
       span {ticker}
@@ -34,10 +30,8 @@ include /ui/mixins
     .body__bottom
       ValueChange.FeaturedAssets__change({change}, formatter='{percentChange}')
       |in last 7d
-    
-    +button()(fluid, border)
-      +icon('add-watchlist').icon_add-watchlist
-      |Add to watchlist
+    AddToWatchlistDialog({slug}, bind:open)
+
 </template>
 
 <style lang="scss">
@@ -45,20 +39,14 @@ include /ui/mixins
 
   .card {
     width: 235px;
-    display: block;
     margin-bottom: 16px;
-
-    &:hover {
-      color: var(--mirage);
-    }
   }
 
   .head {
-    border-bottom: 1px solid var(--porcelain);
-    padding: 16px;
-
     display: flex;
     align-items: center;
+    border-bottom: 1px solid var(--porcelain);
+    padding: 16px;
   }
 
   img {
@@ -104,11 +92,5 @@ include /ui/mixins
 
   :global(.FeaturedAssets__change) {
     margin-right: 5px;
-  }
-
-  .icon_add-watchlist {
-    fill: var(--casper);
-    @include size(16px, 14px);
-    margin-right: 20px;
   }
 </style>

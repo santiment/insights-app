@@ -9,7 +9,7 @@ include /ui/mixins
 
 h2 Featured in this insight
 
-+each('assets as asset')
++each('assets as asset (asset.slug)')
   Asset({asset})
 
 </template>

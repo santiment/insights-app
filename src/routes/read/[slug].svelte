@@ -205,8 +205,7 @@ svelte:head
   .assets {
     position: absolute;
     top: 110px;
-    right: -40px;
-    transform: translateX(100%);
+    left: calc(100% + 40px);
   }
 
   .insight {
