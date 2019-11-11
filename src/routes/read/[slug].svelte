@@ -29,6 +29,10 @@
       }
     }
 
+    if (session.isMobile) {
+      return { ...data.insight }
+    }
+
     const { from, to } = getTimeIntervalFromToday(-7, DAY)
 
     const isoFrom = from.toISOString()
@@ -87,6 +91,7 @@
   import ProfileInfo from '@/components/ProfileInfo'
   import Loadable from '@/components/Loadable'
   import Dialog from '@/ui/dialog/index'
+  // TODO: Lazy load FeaturedAssets [@vanguard | Nov 11, 2019]
   import FeaturedAssets from '@/components/assets/FeaturedAssets'
   import { getDateFormats } from '@/utils/dates'
   import { getRawText, grabFirstImageLink } from '@/utils/insights'
@@ -103,7 +108,7 @@
     publishedAt,
     createdAt,
     votedAt,
-    assets
+    assets = []
 
   let liked = !!votedAt
   let clientHeight
@@ -192,7 +197,7 @@ svelte:head
           a.edit(href='/edit/{id}')
             +icon('edit').edit__icon
 
-  +if('assets.length')
+  +if('assets.length && !$session.isMobile')
     .assets
       FeaturedAssets({assets})
 
