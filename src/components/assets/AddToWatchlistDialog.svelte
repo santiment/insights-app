@@ -90,16 +90,26 @@
 
     console.log({ deletionTargets, additionTargets })
     const project = +projectId
+    initialHash = getSelectedWatchlistHash([...selected])
+    initialSelectedWatchlists = selected
 
     return Promise.all(
       additionTargets
-        .map(watchlist => addProjectToWatchlist(project, watchlist))
+        .map(watchlist => {
+          addProjectToWatchlist(project, watchlist)
+          // TODO: Correctly update watchlist cache [@vanguard | Nov 11, 2019]
+          watchlist.listItems.push({ project: { id: projectId } })
+        })
         .concat(
-          deletionTargets.map(watchlist =>
-            removeProjectFromWatchlist(project, watchlist),
-          ),
+          deletionTargets.map(watchlist => {
+            removeProjectFromWatchlist(project, watchlist)
+            watchlist.listItems = watchlist.listItems.filter(
+              ({ project: { id } }) => id !== projectId,
+            )
+          }),
         ),
     ).then(() => {
+      loading = false
       open = false
     })
   }
