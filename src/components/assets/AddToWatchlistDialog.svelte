@@ -6,17 +6,22 @@
   import Checkbox from '@/components/Checkbox'
   import {
     ALL_USER_WATCHLISTS_WITH_ITEMS,
-    CREATE_USER_WATCHLIST,
+    UPDATE_WATCHLIST,
   } from '@/gql/watchlists'
   import { client } from '@/apollo'
+  import {
+    addProjectToWatchlist,
+    removeProjectFromWatchlist,
+  } from '@/utils/watchlists'
 
   export let open
-  export let slug
+  export let projectId
   let loading = false
   let watchlists = []
   let selected = new Set()
   let hasNotUpdated = true
-  let defaultHash
+  let initialHash
+  let initialSelectedWatchlists
 
   const { session } = stores()
 
@@ -28,12 +33,13 @@
       .then(({ data }) => {
         const sel = new Set(
           data.watchlists.filter(({ listItems }) =>
-            listItems.some(({ project }) => slug === project.slug),
+            listItems.some(({ project }) => projectId === project.id),
           ),
         )
 
-        if (defaultHash === undefined) {
-          defaultHash = getSelectedWatchlistHash([...sel])
+        if (initialHash === undefined) {
+          initialSelectedWatchlists = sel
+          initialHash = getSelectedWatchlistHash([...sel])
         }
 
         selected = sel
@@ -41,12 +47,12 @@
       })
   }
 
-  $: hasNotUpdated = defaultHash === getSelectedWatchlistHash([...selected])
+  $: hasNotUpdated = initialHash === getSelectedWatchlistHash([...selected])
 
   function getSelectedWatchlistHash(watchlists) {
     return watchlists
       .sort(({ id: a }, { id: b }) => a - b)
-      .reduce((acc, { name }) => acc + name, '')
+      .reduce((acc, { id }) => acc + id, '')
   }
 
   function closeDialog() {
@@ -66,6 +72,36 @@
       selected.add(watchlist)
     }
     selected = new Set(selected)
+  }
+
+  function applyChanges() {
+    loading = true
+
+    const deletionTargets = []
+    const additionSet = new Set(selected)
+
+    initialSelectedWatchlists.forEach(watchlist =>
+      additionSet.has(watchlist)
+        ? additionSet.delete(watchlist)
+        : deletionTargets.push(watchlist),
+    )
+
+    const additionTargets = [...additionSet]
+
+    console.log({ deletionTargets, additionTargets })
+    const project = +projectId
+
+    return Promise.all(
+      additionTargets
+        .map(watchlist => addProjectToWatchlist(project, watchlist))
+        .concat(
+          deletionTargets.map(watchlist =>
+            removeProjectFromWatchlist(project, watchlist),
+          ),
+        ),
+    ).then(() => {
+      open = false
+    })
   }
 </script>
 
@@ -87,9 +123,10 @@ Dialog(bind:open, title='Add to watchlist')
         +else
           .loading.process
   +dialogActions(slot='content')
-    +button()(type='button', border, on:click='{closeDialog}') Cancel
-    +button.apply(type='submit', variant='fill', accent='jungle-green',
-class:disabled!='{defaultHash === undefined || hasNotUpdated}', class:loading) Apply
+    +button()(border, on:click='{closeDialog}') Cancel
+    +button.apply(variant='fill', accent='jungle-green',
+class:disabled!='{initialHash === undefined || hasNotUpdated}',
+class:loading, on:click='{applyChanges}') Apply
 
 </template>
 

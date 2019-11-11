@@ -6,7 +6,7 @@
   export let asset
   let open = false
 
-  let { name, slug, ticker, logoUrl, historyPrice } = asset
+  let { id, name, slug, ticker, logoUrl, historyPrice } = asset
 
   const { length } = historyPrice
   const { priceUsd: currentPrice } = historyPrice[length - 1]
@@ -30,7 +30,7 @@ include /ui/mixins
     .body__bottom
       ValueChange.FeaturedAssets__change({change}, formatter='{percentChange}')
       |in last 7d
-    AddToWatchlistDialog({slug}, bind:open)
+    AddToWatchlistDialog(projectId='{id}', bind:open)
 
 </template>
 
