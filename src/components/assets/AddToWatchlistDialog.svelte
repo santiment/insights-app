@@ -13,6 +13,7 @@
     addProjectToWatchlist,
     removeProjectFromWatchlist,
   } from '@/utils/watchlists'
+  import { notifications } from '@/stores/notifications'
 
   export let open
   export let projectId
@@ -111,6 +112,15 @@
     ).then(() => {
       loading = false
       open = false
+
+      const updatesAmount = additionTargets.length + deletionTargets.length
+
+      notifications.add({
+        type: 'success',
+        title: `${updatesAmount} watchlist${
+          updatesAmount > 1 ? 's were' : ' was'
+        } modified`,
+      })
     })
   }
 </script>
