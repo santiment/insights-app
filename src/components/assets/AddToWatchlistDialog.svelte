@@ -44,7 +44,6 @@
           initialHash = getSelectedWatchlistHash([...sel])
         }
 
-        console.log('Updating selected')
         selected = sel
         watchlists = data.watchlists
       })
@@ -77,11 +76,10 @@
     selected = new Set(selected)
   }
 
-  $: console.log({ initialSelectedWatchlists, selected })
-
   function applyChanges() {
     loading = true
 
+    const project = +projectId
     const deletionTargets = []
     const additionSet = new Set(selected)
 
@@ -93,8 +91,6 @@
 
     const additionTargets = [...additionSet]
 
-    console.log({ deletionTargets, additionTargets })
-    const project = +projectId
     initialHash = getSelectedWatchlistHash([...selected])
     initialSelectedWatchlists = selected
 
@@ -140,7 +136,7 @@ Dialog(bind:open, title='Add to watchlist')
       +each('watchlists as watchlist (watchlist.id)')
         +button.item(fluid, on:click!='{()=>toggleWatchlist(watchlist)}')
           span.item__left
-            Checkbox(active='{selected.has(watchlist)}')
+            Checkbox.AddToWatchlistDialog__checkbox(active='{selected.has(watchlist)}')
             |{watchlist.name}
           +icon('{watchlist.isPublic ? "eye-small" : "lock-small"}').icon_is-public
         +else
@@ -166,6 +162,7 @@ class:loading, on:click='{applyChanges}') Apply
 
   .item {
     justify-content: space-between;
+    padding: 6px 0;
 
     &__left {
       display: flex;
@@ -186,5 +183,9 @@ class:loading, on:click='{applyChanges}') Apply
     fill: var(--casper);
     @include size(16px, 14px);
     margin-right: 20px;
+  }
+
+  :global(.AddToWatchlistDialog__checkbox) {
+    margin-right: 10px;
   }
 </style>

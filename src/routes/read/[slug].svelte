@@ -206,6 +206,10 @@ svelte:head
     position: absolute;
     top: 110px;
     left: calc(100% + 40px);
+
+    @media screen and (min-width: 1320px) {
+      left: calc(100% + 80px);
+    }
   }
 
   .insight {
@@ -280,7 +284,7 @@ svelte:head
         flex-direction: column;
         display: flex;
         align-items: start;
-        left: calc((50% - 360px) / 2);
+        right: calc(50% + 440px);
       }
     }
 
