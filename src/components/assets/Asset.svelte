@@ -38,8 +38,14 @@ include /ui/mixins
   @import '@/mixins';
 
   .card {
-    width: 235px;
+    width: 215px;
     margin-bottom: 16px;
+    font-size: 12px;
+
+    @media screen and (min-width: 1280px) {
+      width: 235px;
+      font-size: 14px;
+    }
   }
 
   .head {
@@ -56,14 +62,20 @@ include /ui/mixins
   }
 
   h3 {
-    @include text('body-2');
+    @media screen and (min-width: 1280px) {
+      @include text('body-2');
+    }
   }
 
   span {
     color: var(--waterloo);
     text-transform: uppercase;
-    @include text('caption');
     margin-left: 4px;
+    font-size: 10px;
+
+    @media screen and (min-width: 1280px) {
+      @include text('caption');
+    }
   }
 
   .chart {
@@ -87,10 +99,13 @@ include /ui/mixins
   }
 
   h4 {
-    @include text('h4');
+    font-size: 20px;
+    @media screen and (min-width: 1280px) {
+      @include text('h4');
+    }
   }
 
   :global(.FeaturedAssets__change) {
-    margin-right: 5px;
+    margin: 0 5px 0 8px;
   }
 </style>

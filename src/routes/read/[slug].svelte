@@ -209,8 +209,8 @@ svelte:head
 
   .assets {
     position: absolute;
-    top: 110px;
-    left: calc(100% + 40px);
+    top: 90px;
+    left: calc(100% + 30px);
 
     @media screen and (min-width: 1320px) {
       left: calc(100% + 80px);
