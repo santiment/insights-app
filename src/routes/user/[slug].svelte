@@ -25,11 +25,15 @@
 </script>
 
 <script>
-  import InsightCard from '@/components/insights/InsightCard'
+  import InsightCardDesktop from '@/components/insights/InsightCardWithMarketcap'
+  import InsightCardMobile from '@/components/insights/InsightCard'
   import Feed from '@/components/Feed'
+  import { getMobileComponent } from '@/utils/responsive'
   import { publishDateSorter } from '@/utils/insights'
 
   export let insights = []
+
+  const InsightCard = getMobileComponent(InsightCardMobile, InsightCardDesktop)
 
   $: insights.sort(publishDateSorter)
 </script>
