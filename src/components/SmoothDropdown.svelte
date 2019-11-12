@@ -5,6 +5,12 @@
   export let items
   export let offsetY = 10
 
+  const defaultSettings = {
+    offsetY: 0,
+    offsetX: 0,
+    centered: true,
+  }
+
   let lastTrigger
   let opened
   let style
@@ -12,9 +18,11 @@
   let clientWidth
   let firstTime
   let closeTimer
+  let innerWidth
+  let content
+  let triggerSettings = defaultSettings
 
   const transition = { duration: 150 }
-  let content
 
   $: {
     clientHeight
@@ -26,43 +34,54 @@
     opened = true
     stopCloseTimer()
     trigger.onmouseleave = startCloseTimer
+    triggerSettings = Object.assign({}, defaultSettings, trigger.dataset)
   }
 
   function startCloseTimer() {
     lastTrigger = trigger
-    closeTimer = setTimeout(() => {
-      lastTrigger = undefined
-      opened = false
-    }, 200)
+    closeTimer = setTimeout(closeDropdown, 200)
+  }
+
+  function closeDropdown() {
+    lastTrigger = undefined
+    opened = false
   }
 
   function stopCloseTimer() {
     clearTimeout(closeTimer)
   }
 
-  let innerWidth
-
   function computeStyles() {
     const {
+      offsetLeft,
       offsetTop,
       offsetHeight: triggerHeight,
       offsetWidth: triggerWidth,
     } = trigger
-    const { left } = trigger.getBoundingClientRect()
-    const halfDropdown = clientWidth / 2
-    const halfTrigger = triggerWidth / 2
-    const centered = halfDropdown - halfTrigger
+
+    const left = offsetLeft
+    const absoluteLeft = trigger.getBoundingClientRect().left
+    let centered = 0
+    if (triggerSettings.centered) {
+      const halfDropdown = clientWidth / 2
+      const halfTrigger = triggerWidth / 2
+      centered = halfDropdown - halfTrigger
+    }
     const leftPosition = left - centered
+    const absoluteLeftPosition = absoluteLeft - centered
 
     let viewportAlign = 0
-    if (leftPosition < 0) {
-      viewportAlign = leftPosition
-    } else if (leftPosition + clientWidth > innerWidth) {
-      viewportAlign = leftPosition + clientWidth - innerWidth
+    if (absoluteLeftPosition < 0) {
+      viewportAlign = absoluteLeftPosition
+    } else if (absoluteLeftPosition + clientWidth > innerWidth) {
+      viewportAlign = absoluteLeftPosition + clientWidth - innerWidth
     }
 
-    return `left: ${leftPosition - viewportAlign}px; top: ${offsetY +
+    return `left: ${leftPosition -
+      viewportAlign +
+      +triggerSettings.offsetX}px; top: ${offsetY +
       offsetTop +
+      +triggerSettings.offsetY +
       triggerHeight}px; height: ${clientHeight}px; width: ${clientWidth}px`
   }
 </script>
@@ -73,10 +92,14 @@ include /ui/mixins
 svelte:window(bind:innerWidth)
 
 +if('opened')
-  +panel.dd(variant="context", transition:fade="{transition}", {style}, class:dd_first="{!lastTrigger}" )
+  +panel.dd(variant="context", transition:fade="{transition}", {style},
+  class:dd_first="{!lastTrigger}")
     +each('items as item')
      +if('item.id === trigger.id')
-       .dd__content( transition:fade="{transition}", on:mouseenter="{stopCloseTimer}", on:mouseleave="{startCloseTimer}", bind:clientHeight, bind:clientWidth)
+       .dd__content(transition:fade="{transition}",
+       on:mouseenter="{stopCloseTimer}",
+       on:mouseleave="{startCloseTimer}", bind:clientHeight,
+       bind:clientWidth, class!='{item.class || ""}')
          svelte:component(this="{item.component}")
 </template>
 

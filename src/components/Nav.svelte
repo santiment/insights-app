@@ -4,6 +4,7 @@
   import NavAssetsDropdown from '@/components/Nav/AssetsDropdown'
   import NavHelpDropdown from '@/components/Nav/HelpDropdown'
   import NavAccountDropdown from '@/components/Nav/AccountDropdown'
+  import Products from '@/components/Nav/Products'
   import ProjectsSearch from '@/components/ProjectsSearch'
   import UpgradeBtn from '@/components/UpgradeBtn'
 
@@ -11,6 +12,11 @@
 
   let activeTrigger
   const dropdownItems = [
+    {
+      id: 'products-trigger',
+      component: Products,
+      class: 'Nav__dd-products',
+    },
     { id: 'assets-trigger', component: NavAssetsDropdown },
     { id: 'labs-trigger', component: NavLabsDropdown },
     { id: 'help-trigger', component: NavHelpDropdown },
@@ -31,7 +37,9 @@ header
     nav.nav
       a(href='/')
         img(src='/san-logo.svg', alt='Santiment logo')
-      +button.products(variant="flat")
+      +button.products(variant="flat", on:mouseenter="{onTriggerEnter}",
+      id="products-trigger", aria-label='Products dropdown',
+      data-offset-y='8', data-offset-x='-42', data-centered='')
         +icon('arrow-down').icon-arrow-down
       +button.link(href=appPath+'/sonar', variant="flat") Sonar
       +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
@@ -50,7 +58,7 @@ header
       id="account-trigger", aria-label="Profile menu").btn-icon
         +icon('user').icon-user
 
-  SmoothDropdown(trigger="{activeTrigger}", items="{dropdownItems}")
+    SmoothDropdown(trigger="{activeTrigger}", items="{dropdownItems}")
 </template>
 
 <style lang="scss">
@@ -103,6 +111,7 @@ header
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+    position: relative;
   }
 
   img {
@@ -140,5 +149,10 @@ header
       width: 1px;
       background: var(--porcelain);
     }
+  }
+
+  :global(.Nav__dd-products) {
+    padding: 24px 16px 16px;
+    width: 1140px;
   }
 </style>
