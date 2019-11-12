@@ -65,9 +65,7 @@
       case 'Enter':
         selectedSuggestion = suggestions[cursor]
         currentTarget.blur()
-        window.location.href = `https://app.santiment.net/projects/${
-          selectedSuggestion.slug
-        }`
+        window.location.href = `https://app.santiment.net/projects/${selectedSuggestion.slug}`
       default:
         return
     }
@@ -100,8 +98,8 @@
 <template lang="pug">
 include /ui/mixins
 
-.wrapper
-  +input(class="{klass}", type="text", placeholder="Type to search...", aria-label="Search an asset", bind:value="{searchTerm}", on:focus="{onFocus}", on:blur="{onBlur}", on:keydown="{onKeyDown}")
+.wrapper(class='{klass}')
+  +input(type="text", placeholder="Type to search...", aria-label="Search an asset", bind:value="{searchTerm}", on:focus="{onFocus}", on:blur="{onBlur}", on:keydown="{onKeyDown}")
   +if('isFocused && searchTerm !== ""')
     +panel.suggestions(variant='context')
       +each('suggestions as suggestion, index')
@@ -121,6 +119,11 @@ include /ui/mixins
 <style lang="scss">
   .wrapper {
     position: relative;
+  }
+
+  input {
+    height: 40px;
+    width: 260px;
   }
 
   .suggestions {

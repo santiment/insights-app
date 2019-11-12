@@ -29,18 +29,25 @@ include /ui/mixins
 header
   .container
     nav.nav
-      a.logo(href='/') Santiment
-      +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
+      a(href='/')
+        img(src='/san-logo.svg', alt='Santiment logo')
+      +button.products(variant="flat")
+        +icon('arrow-down').icon-arrow-down
       +button.link(href=appPath+'/sonar', variant="flat") Sonar
+      +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
       +button.link.active(href="/", variant="flat", prefetch) Insights
       +button.link(href=appPath+'/labs', variant="flat", on:mouseenter="{onTriggerEnter}", id="labs-trigger") Labs
-      UpgradeBtn
+      +button.link(href='https://graphs.santiment.net/', variant="flat") Graphs
+      //UpgradeBtn
 
     .right
-      ProjectsSearch.search
-      +button(href=appPath+'/help', variant="flat", on:mouseenter="{onTriggerEnter}", id="help-trigger", aria-label="Help menu")
+      ProjectsSearch.Nav__search
+      +button(href=appPath+'/help', variant="flat",
+      on:mouseenter="{onTriggerEnter}", id="help-trigger",
+      aria-label="Help menu").btn-icon
         +icon('question-round').icon-question
-      +button(href=appPath+'/account', class:active="{segment === 'account'}", variant="flat", on:mouseenter="{onTriggerEnter}", id="account-trigger", aria-label="Profile menu")
+      +button(href=appPath+'/account', class:active="{segment === 'account'}", variant="flat", on:mouseenter="{onTriggerEnter}",
+      id="account-trigger", aria-label="Profile menu").btn-icon
         +icon('user').icon-user
 
   SmoothDropdown(trigger="{activeTrigger}", items="{dropdownItems}")
@@ -50,13 +57,30 @@ header
   @import '@/variables';
   @import '@/mixins';
 
+  .btn-icon {
+    fill: var(--waterloo);
+
+    &:hover {
+      fill: var(--jungle-green);
+    }
+  }
+
+  .products {
+    @include size(16px);
+    margin: 0 32px 0 4px;
+    padding: 5.5px 4px;
+    fill: var(--waterloo);
+  }
+
   .icon- {
     &question {
-      @include size(15px);
-      margin-left: 12px;
+      @include size(16px);
     }
     &user {
-      @include size(14px, 16px);
+      @include size(15px, 17px);
+    }
+    &arrow-down {
+      @include size(8px, 5px);
     }
   }
 
@@ -70,7 +94,7 @@ header
     padding: 13px 15px;
 
     @include responsive('desktop') {
-      padding: 13px 0;
+      padding: 14px 0;
     }
   }
 
@@ -81,12 +105,8 @@ header
     justify-content: space-between;
   }
 
-  .logo {
-    font-weight: bold;
-    font-size: 22px;
-    line-height: 30px;
-    color: var(--mirage) !important;
-    margin-right: 46px;
+  img {
+    vertical-align: middle;
   }
 
   .nav {
@@ -108,7 +128,17 @@ header
     align-items: center;
   }
 
-  .search {
-    margin-right: 16px;
+  :global(.Nav__search) {
+    margin-right: 37px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: -25px;
+      top: 4px;
+      height: 32px;
+      width: 1px;
+      background: var(--porcelain);
+    }
   }
 </style>
