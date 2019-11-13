@@ -65,6 +65,7 @@
     if (!get(session).currentUser) {
       return goto('/experience')
     }
+    open = true
   }
 
   function toggleWatchlist(watchlist) {
@@ -127,10 +128,11 @@
 <template lang="pug">
 include /ui/mixins
 
++button()(fluid, border, on:click='{addToWatchlist}')
+  +icon('add-watchlist').icon_add-watchlist
+  |Add to watchlist
+
 Dialog(bind:open, title='Add to watchlist')
-  +button()(slot='trigger', fluid, border, on:click='{addToWatchlist}')
-    +icon('add-watchlist').icon_add-watchlist
-    |Add to watchlist
   +dialogScrollContent(slot='content')
     .items
       +each('watchlists as watchlist (watchlist.id)')
