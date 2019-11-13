@@ -1,6 +1,7 @@
 <script>
+  import { get } from 'svelte/store'
   import { onMount } from 'svelte'
-  import { goto } from '@sapper/app'
+  import { goto, stores } from '@sapper/app'
   import React from 'react'
   import ReactDOM from 'react-dom'
   import { client } from '@/apollo'
@@ -16,6 +17,9 @@
   let reactMount
   let Component
   let isUpdating
+
+  const { session } = stores()
+  const { username } = get(session).currentUser
 
   $: if (Component) {
     ReactDOM.render(
@@ -72,6 +76,17 @@
   }
 
   function publishDraft(id) {
+    if (!username) {
+      notifications.add({
+        type: 'error',
+        title:
+          'Please, add "Name" in the "Account settings" to publish the insight',
+        dismissAfter: 8000,
+      })
+
+      return
+    }
+
     client
       .mutate({
         mutation: PUBLISH_INSIGHT_DRAFT_MUTATION,
