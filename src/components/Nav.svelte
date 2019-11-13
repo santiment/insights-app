@@ -39,7 +39,7 @@ header
         img(src='/san-logo.svg', alt='Santiment logo')
       +button.products(variant="flat", on:mouseenter="{onTriggerEnter}",
       id="products-trigger", aria-label='Products dropdown',
-      data-offset-y='8', data-offset-x='-42', data-centered='')
+      data-offset-y='8', data-offset-x='-42', data-centered='', data-active-class='active')
         +icon('arrow-down').icon-arrow-down
       +button.link(href=appPath+'/sonar', variant="flat") Sonar
       +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
@@ -52,10 +52,10 @@ header
       ProjectsSearch.Nav__search
       +button(href=appPath+'/help', variant="flat",
       on:mouseenter="{onTriggerEnter}", id="help-trigger",
-      aria-label="Help menu").btn-icon
+      aria-label="Help menu").right__btn
         +icon('question-round').icon-question
       +button(href=appPath+'/account', class:active="{segment === 'account'}", variant="flat", on:mouseenter="{onTriggerEnter}",
-      id="account-trigger", aria-label="Profile menu").btn-icon
+      id="account-trigger", aria-label="Profile menu").right__btn
         +icon('user').icon-user
 
     SmoothDropdown(trigger="{activeTrigger}", items="{dropdownItems}")
@@ -64,21 +64,6 @@ header
 <style lang="scss">
   @import '@/variables';
   @import '@/mixins';
-
-  .btn-icon {
-    fill: var(--waterloo);
-
-    &:hover {
-      fill: var(--jungle-green);
-    }
-  }
-
-  .products {
-    @include size(16px);
-    margin: 0 32px 0 4px;
-    padding: 5.5px 4px;
-    fill: var(--waterloo);
-  }
 
   .icon- {
     &question {
@@ -135,6 +120,14 @@ header
   .right {
     display: flex;
     align-items: center;
+
+    &__btn {
+      fill: var(--waterloo);
+
+      &:hover {
+        fill: var(--jungle-green);
+      }
+    }
   }
 
   :global(.Nav__search) {
@@ -149,6 +142,17 @@ header
       width: 1px;
       background: var(--porcelain);
     }
+  }
+
+  .products {
+    @include size(16px);
+    margin: 0 32px 0 4px;
+    padding: 5.5px 4px;
+    fill: var(--waterloo);
+  }
+
+  :global(.products.active .icon-arrow-down) {
+    transform: rotate(180deg);
   }
 
   :global(.Nav__dd-products) {

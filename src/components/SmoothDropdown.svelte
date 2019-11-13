@@ -9,6 +9,7 @@
     offsetY: 0,
     offsetX: 0,
     centered: true,
+    activeClass: '',
   }
 
   let lastTrigger
@@ -31,10 +32,27 @@
   }
 
   $: if (trigger) {
+    triggerSettings = Object.assign({}, defaultSettings, trigger.dataset)
+    hightLight()
+
     opened = true
     stopCloseTimer()
     trigger.onmouseleave = startCloseTimer
-    triggerSettings = Object.assign({}, defaultSettings, trigger.dataset)
+  }
+
+  function hightLight() {
+    const { activeClass } = triggerSettings
+
+    if (activeClass && trigger !== lastTrigger) {
+      trigger.classList.add(activeClass)
+    }
+
+    if (lastTrigger) {
+      const ltClass = lastTrigger.dataset.activeClass
+      if (ltClass) {
+        lastTrigger.classList.remove(ltClass)
+      }
+    }
   }
 
   function startCloseTimer() {
@@ -43,6 +61,10 @@
   }
 
   function closeDropdown() {
+    const { activeClass } = triggerSettings
+    if (activeClass) {
+      trigger.classList.remove(activeClass)
+    }
     lastTrigger = undefined
     opened = false
   }
