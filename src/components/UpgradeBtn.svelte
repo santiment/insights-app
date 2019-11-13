@@ -13,7 +13,7 @@ include /ui/mixins
 - var appPath = 'https://app.santiment.net'
 
 +if('withoutPlan')
-  +button(href=appPath+'/pricing', accent='texas-rose')
+  +button(href=appPath+'/pricing', accent='texas-rose', border)
     +icon('crown')
     |Upgrade
 </template>

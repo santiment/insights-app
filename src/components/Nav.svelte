@@ -4,13 +4,18 @@
   import NavAssetsDropdown from '@/components/Nav/AssetsDropdown'
   import NavHelpDropdown from '@/components/Nav/HelpDropdown'
   import NavAccountDropdown from '@/components/Nav/AccountDropdown'
+  import Products from '@/components/Nav/Products'
   import ProjectsSearch from '@/components/ProjectsSearch'
-  import UpgradeBtn from '@/components/UpgradeBtn'
 
   export let segment
 
   let activeTrigger
   const dropdownItems = [
+    {
+      id: 'products-trigger',
+      component: Products,
+      class: 'Nav__dd-products',
+    },
     { id: 'assets-trigger', component: NavAssetsDropdown },
     { id: 'labs-trigger', component: NavLabsDropdown },
     { id: 'help-trigger', component: NavHelpDropdown },
@@ -29,21 +34,29 @@ include /ui/mixins
 header
   .container
     nav.nav
-      a.logo(href='/') Santiment
-      +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
+      a(href='/')
+        img(src='/san-logo.svg', alt='Santiment logo')
+      +button.products(variant="flat", on:mouseenter="{onTriggerEnter}",
+      id="products-trigger", aria-label='Products dropdown',
+      data-offset-y='8', data-offset-x='-42', data-centered='', data-active-class='active')
+        +icon('arrow-down').icon-arrow-down
       +button.link(href=appPath+'/sonar', variant="flat") Sonar
+      +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
       +button.link.active(href="/", variant="flat", prefetch) Insights
       +button.link(href=appPath+'/labs', variant="flat", on:mouseenter="{onTriggerEnter}", id="labs-trigger") Labs
-      UpgradeBtn
-
+      +button.link(href='https://graphs.santiment.net/', variant="flat") Graphs
+        +icon('external-link').icon-external-link
     .right
-      ProjectsSearch.search
-      +button(href=appPath+'/help', variant="flat", on:mouseenter="{onTriggerEnter}", id="help-trigger", aria-label="Help menu")
+      ProjectsSearch.Nav__search
+      +button(href=appPath+'/help', variant="flat",
+      on:mouseenter="{onTriggerEnter}", id="help-trigger",
+      aria-label="Help menu").right__btn
         +icon('question-round').icon-question
-      +button(href=appPath+'/account', class:active="{segment === 'account'}", variant="flat", on:mouseenter="{onTriggerEnter}", id="account-trigger", aria-label="Profile menu")
+      +button(href=appPath+'/account', class:active="{segment === 'account'}", variant="flat", on:mouseenter="{onTriggerEnter}",
+      id="account-trigger", aria-label="Profile menu").right__btn
         +icon('user').icon-user
 
-  SmoothDropdown(trigger="{activeTrigger}", items="{dropdownItems}")
+    SmoothDropdown(trigger="{activeTrigger}", items="{dropdownItems}")
 </template>
 
 <style lang="scss">
@@ -52,11 +65,18 @@ header
 
   .icon- {
     &question {
-      @include size(15px);
-      margin-left: 12px;
+      @include size(16px);
     }
     &user {
-      @include size(14px, 16px);
+      @include size(15px, 17px);
+    }
+    &arrow-down {
+      @include size(8px, 5px);
+    }
+
+    &external-link {
+      @include size(12px);
+      margin-left: 6px;
     }
   }
 
@@ -70,7 +90,7 @@ header
     padding: 13px 15px;
 
     @include responsive('desktop') {
-      padding: 13px 0;
+      padding: 14px 0;
     }
   }
 
@@ -79,14 +99,11 @@ header
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+    position: relative;
   }
 
-  .logo {
-    font-weight: bold;
-    font-size: 22px;
-    line-height: 30px;
-    color: var(--mirage) !important;
-    margin-right: 46px;
+  img {
+    vertical-align: middle;
   }
 
   .nav {
@@ -96,19 +113,55 @@ header
 
   .link {
     color: var(--waterloo);
-    margin-right: 4px;
+    fill: var(--waterloo);
+    margin-right: 8px;
 
     &:hover {
       color: var(--jungle-green);
+      fill: var(--jungle-green);
     }
   }
 
   .right {
     display: flex;
     align-items: center;
+
+    &__btn {
+      fill: var(--waterloo);
+
+      &:hover {
+        fill: var(--jungle-green);
+      }
+    }
   }
 
-  .search {
-    margin-right: 16px;
+  :global(.Nav__search) {
+    margin-right: 37px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: -25px;
+      top: 4px;
+      height: 32px;
+      width: 1px;
+      background: var(--porcelain);
+    }
+  }
+
+  .products {
+    @include size(16px);
+    margin: 0 32px 0 4px;
+    padding: 5.5px 4px;
+    fill: var(--waterloo);
+  }
+
+  :global(.products.active .icon-arrow-down) {
+    transform: rotate(180deg);
+  }
+
+  :global(.Nav__dd-products) {
+    padding: 24px 16px 16px;
+    width: 1140px;
   }
 </style>
