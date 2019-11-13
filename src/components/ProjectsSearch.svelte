@@ -99,7 +99,8 @@
 include /ui/mixins
 
 .wrapper(class='{klass}')
-  +input(type="text", placeholder="Type to search...", aria-label="Search an asset", bind:value="{searchTerm}", on:focus="{onFocus}", on:blur="{onBlur}", on:keydown="{onKeyDown}")
+  +input(type="text", placeholder="Search for assets...", aria-label="Search an asset", bind:value="{searchTerm}", on:focus="{onFocus}", on:blur="{onBlur}", on:keydown="{onKeyDown}")
+  +icon('search').icon-search
   +if('isFocused && searchTerm !== ""')
     +panel.suggestions(variant='context')
       +each('suggestions as suggestion, index')
@@ -117,6 +118,17 @@ include /ui/mixins
 </template>
 
 <style lang="scss">
+  @import '@/mixins';
+
+  .icon-search {
+    @include size(16px);
+    fill: var(--casper);
+    position: absolute;
+    height: 100%;
+    left: 0;
+    padding: 0 8px 0 16px;
+  }
+
   .wrapper {
     position: relative;
   }
@@ -124,6 +136,20 @@ include /ui/mixins
   input {
     height: 40px;
     width: 260px;
+    padding-left: 40px;
+    transition: width 0.2s ease-out;
+
+    &:focus {
+      width: 340px;
+    }
+
+    &:hover + .icon-search {
+      fill: var(--jungle-green);
+    }
+
+    &:focus + .icon-search {
+      fill: var(--mirage);
+    }
   }
 
   .suggestions {
