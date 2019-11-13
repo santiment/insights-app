@@ -6,7 +6,6 @@
   import NavAccountDropdown from '@/components/Nav/AccountDropdown'
   import Products from '@/components/Nav/Products'
   import ProjectsSearch from '@/components/ProjectsSearch'
-  import UpgradeBtn from '@/components/UpgradeBtn'
 
   export let segment
 
@@ -46,8 +45,7 @@ header
       +button.link.active(href="/", variant="flat", prefetch) Insights
       +button.link(href=appPath+'/labs', variant="flat", on:mouseenter="{onTriggerEnter}", id="labs-trigger") Labs
       +button.link(href='https://graphs.santiment.net/', variant="flat") Graphs
-      //UpgradeBtn
-
+        +icon('external-link').icon-external-link
     .right
       ProjectsSearch.Nav__search
       +button(href=appPath+'/help', variant="flat",
@@ -74,6 +72,11 @@ header
     }
     &arrow-down {
       @include size(8px, 5px);
+    }
+
+    &external-link {
+      @include size(12px);
+      margin-left: 6px;
     }
   }
 
@@ -110,10 +113,12 @@ header
 
   .link {
     color: var(--waterloo);
-    margin-right: 4px;
+    fill: var(--waterloo);
+    margin-right: 8px;
 
     &:hover {
       color: var(--jungle-green);
+      fill: var(--jungle-green);
     }
   }
 
