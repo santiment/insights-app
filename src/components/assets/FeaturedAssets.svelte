@@ -7,7 +7,7 @@
 <template lang="pug">
 include /ui/mixins
 
-h2 Featured in this insight
+h2 Assets from this insight
 
 +each('assets as asset (asset.slug)')
   Asset({asset})
