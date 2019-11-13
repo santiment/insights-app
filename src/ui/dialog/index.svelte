@@ -21,8 +21,11 @@
     }
   }
 
+  const hasTrigger = $$props.$$slots.trigger
   onMount(() => {
-    anc.nextElementSibling.onclick = () => (open = true)
+    if (anc) {
+      anc.nextElementSibling.onclick = () => (open = true)
+    }
     window.addEventListener('keyup', onKeyup)
   })
 
@@ -36,7 +39,8 @@
 <template lang="pug">
 include /ui/mixins
 
-p(bind:this='{anc}')
++if('hasTrigger')
+  p(bind:this='{anc}')
 
 slot(name='trigger')
 
