@@ -1,5 +1,5 @@
 diff --git a/node_modules/svelte/internal/index.mjs b/node_modules/svelte/internal/index.mjs
-index 0ecaa4b..61f6073 100644
+index 0ecaa4b..d1f57d8 100644
 --- a/node_modules/svelte/internal/index.mjs
 +++ b/node_modules/svelte/internal/index.mjs
 @@ -327,6 +327,7 @@ function add_resize_listener(element, fn) {
@@ -10,3 +10,11 @@ index 0ecaa4b..61f6073 100644
      object.type = 'text/html';
      object.tabIndex = -1;
      let win;
+@@ -1148,6 +1149,7 @@ function debug(file, line, column, values) {
+ let on_destroy;
+ function create_ssr_component(fn) {
+     function $$render(result, props, bindings, slots) {
++        props.$$slots = slots
+         const parent_component = current_component;
+         const $$ = {
+             on_destroy,
