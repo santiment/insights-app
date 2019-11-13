@@ -2,6 +2,7 @@
   import { stores } from '@sapper/app'
   import Toggle from '@/components/Toggle'
   import ProfileInfo from '@/components/ProfileInfo'
+  import UpgradeBtn from '@/components/UpgradeBtn'
   import { ui } from '@/stores/ui'
   import { getCurrentSanbaseSubscription } from '@/utils/plans'
 
@@ -26,7 +27,9 @@ include /ui/mixins
 
 .wrapper
   +if('currentUser')
-    ProfileInfo(name="{username}", id="{id}" status="{plan} plan", classes="{{wrapper: 'account-dd__profile'}}")
+    .user
+      ProfileInfo(name="{username}", id="{id}" status="{plan} plan", classes="{{wrapper: 'account-dd__profile'}}")
+      UpgradeBtn 
     hr.divider
   .category.category_toggles
     +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Night mode
@@ -56,8 +59,13 @@ include /ui/mixins
     width: 260px;
   }
 
+  .user {
+    padding: 13px 20px 16px 16px;
+  }
+
   :global(.account-dd__profile) {
-    padding: 15px 20px 12px 16px;
+    margin-bottom: 9px;
+
     .status {
       text-transform: lowercase;
 
