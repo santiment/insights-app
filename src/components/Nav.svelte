@@ -90,7 +90,7 @@ header
     padding: 13px 15px;
 
     @include responsive('desktop') {
-      padding: 14px 0;
+      padding: 15px 0 14px;
     }
   }
 

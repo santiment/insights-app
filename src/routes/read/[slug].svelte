@@ -108,6 +108,7 @@
     publishedAt,
     createdAt,
     votedAt,
+    readyState,
     assets = []
 
   let liked = !!votedAt
@@ -185,14 +186,16 @@ svelte:head
           Loadable(load="{loadFollowBtn}", targetId='{user.id}')
       ViewportObserver({options}, on:intersect='{hideSidebar}', on:leaving='{showSidebar}', top)
         .info__block
-          LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
-          ShareBtn.info__share(link='{shareLink}')
+          +if('readyState !== "draft"')
+            LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
+            ShareBtn.info__share(link='{shareLink}')
           +if('isAuthor')
             a.edit.edit_fixed(href='/edit/{id}')
               +icon('edit').edit__icon
       .info__fixed(class:hidden)
-        LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
-        ShareBtn.fixed-share(link='{shareLink}')
+        +if('readyState !== "draft"')
+          LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
+          ShareBtn.fixed-share(link='{shareLink}')
         +if('isAuthor')
           a.edit(href='/edit/{id}')
             +icon('edit').edit__icon
@@ -220,6 +223,10 @@ svelte:head
   .insight {
     max-width: 720px;
     margin: 0 auto;
+
+    @include responsive('laptop') {
+      max-width: 680px;
+    }
 
     :global(&__profile) {
       max-width: 80%;
