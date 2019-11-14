@@ -99,8 +99,8 @@ h3 Santiment products
     &__link {
       margin-top: 10px;
       opacity: 0;
-      transform: translate3d(0px, -16px, 0px);
-      transition: opacity 90ms ease-out, transform 0.2s;
+      transform: translate3d(0px, -10px, 0px);
+      transition: opacity 0.12s ease-out, transform 0.22s;
     }
 
     &:hover {
@@ -120,6 +120,6 @@ h3 Santiment products
 
   .fading-up {
     transform: translate3d(0px, 12px, 0px);
-    transition: transform 0.2s;
+    transition: transform 0.24s;
   }
 </style>
