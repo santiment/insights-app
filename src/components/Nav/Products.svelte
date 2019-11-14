@@ -33,9 +33,9 @@ h3 Santiment products
 .products
   each product in products
     a.product(href=product.link)
-      img(src=product.logo, alt='Product logo')
-      h2= product.title
-      h4= product.desc
+      img.fading-up(src=product.logo, alt='Product logo')
+      h2.fading-up= product.title
+      h4.fading-up= product.desc
       span.link.product__link= product.goto
         +icon('pointer-right').icon-pointer
 
@@ -93,20 +93,33 @@ h3 Santiment products
     display: flex;
     flex-direction: column;
     padding: 16px 24px 12px 60px;
-    border-right: 4px;
+    border-radius: 4px;
+    transition: background 0.2s;
 
     &__link {
       margin-top: 10px;
-      visibility: hidden;
+      opacity: 0;
+      transform: translate3d(0px, -16px, 0px);
+      transition: opacity 90ms ease-out, transform 0.2s;
     }
 
     &:hover {
       background: var(--athens);
       color: var(--mirage);
 
-      .link {
-        visibility: visible;
+      .fading-up {
+        transform: translate3d(0px, 0, 0px);
+      }
+
+      .product__link {
+        opacity: 1;
+        transform: translate3d(0px, 0px, 0px);
       }
     }
+  }
+
+  .fading-up {
+    transform: translate3d(0px, 12px, 0px);
+    transition: transform 0.2s;
   }
 </style>

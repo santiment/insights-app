@@ -2,6 +2,9 @@
   import { stores } from '@sapper/app'
   import { getCurrentSanbaseSubscription } from '@/utils/plans'
 
+  let klass = ''
+  export { klass as class }
+
   const { session } = stores()
 
   let withoutPlan
@@ -13,7 +16,7 @@ include /ui/mixins
 - var appPath = 'https://app.santiment.net'
 
 +if('withoutPlan')
-  +button(href=appPath+'/pricing', accent='texas-rose', border)
+  +button(href=appPath+'/pricing', accent='texas-rose', border, class='{klass}')
     +icon('crown')
     |Upgrade
 </template>

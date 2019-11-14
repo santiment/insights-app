@@ -29,7 +29,7 @@ include /ui/mixins
   +if('currentUser')
     .user
       ProfileInfo(name="{username}", id="{id}" status="{plan} plan", classes="{{wrapper: 'account-dd__profile'}}")
-      UpgradeBtn 
+      UpgradeBtn.AccountDropdown__upgrade
     hr.divider
   .category.category_toggles
     +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Night mode
@@ -64,8 +64,6 @@ include /ui/mixins
   }
 
   :global(.account-dd__profile) {
-    margin-bottom: 9px;
-
     .status {
       text-transform: lowercase;
 
@@ -73,6 +71,10 @@ include /ui/mixins
         text-transform: uppercase;
       }
     }
+  }
+
+  :global(.AccountDropdown__upgrade) {
+    margin-top: 9px;
   }
 
   .category {

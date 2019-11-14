@@ -34,12 +34,11 @@ include /ui/mixins
 header
   .container
     nav.nav
-      a(href='/')
-        img(src='/san-logo.svg', alt='Santiment logo')
-      +button.products(variant="flat", on:mouseenter="{onTriggerEnter}",
-      id="products-trigger", aria-label='Products dropdown',
-      data-offset-y='8', data-offset-x='-42', data-centered='', data-active-class='active')
-        +icon('arrow-down').icon-arrow-down
+      .product(on:mouseenter="{onTriggerEnter}", id="products-trigger", data-offset-y='-3', data-offset-x='0', data-centered='', data-active-class='active')
+        a(href='/')
+          img(src='/san-logo.svg', alt='Santiment logo')
+        +button.product__arrow(variant="flat",  aria-label='Products dropdown')
+          +icon('arrow-down').icon-arrow-down
       +button.link(href=appPath+'/sonar', variant="flat") Sonar
       +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
       +button.link.active(href="/", variant="flat", prefetch) Insights
@@ -78,6 +77,25 @@ header
       @include size(12px);
       margin-left: 6px;
     }
+  }
+
+  .product {
+    display: flex;
+    align-items: center;
+    margin-right: 32px;
+
+    &__arrow {
+      @include size(16px);
+      margin-left: 4px;
+      padding: 5.5px 4px;
+      fill: var(--waterloo);
+    }
+  }
+
+  :global(.product.active .product__arrow) {
+    background: var(--jungle-green-light);
+    fill: var(--jungle-green);
+    transform: rotate(180deg);
   }
 
   header {
@@ -147,17 +165,6 @@ header
       width: 1px;
       background: var(--porcelain);
     }
-  }
-
-  .products {
-    @include size(16px);
-    margin: 0 32px 0 4px;
-    padding: 5.5px 4px;
-    fill: var(--waterloo);
-  }
-
-  :global(.products.active .icon-arrow-down) {
-    transform: rotate(180deg);
   }
 
   :global(.Nav__dd-products) {
