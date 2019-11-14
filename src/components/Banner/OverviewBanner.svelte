@@ -5,7 +5,6 @@
 
   export let loading = false
   export let onSubmit
-  export let isSuccess
 </script>
 
 <template lang="pug">

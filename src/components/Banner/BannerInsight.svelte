@@ -26,14 +26,14 @@
   }
 
   function onSubmit({ currentTarget }) {
-    loginEmail(currentTarget.email.value).then(isSuccess)
+    loginEmail(currentTarget.email.value).then(onSuccess)
     loading = true
     sendEvent('sign_up', {
       method: `${currentTarget.dataset.label} banner`,
     })
   }
 
-  function isSuccess({ data: { emailLogin } }) {
+  function onSuccess({ data: { emailLogin } }) {
     loading = false
     window.localStorage.setItem(WEEKLY_SUBSCRIPTION_FLAG, '+')
   }
@@ -43,7 +43,7 @@
 include /ui/mixins
 
 ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner}', top)
-  OverviewBanner.banner-overview({loading}, {onSubmit}, {isSuccess})
+  OverviewBanner.banner-overview({loading}, {onSubmit})
 
 +if('isNotMobile && isShown && isVisibleInSession')
   +panel.banner

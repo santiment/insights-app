@@ -1,8 +1,8 @@
 diff --git a/node_modules/svelte/internal/index.mjs b/node_modules/svelte/internal/index.mjs
-index 0ecaa4b..d1f57d8 100644
+index 02d1f27..d6c01f5 100644
 --- a/node_modules/svelte/internal/index.mjs
 +++ b/node_modules/svelte/internal/index.mjs
-@@ -327,6 +327,7 @@ function add_resize_listener(element, fn) {
+@@ -345,6 +345,7 @@ function add_resize_listener(element, fn) {
      }
      const object = document.createElement('object');
      object.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;');
@@ -10,7 +10,7 @@ index 0ecaa4b..d1f57d8 100644
      object.type = 'text/html';
      object.tabIndex = -1;
      let win;
-@@ -1148,6 +1149,7 @@ function debug(file, line, column, values) {
+@@ -1212,6 +1213,7 @@ function debug(file, line, column, values) {
  let on_destroy;
  function create_ssr_component(fn) {
      function $$render(result, props, bindings, slots) {

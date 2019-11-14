@@ -6016,10 +6016,10 @@ sanitize-html@^1.20.1:
     srcset "^1.0.0"
     xtend "^4.0.1"
 
-sapper@^0.27.8:
-  version "0.27.8"
-  resolved "https://registry.yarnpkg.com/sapper/-/sapper-0.27.8.tgz#dd41cd359373b816fbb519cffd1b941e4f4cd459"
-  integrity sha512-78K+56yu9nGOEU0B0XjBvNchRuPEv4aHbAKK4D874S4aoapMAkHCT0bHtPK12S3P7JPxvvT8GzHaq/8NetMmbg==
+sapper@^0.27.9:
+  version "0.27.9"
+  resolved "https://registry.yarnpkg.com/sapper/-/sapper-0.27.9.tgz#c3ec00b44dd35d25e89d2d697c9bb1d27409dbe4"
+  integrity sha512-v3b3UgGeVhFUOpA5IZgdThdr4nZ6aMH6IxDsg1Yu2UWHWEV9vW/Zehch9M/xqJNp/x9n9X+S9syJg1s5QOOmFA==
   dependencies:
     html-minifier "^4.0.0"
     http-link-header "^1.0.2"
@@ -6569,7 +6569,7 @@ svelte-preprocess-css-global@^0.0.1:
     postcss-import "^12.0.1"
     postcss-selector-parser "^6.0.2"
 
-svelte-preprocess@^2.12.0:
+svelte-preprocess@2.12.0:
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-2.12.0.tgz#c18e57a9c3cf417727a907ee573266c50b04e88f"
   integrity sha512-JQByQ1jl1AlDwAWGsVfnB1CrJkf6cYW6lebrSqynQQLp2RGxlcTCeaHeNRwsFqq4Pqlz58A928YwcvLYjokSaA==
@@ -6577,10 +6577,10 @@ svelte-preprocess@^2.12.0:
     postcss-load-config "^2.0.0"
     strip-indent "^2.0.0"
 
-svelte@^3.9.1:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.9.1.tgz#f0dc0993d80e69da46f7b21d858895c37c2fd419"
-  integrity sha512-oy6FjffuCzPueBnzs8SxkV5VaOS+VX/eUywgE9LCA+skKdXt7wFlpKH3DNi1Uy+K23sb9bzlWxn0AaDQOnEUEw==
+svelte@^3.14.1:
+  version "3.14.1"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.14.1.tgz#dd884b5c0fcf8458333902cc7a64dea8ec3b64f8"
+  integrity sha512-7gMPjARR9D797MSVaiUkILVfqDaDLKRQAPTGK5kktSmrPWE0iuHRTKIdhpMOa/MSQBM94NMUv8owR4LXrhrgfQ==
 
 svg-sprite@^1.5.0:
   version "1.5.0"

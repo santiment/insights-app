@@ -1,13 +1,7 @@
 diff --git a/node_modules/svelte-preprocess/src/transformers/pug.js b/node_modules/svelte-preprocess/src/transformers/pug.js
-index c07a697..cce836b 100644
+index c07a697..d6db8ca 100644
 --- a/node_modules/svelte-preprocess/src/transformers/pug.js
 +++ b/node_modules/svelte-preprocess/src/transformers/pug.js
-@@ -1,4 +1,4 @@
--const pug = require('pug')
-+const pug = require("pug");
- 
- // Mixins to use svelte template features
- const MIXINS = `
 @@ -12,7 +12,7 @@ mixin else
    block
  
@@ -17,26 +11,3 @@ index c07a697..cce836b 100644
    block
  
  mixin each(loop)
-@@ -34,15 +34,15 @@ mixin catch(error)
-   block
- 
- mixin debug(variables)
--  | {@debug !{variables}}`
-+  | {@debug !{variables}}`;
- 
- module.exports = ({ content, filename, options }) => {
-   options = {
--    doctype: 'html',
-+    doctype: "html",
-     filename,
--    ...options,
--  }
-+    ...options
-+  };
- 
--  const code = pug.render(`${MIXINS}\n${content}`, options)
--  return { code }
--}
-+  const code = pug.render(`${MIXINS}\n${content}`, options);
-+  return { code };
-+};
