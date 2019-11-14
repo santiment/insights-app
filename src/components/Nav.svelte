@@ -34,7 +34,7 @@ include /ui/mixins
 header
   .container
     nav.nav
-      .product(on:mouseenter="{onTriggerEnter}", id="products-trigger", data-offset-y='-3', data-offset-x='0', data-centered='', data-active-class='active')
+      .product(on:mouseenter="{onTriggerEnter}", id="products-trigger", data-offset-y='-3', data-centered='', data-active-class='active')
         a(href='/')
           img(src='/san-logo.svg', alt='Santiment logo')
         +button.product__arrow(variant="flat",  aria-label='Products dropdown')

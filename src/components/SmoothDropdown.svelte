@@ -43,15 +43,19 @@
   function hightLight() {
     const { activeClass } = triggerSettings
 
-    if (activeClass && trigger !== lastTrigger) {
-      trigger.classList.add(activeClass)
+    if (lastTrigger === trigger) {
+      return
     }
 
     if (lastTrigger) {
-      const ltClass = lastTrigger.dataset.activeClass
-      if (ltClass) {
-        lastTrigger.classList.remove(ltClass)
+      const lastActiveClass = lastTrigger.dataset.activeClass
+      if (lastActiveClass) {
+        lastTrigger.classList.remove(lastActiveClass)
       }
+    }
+
+    if (activeClass) {
+      trigger.classList.add(activeClass)
     }
   }
 
