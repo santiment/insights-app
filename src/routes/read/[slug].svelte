@@ -3,14 +3,16 @@
   import { getInsightIdFromSEOLink } from '@/utils/insights'
   import { INSIGHT_BY_ID_QUERY } from '@/gql/insights'
   import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
-  import { ALL_PROJECTS_SEARCH_QUERY } from '@/gql/projects'
+  import { ALL_PROJECTS_FEATURED_QUERY } from '@/gql/projects'
   import { getTimeIntervalFromToday, DAY } from '@/utils/dates'
 
   export async function preload(page, session) {
     const { slug } = page.params
     const id = getInsightIdFromSEOLink(slug)
 
-    const allProjectsQuery = client.query({ query: ALL_PROJECTS_SEARCH_QUERY })
+    const allProjectsQuery = client.query({
+      query: ALL_PROJECTS_FEATURED_QUERY,
+    })
 
     const { data } = await client.query({
       query: INSIGHT_BY_ID_QUERY,
@@ -51,14 +53,13 @@
       const project = allProjects[i]
       if (projectTikers.includes(project.ticker)) {
         if (projects.push(project) === tickersLength) {
-          console.log('Breaking')
           break
         }
       }
     }
 
     const assets = await Promise.all(
-      projects.map(project =>
+      projects.map(({ __typename, ...project }) =>
         client
           .query({
             query: HISTORY_PRICE_QUERY,
@@ -224,7 +225,7 @@ svelte:head
     max-width: 720px;
     margin: 0 auto;
 
-    @media only screen and (max-width: 1215px) and (min-width: 992px){
+    @media only screen and (max-width: 1215px) and (min-width: 992px) {
       max-width: 680px;
     }
 

@@ -6,12 +6,9 @@
   export let asset
   let open = false
 
-  let { id, name, slug, ticker, logoUrl, historyPrice } = asset
+  let { id, name, slug, ticker, logoUrl, percentChange7d, historyPrice } = asset
 
-  const { length } = historyPrice
-  const { priceUsd: currentPrice } = historyPrice[length - 1]
-  const { priceUsd: firstPrice } = historyPrice[0]
-  const change = (100 * (currentPrice - firstPrice)) / firstPrice
+  const { priceUsd: currentPrice } = historyPrice[historyPrice.length - 1]
 </script>
 
 <template lang="pug">
@@ -26,9 +23,9 @@ include /ui/mixins
     .body__top
       h4 $ {currentPrice.toFixed(2)}
       .chart
-        ChangeChart({change}, data='{historyPrice}')
+      ChangeChart(change='{percentChange7d}', data='{historyPrice}')
     .body__bottom
-      ValueChange.FeaturedAssets__change({change}, formatter='{percentChange}')
+      ValueChange.FeaturedAssets__change(change='{percentChange7d}', formatter='{percentChange}')
       |in last 7d
     AddToWatchlistDialog(projectId='{id}', bind:open)
 
