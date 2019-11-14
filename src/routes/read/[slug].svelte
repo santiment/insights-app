@@ -241,6 +241,7 @@ svelte:head
   .title {
     @include text('h2', 'm');
     margin: 0 0 25px;
+    word-break: break-word;
 
     @include responsive('phone', 'phone-xs') {
       @include text('h3', 'm');
