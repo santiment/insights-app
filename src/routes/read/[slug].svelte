@@ -224,7 +224,7 @@ svelte:head
     max-width: 720px;
     margin: 0 auto;
 
-    @include responsive('laptop') {
+    @media only screen and (max-width: 1215px) and (min-width: 992px){
       max-width: 680px;
     }
 
