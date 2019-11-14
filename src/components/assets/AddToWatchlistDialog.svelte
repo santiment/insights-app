@@ -27,29 +27,28 @@
 
   const { session } = stores()
 
-  $: if (open && watchlists.length === 0) {
-    client
-      .query({
-        query: ALL_USER_WATCHLISTS_WITH_ITEMS,
-      })
-      .then(({ data }) => {
-        const sel = new Set(
-          data.watchlists.filter(({ listItems }) =>
-            listItems.some(({ project }) => projectId === project.id),
-          ),
-        )
-
-        if (initialHash === undefined) {
-          initialSelectedWatchlists = sel
-          initialHash = getSelectedWatchlistHash([...sel])
-        }
-
-        selected = sel
-        watchlists = data.watchlists
-      })
-  }
-
   $: hasNotUpdated = initialHash === getSelectedWatchlistHash([...selected])
+
+  function getWatchlists() {
+    return watchlists.length
+      ? Promise.resolve()
+      : client
+          .query({
+            query: ALL_USER_WATCHLISTS_WITH_ITEMS,
+          })
+          .then(({ data }) => {
+            const sel = new Set(
+              data.watchlists.filter(({ listItems }) =>
+                listItems.some(({ project }) => projectId === project.id),
+              ),
+            )
+
+            initialSelectedWatchlists = new Set(sel)
+            initialHash = getSelectedWatchlistHash([...sel])
+            selected = sel
+            watchlists = data.watchlists
+          })
+  }
 
   function getSelectedWatchlistHash(watchlists) {
     return watchlists
@@ -135,14 +134,18 @@ include /ui/mixins
 Dialog(bind:open, title='Add to watchlist')
   +dialogScrollContent(slot='content')
     .items
-      +each('watchlists as watchlist (watchlist.id)')
-        +button.item(fluid, on:click!='{()=>toggleWatchlist(watchlist)}')
-          span.item__left
-            Checkbox.AddToWatchlistDialog__checkbox(active='{selected.has(watchlist)}')
-            |{watchlist.name}
-          +icon('{watchlist.isPublic ? "eye-small" : "lock-small"}').icon_is-public
-        +else
-          .loading.process
+      +await('getWatchlists()')
+        .loading.process
+        +then()
+          +each('watchlists as watchlist (watchlist.id)')
+            +button.item(fluid, on:click!='{()=>toggleWatchlist(watchlist)}')
+              span.item__left
+                Checkbox.AddToWatchlistDialog__checkbox(active='{selected.has(watchlist)}')
+                |{watchlist.name}
+              +icon('{watchlist.isPublic ? "eye-small" : "lock-small"}').icon_is-public
+            +else()
+              |You don't have any watchlists
+
     NewWatchlistDialog(bind:watchlists)
   +dialogActions(slot='content')
     +button()(border, on:click='{closeDialog}') Cancel
