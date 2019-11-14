@@ -93,7 +93,7 @@
     const additionTargets = [...additionSet]
 
     initialHash = getSelectedWatchlistHash([...selected])
-    initialSelectedWatchlists = selected
+    initialSelectedWatchlists = new Set(selected)
 
     // TODO: Correctly update watchlist cache [@vanguard | Nov 11, 2019]
     watchlists.forEach(watchlist => {
