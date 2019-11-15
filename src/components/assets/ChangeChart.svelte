@@ -19,10 +19,11 @@
     }
   }
 
+  const factor = height / (max - min)
+
   const points = data.map(
     ({ priceUsd }, index) =>
-      `${(index / dataLength) * width},${height -
-        (max && priceUsd / max) * height}`,
+      `${(index / dataLength) * width},${(max - priceUsd) * factor}`,
   )
 
   const [startX, startY] = points[0].split(',')
