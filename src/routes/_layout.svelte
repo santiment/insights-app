@@ -70,7 +70,7 @@ LoadProgress
 
 CookiePopup
 
-Nav({segment}, isLoggedIn='{$session.currentUser}')
+Nav({segment})
 
 main(class:isMobile)
   +if("!ROUTES_WITHOUT_TABS.has(segment)")

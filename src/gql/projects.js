@@ -14,6 +14,7 @@ export const ALL_PROJECTS_SEARCH_QUERY = gql`
   query allProjects {
     allProjects {
       ...projectFragment
+      rank
     }
   }
   ${projectFragment}
