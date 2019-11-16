@@ -5,7 +5,7 @@
   import NavHelpDropdown from '@/components/Nav/HelpDropdown'
   import NavAccountDropdown from '@/components/Nav/AccountDropdown'
   import Products from '@/components/Nav/Products'
-  import ProjectsSearch from '@/components/ProjectsSearch'
+  import ProjectsSearch from '@/components/Nav/Search'
 
   export let segment
 
@@ -46,7 +46,7 @@ header
       +button.link(href='https://graphs.santiment.net/', variant="flat") Graphs
         +icon('external-link').icon-external-link
     .right
-      ProjectsSearch.Nav__search
+      ProjectsSearch
       +button(href=appPath+'/help', variant="flat",
       on:mouseenter="{onTriggerEnter}", id="help-trigger",
       aria-label="Help menu").right__btn
@@ -150,20 +150,6 @@ header
       &:hover {
         fill: var(--jungle-green);
       }
-    }
-  }
-
-  :global(.Nav__search) {
-    margin-right: 37px;
-
-    &::after {
-      content: '';
-      position: absolute;
-      right: -25px;
-      top: 4px;
-      height: 32px;
-      width: 1px;
-      background: var(--porcelain);
     }
   }
 

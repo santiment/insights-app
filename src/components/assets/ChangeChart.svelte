@@ -19,10 +19,12 @@
     }
   }
 
+  const xAxisFactor = width / dataLength
+  const yAxisFactor = height / (max - min)
+
   const points = data.map(
     ({ priceUsd }, index) =>
-      `${(index / dataLength) * width},${height -
-        (max && priceUsd / max) * height}`,
+      `${index * xAxisFactor},${(max - priceUsd) * yAxisFactor}`,
   )
 
   const [startX, startY] = points[0].split(',')
@@ -36,12 +38,12 @@
 <template lang="pug">
 svg(viewBox='0 0 {width} {height}', style='{changeColor};height:{height}px')
   defs
-    linearGradient#negative-change(x1="0", x2="0", y1="0", y2="1")
+    linearGradient#negative-change(x1="0", x2="0", y1="0", y2="2")
       stop(offset='0%', stop-color='var(--persimmon)', stop-opacity='0.3')
-      stop(offset='100%', stop-color='var(--white)', stop-opacity='0')
-    linearGradient#positive-change(x1="0", x2="0", y1="0", y2="1")
+      stop(offset='60%', stop-color='var(--white)', stop-opacity='0')
+    linearGradient#positive-change(x1="0", x2="0", y1="0", y2="2")
       stop(offset='0%', stop-color='var(--lima)', stop-opacity='0.3')
-      stop(offset='100%', stop-color='var(--white)', stop-opacity='0')
+      stop(offset='60%', stop-color='var(--white)', stop-opacity='0')
 
   polyline.line(points='{linePoints}')
   polyline(points='{areaPoints}', class!='{change > 0 ? "positive" : "negative"}')
