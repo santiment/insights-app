@@ -19,11 +19,12 @@
     }
   }
 
-  const factor = height / (max - min)
+  const xAxisFactor = width / dataLength
+  const yAxisFactor = height / (max - min)
 
   const points = data.map(
     ({ priceUsd }, index) =>
-      `${(index / dataLength) * width},${(max - priceUsd) * factor}`,
+      `${index * xAxisFactor},${(max - priceUsd) * yAxisFactor}`,
   )
 
   const [startX, startY] = points[0].split(',')
