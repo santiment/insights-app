@@ -83,6 +83,7 @@ Modal(bind:open='{enlargedImgSrc}')
       border-radius: 4px;
       color: var(--mirage);
       position: relative;
+      margin: 20px 0 30px;
 
       &::before {
         content: '“';
