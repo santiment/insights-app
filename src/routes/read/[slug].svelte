@@ -1,18 +1,14 @@
 <script context="module">
   import { client } from '@/apollo'
-  import { getInsightIdFromSEOLink } from '@/utils/insights'
+  import { getInsightIdFromSEOLink, noTrendTagsFilter } from '@/utils/insights'
   import { INSIGHT_BY_ID_QUERY } from '@/gql/insights'
   import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
-  import { ALL_PROJECTS_FEATURED_QUERY } from '@/gql/projects'
+  import { PROJECTS_BY_TICKER_QUERY } from '@/gql/projects'
   import { getTimeIntervalFromToday, DAY } from '@/utils/dates'
 
   export async function preload(page, session) {
     const { slug } = page.params
     const id = getInsightIdFromSEOLink(slug)
-
-    const allProjectsQuery = client.query({
-      query: ALL_PROJECTS_FEATURED_QUERY,
-    })
 
     const { data } = await client.query({
       query: INSIGHT_BY_ID_QUERY,
@@ -40,40 +36,34 @@
     const isoFrom = from.toISOString()
     const isoTo = to.toISOString()
 
-    const {
-      data: { allProjects },
-    } = await allProjectsQuery
-
-    const projectTikers = data.insight.tags.map(({ name }) => name)
-    const tickersLength = projectTikers.length
-    const projects = []
-
-    const projectsLength = allProjects.length
-    for (let i = 0; i < projectsLength; i++) {
-      const project = allProjects[i]
-      if (projectTikers.includes(project.ticker)) {
-        if (projects.push(project) === tickersLength) {
-          break
-        }
-      }
-    }
-
     const assets = await Promise.all(
-      projects.map(({ __typename, ...project }) =>
+      data.insight.tags.filter(noTrendTagsFilter).map(({ name: ticker }) =>
         client
           .query({
-            query: HISTORY_PRICE_QUERY,
-            variables: {
-              slug: project.slug,
-              from: isoFrom,
-              to: isoTo,
-              interval: '6h',
-            },
+            query: PROJECTS_BY_TICKER_QUERY,
+            variables: { ticker },
           })
-          .then(({ data: { historyPrice } }) => ({
-            ...project,
-            historyPrice,
-          }))
+          .then(({ data: { allProjectsByTicker } }) => {
+            const project = allProjectsByTicker[0]
+            if (!project) {
+              return Promise.reject()
+            }
+
+            return client
+              .query({
+                query: HISTORY_PRICE_QUERY,
+                variables: {
+                  slug: project.slug,
+                  from: isoFrom,
+                  to: isoTo,
+                  interval: '6h',
+                },
+              })
+              .then(({ data: { historyPrice } }) => ({
+                ...project,
+                historyPrice,
+              }))
+          })
           .catch(() => {}),
       ),
     )
@@ -217,7 +207,7 @@ svelte:head
     left: calc(100% + 30px);
 
     @media screen and (min-width: 1320px) {
-      left: calc(100% + 80px);
+      left: calc(100% + 60px);
     }
   }
 
@@ -226,7 +216,7 @@ svelte:head
     margin: 0 auto;
 
     @media only screen and (max-width: 1215px) and (min-width: 992px) {
-      max-width: 680px;
+      max-width: 670px;
     }
 
     :global(&__profile) {

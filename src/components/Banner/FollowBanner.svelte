@@ -22,8 +22,8 @@ include /ui/mixins
   @import '@/variables';
 
   .wrapper {
-    background: var(--mirage);
-    color: var(--white);
+    background: $mirage;
+    color: $white;
     text-align: center;
     padding: 32px;
     position: relative;

@@ -20,9 +20,9 @@ export const ALL_PROJECTS_SEARCH_QUERY = gql`
   ${projectFragment}
 `
 
-export const ALL_PROJECTS_FEATURED_QUERY = gql`
-  query allProjects {
-    allProjects {
+export const PROJECTS_BY_TICKER_QUERY = gql`
+  query allProjectsByTicker($ticker: String!) {
+    allProjectsByTicker(ticker: $ticker) {
       ...projectFragment
       percentChange7d
     }
