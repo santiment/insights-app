@@ -11,8 +11,8 @@ const projectFragment = gql`
 `
 
 export const ALL_PROJECTS_SEARCH_QUERY = gql`
-  query allProjects {
-    allProjects {
+  query allProjects($minVolume: Int = 0) {
+    allProjects(minVolume: $minVolume) {
       ...projectFragment
       rank
     }

@@ -1,17 +1,15 @@
 <script>
   export let suggestion
+  const { name, ticker, logoUrl } = suggestion
 
-  const {
-    name,
-    ticker,
-    logoUrl = 'https://production-sanbase-images.s3.eu-central-1.amazonaws.com/sprite/default_project_logo.png',
-  } = suggestion
+  const defaultLogoUrl =
+    'https://production-sanbase-images.s3.eu-central-1.amazonaws.com/sprite/default_project_logo.png'
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
-img(src='{logoUrl}', alt='Project logo', width='16', height='16')
+img(src='{logoUrl || defaultLogoUrl}', alt='Project logo', width='16', height='16')
 |{name}
 span ({ticker})
 

@@ -9,6 +9,7 @@
   let { id, name, slug, ticker, logoUrl, percentChange7d, historyPrice } = asset
 
   const { priceUsd: currentPrice } = historyPrice[historyPrice.length - 1]
+  const price = currentPrice.toFixed(currentPrice < 1 ? 6 : 2)
 </script>
 
 <template lang="pug">
@@ -21,7 +22,7 @@ include /ui/mixins
       span {ticker}
   .body
     .body__top
-      h4 $ {currentPrice.toFixed(2)}
+      h4 $ {price}
       .chart
         ChangeChart(change='{percentChange7d}', data='{historyPrice}')
     .body__bottom
