@@ -7,6 +7,7 @@ export const userFragment = gql`
     username
     privacyPolicyAccepted
     marketingAccepted
+    avatarUrl
     following {
       users {
         id

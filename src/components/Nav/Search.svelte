@@ -63,7 +63,7 @@ ProjectsSearch.NavSearch__wrapper({categories}, {categoryItems}, {onSuggestionSe
       content: '';
       position: absolute;
       right: -25px;
-      top: 4px;
+      top: 0;
       height: 32px;
       width: 1px;
       background: var(--porcelain);

@@ -156,7 +156,7 @@ include /ui/mixins
   }
 
   input {
-    height: 40px;
+    height: 32px;
     width: 260px;
     padding-left: 40px;
     transition: width 0.2s ease-out;

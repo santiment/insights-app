@@ -1,4 +1,5 @@
 <script>
+  import { stores } from '@sapper/app'
   import SmoothDropdown from '@/components/SmoothDropdown'
   import NavAssetsDropdown from '@/components/Nav/AssetsDropdown'
   import NavHelpDropdown from '@/components/Nav/HelpDropdown'
@@ -8,6 +9,11 @@
   import ProjectsSearch from '@/components/Nav/Search'
 
   export let segment
+
+  const { session } = stores()
+
+  let avatar
+  $: avatar = $session.currentUser ? $session.currentUser.avatarUrl : ''
 
   let activeTrigger
   const dropdownItems = [
@@ -38,8 +44,8 @@ include /ui/mixins
 header
   .container
     nav.nav
-      .product(on:mouseenter="{onTriggerEnter}", id="products-trigger", data-offset-y='-3', data-centered='', data-active-class='active')
-        a(href='/')
+      .product(on:mouseenter="{onTriggerEnter}", id="products-trigger", data-centered='', data-active-class='active')
+        a(href=appPath+'/')
           img(src='/san-logo.svg', alt='Santiment logo')
         +button.product__arrow(variant="flat",  aria-label='Products dropdown')
           +icon('arrow-down').icon-arrow-down
@@ -56,8 +62,9 @@ header
       aria-label="Help menu").right__btn
         +icon('question-round').icon-question
       +button(href=appPath+'/account', class:active="{segment === 'account'}", variant="flat", on:mouseenter="{onTriggerEnter}",
-      id="account-trigger", aria-label="Profile menu", data-active-class='account_opened', data-offset-y='-4',).right__btn.account
-        +icon('user').icon-user
+      id="account-trigger", aria-label="Profile menu", data-active-class='account_opened', style!='background-image: url({avatar})').right__btn.account
+        +if('!avatar')
+          +icon('user').icon-user
 
     SmoothDropdown(trigger="{activeTrigger}", items="{dropdownItems}")
 </template>
@@ -71,7 +78,7 @@ header
       @include size(16px);
     }
     &user {
-      @include size(15px, 17px);
+      @include size(16px);
     }
     &arrow-down {
       @include size(8px, 5px);
@@ -90,7 +97,7 @@ header
 
     &__arrow {
       @include size(16px);
-      margin-left: 4px;
+      margin-left: 7px;
       padding: 5.5px 4px;
       fill: var(--waterloo);
     }
@@ -112,7 +119,7 @@ header
     padding: 13px 15px;
 
     @include responsive('desktop') {
-      padding: 15px 0 14px;
+      padding: 19px 0 18px;
     }
   }
 
@@ -126,6 +133,7 @@ header
 
   img {
     vertical-align: middle;
+    @include size(32px);
   }
 
   .nav {
@@ -169,17 +177,17 @@ header
   }
 
   .account {
-    @include size(39px);
+    @include size(32px);
     background: #edf8f5;
     border-radius: 50%;
-    border: 1px solid #edf8f5;
     fill: var(--jungle-green);
     justify-content: center;
     margin-left: 16px;
+    background-size: cover;
 
     :global(&.account_opened),
     &:hover {
-      border-color: var(--jungle-green);
+      box-shadow: inset 0px 0px 0px 1px var(--jungle-green);
     }
   }
 </style>
