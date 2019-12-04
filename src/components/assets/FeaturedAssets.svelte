@@ -10,7 +10,8 @@ include /ui/mixins
 h2 Assets from this insight
 
 +each('assets as asset (asset.slug)')
-  Asset({asset})
+  +if('asset.historyPrice.length')
+    Asset({asset})
 
 </template>
 

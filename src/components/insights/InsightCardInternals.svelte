@@ -39,7 +39,7 @@ include /ui/mixins
 .top
   a.title(href="/read/{seoLink}")
     MultilineText(maxLines='{2}') {title}
-  ProfileInfo(name="{user.username}", id="{user.id}", status="{status}",
+  ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{status}",
   withPic, classes="{{wrapper: 'card__profile'}}")
 
 .bottom

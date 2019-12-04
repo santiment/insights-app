@@ -18,6 +18,7 @@ export const insightCommon = gql`
     user {
       id
       username
+      avatarUrl
     }
     __typename
   }

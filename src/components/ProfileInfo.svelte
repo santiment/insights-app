@@ -3,6 +3,7 @@
     id,
     status,
     classes = {},
+    avatarUrl = '',
     withPic = false
 </script>
 
@@ -10,7 +11,7 @@
 .wrapper(class="{classes.wrapper || ''}")
   +if('withPic')
     .icon
-      img(src="profile-fallback.svg", alt="Profile picture")
+      img(src="{avatarUrl || 'profile-fallback.svg'}", alt="Profile picture")
 
   .info(class="{classes.info || ''}")
     a.name(href="/user/{id}") {name}
@@ -38,10 +39,16 @@
     align-items: center;
     justify-content: center;
     fill: var(--white);
+    overflow: hidden;
 
     :global(.night-mode) & {
       fill: var(--casper);
     }
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
   }
 
   .info {

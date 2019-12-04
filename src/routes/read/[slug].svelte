@@ -157,7 +157,7 @@ svelte:head
 .insight(bind:clientHeight)
   h1.title {title}
   .insight__info
-    ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes!='{{wrapper: "insight__profile"}}', withPic)
+    ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{insightDate}", classes!='{{wrapper: "insight__profile"}}', withPic)
     +if('!isAuthor')
       Loadable(load="{loadFollowBtn}", targetId='{user.id}')
   Text({text})
@@ -172,7 +172,7 @@ svelte:head
     Tags({tags})
     .info
       .info__block.info__block_left
-        ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes='{classes}', withPic)
+        ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{insightDate}", classes='{classes}', withPic)
         +if('$session.currentUser && !isAuthor')
           Loadable(load="{loadFollowBtn}", targetId='{user.id}')
       ViewportObserver({options}, on:intersect='{hideSidebar}', on:leaving='{showSidebar}', top)
