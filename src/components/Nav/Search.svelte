@@ -57,7 +57,7 @@ ProjectsSearch.NavSearch__wrapper({categories}, {categoryItems}, {onSuggestionSe
   @import '@/mixins';
 
   :global(.NavSearch__wrapper) {
-    margin-right: 37px;
+    margin-right: 41px;
 
     &::after {
       content: '';

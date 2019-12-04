@@ -1,10 +1,10 @@
 <script>
   import SmoothDropdown from '@/components/SmoothDropdown'
-  import NavLabsDropdown from '@/components/Nav/LabsDropdown'
   import NavAssetsDropdown from '@/components/Nav/AssetsDropdown'
   import NavHelpDropdown from '@/components/Nav/HelpDropdown'
   import NavAccountDropdown from '@/components/Nav/AccountDropdown'
-  import Products from '@/components/Nav/Products'
+  import NavProductsDropdown from '@/components/Nav/ProductsDropdown'
+  import NavLabsDropdown from '@/components/Nav/LabsDropdown'
   import ProjectsSearch from '@/components/Nav/Search'
 
   export let segment
@@ -13,11 +13,15 @@
   const dropdownItems = [
     {
       id: 'products-trigger',
-      component: Products,
+      component: NavProductsDropdown,
       class: 'Nav__dd-products',
     },
     { id: 'assets-trigger', component: NavAssetsDropdown },
-    { id: 'labs-trigger', component: NavLabsDropdown },
+    {
+      id: 'labs-trigger',
+      component: NavLabsDropdown,
+      class: 'Nav__dd-labs',
+    },
     { id: 'help-trigger', component: NavHelpDropdown },
     { id: 'account-trigger', component: NavAccountDropdown },
   ]
@@ -42,7 +46,7 @@ header
       +button.link(href=appPath+'/sonar', variant="flat") Sonar
       +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
       +button.link.active(href="/", variant="flat", prefetch) Insights
-      +button.link(href=appPath+'/labs', variant="flat", on:mouseenter="{onTriggerEnter}", id="labs-trigger") Labs
+      +button.link(href=appPath+'/labs', variant="flat", on:mouseenter="{onTriggerEnter}", id="labs-trigger", data-offset-x='-72', data-centered='') Labs
       +button.link(href='https://graphs.santiment.net/', variant="flat") Graphs
         +icon('external-link').icon-external-link
     .right
@@ -52,7 +56,7 @@ header
       aria-label="Help menu").right__btn
         +icon('question-round').icon-question
       +button(href=appPath+'/account', class:active="{segment === 'account'}", variant="flat", on:mouseenter="{onTriggerEnter}",
-      id="account-trigger", aria-label="Profile menu").right__btn
+      id="account-trigger", aria-label="Profile menu", data-active-class='account_opened', data-offset-y='-4',).right__btn.account
         +icon('user').icon-user
 
     SmoothDropdown(trigger="{activeTrigger}", items="{dropdownItems}")
@@ -146,6 +150,7 @@ header
 
     &__btn {
       fill: var(--waterloo);
+      padding: 8px;
 
       &:hover {
         fill: var(--jungle-green);
@@ -156,5 +161,25 @@ header
   :global(.Nav__dd-products) {
     padding: 24px 16px 16px;
     width: 1140px;
+  }
+
+  :global(.Nav__dd-labs) {
+    padding: 24px;
+    width: 1140px;
+  }
+
+  .account {
+    @include size(39px);
+    background: #edf8f5;
+    border-radius: 50%;
+    border: 1px solid #edf8f5;
+    fill: var(--jungle-green);
+    justify-content: center;
+    margin-left: 16px;
+
+    :global(&.account_opened),
+    &:hover {
+      border-color: var(--jungle-green);
+    }
   }
 </style>
