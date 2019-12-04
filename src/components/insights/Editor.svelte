@@ -13,6 +13,7 @@
     INSIGHT_BY_ID_QUERY,
   } from '@/gql/insights'
 
+  export let currentTrends = ''
   export let draft = {}
   let reactMount
   let Component
@@ -22,8 +23,13 @@
   const { username } = get(session).currentUser
 
   $: if (Component) {
+    const tags = currentTrends
+      ? currentTrends.split(',').map(name => ({ name }))
+      : []
+
     ReactDOM.render(
       React.createElement(Component, {
+        tags,
         ...draft,
         isUpdating,
         updateDraft,

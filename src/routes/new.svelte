@@ -1,7 +1,7 @@
 <script context="module">
   import { client } from '@/apollo'
 
-  export async function preload(_, session, { apollo = client }) {
+  export async function preload(page, session, { apollo = client }) {
     if (typeof session.currentUser !== 'object') {
       await session.loadingUser
     }
@@ -10,11 +10,17 @@
     if (!currentUser) {
       return this.redirect(302, '/experience')
     }
+    console.log(page)
+    return {
+      currentTrends: page.query.currentTrends,
+    }
   }
 </script>
 
 <script>
   import Editor from '@/components/insights/Editor'
+
+  export let currentTrends
 </script>
 
 <template lang="pug">
@@ -22,5 +28,5 @@ svelte:head
   title Creating New Insight - Santiment Insights
   meta(property='og:title', content='Creating New Insight - Santiment Insights')
 
-Editor
+Editor({currentTrends})
 </template>
