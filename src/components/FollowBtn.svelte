@@ -1,5 +1,6 @@
 <script>
-  import { stores } from '@sapper/app'
+  import { stores, goto } from '@sapper/app'
+  import { get } from 'svelte/store'
   import { FOLLOW_USER_MUTATION, UNFOLLOW_USER_MUTATION } from '@/gql/user'
   import { client } from '@/apollo'
   import { debounce } from '@/utils/func'
@@ -12,9 +13,9 @@
 
   let wasFollowed, followed
   $: {
-    followed = wasFollowed = $session.currentUser.following.users.some(
-      ({ id }) => id === targetId,
-    )
+    followed = wasFollowed =
+      $session.currentUser &&
+      $session.currentUser.following.users.some(({ id }) => id === targetId)
   }
 
   const [mutateFollow] = debounce(() => {
@@ -47,6 +48,10 @@
   }
 
   function toggleFollow() {
+    if (!get(session).currentUser) {
+      return goto('/experience')
+    }
+
     followed = !followed
     mutateFollow()
   }

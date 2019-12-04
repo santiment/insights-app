@@ -158,7 +158,7 @@ svelte:head
   h1.title {title}
   .insight__info
     ProfileInfo(name="{user.username}", id="{user.id}", status="{insightDate}", classes!='{{wrapper: "insight__profile"}}', withPic)
-    +if('$session.currentUser && !isAuthor')
+    +if('!isAuthor')
       Loadable(load="{loadFollowBtn}", targetId='{user.id}')
   Text({text})
 
