@@ -36,7 +36,11 @@ nav
 
   a.btn(href='https://app.santiment.net/sonar')
     +icon('sonar')
-    |Sonar
+    |Signals
+
+  a.btn(href='https://app.santiment.net/watchlists')
+    +icon('watchlists')
+    |Watchlists
 
   a.btn(href='/', class:active='{!menuOpened}', on:click='{hideMenu}')
     +icon('insights')
@@ -89,10 +93,10 @@ nav
   .btn {
     -webkit-tap-highlight-color: transparent;
     user-select: none;
-    @include text('body-3');
+    @include text('caption');
     display: flex;
     flex-direction: column;
-    padding: 12px 16px 7px;
+    padding: 12px 12px 7px;
     height: 100%;
     justify-content: space-between;
     align-items: center;
@@ -106,7 +110,8 @@ nav
 
   svg {
     @include size(18px);
-    margin-bottom: 3px;
+    margin-bottom: 4px;
+    overflow: visible;
   }
 
   .menu {
