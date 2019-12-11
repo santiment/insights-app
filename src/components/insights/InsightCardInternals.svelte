@@ -9,7 +9,8 @@
 
   let klass = ''
   export { klass as class }
-  export let insight
+  export let insight,
+    size = 'xl'
 
   let {
     id,
@@ -37,7 +38,7 @@
 include /ui/mixins
 
 .top
-  a.title(href="/read/{seoLink}")
+  a.title(href="/read/{seoLink}", class='{size}')
     MultilineText(maxLines='{2}') {title}
   ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{status}",
   withPic, classes="{{wrapper: 'card__profile'}}")
@@ -69,6 +70,10 @@ include /ui/mixins
     display: block;
     word-break: break-word;
     margin-bottom: 14px;
+
+    &.m {
+      @include text('body-1');
+    }
 
     &:hover {
       color: var(--jungle-green);

@@ -82,10 +82,13 @@
   import ProfileInfo from '@/components/ProfileInfo'
   import Loadable from '@/components/Loadable'
   import Dialog from '@/ui/dialog/index'
+  import SuggestedInsights from '@/components/insights/SuggestedInsights'
   // TODO: Lazy load FeaturedAssets [@vanguard | Nov 11, 2019]
   import FeaturedAssets from '@/components/assets/FeaturedAssets'
   import { getDateFormats } from '@/utils/dates'
   import { getRawText, grabFirstImageLink } from '@/utils/insights'
+  const loadSuggestedInsights = () =>
+    import('@/components/insights/SuggestedInsights')
   const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
   const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
   const loadFollowBtn = () => import('@/components/FollowBtn')
@@ -105,6 +108,7 @@
   let liked = !!votedAt
   let clientHeight
   let hidden = true
+  let shouldLoadSuggestions = false
 
   const { session } = stores()
   const classes = { wrapper: 'info__profile' }
@@ -130,12 +134,20 @@
     rootMargin: '100% 0px 20px',
   }
 
+  const suggestionOptions = {
+    rootMargin: '100% 0px 1200px',
+  }
+
   function hideSidebar() {
     hidden = true
   }
 
   function showSidebar() {
     hidden = false
+  }
+
+  function showSuggestions() {
+    shouldLoadSuggestions = true
   }
 </script>
 
@@ -168,7 +180,7 @@ svelte:head
     +else()
       Loadable(load="{loadAnonBanner}")
 
-  .bottom.bot-scroll
+  .bottom
     Tags({tags})
     .info
       .info__block.info__block_left
@@ -195,7 +207,11 @@ svelte:head
     .assets
       FeaturedAssets({assets})
 
+ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}', top)
+  +if('shouldLoadSuggestions')
+    Loadable(load='{loadSuggestedInsights}', id='{+user.id}')
 
+.bot-scroll
 </template>
 
 <style lang="scss">

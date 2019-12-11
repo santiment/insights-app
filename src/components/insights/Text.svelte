@@ -5,7 +5,8 @@
 
   let enlargedImgSrc
 
-  const accessibleText = text.replace(/<img/g, '<img alt=""')
+  let accessibleText
+  $: accessibleText = text.replace(/<img/g, '<img alt=""')
 
   function enlargeImg({ target }) {
     if (target.tagName !== 'IMG') return
