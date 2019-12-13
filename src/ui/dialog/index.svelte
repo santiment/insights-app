@@ -4,9 +4,16 @@
   export let open = false
 
   let anc
+  let dialog
+
+  $: if (dialog) {
+    document.body.appendChild(dialog)
+    document.body.style.overflowY = 'hidden'
+  }
 
   function closeDialog() {
     open = false
+    document.body.style.overflowY = ''
   }
 
   function onClickaway({ target, currentTarget }) {
@@ -24,9 +31,11 @@
   const hasTrigger = $$props.$$slots.trigger
   onMount(() => {
     if (anc) {
-      anc.nextElementSibling.onclick = () => (open = true)
+      anc.nextElementSibling.onclick = () => {
+        open = true
+        window.addEventListener('keyup', onKeyup)
+      }
     }
-    window.addEventListener('keyup', onKeyup)
   })
 
   onDestroy(() => {
@@ -45,7 +54,7 @@ include /ui/mixins
 slot(name='trigger')
 
 +if('open')
-  .bg(on:click='{onClickaway}')
+  .bg(bind:this='{dialog}', on:click='{onClickaway}')
     +panel.dialog(variant='context')
       .top
         h2 {title}

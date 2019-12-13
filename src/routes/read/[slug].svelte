@@ -92,6 +92,7 @@
   const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
   const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
   const loadFollowBtn = () => import('@/components/FollowBtn')
+  const loadComments = () => import('@/components/insights/Comments')
 
   export let id,
     text,
@@ -109,6 +110,7 @@
   let clientHeight
   let hidden = true
   let shouldLoadSuggestions = false
+  let shouldLoadComments = false
 
   const { session } = stores()
   const classes = { wrapper: 'info__profile' }
@@ -148,6 +150,10 @@
 
   function showSuggestions() {
     shouldLoadSuggestions = true
+  }
+
+  function showComments() {
+    shouldLoadComments = true
   }
 </script>
 
@@ -210,6 +216,10 @@ svelte:head
 ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}', top)
   +if('shouldLoadSuggestions')
     Loadable(load='{loadSuggestedInsights}', id='{+user.id}')
+
+ViewportObserver({options}, on:intersect='{showComments}', top)
+  +if('shouldLoadComments')
+    Loadable(load='{loadComments}', {id})
 
 .bot-scroll
 </template>

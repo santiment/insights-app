@@ -1,10 +1,15 @@
 <script>
-  export let load;
-  let Component;
+  export let load
+  let Component
 
-  const { load: _, ...props } = $$props;
+  let { load: _, ...props } = $$props
 
-  load().then(({ default: loaded }) => (Component = loaded));
+  $: {
+    const { load: _, ...rest } = $$props
+    props = rest
+  }
+
+  load().then(({ default: loaded }) => (Component = loaded))
 </script>
 
 <template lang="pug">
