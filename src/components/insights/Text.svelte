@@ -44,8 +44,9 @@ Modal(bind:open='{enlargedImgSrc}')
     }
 
     :global(img) {
-      max-width: 70%;
       cursor: pointer;
+      max-height: 500px;
+      max-width: 100%;
     }
 
     :global(.md-inline-bold) {
