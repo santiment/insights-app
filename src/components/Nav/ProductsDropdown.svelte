@@ -18,7 +18,7 @@
     },
     {
       title: 'API',
-      desc: 'The most comprehsive crypto API on the market',
+      desc: 'The most comprehensive crypto API on the market',
       goto: 'Go to API',
       link: 'https://neuro.santiment.net',
       logo: '/neuro-logo.svg',
