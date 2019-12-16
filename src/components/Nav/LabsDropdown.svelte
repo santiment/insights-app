@@ -23,6 +23,13 @@
       link: 'https://app.santiment.net/labs/buidl-heroes',
       logo: '/labs-buidl.svg',
     },
+    {
+      title: 'Studio',
+      desc:
+        'On-chain, social, development and financial indicators for 900+ crypto assets',
+      link: 'https://app.santiment.net/chart',
+      logo: '/labs-studio.svg',
+    },
   ]
 
   const classes = {
