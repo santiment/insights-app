@@ -65,7 +65,7 @@ export const getTooltipStyles = (
 export const isParentOf = (parent, el) => {
   let toCheck = el
 
-  while (toCheck && toCheck !== document.body) {
+  while (toCheck) {
     if (toCheck === parent) {
       return true
     }

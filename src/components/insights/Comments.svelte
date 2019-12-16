@@ -1,7 +1,9 @@
 <script>
+  import { get } from 'svelte/store'
   import { stores } from '@sapper/app'
   import { client } from '@/apollo'
   import Comment from '@/components/comments/Comment'
+  import CommentInput from '@/components/comments/Input'
   import CommentAuthor from '@/components/comments/Author'
   import {
     COMMENTS_FOR_INSIGHT_QUERY,
@@ -16,6 +18,7 @@
   let hasMore = false
   let avatarUrl = ''
   let username = ''
+  let loading
 
   $: if (id) {
     getComments().then(({ data }) => {
@@ -65,15 +68,16 @@
     })
   }
 
-  function postComment(e) {
-    e.preventDefault()
+  function postComment({ currentTarget }) {
     const {
       comment: { value: content },
-    } = e.currentTarget
+    } = currentTarget
 
-    if (!content) {
+    if (!content || loading) {
       return
     }
+
+    loading = true
 
     client
       .mutate({
@@ -83,7 +87,27 @@
           content,
         },
       })
-      .then(console.log)
+      .then(
+        ({
+          data: {
+            createComment: { id: newId },
+          },
+        }) => {
+          loading = false
+          currentTarget.reset()
+          comments = [
+            ...comments,
+            {
+              id: newId,
+              content,
+              parentId: null,
+              insertedAt: new Date().toISOString(),
+              user: { ...get(session).currentUser },
+            },
+          ]
+        },
+      )
+      .catch(console.warn)
   }
 
   function onlyRootCommentsFilter({ parentId }) {
@@ -98,13 +122,13 @@ section
   +if('$session.currentUser')
     CommentAuthor({avatarUrl}, {username})
 
-    form(on:submit='{postComment}')
-      textarea(required, name='comment', placeholder='Type your comment here')
-      +button.submit(variant='fill', accent='jungle-green', type='submit') Post
+    form(on:submit|preventDefault='{postComment}')
+      CommentInput.Comments__input
+      +button.submit(variant='fill', accent='jungle-green', type='submit', class:loading) Post
 
   .comments
-    +each('comments.filter(onlyRootCommentsFilter) as comment')
-      Comment(insightId='{id}', {comment}, {subComments})
+    +each('comments.filter(onlyRootCommentsFilter) as comment (comment.id)')
+      Comment(insightId='{id}', bind:comments, {comment}, {subComments})
 
   +if('hasMore')
     +button.more(fluid, border, on:click='{onMoreClick}') Show more comments
@@ -148,20 +172,9 @@ section
     margin-top: 16px;
   }
 
-  textarea {
-    border-radius: 4px;
-    border: 1px solid var(--porcelain);
-    background: var(--white);
+  :global(.Comments__input) {
     margin-right: 16px;
     flex: 1;
-    min-height: 40px;
-    height: 40px;
-    padding: 9px 12px;
-    outline: none;
-
-    &::placeholder {
-      color: var(--casper);
-    }
   }
 
   .submit {

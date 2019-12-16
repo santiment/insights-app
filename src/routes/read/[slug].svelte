@@ -133,7 +133,7 @@
   const metaDescriptionText = getRawText(text).slice(0, 140)
 
   const options = {
-    rootMargin: '100% 0px 20px',
+    rootMargin: '180px 0px 20px',
   }
 
   const suggestionOptions = {

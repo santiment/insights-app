@@ -4,58 +4,38 @@
   import Dialog from '@/ui/dialog/index'
   import ContextMenu from '@/components/ContextMenu'
   import CommentAuthor from './Author.svelte'
+  import CommentReply from './ReplyBtn.svelte'
   import CommentEditBtn from './EditBtn.svelte'
   import CommentDeleteBtn from './DeleteBtn.svelte'
   import { dateDifferenceInWords } from '@/utils/dates'
-  import { CREATE_COMMENT_MUTATION } from '@/gql/comments'
 
-  const { session } = stores()
-  export let insightId,
+  export let comments,
+    insightId,
     comment,
     subComments,
     level = 0
 
   let open = false
   let loading = false
+  let id, content, dateDiff
+  let userId, avatarUrl, email, username
 
-  const {
-    id,
-    content,
-    insertedAt,
-    user: { id: userId, avatarUrl, email, username },
-  } = comment
+  $: {
+    id = comment.id
+    content = comment.content
+    dateDiff = dateDifferenceInWords({
+      from: new Date(comment.insertedAt),
+      to: new Date(),
+    })
 
-  const dateDiff = {
-    from: new Date(insertedAt),
-    to: new Date(),
+    const user = comment.user
+    userId = user.id
+    avatarUrl = user.avatarUrl
+    email = user.email
+    username = user.username
   }
 
-  function onSubmit(e) {
-    e.preventDefault()
-    const {
-      reply: { value: content },
-    } = e.currentTarget
-
-    if (loading || !content) {
-      return
-    }
-
-    loading = true
-
-    client
-      .mutate({
-        mutation: CREATE_COMMENT_MUTATION,
-        variables: {
-          id: +insightId,
-          parentId: +id,
-          content,
-        },
-      })
-      .then(() => {
-        open = false
-        loading = false
-      })
-  }
+  const { session } = stores()
 </script>
 
 <template lang="pug">
@@ -64,7 +44,7 @@ include /ui/mixins
 .comment(style='--level: {level}')
   .author
     CommentAuthor({avatarUrl}, username='{username || email}')
-    | {dateDifferenceInWords(dateDiff)}
+    | {dateDiff}
   .body
     // .rating
       // +icon('arrow-down').icon-arrow.icon-arrow_up
@@ -73,24 +53,18 @@ include /ui/mixins
     .text
       p {content}
       .actions
-        Dialog(title='Replying', bind:open)
-          +button(slot='trigger') Reply
-          form(slot='content', on:submit='{onSubmit}')
-            textarea(required, name='reply')
-            +dialogActions
-              +button(type='cancel', border) Cancel
-              +button(type='submit', variant='fill', accent='jungle-green', class:loading) Submit reply
+        CommentReply({id}, {insightId}, bind:comments)
         +if('$session.currentUser && $session.currentUser.id === userId')
           ContextMenu(align='end', activeClass='Comment__more')
-            +button(slot='trigger')
+            +button.action(slot='trigger')
               +icon('dots').icon-dots
             .menu(slot='content')
-              CommentEditBtn({id}, {content})
-              CommentDeleteBtn({id})
+              CommentEditBtn({id}, {content}, bind:comment)
+              CommentDeleteBtn({id}, bind:comment)
 
 
 +if('subComments[id]')
-  +each('subComments[id] as subComment')
+  +each('subComments[id] as subComment (subComment.id)')
     svelte:self({insightId}, comment='{subComment}', {subComments}, level='{level + 1}')
 
 </template>
@@ -159,30 +133,13 @@ include /ui/mixins
   .actions {
     display: flex;
     justify-content: space-between;
-
-    & > button {
-      cursor: pointer;
-      color: var(--waterloo);
-      fill: var(--waterloo);
-
-      &:hover {
-        color: var(--jungle-green-hover);
-        fill: var(--jungle-green-hover);
-      }
-    }
   }
 
-  textarea {
-    border-radius: 4px;
-    outline: none;
-    border: 1px solid var(--porcelain);
-    background: var(--white);
-    width: 400px;
-    margin: 20px 20px 14px;
-    padding: 9px 12px;
+  .action {
+    fill: var(--waterloo);
 
-    &::placeholder {
-      color: var(--casper);
+    &:hover {
+      fill: var(--jungle-green-hover);
     }
   }
 

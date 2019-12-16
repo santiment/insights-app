@@ -3,7 +3,7 @@
   import Dialog from '@/ui/dialog/index'
   import { DELETE_COMMENT_MUTATION } from '@/gql/comments'
 
-  export let id
+  export let id, comment
 
   let open = false
   let loading = false
@@ -22,6 +22,15 @@
         open = false
         loading = false
       })
+      .then(() => {
+        comment.content = 'The comment has been deleted.'
+        comment.user = {
+          avatarUrl: null,
+          email: 'anonymous@santiment.net',
+          username: 'anonymous',
+        }
+      })
+      .catch(console.warn)
   }
 
   function closeDialog() {

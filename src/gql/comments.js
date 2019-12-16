@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const COMMENTS_FOR_INSIGHT_QUERY = gql`
   query insightComments($id: ID!, $cursor: CursorInput) {
-    comments: insightComments(insightId: $id, cursor: $cursor, limit: 10) {
+    comments: insightComments(insightId: $id, cursor: $cursor, limit: 50) {
       id
       content
       parentId

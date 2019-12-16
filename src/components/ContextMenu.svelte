@@ -4,7 +4,6 @@
     getSignByPosition,
     calculateAlignment,
     getTooltipStyles,
-    isParentOf,
   } from '@/utils/positioning'
 
   let klass

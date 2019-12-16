@@ -8,12 +8,16 @@
 
   $: if (dialog) {
     document.body.appendChild(dialog)
-    document.body.style.overflowY = 'hidden'
+  }
+
+  $: {
+    if (process.browser) {
+      document.body.style.overflowY = open ? 'hidden' : ''
+    }
   }
 
   function closeDialog() {
     open = false
-    document.body.style.overflowY = ''
   }
 
   function onClickaway({ target, currentTarget }) {

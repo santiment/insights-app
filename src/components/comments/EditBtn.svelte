@@ -4,7 +4,8 @@
   import { UPDATE_COMMENT_MUTATION } from '@/gql/comments'
 
   export let id,
-    content = ''
+    content = '',
+    comment
 
   let open = false
   let loading = false
@@ -23,7 +24,10 @@
       .then(() => {
         open = false
         loading = false
+
+        comment.content = content
       })
+      .catch(console.warn)
   }
 
   function closeDialog() {
