@@ -21,13 +21,6 @@ export const CREATE_COMMENT_MUTATION = gql`
   mutation createComment($id: Int!, $content: String!, $parentId: Int) {
     createComment(insightId: $id, content: $content, parentId: $parentId) {
       id
-      content
-      parentId
-      user {
-        id
-        username
-        avatarUrl
-      }
     }
   }
 `

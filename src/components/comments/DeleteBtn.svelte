@@ -4,10 +4,13 @@
   import { DELETE_COMMENT_MUTATION } from '@/gql/comments'
 
   export let id
+
   let open = false
+  let loading = false
 
   function deleteComment(e) {
-    console.log('click')
+    loading = true
+
     client
       .mutate({
         mutation: DELETE_COMMENT_MUTATION,
@@ -15,7 +18,10 @@
           id: +id,
         },
       })
-      .then(() => (open = false))
+      .then(() => {
+        open = false
+        loading = false
+      })
   }
 
   function closeDialog() {
@@ -35,9 +41,8 @@ Dialog(title='Delete comment?', bind:open)
       +button(variant='fill', accent='jungle-green', on:click='{deleteComment}') Delete comment
 </template>
 
-
 <style>
- .delete {
-   margin: 20px 20px 14px;
- }
+  .delete {
+    margin: 20px 20px 14px;
+  }
 </style>

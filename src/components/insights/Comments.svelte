@@ -1,7 +1,8 @@
 <script>
   import { stores } from '@sapper/app'
   import { client } from '@/apollo'
-  import Comment from './Comment.svelte'
+  import Comment from '@/components/comments/Comment'
+  import CommentAuthor from '@/components/comments/Author'
   import {
     COMMENTS_FOR_INSIGHT_QUERY,
     CREATE_COMMENT_MUTATION,
@@ -12,7 +13,9 @@
 
   let comments = []
   let subComments = {}
-  let hasMore = true
+  let hasMore = false
+  let avatarUrl = ''
+  let username = ''
 
   $: if (id) {
     getComments().then(({ data }) => {
@@ -34,6 +37,12 @@
 
     return acc
   }, {})
+
+  $: if ($session.currentUser) {
+    const { currentUser } = $session
+    avatarUrl = currentUser.avatarUrl
+    username = currentUser.username || currentUser.email
+  }
 
   function getComments(cursor) {
     return client.query({
@@ -87,9 +96,7 @@ include /ui/mixins
 
 section
   +if('$session.currentUser')
-    .profile
-      img(src="{$session.currentUser.avatarUrl}", alt="Profile pic")
-      h4 {$session.currentUser.username}
+    CommentAuthor({avatarUrl}, {username})
 
     form(on:submit='{postComment}')
       textarea(required, name='comment', placeholder='Type your comment here')
@@ -128,28 +135,12 @@ section
     margin: 40px auto;
   }
 
-  .profile {
-    display: flex;
-    align-items: center;
-  }
-
   .author {
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: var(--waterloo);
     @include text('caption');
-  }
-
-  img {
-    @include size(40px);
-    border-radius: 50%;
-  }
-
-  h4 {
-    @include text('body-2');
-    margin-left: 12px;
-    color: var(--mirage);
   }
 
   form {
@@ -160,6 +151,7 @@ section
   textarea {
     border-radius: 4px;
     border: 1px solid var(--porcelain);
+    background: var(--white);
     margin-right: 16px;
     flex: 1;
     min-height: 40px;

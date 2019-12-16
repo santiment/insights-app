@@ -2,14 +2,12 @@
   import { stores } from '@sapper/app'
   import { client } from '@/apollo'
   import Dialog from '@/ui/dialog/index'
-  import Tooltip from '@/components/Tooltip'
-  import DeleteBtn from './DeleteBtn.svelte'
+  import ContextMenu from '@/components/ContextMenu'
+  import CommentAuthor from './Author.svelte'
+  import CommentEditBtn from './EditBtn.svelte'
+  import CommentDeleteBtn from './DeleteBtn.svelte'
   import { dateDifferenceInWords } from '@/utils/dates'
-  import {
-    CREATE_COMMENT_MUTATION,
-    DELETE_COMMENT_MUTATION,
-    UPDATE_COMMENT_MUTATION,
-  } from '@/gql/comments'
+  import { CREATE_COMMENT_MUTATION } from '@/gql/comments'
 
   const { session } = stores()
   export let insightId,
@@ -19,13 +17,12 @@
 
   let open = false
   let loading = false
-  let isUpdateOpened = false
 
   const {
     id,
     content,
     insertedAt,
-    user: { id: userId, username, avatarUrl },
+    user: { id: userId, avatarUrl, email, username },
   } = comment
 
   const dateDiff = {
@@ -59,23 +56,6 @@
         loading = false
       })
   }
-
-  function onUpdateSubmit({ currentTarget: { update } }) {
-    const content = update.value
-
-    client
-      .mutate({
-        mutation: UPDATE_COMMENT_MUTATION,
-        variables: {
-          id: +id,
-          content,
-        },
-      })
-      .then(() => {
-        isUpdateOpened = false
-        loading = false
-      })
-  }
 </script>
 
 <template lang="pug">
@@ -83,10 +63,7 @@ include /ui/mixins
 
 .comment(style='--level: {level}')
   .author
-    .profile
-      .pic
-        img(src!='{avatarUrl || "profile-fallback.svg"}', alt="Profile pic")
-      h4 {username}
+    CommentAuthor({avatarUrl}, username='{username || email}')
     | {dateDifferenceInWords(dateDiff)}
   .body
     // .rating
@@ -104,18 +81,12 @@ include /ui/mixins
               +button(type='cancel', border) Cancel
               +button(type='submit', variant='fill', accent='jungle-green', class:loading) Submit reply
         +if('$session.currentUser && $session.currentUser.id === userId')
-          Tooltip(closeTimeout='{15000}')
+          ContextMenu(align='end', activeClass='Comment__more')
             +button(slot='trigger')
               +icon('dots').icon-dots
             .menu(slot='content')
-              Dialog(title='Update comment', bind:open='{isUpdateOpened}')
-                +button(slot='trigger', variant='ghost', fluid) Edit
-                form(slot='content', on:submit|preventDefault='{onUpdateSubmit}')
-                  textarea(required, name='update', value='{content}')
-                  +dialogActions
-                    +button(type='cancel', border) Cancel
-                    +button(type='submit', variant='fill', accent='jungle-green', class:loading) Update comment
-              DeleteBtn({id})
+              CommentEditBtn({id}, {content})
+              CommentDeleteBtn({id})
 
 
 +if('subComments[id]')
@@ -153,43 +124,12 @@ include /ui/mixins
     @include size(16px, 4px);
   }
 
-  .profile {
-    display: flex;
-    align-items: center;
-    max-width: 71%;
-  }
-
   .author {
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: var(--waterloo);
     @include text('caption');
-  }
-
-  .pic {
-    @include size(40px);
-    border-radius: 50%;
-    background: var(--porcelain);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    min-width: 22px;
-  }
-
-  h4 {
-    @include text('body-2');
-    margin-left: 12px;
-    color: var(--mirage);
-    max-width: 100%;
-    text-overflow: ellipsis;
-    overflow-x: hidden;
   }
 
   .body {
@@ -221,6 +161,7 @@ include /ui/mixins
     justify-content: space-between;
 
     & > button {
+      cursor: pointer;
       color: var(--waterloo);
       fill: var(--waterloo);
 
@@ -235,6 +176,7 @@ include /ui/mixins
     border-radius: 4px;
     outline: none;
     border: 1px solid var(--porcelain);
+    background: var(--white);
     width: 400px;
     margin: 20px 20px 14px;
     padding: 9px 12px;
@@ -246,5 +188,10 @@ include /ui/mixins
 
   .menu {
     padding: 8px;
+  }
+
+  :global(.Comment__more) {
+    background: var(--jungle-green-light) !important;
+    fill: var(--jungle-green) !important;
   }
 </style>
