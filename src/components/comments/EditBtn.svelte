@@ -5,7 +5,8 @@
 
   export let id,
     content = '',
-    comment
+    comment,
+    isContextOpened
 
   let open = false
   let loading = false
@@ -22,23 +23,27 @@
         },
       })
       .then(() => {
-        open = false
-        loading = false
-
         comment.content = content
+        comment.editedAt = new Date().toISOString()
       })
+      .then(closeDialog)
       .catch(console.warn)
+  }
+
+  function closeContextMenu() {
+    isContextOpened = false
   }
 
   function closeDialog() {
     open = false
+    closeContextMenu()
   }
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
-Dialog(title='Update comment', bind:open)
+Dialog(title='Update comment', bind:open, on:close='{closeContextMenu}')
   +button(slot='trigger', variant='ghost', fluid) Edit
   form(slot='content', on:submit|preventDefault='{onSubmit}')
     textarea(required, name='update', value='{content}')

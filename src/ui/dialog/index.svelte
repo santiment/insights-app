@@ -1,10 +1,12 @@
 <script>
-  import { onMount, onDestroy } from 'svelte'
+  import { createEventDispatcher, onMount, onDestroy } from 'svelte'
   export let title
   export let open = false
 
   let anc
   let dialog
+
+  const dispatch = createEventDispatcher()
 
   $: if (dialog) {
     document.body.appendChild(dialog)
@@ -18,6 +20,7 @@
 
   function closeDialog() {
     open = false
+    dispatch('close')
   }
 
   function onClickaway({ target, currentTarget }) {

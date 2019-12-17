@@ -11,20 +11,28 @@
 
   export let comments,
     insightId,
+    insightAuthorId,
     comment,
     subComments,
     level = 0
 
   let open = false
   let loading = false
-  let id, content, dateDiff
+  let id,
+    content,
+    dateDiff,
+    datePrefix = ''
   let userId, avatarUrl, email, username
+
+  const { session } = stores()
+  const DELETE_MSG = 'The comment has been deleted.'
 
   $: {
     id = comment.id
     content = comment.content
+    datePrefix = comment.editedAt ? 'Edited ' : ''
     dateDiff = dateDifferenceInWords({
-      from: new Date(comment.insertedAt),
+      from: new Date(comment.editedAt || comment.insertedAt),
       to: new Date(),
     })
 
@@ -34,8 +42,6 @@
     email = user.email
     username = user.username
   }
-
-  const { session } = stores()
 </script>
 
 <template lang="pug">
@@ -43,8 +49,8 @@ include /ui/mixins
 
 .comment(style='--level: {level}')
   .author
-    CommentAuthor({avatarUrl}, username='{username || email}')
-    | {dateDiff}
+    CommentAuthor({avatarUrl}, username='{username || email}', id='{userId}', {insightAuthorId})
+    | {datePrefix}{dateDiff}
   .body
     // .rating
       // +icon('arrow-down').icon-arrow.icon-arrow_up
@@ -53,19 +59,20 @@ include /ui/mixins
     .text
       p {content}
       .actions
-        CommentReply({id}, {insightId}, bind:comments)
+        +if('content !== DELETE_MSG')
+          CommentReply({id}, {insightId}, bind:comments)
         +if('$session.currentUser && $session.currentUser.id === userId')
-          ContextMenu(align='end', activeClass='Comment__more')
+          ContextMenu(align='end', activeClass='Comment__more', bind:open)
             +button.action(slot='trigger')
               +icon('dots').icon-dots
             .menu(slot='content')
-              CommentEditBtn({id}, {content}, bind:comment)
-              CommentDeleteBtn({id}, bind:comment)
+              CommentEditBtn({id}, {content}, bind:comment, bind:isContextOpened='{open}')
+              CommentDeleteBtn({id}, bind:comment, bind:isContextOpened='{open}')
 
 
 +if('subComments[id]')
   +each('subComments[id] as subComment (subComment.id)')
-    svelte:self({insightId}, comment='{subComment}', {subComments}, level='{level + 1}')
+    svelte:self({insightId}, comment='{subComment}', {subComments}, level='{level + 1}', {insightAuthorId})
 
 </template>
 
@@ -128,6 +135,7 @@ include /ui/mixins
     border-radius: 4px;
     background: var(--athens);
     padding: 16px;
+    white-space: pre-line;
   }
 
   .actions {

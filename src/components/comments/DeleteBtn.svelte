@@ -3,10 +3,14 @@
   import Dialog from '@/ui/dialog/index'
   import { DELETE_COMMENT_MUTATION } from '@/gql/comments'
 
-  export let id, comment
+  export let id, comment, isContextOpened
 
   let open = false
   let loading = false
+
+  $: if (!open) {
+    isContextOpened = false
+  }
 
   function deleteComment(e) {
     loading = true
@@ -18,10 +22,7 @@
           id: +id,
         },
       })
-      .then(() => {
-        open = false
-        loading = false
-      })
+      .then(closeDialog)
       .then(() => {
         comment.content = 'The comment has been deleted.'
         comment.user = {
@@ -33,8 +34,13 @@
       .catch(console.warn)
   }
 
+  function closeContextMenu() {
+    isContextOpened = false
+  }
+
   function closeDialog() {
     open = false
+    closeContextMenu()
   }
 </script>
 

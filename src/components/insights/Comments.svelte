@@ -11,13 +11,14 @@
   } from '@/gql/comments'
 
   const { session } = stores()
-  export let id
+  export let id, authorId
 
   let comments = []
   let subComments = {}
   let hasMore = false
   let avatarUrl = ''
   let username = ''
+  let userId
   let loading
 
   $: if (id) {
@@ -45,6 +46,7 @@
     const { currentUser } = $session
     avatarUrl = currentUser.avatarUrl
     username = currentUser.username || currentUser.email
+    userId = currentUser.id
   }
 
   function getComments(cursor) {
@@ -78,6 +80,7 @@
     }
 
     loading = true
+    currentTarget.blur()
 
     client
       .mutate({
@@ -113,6 +116,12 @@
   function onlyRootCommentsFilter({ parentId }) {
     return parentId === null
   }
+
+  function onKeyPress({ currentTarget, code, ctrlKey }) {
+    if (ctrlKey && code === 'Enter') {
+      postComment({ currentTarget })
+    }
+  }
 </script>
 
 <template lang="pug">
@@ -120,15 +129,15 @@ include /ui/mixins
 
 section
   +if('$session.currentUser')
-    CommentAuthor({avatarUrl}, {username})
+    CommentAuthor({avatarUrl}, {username}, id='{userId}', insightAuthorId='{authorId}')
 
-    form(on:submit|preventDefault='{postComment}')
+    form(on:submit|preventDefault='{postComment}', on:keypress='{onKeyPress}')
       CommentInput.Comments__input
       +button.submit(variant='fill', accent='jungle-green', type='submit', class:loading) Post
 
   .comments
     +each('comments.filter(onlyRootCommentsFilter) as comment (comment.id)')
-      Comment(insightId='{id}', bind:comments, {comment}, {subComments})
+      Comment(insightId='{id}', insightAuthorId='{authorId}', bind:comments, {comment}, {subComments})
 
   +if('hasMore')
     +button.more(fluid, border, on:click='{onMoreClick}') Show more comments

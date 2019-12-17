@@ -15,19 +15,26 @@
   export let on = 'click'
   export let activeClass = ''
 
+  export let open = false
   let modal
   let anc
   let trigger
   let tooltip
-  let shown = false
 
   $: if (modal) {
     document.body.appendChild(modal)
   }
 
   function openTooltip() {
-    shown = true
-    trigger.classList.add(activeClass)
+    open = true
+  }
+
+  $: if (process.browser && trigger) {
+    if (open) {
+      trigger.classList.add(activeClass)
+    } else {
+      trigger.classList.remove(activeClass)
+    }
   }
 
   $: if (tooltip) {
@@ -46,8 +53,7 @@
   }
 
   function onClickAway() {
-    shown = false
-    trigger.classList.remove(activeClass)
+    open = false
   }
 
   onMount(() => {
@@ -63,7 +69,7 @@ p(bind:this='{anc}')
 
 slot(name='trigger')
 
-+if('shown')
++if('open')
   .modal(bind:this='{modal}')
     .clickaway(on:click='{onClickAway}')
     +panel.tooltip(variant='tooltip-small', bind:this='{tooltip}', class='{klass}')

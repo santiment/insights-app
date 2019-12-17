@@ -219,7 +219,7 @@ ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}'
 
 ViewportObserver({options}, on:intersect='{showComments}', top)
   +if('shouldLoadComments')
-    Loadable(load='{loadComments}', {id})
+    Loadable(load='{loadComments}', {id}, authorId='{user.id}')
 
 .bot-scroll
 </template>

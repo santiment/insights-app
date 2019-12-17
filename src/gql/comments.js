@@ -7,6 +7,7 @@ export const COMMENTS_FOR_INSIGHT_QUERY = gql`
       content
       parentId
       insertedAt
+      editedAt
       user {
         id
         username
