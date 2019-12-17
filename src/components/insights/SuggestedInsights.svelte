@@ -103,6 +103,7 @@ include /ui/mixins
 
     @include responsive('desktop', 'laptop') {
       width: $card-width * 3 + $card-right-margin * 2;
+      margin: 0 auto;
     }
   }
 
