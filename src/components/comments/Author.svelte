@@ -5,7 +5,7 @@
 <template lang="pug">
 include /ui/mixins
 
-.profile
+a.profile(href='https://app.santiment.net/profile/{id}')
   .pic
     img(src!='{avatarUrl || "profile-fallback.svg"}', alt="Profile pic")
   .right
@@ -22,6 +22,11 @@ include /ui/mixins
     display: flex;
     align-items: center;
     max-width: 71%;
+    color: var(--mirage);
+
+    &:hover {
+      color: var(--jungle-green);
+    }
   }
 
   .pic {
@@ -47,7 +52,6 @@ include /ui/mixins
 
   h4 {
     @include text('body-2');
-    color: var(--mirage);
     max-width: 100%;
     text-overflow: ellipsis;
     overflow-x: hidden;

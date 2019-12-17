@@ -37,13 +37,14 @@ include /ui/mixins
   .wrapper
     h2 Suggested insights
     .visible
-      .scroll
-        +each('insights as insight')
-          +if('$session.isMobile')
-            +panel(variant='box').mobile-card
-              InsightSmallCard({insight})
-            +else()
-              InsightCard.SuggestedInsights__item({insight}, size='m')
+      .visible__scroll
+        .scroll
+          +each('insights as insight')
+            +if('$session.isMobile')
+              +panel(variant='box').mobile-card
+                InsightSmallCard({insight})
+              +else()
+                InsightCard.SuggestedInsights__item({insight}, size='m')
 
 </template>
 
@@ -81,19 +82,22 @@ include /ui/mixins
   }
 
   .visible {
-    position: relative;
-    overflow: hidden;
-    height: 113px;
     width: 100%;
-
+    height: 113px;
+    overflow: hidden;
     @include responsive('desktop', 'laptop') {
       height: 191px;
-      width: $card-width * 3 + $card-right-margin * 2;
     }
+  }
 
-    &:hover {
-      overflow-x: auto;
-      overflow-x: overlay;
+  .visible__scroll {
+    position: relative;
+    overflow: hidden;
+    overflow-x: auto;
+    height: calc(100% + 10px);
+
+    @include responsive('desktop', 'laptop') {
+      width: $card-width * 3 + $card-right-margin * 2;
     }
   }
 
