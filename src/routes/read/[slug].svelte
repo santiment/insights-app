@@ -213,13 +213,14 @@ svelte:head
     .assets
       FeaturedAssets({assets})
 
-ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}', top)
-  +if('shouldLoadSuggestions')
-    Loadable(load='{loadSuggestedInsights}', id='{+user.id}')
-
 ViewportObserver({options}, on:intersect='{showComments}', top)
   +if('shouldLoadComments')
     Loadable(load='{loadComments}', {id}, authorId='{user.id}')
+
+
+ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}', top)
+  +if('shouldLoadSuggestions')
+    Loadable(load='{loadSuggestedInsights}', {id}, userId='{+user.id}')
 
 .bot-scroll
 </template>

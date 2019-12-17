@@ -128,6 +128,9 @@
 include /ui/mixins
 
 section
+  +if('$session.currentUser || comments.length !== 0')
+    h2 Comments
+
   +if('$session.currentUser')
     CommentAuthor({avatarUrl}, {username}, id='{userId}', insightAuthorId='{authorId}')
 
@@ -145,6 +148,11 @@ section
 
 <style lang="scss">
   @import '@/mixins';
+
+  h2 {
+    @include text('h4');
+    margin-bottom: 30px;
+  }
 
   .icon-arrow {
     @include size(8px, 5px);

@@ -8,7 +8,7 @@
     FEATURED_INSIGHTS_QUERY,
   } from '@/gql/insights'
 
-  export let id
+  export let id, userId
 
   const { session } = stores()
 
@@ -16,16 +16,21 @@
     .query({
       query: INSIGHTS_BY_USERID_QUERY,
       variables: {
-        id,
+        id: userId,
       },
     })
-    .then(data =>
+    .then(({ data }) =>
       data.insights && data.insights.length < 3
-        ? client.query({ query: FEATURED_INSIGHTS_QUERY })
-        : data,
+        ? client
+            .query({ query: FEATURED_INSIGHTS_QUERY })
+            .then(({ data: { insights } }) => data.insights.concat(insights))
+        : data.insights,
     )
-    .then(({ data: { insights } }) =>
-      insights.slice(0, 10).map(insight => ({ ...insight, tags: [] })),
+    .then(insights =>
+      insights
+        .slice(0, 10)
+        .filter(insight => insight.id !== id)
+        .map(insight => ({ ...insight, tags: [] })),
     )
     .catch(console.warn)
 </script>
