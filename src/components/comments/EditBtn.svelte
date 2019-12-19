@@ -46,7 +46,7 @@ include /ui/mixins
 Dialog(title='Update comment', bind:open, on:close='{closeContextMenu}')
   +button(slot='trigger', variant='ghost', fluid) Edit
   form(slot='content', on:submit|preventDefault='{onSubmit}')
-    textarea(required, name='update', value='{content}')
+    textarea(required, name='update', value='{content}', rows='5')
     +dialogActions
       +button(type='cancel', border, on:click='{closeDialog}') Cancel
       +button(type='submit', variant='fill', accent='jungle-green', class:loading) Update comment

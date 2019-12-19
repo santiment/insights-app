@@ -48,6 +48,7 @@ a.profile(href='https://app.santiment.net/profile/{id}')
   .right {
     margin-left: 12px;
     line-height: 0;
+    max-width: 86%;
   }
 
   h4 {

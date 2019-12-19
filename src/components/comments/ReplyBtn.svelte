@@ -74,7 +74,7 @@ include /ui/mixins
 
 Dialog(title='Replying', bind:open)
   form(slot='content', on:submit|preventDefault='{onSubmit}')
-    textarea(required, name='reply')
+    textarea(required, name='reply', rows='5')
     +dialogActions
       +button(type='cancel', border, on:click='{closeDialog}') Cancel
       +button(type='submit', variant='fill', accent='jungle-green', class:loading) Submit reply

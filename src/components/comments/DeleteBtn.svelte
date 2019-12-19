@@ -26,6 +26,7 @@
       .then(() => {
         comment.content = 'The comment has been deleted.'
         comment.user = {
+          id: 0,
           avatarUrl: null,
           email: 'anonymous@santiment.net',
           username: 'anonymous',

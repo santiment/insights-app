@@ -72,7 +72,7 @@ include /ui/mixins
 
 +if('subComments[id]')
   +each('subComments[id] as subComment (subComment.id)')
-    svelte:self({insightId}, comment='{subComment}', {subComments}, level='{level + 1}', {insightAuthorId})
+    svelte:self({insightId}, comment='{subComment}', {subComments}, level='{level + 1}', {insightAuthorId}, bind:comments)
 
 </template>
 
