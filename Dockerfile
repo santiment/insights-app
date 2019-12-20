@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY ./ /app
 
-RUN npm install -g yarn
+RUN npm install -g yarn --force
 RUN yarn install
 RUN yarn build
 
