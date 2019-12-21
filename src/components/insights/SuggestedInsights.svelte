@@ -88,11 +88,12 @@ include /ui/mixins
 
   .visible {
     width: 100%;
-    height: 113px;
     overflow: hidden;
-    @include responsive('desktop', 'laptop') {
-      height: 191px;
-    }
+    height: 191px;
+  }
+
+  :global(.isMobile) .visible {
+    height: 159px;
   }
 
   .visible__scroll {
@@ -101,16 +102,23 @@ include /ui/mixins
     overflow-x: auto;
     height: calc(100% + 10px);
 
-    @include responsive('desktop', 'laptop') {
-      width: $card-width * 3 + $card-right-margin * 2;
-      margin: 0 auto;
-    }
+    width: $card-width * 3 + $card-right-margin * 2;
+    margin: 0 auto;
+  }
+
+  :global(.isMobile) .visible__scroll {
+    width: auto;
+    margin: 0;
   }
 
   .scroll {
     display: flex;
     position: absolute;
     flex: 1;
+  }
+
+  :global(.isMobile) .scroll {
+    height: 139px;
   }
 
   .mobile-card {

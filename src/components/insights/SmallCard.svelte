@@ -1,5 +1,6 @@
 <script>
   import LikeBtn from '@/components/LikeBtn'
+  import CommentCounter from '@/components/comments/Counter'
   import MultilineText from '@/components/MultilineText'
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
 
@@ -7,20 +8,23 @@
   export { klass as class }
   export let insight
 
-  let { id, user, title, votes, votedAt } = insight
+  let { id, user, title, votes, votedAt, commentsCount = 0 } = insight
 
   const seoLink = getSEOLinkFromIdAndTitle(id, title)
+  const link = `/read/${seoLink}`
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
-a.title(href="/read/{seoLink}")
+a.title(href="{link}")
   MultilineText(maxLines='{3}') {title}
 
 .bottom
   a.user(href='/users/{user.id}') {user.username}
-  LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+  .right
+    LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+    CommentCounter.Card__comments({link}, {commentsCount})
 
 </template>
 
@@ -32,6 +36,8 @@ a.title(href="/read/{seoLink}")
     color: var(--waterloo);
     max-width: calc(70% - 40px);
     flex: 1;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
 
     &:hover {
       color: var(--jungle-green);
@@ -53,5 +59,9 @@ a.title(href="/read/{seoLink}")
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  :global(.Card__comments) {
+    margin-left: 22px;
   }
 </style>

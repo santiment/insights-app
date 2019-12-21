@@ -11,6 +11,7 @@ export const insightCommon = gql`
     tags {
       name
     }
+    commentsCount
     votedAt
     votes {
       totalVotes
@@ -58,6 +59,7 @@ export const FEATURED_INSIGHTS_QUERY = gql`
       title
       publishedAt
       votedAt
+      commentsCount
       votes {
         totalVotes
       }

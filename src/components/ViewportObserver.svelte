@@ -5,7 +5,8 @@
   export let observer = undefined,
     options = undefined,
     observeWhile = true,
-    top = false
+    top = false,
+    id = ''
 
   let anchor
 
@@ -44,10 +45,10 @@
 
 <template lang="pug">
 +if('top')
-  p(bind:this='{anchor}')
+  p(bind:this='{anchor}', {id})
   slot
 
   +else()
     slot
-    p(bind:this='{anchor}' )
+    p(bind:this='{anchor}', {id})
 </template>

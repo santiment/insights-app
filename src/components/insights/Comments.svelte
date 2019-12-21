@@ -11,7 +11,9 @@
   } from '@/gql/comments'
 
   const { session } = stores()
-  export let id, authorId
+  export let id,
+    authorId,
+    commentsCount = 0
 
   let comments = []
   let subComments = {}
@@ -129,7 +131,8 @@ include /ui/mixins
 
 section
   +if('$session.currentUser || comments.length !== 0')
-    h2 Comments
+    h2 Comments 
+      span ({commentsCount})
 
   +if('$session.currentUser')
     CommentAuthor({avatarUrl}, {username}, id='{userId}', insightAuthorId='{authorId}')
@@ -152,6 +155,10 @@ section
   h2 {
     @include text('h4');
     margin-bottom: 30px;
+  }
+
+  span {
+    color: var(--waterloo);
   }
 
   .icon-arrow {

@@ -1,6 +1,7 @@
 <script>
   import ProfileInfo from '@/components/ProfileInfo'
   import LikeBtn from '@/components/LikeBtn'
+  import CommentCounter from '@/components/comments/Counter'
   import MultilineText from '@/components/MultilineText'
   import Tag from '@/components/insights/Tag'
   import Tags from './Tags.svelte'
@@ -23,6 +24,7 @@
     state,
     votes,
     votedAt,
+    commentsCount,
   } = insight
 
   const AWAITING_APPROVAL_STATE = 'awaiting_approval'
@@ -32,13 +34,15 @@
     state === AWAITING_APPROVAL_STATE
       ? 'Awaiting approval'
       : `${MMM} ${DD}, ${YYYY}`
+
+  const link = `/read/${seoLink}`
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
 .top
-  a.title(href="/read/{seoLink}", class='{size}')
+  a.title(href="{link}", class='{size}')
     MultilineText(maxLines='{2}') {title}
   ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{status}",
   withPic, classes="{{wrapper: 'card__profile'}}")
@@ -46,6 +50,8 @@ include /ui/mixins
 .bottom
   .bottom__left
     LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+    CommentCounter.Card__comments({link}, {commentsCount})
+
   div
     Tags({tags})
 
@@ -93,6 +99,10 @@ include /ui/mixins
       max-width: calc(70% - 40px);
       flex: 1;
     }
+  }
+
+  :global(.Card__comments) {
+    margin-left: 22px;
   }
 
   :global(.card__profile) {

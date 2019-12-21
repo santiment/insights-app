@@ -79,6 +79,7 @@
   import Text from '@/components/insights/Text'
   import LikeBtn from '@/components/LikeBtn'
   import ShareBtn from '@/components/sharing/ShareBtn'
+  import CommentCounter from '@/components/comments/Counter'
   import ProfileInfo from '@/components/ProfileInfo'
   import Loadable from '@/components/Loadable'
   import Dialog from '@/ui/dialog/index'
@@ -104,7 +105,8 @@
     createdAt,
     votedAt,
     readyState,
-    assets = []
+    assets = [],
+    commentsCount
 
   let liked = !!votedAt
   let clientHeight
@@ -127,8 +129,8 @@
       following => following.id !== user.id,
     )
 
-  const shareLink =
-    process.browser && window.location.origin + window.location.pathname
+  const link = process.browser && window.location.pathname
+  const shareLink = process.browser && window.location.origin + link
 
   const metaDescriptionText = getRawText(text).slice(0, 140)
 
@@ -204,7 +206,8 @@ svelte:head
       .info__fixed(class:hidden)
         +if('readyState !== "draft"')
           LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
-          ShareBtn.fixed-share(link='{shareLink}')
+          CommentCounter.fixed-comments-count({link}, {commentsCount})
+          ShareBtn(link='{shareLink}')
         +if('isAuthor')
           a.edit(href='/edit/{id}')
             +icon('edit').edit__icon
@@ -213,9 +216,9 @@ svelte:head
     .assets
       FeaturedAssets({assets})
 
-ViewportObserver({options}, on:intersect='{showComments}', top)
+ViewportObserver(id='comments', {options}, on:intersect='{showComments}', top)
   +if('shouldLoadComments')
-    Loadable(load='{loadComments}', {id}, authorId='{user.id}')
+    Loadable(load='{loadComments}', {id}, authorId='{user.id}', {commentsCount})
 
 
 ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}', top)
@@ -344,7 +347,7 @@ ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}'
     }
   }
 
-  :global(.fixed-share) {
-    margin-top: 16px;
+  :global(.fixed-comments-count) {
+    margin: 16px 0;
   }
 </style>
