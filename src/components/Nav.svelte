@@ -44,7 +44,7 @@ include /ui/mixins
 header
   .container
     nav.nav
-      .product(on:mouseenter="{onTriggerEnter}", id="products-trigger", data-centered='', data-active-class='active')
+      .product(on:mouseenter="{onTriggerEnter}", id="products-trigger", data-centered='window', data-active-class='active')
         a(href=appPath+'/')
           img(src='/san-logo.svg', alt='Santiment logo')
         +button.product__arrow(variant="flat",  aria-label='Products dropdown')
@@ -52,7 +52,7 @@ header
       +button.link(href=appPath+'/sonar', variant="flat") Sonar
       +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
       +button.link.active(href="/", variant="flat", prefetch) Insights
-      +button.link(href=appPath+'/labs', variant="flat", on:mouseenter="{onTriggerEnter}", id="labs-trigger", data-offset-x='-72', data-centered='') Labs
+      +button.link(href=appPath+'/labs', variant="flat", on:mouseenter="{onTriggerEnter}", id="labs-trigger", data-centered='window') Labs
       +button.link(href='https://graphs.santiment.net/', variant="flat") Graphs
         +icon('external-link').icon-external-link
     .right

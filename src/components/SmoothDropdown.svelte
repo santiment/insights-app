@@ -89,9 +89,11 @@
     const absoluteLeft = trigger.getBoundingClientRect().left
     let centered = 0
     if (triggerSettings.centered) {
-      const halfDropdown = clientWidth / 2
-      const halfTrigger = triggerWidth / 2
-      centered = halfDropdown - halfTrigger
+      if (triggerSettings.centered === 'window') {
+        centered = absoluteLeft + (clientWidth - window.innerWidth) / 2
+      } else {
+        centered = (clientWidth - triggerWidth) / 2
+      }
     }
     const leftPosition = left - centered
     const absoluteLeftPosition = absoluteLeft - centered
@@ -99,8 +101,11 @@
     let viewportAlign = 0
     if (absoluteLeftPosition < 0) {
       viewportAlign = absoluteLeftPosition
-    } else if (absoluteLeftPosition + clientWidth > innerWidth) {
-      viewportAlign = absoluteLeftPosition + clientWidth - innerWidth
+    } else {
+      const rightAlignment = absoluteLeftPosition + clientWidth - innerWidth
+      if (rightAlignment > 0) {
+        viewportAlign = rightAlignment
+      }
     }
 
     return `left: ${leftPosition -
