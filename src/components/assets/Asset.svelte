@@ -9,7 +9,9 @@
   let { id, name, slug, ticker, logoUrl, percentChange7d, historyPrice } = asset
 
   const { priceUsd: currentPrice } = historyPrice[historyPrice.length - 1]
-  const price = currentPrice.toFixed(currentPrice < 1 ? 6 : 2)
+  const price = currentPrice
+    ? currentPrice.toFixed(currentPrice < 1 ? 6 : 2)
+    : 0
 </script>
 
 <template lang="pug">

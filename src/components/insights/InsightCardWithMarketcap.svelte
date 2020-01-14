@@ -55,6 +55,13 @@
   $: observeWhile = data ? false : ticker
 
   function onIntersect() {
+    const arg =
+      ticker.toLowerCase() === 'xrp'
+        ? {
+            slug: 'ripple',
+          }
+        : { ticker }
+
     client
       .query({
         query: HISTORY_PRICE_QUERY,
@@ -62,7 +69,7 @@
           from: isoFrom,
           to: isoTo,
           interval: '1d',
-          ticker,
+          ...arg,
         },
       })
       .then(({ data: { historyPrice } }) => {
