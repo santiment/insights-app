@@ -5,22 +5,30 @@
   import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
   import { PROJECTS_BY_TICKER_QUERY } from '@/gql/projects'
   import { getTimeIntervalFromToday, DAY } from '@/utils/dates'
+  import { getComments } from '@/logic/comments'
   const loadComments = () => import('@/components/insights/Comments')
+
+  // TODO: Think of a better way to do a ssr loadable component [@vanguard | Jan 17, 2020]
+  let PreloadedComments = null
+  if (!process.browser) {
+    import('@/components/insights/Comments').then(
+      res => (PreloadedComments = res.default),
+    )
+  }
 
   export async function preload(page, session, { apollo = client }) {
     const { slug } = page.params
     const id = getInsightIdFromSEOLink(slug)
 
-    let PreloadedComments
     let comments
 
     if (page.query._wc) {
-      await loadComments()
-        .then(res => {
-          PreloadedComments = res.default
-          return res.getComments(id)
-        })
-        .then(({ data }) => (comments = data.comments))
+      await Promise.all[
+        (getComments(id, undefined, apollo).then(
+          ({ data }) => (comments = data.comments),
+        ),
+        PreloadedComments)
+      ]
     }
 
     const { data } = await apollo.query({
@@ -28,7 +36,7 @@
       variables: {
         id,
       },
-      fetchPolicy: process.browser ? undefined : 'network-only',
+      /* fetchPolicy: process.browser ? undefined : 'network-only', */
     })
 
     if (data.insight.readyState === 'draft') {
@@ -41,7 +49,7 @@
     }
 
     if (session.isMobile) {
-      return { ...data.insight, PreloadedComments, comments }
+      return { ...data.insight, comments }
     }
 
     const { from, to } = getTimeIntervalFromToday(-7, DAY)
@@ -51,7 +59,7 @@
 
     const assets = await Promise.all(
       data.insight.tags.filter(noTrendTagsFilter).map(({ name: ticker }) =>
-        client
+        apollo
           .query({
             query: PROJECTS_BY_TICKER_QUERY,
             variables: { ticker },
@@ -84,7 +92,6 @@
     return {
       ...data.insight,
       assets: assets.filter(Boolean),
-      PreloadedComments,
       comments,
     }
   }
@@ -124,7 +131,6 @@
     readyState,
     assets = [],
     commentsCount,
-    PreloadedComments,
     comments
 
   let liked = !!votedAt
@@ -157,8 +163,12 @@
     rootMargin: '20px 0px 20px',
   }
 
+  const commentsOptions = {
+    rootMargin: '100% 0px 200px',
+  }
+
   const suggestionOptions = {
-    rootMargin: '100% 0px 1200px',
+    rootMargin: '100% 0px 300px',
   }
 
   function hideSidebar() {
@@ -235,9 +245,9 @@ svelte:head
     .assets
       FeaturedAssets({assets})
 
-ViewportObserver(id='comments', {options}, on:intersect='{showComments}', top)
-  +if('true || shouldLoadComments')
-    Loadable(load='{loadComments}', Component='{PreloadedComments}', {id}, authorId='{user.id}', {commentsCount}, {comments})
+ViewportObserver(id='comments', options='{commentsOptions}', on:intersect='{showComments}', top)
+  +if('comments || shouldLoadComments')
+    Loadable(load='{loadComments}', {id}, authorId='{user.id}', {commentsCount}, {comments}, Component='{PreloadedComments}')
 
 
 ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}', top)

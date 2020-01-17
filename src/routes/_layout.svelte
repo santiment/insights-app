@@ -27,6 +27,7 @@
   import NavDesktop from '@/components/Nav'
   import NavMobile from '@/components/Mobile/Nav'
   import CookiePopup from '@/components/CookiePopup'
+  import Analytics from '@/components/Analytics'
   import { getMobileComponent } from '@/utils/responsive'
 
   export let segment
@@ -65,6 +66,8 @@ mixin newInsight()
   +button(href='/new', variant='fill', accent='jungle-green')&attributes(attributes)
     +icon('plus-round').plus
     |Write insight
+
+Analytics
 
 LoadProgress
 

@@ -1,19 +1,3 @@
-<script context="module">
-  import {
-    COMMENTS_FOR_INSIGHT_QUERY,
-    CREATE_COMMENT_MUTATION,
-  } from '@/gql/comments'
-
-  export function getComments(id, cursor) {
-    return client.query({
-      query: COMMENTS_FOR_INSIGHT_QUERY,
-      variables: {
-        id,
-        cursor,
-      },
-    })
-  }
-</script>
 
 <script>
   import { get } from 'svelte/store'
@@ -22,6 +6,10 @@
   import Comment from '@/components/comments/Comment'
   import CommentInput from '@/components/comments/Input'
   import CommentAuthor from '@/components/comments/Author'
+  import {getComments} from '@/logic/comments'
+  import {
+    CREATE_COMMENT_MUTATION,
+  } from '@/gql/comments'
 
   const { session } = stores()
   export let id,
@@ -36,8 +24,10 @@
   let userId
   let loading
 
-  $: if (id) {
+  if (!comments.length) {
+    console.log(comments, id)
     getComments(id).then(({ data }) => {
+      console.log(data)
       comments = data.comments
     })
   }
