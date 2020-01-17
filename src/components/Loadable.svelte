@@ -1,6 +1,5 @@
 <script>
-  export let load
-  let Component
+  export let load, Component
 
   let { load: _, ...props } = $$props
 
@@ -9,7 +8,9 @@
     props = rest
   }
 
-  load().then(({ default: loaded }) => (Component = loaded))
+  if (!Component) {
+    load().then(({ default: loaded }) => (Component = loaded))
+  }
 </script>
 
 <template lang="pug">

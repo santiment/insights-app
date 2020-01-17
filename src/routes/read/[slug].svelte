@@ -5,12 +5,25 @@
   import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
   import { PROJECTS_BY_TICKER_QUERY } from '@/gql/projects'
   import { getTimeIntervalFromToday, DAY } from '@/utils/dates'
+  const loadComments = () => import('@/components/insights/Comments')
 
-  export async function preload(page, session) {
+  export async function preload(page, session, { apollo = client }) {
     const { slug } = page.params
     const id = getInsightIdFromSEOLink(slug)
 
-    const { data } = await client.query({
+    let PreloadedComments
+    let comments
+
+    if (page.query._wc) {
+      await loadComments()
+        .then(res => {
+          PreloadedComments = res.default
+          return res.getComments(id)
+        })
+        .then(({ data }) => (comments = data.comments))
+    }
+
+    const { data } = await apollo.query({
       query: INSIGHT_BY_ID_QUERY,
       variables: {
         id,
@@ -28,7 +41,7 @@
     }
 
     if (session.isMobile) {
-      return { ...data.insight }
+      return { ...data.insight, PreloadedComments, comments }
     }
 
     const { from, to } = getTimeIntervalFromToday(-7, DAY)
@@ -68,7 +81,12 @@
       ),
     )
 
-    return { ...data.insight, assets: assets.filter(Boolean) }
+    return {
+      ...data.insight,
+      assets: assets.filter(Boolean),
+      PreloadedComments,
+      comments,
+    }
   }
 </script>
 
@@ -93,7 +111,6 @@
   const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
   const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
   const loadFollowBtn = () => import('@/components/FollowBtn')
-  const loadComments = () => import('@/components/insights/Comments')
 
   export let id,
     text,
@@ -106,7 +123,9 @@
     votedAt,
     readyState,
     assets = [],
-    commentsCount
+    commentsCount,
+    PreloadedComments,
+    comments
 
   let liked = !!votedAt
   let clientHeight
@@ -217,8 +236,8 @@ svelte:head
       FeaturedAssets({assets})
 
 ViewportObserver(id='comments', {options}, on:intersect='{showComments}', top)
-  +if('shouldLoadComments')
-    Loadable(load='{loadComments}', {id}, authorId='{user.id}', {commentsCount})
+  +if('true || shouldLoadComments')
+    Loadable(load='{loadComments}', Component='{PreloadedComments}', {id}, authorId='{user.id}', {commentsCount}, {comments})
 
 
 ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}', top)

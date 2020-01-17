@@ -1,3 +1,20 @@
+<script context="module">
+  import {
+    COMMENTS_FOR_INSIGHT_QUERY,
+    CREATE_COMMENT_MUTATION,
+  } from '@/gql/comments'
+
+  export function getComments(id, cursor) {
+    return client.query({
+      query: COMMENTS_FOR_INSIGHT_QUERY,
+      variables: {
+        id,
+        cursor,
+      },
+    })
+  }
+</script>
+
 <script>
   import { get } from 'svelte/store'
   import { stores } from '@sapper/app'
@@ -5,17 +22,13 @@
   import Comment from '@/components/comments/Comment'
   import CommentInput from '@/components/comments/Input'
   import CommentAuthor from '@/components/comments/Author'
-  import {
-    COMMENTS_FOR_INSIGHT_QUERY,
-    CREATE_COMMENT_MUTATION,
-  } from '@/gql/comments'
 
   const { session } = stores()
   export let id,
     authorId,
-    commentsCount = 0
+    commentsCount = 0,
+    comments = []
 
-  let comments = []
   let subComments = {}
   let hasMore = false
   let avatarUrl = ''
@@ -24,11 +37,12 @@
   let loading
 
   $: if (id) {
-    getComments().then(({ data }) => {
+    getComments(id).then(({ data }) => {
       comments = data.comments
-      hasMore = data.comments.length === 10
     })
   }
+
+  $: hasMore = comments.length && comments.length % 10 === 0
 
   $: subComments = comments.reduce((acc, comment) => {
     const { parentId } = comment
@@ -51,24 +65,13 @@
     userId = currentUser.id
   }
 
-  function getComments(cursor) {
-    return client.query({
-      query: COMMENTS_FOR_INSIGHT_QUERY,
-      variables: {
-        id,
-        cursor,
-      },
-    })
-  }
-
   function onMoreClick() {
     const { insertedAt } = comments[comments.length - 1]
-    getComments({
+    getComments(id, {
       type: 'AFTER',
       datetime: insertedAt,
     }).then(({ data }) => {
       comments = comments.concat(data.comments)
-      hasMore = data.comments.length === 10
     })
   }
 

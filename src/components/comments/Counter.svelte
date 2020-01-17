@@ -7,7 +7,7 @@
 <template lang="pug">
 include /ui/mixins
 
-a.comments(href='{link}#comments', class='{klass}')
+a.comments(href='{link}?_wc=1#comments', class='{klass}')
   +icon('comment').comments__icon
   | {commentsCount}
 
