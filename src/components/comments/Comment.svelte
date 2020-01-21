@@ -136,6 +136,7 @@ include /ui/mixins
     background: var(--athens);
     padding: 16px;
     white-space: pre-line;
+    word-break: break-word;
   }
 
   .actions {

@@ -35,7 +35,8 @@
   const isoTo = to.toISOString()
 
   const filteredTags = insight.tags.filter(noTrendTagsFilter)
-  const ticker = filteredTags.length > 0 ? filteredTags[0].name : ''
+  const ticker =
+    filteredTags.length > 0 ? filteredTags[0].name.toUpperCase() : ''
 
   let change
   $: if (data) {
@@ -56,7 +57,7 @@
 
   function onIntersect() {
     const arg =
-      ticker.toLowerCase() === 'xrp'
+      ticker === 'XRP'
         ? {
             slug: 'ripple',
           }
