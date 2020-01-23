@@ -1,4 +1,3 @@
-
 <script>
   import { get } from 'svelte/store'
   import { stores } from '@sapper/app'
@@ -6,10 +5,8 @@
   import Comment from '@/components/comments/Comment'
   import CommentInput from '@/components/comments/Input'
   import CommentAuthor from '@/components/comments/Author'
-  import {getComments} from '@/logic/comments'
-  import {
-    CREATE_COMMENT_MUTATION,
-  } from '@/gql/comments'
+  import { getComments } from '@/logic/comments'
+  import { CREATE_COMMENT_MUTATION } from '@/gql/comments'
 
   const { session } = stores()
   export let id,
@@ -24,10 +21,8 @@
   let userId
   let loading
 
-  if (!comments.length) {
-    console.log(comments, id)
+  $: if (id) {
     getComments(id).then(({ data }) => {
-      console.log(data)
       comments = data.comments
     })
   }

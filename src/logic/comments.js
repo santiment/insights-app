@@ -8,5 +8,6 @@ export function getComments(id, cursor, apollo = client) {
       id,
       cursor,
     },
+    fetchPolicy: 'network-only',
   })
 }

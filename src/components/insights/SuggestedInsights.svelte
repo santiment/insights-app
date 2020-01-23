@@ -7,6 +7,7 @@
     INSIGHTS_BY_USERID_QUERY,
     FEATURED_INSIGHTS_QUERY,
   } from '@/gql/insights'
+ import { publishDateSorter } from '@/utils/insights'
 
   export let id, userId
 
@@ -27,7 +28,7 @@
         : data.insights,
     )
     .then(insights =>
-      insights
+      insights.slice().sort(publishDateSorter)
         .slice(0, 10)
         .filter(insight => insight.id !== id)
         .map(insight => ({ ...insight, tags: [] })),
