@@ -49,6 +49,7 @@ header
           img(src='/san-logo.svg', alt='Santiment logo')
         +button.product__arrow(variant="flat",  aria-label='Products dropdown')
           +icon('arrow-down').icon-arrow-down
+      +button.link(href=appPath+'/feed', variant="flat") Feed
       +button.link(href=appPath+'/sonar', variant="flat") Sonar
       +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
       +button.link.active(href="/", variant="flat", prefetch) Insights
