@@ -25,6 +25,13 @@
     comments = []
   }
 
+  $: if (process.browser && id) {
+    if (location.hash === '#comments') {
+      location.hash = ''
+      setTimeout(() => (location.hash = '#comments'), 50)
+    }
+  }
+
   $: if (id) {
     getComments(id).then(({ data }) => {
       comments = data.comments
