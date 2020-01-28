@@ -21,6 +21,10 @@
   let userId
   let loading
 
+  $: if (!comments) {
+    comments = []
+  }
+
   $: if (id) {
     getComments(id).then(({ data }) => {
       comments = data.comments

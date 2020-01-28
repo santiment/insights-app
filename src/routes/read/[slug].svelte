@@ -20,7 +20,7 @@
     const { slug } = page.params
     const id = getInsightIdFromSEOLink(slug)
 
-    let comments = []
+    let comments
 
     if (page.query._wc) {
       await Promise.all[
