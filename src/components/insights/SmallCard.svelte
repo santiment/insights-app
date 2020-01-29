@@ -21,7 +21,7 @@ a.title(href="{link}")
   MultilineText(maxLines='{3}') {title}
 
 .bottom
-  a.user(href='/users/{user.id}') {user.username}
+  a.user(href='/user/{user.id}') {user.username}
   .right
     LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
     CommentCounter.Card__comments({link}, {commentsCount})
