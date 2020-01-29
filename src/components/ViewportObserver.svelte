@@ -29,14 +29,12 @@
   }
 
   $: if (!observeWhile && observer) {
-    console.log('cleaning observers')
     observer.unobserve(anchor)
     observer = undefined
   }
 
   onDestroy(() => {
     if (observer) {
-      console.log('cleaning observers')
       observer.unobserve(anchor)
       observer = undefined
     }

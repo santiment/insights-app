@@ -133,42 +133,47 @@
     commentsCount,
     comments
 
-  let liked = !!votedAt
-  let clientHeight
-  let hidden = true
-  let shouldLoadSuggestions = false
-  let shouldLoadComments = false
-
   const { session } = stores()
   const classes = { wrapper: 'info__profile' }
-
   const previewImgLink = grabFirstImageLink(text)
-
-  const { MMM, D, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
-  const insightDate = `${MMM} ${D}, ${YYYY}`
-
-  const isAuthor = $session.currentUser && user.id === $session.currentUser.id
-  const isNotFollowed =
-    $session.currentUser &&
-    $session.currentUser.following.users.every(
-      following => following.id !== user.id,
-    )
-
-  const link = process.browser && window.location.pathname
-  const shareLink = process.browser && window.location.origin + link
-
   const metaDescriptionText = getRawText(text).slice(0, 140)
 
   const options = {
     rootMargin: '20px 0px 20px',
   }
-
   const commentsOptions = {
     rootMargin: '100% 0px 200px',
   }
-
   const suggestionOptions = {
     rootMargin: '100% 0px 300px',
+  }
+
+  let clientHeight
+  let hidden = true
+  let shouldLoadSuggestions = false
+  let shouldLoadComments = false
+  let insightDate
+  let link
+  let shareLink
+
+  $: currentUser = $session.currentUser
+
+  $: liked = !!votedAt
+
+  $: {
+    const { MMM, D, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
+    insightDate = `${MMM} ${D}, ${YYYY}`
+  }
+
+  $: isAuthor = currentUser && user.id === currentUser.id
+
+  $: isNotFollowed =
+    currentUser &&
+    currentUser.following.users.every(following => following.id !== user.id)
+
+  $: if (process.browser && id) {
+    link = window.location.pathname
+    shareLink = window.location.origin + link
   }
 
   function hideSidebar() {

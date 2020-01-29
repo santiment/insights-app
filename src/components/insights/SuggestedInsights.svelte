@@ -7,33 +7,39 @@
     INSIGHTS_BY_USERID_QUERY,
     FEATURED_INSIGHTS_QUERY,
   } from '@/gql/insights'
- import { publishDateSorter } from '@/utils/insights'
+  import { publishDateSorter } from '@/utils/insights'
 
   export let id, userId
 
   const { session } = stores()
 
-  const query = client
-    .query({
-      query: INSIGHTS_BY_USERID_QUERY,
-      variables: {
-        id: userId,
-      },
-    })
-    .then(({ data }) =>
-      data.insights && data.insights.length < 3
-        ? client
-            .query({ query: FEATURED_INSIGHTS_QUERY })
-            .then(({ data: { insights } }) => data.insights.concat(insights))
-        : data.insights,
-    )
-    .then(insights =>
-      insights.slice().sort(publishDateSorter)
-        .slice(0, 10)
-        .filter(insight => insight.id !== id)
-        .map(insight => ({ ...insight, tags: [] })),
-    )
-    .catch(console.warn)
+  $: query = getSuggestionsForUser(userId, id)
+
+  function getSuggestionsForUser(userId, insightId) {
+    return client
+      .query({
+        query: INSIGHTS_BY_USERID_QUERY,
+        variables: {
+          id: userId,
+        },
+      })
+      .then(({ data }) =>
+        data.insights && data.insights.length < 3
+          ? client
+              .query({ query: FEATURED_INSIGHTS_QUERY })
+              .then(({ data: { insights } }) => data.insights.concat(insights))
+          : data.insights,
+      )
+      .then(insights =>
+        insights
+          .slice()
+          .sort(publishDateSorter)
+          .slice(0, 10)
+          .filter(insight => insight.id !== insightId)
+          .map(insight => ({ ...insight, tags: [] })),
+      )
+      .catch(console.warn)
+  }
 </script>
 
 <template lang="pug">

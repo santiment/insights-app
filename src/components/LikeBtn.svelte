@@ -28,7 +28,7 @@
         wasLiked = !wasLiked
         liked = wasLiked
       })
-  }, 1000)
+  }, 150)
 
   function toggleLike() {
     liked = !liked

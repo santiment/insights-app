@@ -35,7 +35,6 @@
   })
   onDestroy(() => {
     clearTimeout(timer)
-    console.log('Destroying notification ->', notification)
   })
 </script>
 
