@@ -150,11 +150,12 @@
 
   let clientHeight
   let hidden = true
-  let shouldLoadSuggestions = false
-  let shouldLoadComments = false
   let insightDate
   let link
   let shareLink
+
+  $: shouldLoadSuggestions = !id
+  $: shouldLoadComments = !id
 
   $: currentUser = $session.currentUser
 
