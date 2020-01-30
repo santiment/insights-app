@@ -6,7 +6,7 @@
     getTooltipStyles,
   } from '@/utils/positioning'
 
-  let klass
+  let klass = ''
   export { klass as class }
   export let position = 'top'
   export let align = 'center'

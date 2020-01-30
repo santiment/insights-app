@@ -1,12 +1,12 @@
 <script>
-  import { tick } from 'svelte'
-  import { client } from '@/apollo'
+  import { getContext, tick } from 'svelte'
   import CommentDialogForm from '@/components/comments/DialogForm'
-  import { UPDATE_COMMENT_MUTATION } from '@/gql/comments'
 
   const classes = {
     input: 'EditBtn__input',
   }
+
+  const editComment = getContext('editComment')
 
   export let id,
     content = '',
@@ -19,14 +19,7 @@
   function onSubmit({ detail: { content } }) {
     loading = true
 
-    client
-      .mutate({
-        mutation: UPDATE_COMMENT_MUTATION,
-        variables: {
-          id: +id,
-          content,
-        },
-      })
+    editComment(id, content)
       .then(() => {
         comment.content = content
         comment.editedAt = new Date().toISOString()

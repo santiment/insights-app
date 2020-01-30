@@ -1,5 +1,6 @@
 <script>
-  export let load, Component
+  export let load,
+    Component = null
 
   let { load: _, ...props } = $$props
 

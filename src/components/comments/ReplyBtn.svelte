@@ -1,9 +1,10 @@
 <script>
+  import { getContext } from 'svelte'
   import { get } from 'svelte/store'
   import { stores, goto } from '@sapper/app'
-  import { client } from '@/apollo'
   import CommentDialogForm from '@/components/comments/DialogForm'
-  import { CREATE_COMMENT_MUTATION } from '@/gql/comments'
+
+  const createComment = getContext('createComment')
 
   export let id, insightId, comments
 
@@ -19,36 +20,27 @@
 
     loading = true
 
-    client
-      .mutate({
-        mutation: CREATE_COMMENT_MUTATION,
-        variables: {
-          id: +insightId,
-          parentId: +id,
-          content,
+    createComment(insightId, content, id).then(
+      ({
+        data: {
+          createComment: { id: newId },
         },
-      })
-      .then(
-        ({
-          data: {
-            createComment: { id: newId },
-          },
-        }) => {
-          open = false
-          loading = false
+      }) => {
+        open = false
+        loading = false
 
-          comments = [
-            ...comments,
-            {
-              id: newId,
-              content,
-              parentId: id,
-              insertedAt: new Date().toISOString(),
-              user: { ...get(session).currentUser },
-            },
-          ]
-        },
-      )
+        comments = [
+          ...comments,
+          {
+            id: newId,
+            content,
+            parentId: id,
+            insertedAt: new Date().toISOString(),
+            user: { ...get(session).currentUser },
+          },
+        ]
+      },
+    )
   }
 
   function checkLogin() {

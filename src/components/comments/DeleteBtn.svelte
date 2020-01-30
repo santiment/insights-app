@@ -1,7 +1,8 @@
 <script>
-  import { client } from '@/apollo'
+  import { getContext } from 'svelte'
   import Dialog from '@/ui/dialog/index'
-  import { DELETE_COMMENT_MUTATION } from '@/gql/comments'
+
+  const deleteComment = getContext('deleteComment')
 
   export let id, comment, isContextOpened
 
@@ -12,16 +13,10 @@
     isContextOpened = false
   }
 
-  function deleteComment(e) {
+  function onDeleteClick() {
     loading = true
 
-    client
-      .mutate({
-        mutation: DELETE_COMMENT_MUTATION,
-        variables: {
-          id: +id,
-        },
-      })
+    deleteComment(id)
       .then(closeDialog)
       .then(() => {
         comment.content = 'The comment has been deleted.'
@@ -54,7 +49,7 @@ Dialog(title='Delete comment?', bind:open)
     .delete Are you sure you want to delete this comment?
     +dialogActions
       +button()(on:click='{closeDialog}', border) Cancel
-      +button(variant='fill', accent='jungle-green', on:click='{deleteComment}') Delete comment
+      +button(variant='fill', accent='jungle-green', on:click='{onDeleteClick}') Delete comment
 </template>
 
 <style>

@@ -1,6 +1,11 @@
 <script>
   import Comments from '@/components/comments/Comments'
-  import { getComments } from '@/logic/comments'
+  import {
+    getComments,
+    createComment,
+    deleteComment,
+    editComment,
+  } from '@/logic/comments'
 
   export let id,
     authorId,
@@ -27,5 +32,5 @@
 </script>
 
 <template lang="pug">
-Comments({comments}, {commentsCount}, {id}, {authorId}, bind:hasMore)
+Comments({comments}, {commentsCount}, {id}, {authorId}, bind:hasMore, {getComments}, {createComment}, {deleteComment}, {editComment})
 </template>

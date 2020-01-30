@@ -15,11 +15,8 @@ export const HISTORY_PRICE_QUERY = gql`
       to: $to
       interval: $interval
     ) {
-      priceBtc
       priceUsd
-      volume
       datetime
-      marketcap
     }
   }
 `

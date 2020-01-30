@@ -1,12 +1,11 @@
 <script>
+  import { setContext } from 'svelte'
   import { get } from 'svelte/store'
   import { stores } from '@sapper/app'
-  import { client } from '@/apollo'
   import Comment from '@/components/comments/Comment'
   import CommentInput from '@/components/comments/Input'
   import CommentForm from '@/components/comments/Form'
   import CommentAuthor from '@/components/comments/Author'
-  import { getComments, createComment } from '@/logic/comments'
 
   const { session } = stores()
   const classes = {
@@ -18,7 +17,16 @@
     authorId,
     comments,
     commentsCount = 0,
-    hasMore = false
+    hasMore = false,
+    getComments,
+    createComment,
+    editComment,
+    deleteComment
+
+  setContext('getComments', getComments)
+  setContext('createComment', createComment)
+  setContext('deleteComment', deleteComment)
+  setContext('editComment', editComment)
 
   let avatarUrl = ''
   let username = ''
