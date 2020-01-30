@@ -3,6 +3,7 @@
   export let title
   export let open = false
 
+  let wasOpened
   let anc
   let dialog
 
@@ -18,9 +19,16 @@
     }
   }
 
+  $: if (open) {
+    wasOpened = true
+  }
+
+  $: if (wasOpened && !open) {
+    dispatch('close')
+  }
+
   function closeDialog() {
     open = false
-    dispatch('close')
   }
 
   function onClickaway({ target, currentTarget }) {

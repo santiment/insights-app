@@ -1,5 +1,11 @@
 mixin dialogActions()
-  .SAN-dialog__actions&attributes(attributes)
+  -
+    const {
+      noPadding,
+    } = attributes;
+
+    const classes = cx('SAN-dialog__actions', noPadding && 'SAN-dialog__actions_np')
+  div(class=classes)&attributes(attributes)
     block
 
 mixin dialogScrollContent()

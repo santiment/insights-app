@@ -4,10 +4,15 @@
   import { client } from '@/apollo'
   import Comment from '@/components/comments/Comment'
   import CommentInput from '@/components/comments/Input'
+  import CommentForm from '@/components/comments/Form'
   import CommentAuthor from '@/components/comments/Author'
   import { getComments } from '@/logic/comments'
   import { CREATE_COMMENT_MUTATION } from '@/gql/comments'
 
+  const classes = {
+    form: 'Comments__form',
+    input: 'Comments__input',
+  }
   const { session } = stores()
   export let id,
     authorId,
@@ -71,17 +76,13 @@
     })
   }
 
-  function postComment({ currentTarget }) {
-    const {
-      comment: { value: content },
-    } = currentTarget
-
+  function postComment({ detail: { content, form } }) {
     if (!content || loading) {
       return
     }
 
     loading = true
-    currentTarget.blur()
+    form.blur()
 
     client
       .mutate({
@@ -98,7 +99,7 @@
           },
         }) => {
           loading = false
-          currentTarget.reset()
+          form.reset()
           comments = [
             ...comments,
             {
@@ -117,12 +118,6 @@
   function onlyRootCommentsFilter({ parentId }) {
     return parentId === null
   }
-
-  function onKeyPress({ currentTarget, code, ctrlKey }) {
-    if (ctrlKey && code === 'Enter') {
-      postComment({ currentTarget })
-    }
-  }
 </script>
 
 <template lang="pug">
@@ -136,9 +131,8 @@ section
   +if('$session.currentUser')
     CommentAuthor({avatarUrl}, {username}, id='{userId}', insightAuthorId='{authorId}')
 
-    form(on:submit|preventDefault='{postComment}', on:keypress='{onKeyPress}')
-      CommentInput.Comments__input
-      +button.submit(variant='fill', accent='jungle-green', type='submit', class:loading) Post
+    CommentForm(on:submit='{postComment}', {classes})
+      +button.submit(slot='after', variant='fill', accent='jungle-green', type='submit', class:loading) Post
 
   .comments
     +each('comments.filter(onlyRootCommentsFilter) as comment (comment.id)')
@@ -190,7 +184,7 @@ section
     @include text('caption');
   }
 
-  form {
+  :global(.Comments__form) {
     display: flex;
     margin-top: 16px;
   }

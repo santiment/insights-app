@@ -2,7 +2,7 @@
   import { get } from 'svelte/store'
   import { stores, goto } from '@sapper/app'
   import { client } from '@/apollo'
-  import Dialog from '@/ui/dialog/index'
+  import CommentDialogForm from '@/components/comments/DialogForm'
   import { CREATE_COMMENT_MUTATION } from '@/gql/comments'
 
   export let id, insightId, comments
@@ -12,11 +12,7 @@
 
   const { session } = stores()
 
-  function onSubmit({ currentTarget }) {
-    const {
-      reply: { value: content },
-    } = currentTarget
-
+  function onSubmit({ detail: { content } }) {
     if (loading || !content) {
       return
     }
@@ -72,13 +68,7 @@ include /ui/mixins
 
 +button.action(on:click='{checkLogin}') Reply
 
-Dialog(title='Replying', bind:open)
-  form(slot='content', on:submit|preventDefault='{onSubmit}')
-    textarea(required, name='reply', rows='5')
-    +dialogActions
-      +button(type='cancel', border, on:click='{closeDialog}') Cancel
-      +button(type='submit', variant='fill', accent='jungle-green', class:loading) Submit reply
-
+CommentDialogForm(title='Replying', label='Submit reply', on:submit='{onSubmit}', bind:loading, bind:open)
 </template>
 
 <style lang="scss">
@@ -89,20 +79,6 @@ Dialog(title='Replying', bind:open)
 
     &:hover {
       color: var(--jungle-green-hover);
-    }
-  }
-
-  textarea {
-    border-radius: 4px;
-    outline: none;
-    border: 1px solid var(--porcelain);
-    background: var(--white);
-    width: 400px;
-    margin: 20px 20px 14px;
-    padding: 9px 12px;
-
-    &::placeholder {
-      color: var(--casper);
     }
   }
 </style>

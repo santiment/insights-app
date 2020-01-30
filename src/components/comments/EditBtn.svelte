@@ -1,7 +1,12 @@
 <script>
+  import { tick } from 'svelte'
   import { client } from '@/apollo'
-  import Dialog from '@/ui/dialog/index'
+  import CommentDialogForm from '@/components/comments/DialogForm'
   import { UPDATE_COMMENT_MUTATION } from '@/gql/comments'
+
+  const classes = {
+    input: 'EditBtn__input',
+  }
 
   export let id,
     content = '',
@@ -11,8 +16,8 @@
   let open = false
   let loading = false
 
-  function onSubmit({ currentTarget: { update } }) {
-    const content = update.value
+  function onSubmit({ detail: { content } }) {
+    loading = true
 
     client
       .mutate({
@@ -30,44 +35,21 @@
       .catch(console.warn)
   }
 
-  function closeContextMenu() {
-    isContextOpened = false
+  function openDialog() {
+    open = true
   }
 
-  function closeDialog() {
+  async function closeDialog() {
     open = false
-    closeContextMenu()
+    await tick()
+    isContextOpened = false
   }
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
-Dialog(title='Update comment', bind:open, on:close='{closeContextMenu}')
-  +button(slot='trigger', variant='ghost', fluid) Edit
-  form(slot='content', on:submit|preventDefault='{onSubmit}')
-    textarea(required, name='update', value='{content}', rows='5')
-    +dialogActions
-      +button(type='cancel', border, on:click='{closeDialog}') Cancel
-      +button(type='submit', variant='fill', accent='jungle-green', class:loading) Update comment
++button(variant='ghost', fluid, on:click='{openDialog}') Edit
+
+CommentDialogForm({content}, title='Update comment', label='Update comment', on:submit='{onSubmit}', on:close='{closeDialog}', bind:loading, bind:open)
 </template>
-
-<style lang="scss">
-  .delete {
-    margin: 20px 20px 14px;
-  }
-
-  textarea {
-    border-radius: 4px;
-    outline: none;
-    border: 1px solid var(--porcelain);
-    background: var(--white);
-    width: 400px;
-    margin: 20px 20px 14px;
-    padding: 9px 12px;
-
-    &::placeholder {
-      color: var(--casper);
-    }
-  }
-</style>
