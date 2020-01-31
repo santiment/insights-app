@@ -12,8 +12,8 @@ function prepareLib() {
   mkdirp.sync(LIB)
 
   moveJs()
-  preprocessSvelte()
   moveUiLib()
+  preprocessSvelte()
   prepareIcons(undefined, joinPaths(LIB, 'icons'))
   makeStaticIconsImported()
 }
