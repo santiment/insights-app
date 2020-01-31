@@ -1,4 +1,4 @@
-@import '../node_modules/@santiment-network/ui/mixins.scss';
+@import '@santiment-network/ui/mixins.scss';
 
 @mixin size($width, $height: $width) {
   width: $width;

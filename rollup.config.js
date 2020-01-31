@@ -8,11 +8,6 @@ import babel from 'rollup-plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import alias from 'rollup-plugin-alias'
 import config from 'sapper/config/rollup.js'
-import autoPreprocess, {
-  scss,
-  pug,
-  postcss as sveltePostcss,
-} from 'svelte-preprocess'
 import json from 'rollup-plugin-json'
 import sass from 'node-sass'
 import postcss from 'postcss'
@@ -20,9 +15,10 @@ import pkg from './package.json'
 import cssModules from 'postcss-modules'
 import rollPostcss from 'rollup-plugin-postcss'
 import cssnano from 'cssnano'
-import SVGSpriter from 'svg-sprite'
-import mkdirp from 'mkdirp'
-import glob from 'glob'
+import { prepareIcons } from './scripts/icons'
+import { createPreprocess } from './scripts/preprocess'
+
+prepareIcons()
 
 const dedupe = importee =>
   importee === 'svelte' || importee.startsWith('svelte/')
@@ -31,92 +27,11 @@ const ALIASES = {
   '@': path.resolve(__dirname, 'src/'),
   resolve: ['.svelte', '.js'],
 }
+const preprocess = createPreprocess(ALIASES['@'])
 
 const mode = process.env.NODE_ENV
 const dev = mode === 'development'
 const legacy = !!process.env.SAPPER_LEGACY_BUILD
-
-const { style } = scss()
-const { markup } = pug()
-
-glob('src/ui/icons/*.svg', null, (er, files) => {
-  mkdirp.sync('static/san-icons/')
-
-  files.forEach(file => {
-    const spriter = new SVGSpriter({
-      mode: {
-        symbol: {
-          example: false,
-        },
-      },
-      shape: {
-        transform: [
-          {
-            svgo: {
-              plugins: [
-                { removeXMLNS: true },
-                { removeAttrs: { attrs: ['fill'] } },
-              ],
-            },
-          },
-        ],
-      },
-    })
-
-    const fileName = file.slice(file.lastIndexOf('/') + 1)
-
-    spriter.add(
-      path.resolve(file),
-      fileName,
-      fs.readFileSync(file, { encoding: 'utf-8' }),
-    )
-
-    spriter.compile((error, result, data) => {
-      fs.writeFileSync(
-        `static/san-icons/${fileName}`,
-        result.symbol.sprite.contents,
-      )
-    })
-  })
-})
-
-const preprocess = {
-  ...autoPreprocess({
-    postcss: false,
-    coffeescript: false,
-    typescript: false,
-    less: false,
-    stylus: false,
-    pug: {
-      basedir: ALIASES['@'],
-    },
-  }),
-  style: code => {
-    if (code.attributes.lang !== 'scss') return { code: code.content }
-
-    code.content = code.content.replace(
-      /@import\s*("|')@\//g,
-      `@import $1${ALIASES['@']}/`,
-    )
-
-    return style(code).then(css => {
-      return sveltePostcss({
-        plugins: [
-          cssModules({
-            scopeBehaviour: 'global',
-          }),
-          /* cssnano(), */
-        ],
-      })
-        .style({ content: css.code })
-        .then(postcss => {
-          css.code = postcss.code
-
-          return css
-        })
-    })
-  },
-}
 
 sass.render(
   {
