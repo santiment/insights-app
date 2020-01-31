@@ -114,8 +114,7 @@ function preprocessSvelte() {
   })
 }
 
-function getNextHref(str) {
-  const searchStr = 'href="/san-icons/'
+function getNextOccurance(str, searchStr) {
   const startIndex = str.indexOf(searchStr)
 
   if (startIndex === -1) {
@@ -133,9 +132,10 @@ function getSvgNameFromHref(href) {
 function changeIcons(source) {
   const importName = '__svgIcon_'
   const icons = []
+  const searchStr = 'href="/san-icons/'
 
   let result = source
-  let href = getNextHref(result)
+  let href = getNextOccurance(result, searchStr)
 
   while (href) {
     const iconName = getSvgNameFromHref(href)
@@ -146,7 +146,7 @@ function changeIcons(source) {
     )
     icons.push(iconName)
 
-    href = getNextHref(result)
+    href = getNextOccurance(result, searchStr)
   }
 
   let imports = ''
@@ -162,7 +162,75 @@ function changeIcons(source) {
   return result
 }
 
+function makeStaticIconsImported() {
+  const staticsPath = joinPaths(LIB, 'static')
+
+  let statics
+
+  recursiveList(
+    staticsPath,
+    staticsPath,
+    files => {
+      statics = [...files]
+    },
+    undefined,
+    0,
+  )
+
+  const importName = '__staticImpr_'
+
+  recursiveList(
+    LIB,
+    LIB,
+    (files, newPath) => {
+      files.filter(onlySvelteExt).forEach(filename => {
+        const filePath = joinPaths(newPath, filename)
+        let source = fs.readFileSync(filePath, 'utf8')
+        const imports = []
+
+        statics.forEach(staticFile => {
+          const length = staticFile.length + 2
+          let startIndex = findInQuotesIndex(source, staticFile)
+
+          while (startIndex !== -1) {
+            const match = source.slice(startIndex, startIndex + length)
+            source = source.replace(match, importName + imports.length)
+            imports.push(match.slice(1, -1))
+
+            startIndex = findInQuotesIndex(source, staticFile)
+          }
+        })
+
+        if (!imports.length) {
+          return
+        }
+
+        let statements = ''
+        imports.forEach((name, i) => {
+          statements += `
+      import ${importName + i} from "${staticsPath}/${name}"`
+        })
+
+        source = source.replace('<script>', `<script> ${statements}`)
+        fs.writeFileSync(filePath, source, 'utf8')
+      })
+    },
+    undefined,
+  )
+}
+
+function findInQuotesIndex(str, target) {
+  let res = str.indexOf(`'${target}'`)
+
+  if (res === -1) {
+    res = str.indexOf(`"${target}"`)
+  }
+
+  return res
+}
+
 module.exports = {
   createPreprocess,
   preprocessSvelte,
+  makeStaticIconsImported,
 }

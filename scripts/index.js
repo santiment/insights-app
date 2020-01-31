@@ -1,6 +1,6 @@
 const mkdirp = require('mkdirp')
 const { moveJs, moveUiLib } = require('./files')
-const { preprocessSvelte } = require('./preprocess')
+const { preprocessSvelte, makeStaticIconsImported } = require('./preprocess')
 const { prepareIcons } = require('./icons')
 const { getPath, joinPaths } = require('./utils')
 
@@ -15,6 +15,7 @@ function prepareLib() {
   preprocessSvelte()
   moveUiLib()
   prepareIcons(undefined, joinPaths(LIB, 'icons'))
+  makeStaticIconsImported()
 }
 
 module.exports = {
