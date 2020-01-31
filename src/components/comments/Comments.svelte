@@ -135,6 +135,7 @@ section
     color: var(--waterloo);
   }
 
+  /*
   .icon-arrow {
     @include size(8px, 5px);
     padding: 5px;
@@ -151,18 +152,11 @@ section
       background: var(--athens);
     }
   }
+ */
 
   section {
     max-width: 720px;
     margin: 40px auto;
-  }
-
-  .author {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: var(--waterloo);
-    @include text('caption');
   }
 
   :global(.Comments__form) {

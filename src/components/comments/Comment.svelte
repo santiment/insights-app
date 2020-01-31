@@ -83,6 +83,7 @@ include /ui/mixins
     margin-left: calc(52px * var(--level));
   }
 
+  /*
   .icon-arrow {
     @include size(8px, 5px);
     padding: 5px;
@@ -99,6 +100,7 @@ include /ui/mixins
       background: var(--athens);
     }
   }
+ */
 
   .icon-dots {
     @include size(16px, 4px);
@@ -118,14 +120,15 @@ include /ui/mixins
     margin-top: 8px;
   }
 
-  .rating {
+  /*
+ .rating {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-right: 16px;
     color: var(--waterloo);
   }
-
+  */
   .text {
     flex: 1;
   }

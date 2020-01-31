@@ -65,6 +65,17 @@ const createPreprocess = basedir => {
 
       return { code: code.content }
     }
+
+    const markupPug = config.markup
+
+    config.markup = code =>
+      markupPug(code).then(res => {
+        res.code = res.code.replace(
+          /href="\/san-icons\//g,
+          `href="${basedir}/icons/`,
+        )
+        return res
+      })
   }
 
   return config
