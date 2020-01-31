@@ -1,6 +1,6 @@
-import fs from 'fs'
-import mkdirp from 'mkdirp'
-import { recursiveList, joinPaths, getPath } from './utils'
+const fs = require('fs')
+const mkdirp = require('mkdirp')
+const { recursiveList, joinPaths, getPath } = require('./utils')
 
 const noSvgFilter = files => files.filter(file => !file.includes('.svg'))
 
@@ -17,8 +17,8 @@ function copyFiles(pathFrom, pathTo) {
 }
 
 function moveUi() {
-  const PATH_FROM = getPath('src', 'ui')
-  const PATH_TO = getPath('lib', 'ui')
+  const PATH_FROM = getPath('..', 'src', 'ui')
+  const PATH_TO = getPath('..', 'lib', 'ui')
 
   copyFiles(PATH_FROM, PATH_TO)
   console.log('UI was moved to lib folder!')
@@ -26,14 +26,18 @@ function moveUi() {
 
 function moveComments() {
   const comments = ['components', 'comments']
-  const PATH_FROM = getPath('src', ...comments)
-  const PATH_TO = getPath('lib', ...comments)
+  const PATH_FROM = getPath('..', 'src', ...comments)
+  const PATH_TO = getPath('..', 'lib', ...comments)
 
   copyFiles(PATH_FROM, PATH_TO)
   console.log('Comments were moved to lib folder!')
 }
 
-export function moveFiles() {
+function moveFiles() {
   moveUi()
   moveComments()
+}
+
+module.exports = {
+  moveFiles,
 }

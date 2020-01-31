@@ -1,8 +1,8 @@
-import fs from 'fs'
-import path from 'path'
-import glob from 'glob'
-import mkdirp from 'mkdirp'
-import SVGSpriter from 'svg-sprite'
+const fs = require('fs')
+const path = require('path')
+const glob = require('glob')
+const mkdirp = require('mkdirp')
+const SVGSpriter = require('svg-sprite')
 
 const SPRITE_OPTIONS = {
   mode: {
@@ -28,13 +28,10 @@ const GLOB_OPTIONS = {
   nodir: true,
 }
 
-const ICONS_PATH_FROM = path.resolve(__dirname, 'src', 'ui', 'icons')
-const ICONS_PATH_TO = path.resolve(__dirname, 'static', 'san-icons')
+const ICONS_PATH_FROM = path.resolve(__dirname, '..', 'src', 'ui', 'icons')
+const ICONS_PATH_TO = path.resolve(__dirname, '..', 'static', 'san-icons')
 
-export function prepareIcons(
-  pathFrom = ICONS_PATH_FROM,
-  pathTo = ICONS_PATH_TO,
-) {
+function prepareIcons(pathFrom = ICONS_PATH_FROM, pathTo = ICONS_PATH_TO) {
   glob(pathFrom + '/*.svg', GLOB_OPTIONS, (er, files) => {
     mkdirp.sync(pathTo)
 
@@ -56,4 +53,8 @@ export function prepareIcons(
 
     console.log('Icons copied to the ' + pathTo)
   })
+}
+
+module.exports = {
+  prepareIcons,
 }

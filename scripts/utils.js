@@ -1,15 +1,15 @@
-import fs from 'fs'
-import path from 'path'
+const fs = require('fs')
+const path = require('path')
 
-export const joinPaths = (...paths) => path.resolve(...paths)
+const joinPaths = (...paths) => path.resolve(...paths)
 
-export const getPath = (...paths) => joinPaths(__dirname, ...paths)
+const getPath = (...paths) => joinPaths(__dirname, ...paths)
 
-export const isDir = filePath => fs.statSync(filePath).isDirectory()
+const isDir = filePath => fs.statSync(filePath).isDirectory()
 
-export const isFile = filePath => fs.statSync(filePath).isFile()
+const isFile = filePath => fs.statSync(filePath).isFile()
 
-export const getFilesAndDirs = dir => {
+const getFilesAndDirs = dir => {
   const results = fs.readdirSync(dir)
 
   const files = results.filter(name => isFile(joinPaths(dir, name)))
@@ -18,12 +18,7 @@ export const getFilesAndDirs = dir => {
   return [files, dirs]
 }
 
-export function recursiveList(
-  pathFrom,
-  pathTo,
-  processFiles,
-  onList = () => {},
-) {
+function recursiveList(pathFrom, pathTo, processFiles, onList = () => {}) {
   onList(pathFrom, pathTo)
 
   const [files, dirs] = getFilesAndDirs(pathFrom)
@@ -38,4 +33,13 @@ export function recursiveList(
       onList,
     ),
   )
+}
+
+module.exports = {
+  joinPaths,
+  getPath,
+  isDir,
+  isFile,
+  getFilesAndDirs,
+  recursiveList,
 }

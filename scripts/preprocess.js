@@ -1,18 +1,21 @@
 const svelte = require('svelte/compiler')
-import autoPreprocess, {
-  scss,
-  postcss as sveltePostcss,
-} from 'svelte-preprocess'
-import fs from 'fs'
-import cssModules from 'postcss-modules'
-import { recursiveList, getPath, joinPaths, getFilesAndDirs } from './utils'
+const autoPreprocess = require('svelte-preprocess')
+const { scss, postcss: sveltePostcss } = require('svelte-preprocess')
+const fs = require('fs')
+const cssModules = require('postcss-modules')
+const {
+  recursiveList,
+  getPath,
+  joinPaths,
+  getFilesAndDirs,
+} = require('./utils')
 
-const LIB_PATH = getPath('lib')
+const LIB_PATH = getPath('..', 'lib')
 const COMMETS_PATH = joinPaths(LIB_PATH, 'components', 'comments')
 
 const { style } = scss()
 
-export const createPreprocess = basedir => ({
+const createPreprocess = basedir => ({
   ...autoPreprocess({
     postcss: false,
     coffeescript: false,
@@ -52,14 +55,14 @@ export const createPreprocess = basedir => ({
 const preprocess = createPreprocess(LIB_PATH)
 
 function moveMixins() {
-  const pathFrom = getPath('src')
+  const pathFrom = getPath('..', 'src')
   const file = 'mixins.scss'
   fs.copyFileSync(joinPaths(pathFrom, file), joinPaths(LIB_PATH, file))
 }
 
 const onlySvelteExt = file => file.includes('.svelte')
 
-export function preprocessSvelte() {
+function preprocessSvelte() {
   moveMixins()
 
   recursiveList(LIB_PATH, LIB_PATH, (files, newPath) => {
@@ -83,4 +86,9 @@ export function preprocessSvelte() {
         )
     })
   })
+}
+
+module.exports = {
+  createPreprocess,
+  preprocessSvelte,
 }

@@ -1,7 +1,11 @@
-import { moveFiles } from './files'
-import { preprocessSvelte } from './preprocess'
+const { moveFiles } = require('./files')
+const { preprocessSvelte } = require('./preprocess')
 
-export function prepareLib() {
+function prepareLib() {
   moveFiles()
   preprocessSvelte()
+}
+
+module.exports = {
+  prepareLib,
 }

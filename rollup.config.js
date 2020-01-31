@@ -15,8 +15,8 @@ import pkg from './package.json'
 import cssModules from 'postcss-modules'
 import rollPostcss from 'rollup-plugin-postcss'
 import cssnano from 'cssnano'
-import { prepareIcons } from './scripts/icons'
-import { createPreprocess } from './scripts/preprocess'
+const { createPreprocess } = require('./scripts/preprocess')
+const { prepareIcons } = require('./scripts/icons')
 
 prepareIcons()
 
