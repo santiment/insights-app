@@ -30,13 +30,13 @@ mixin icon(name)
     use(href!=`mobile-nav.svg#${name}`)
 
 nav
+  a.btn(href='https://app.santiment.net/feed')
+    +icon('feed')
+    |Feed
+
   a.btn(href='https://app.santiment.net/assets')
     +icon('assets')
-    |Assets
-
-  a.btn(href='https://app.santiment.net/sonar')
-    +icon('sonar')
-    |Signals
+    |Market
 
   a.btn(href='https://app.santiment.net/watchlists')
     +icon('watchlists')
@@ -54,6 +54,7 @@ nav
   .menu
     img(src='santiment.svg', alt='Santiment Logo')
     .menu__links
+      a.menu__link(href=appPath+'sonar') Signals
       a.menu__link(href=appPath+'account') Account settings
       a.menu__link(href=appPath+'support') Support
     +button.login(variant='fill', accent='jungle-green', href='{loginHref}', on:click='{hideMenu}', fluid ) {loginLabel}
@@ -85,7 +86,7 @@ nav
     right: 0;
     color: var(--casper);
     background: var(--white);
-    border-top: 1px solid var(--porcelain);
+    border: 2px solid var(--porcelain);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
@@ -96,7 +97,7 @@ nav
     @include text('caption');
     display: flex;
     flex-direction: column;
-    padding: 12px 12px 7px;
+    padding: 10px 12px 6px;
     height: 100%;
     justify-content: space-between;
     align-items: center;
