@@ -1,6 +1,5 @@
 <script>
   import { stores } from '@sapper/app'
-  import { client } from '@/apollo'
   import Dialog from '@/ui/dialog/index'
   import ContextMenu from '@/components/ContextMenu'
   import CommentAuthor from './Author.svelte'

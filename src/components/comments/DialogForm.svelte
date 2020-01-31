@@ -3,7 +3,7 @@
   import CommentForm from '@/components/comments/Form'
 
   const classes = {
-    input: 'EditBtn__input',
+    input: 'DialogForm__input',
   }
 
   export let title,
@@ -33,7 +33,7 @@ Dialog({title}, bind:open, on:close)
     margin: 20px;
   }
 
-  :global(.EditBtn__input) {
+  :global(.DialogForm__input) {
     width: 400px;
     margin-bottom: 14px;
   }

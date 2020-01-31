@@ -2,10 +2,6 @@
   import { getContext, tick } from 'svelte'
   import CommentDialogForm from '@/components/comments/DialogForm'
 
-  const classes = {
-    input: 'EditBtn__input',
-  }
-
   const editComment = getContext('editComment')
 
   export let id,

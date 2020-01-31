@@ -3,7 +3,6 @@
   import { get } from 'svelte/store'
   import { stores } from '@sapper/app'
   import Comment from '@/components/comments/Comment'
-  import CommentInput from '@/components/comments/Input'
   import CommentForm from '@/components/comments/Form'
   import CommentAuthor from '@/components/comments/Author'
 
