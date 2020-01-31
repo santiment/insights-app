@@ -10,54 +10,72 @@ const {
   getFilesAndDirs,
 } = require('./utils')
 
-const LIB_PATH = getPath('..', 'lib')
-const COMMETS_PATH = joinPaths(LIB_PATH, 'components', 'comments')
+const ROOT = getPath('..')
+const LIB = joinPaths(ROOT, 'lib')
+const SRC = joinPaths(ROOT, 'src')
+
+const COMMETS_PATH = joinPaths(LIB, 'components', 'comments')
 
 const { style } = scss()
 
-const createPreprocess = basedir => ({
-  ...autoPreprocess({
-    postcss: false,
-    coffeescript: false,
-    typescript: false,
-    less: false,
-    stylus: false,
-    pug: {
-      basedir,
-    },
-  }),
-  style: code => {
-    if (code.attributes.lang !== 'scss') return { code: code.content }
+const createPreprocess = basedir => {
+  const config = {
+    ...autoPreprocess({
+      postcss: false,
+      coffeescript: false,
+      typescript: false,
+      less: false,
+      stylus: false,
+      pug: {
+        basedir,
+      },
+    }),
+    style: code => {
+      if (code.attributes.lang !== 'scss') return { code: code.content }
 
-    code.content = code.content.replace(
-      /@import\s*("|')@\//g,
-      `@import $1${basedir}/`,
-    )
+      code.content = code.content.replace(
+        /@import\s*("|')@\//g,
+        `@import $1${basedir}/`,
+      )
 
-    return style(code).then(css => {
-      return sveltePostcss({
-        plugins: [
-          cssModules({
-            scopeBehaviour: 'global',
-          }),
-        ],
-      })
-        .style({ content: css.code })
-        .then(postcss => {
-          css.code = postcss.code
-
-          return css
+      return style(code).then(css => {
+        return sveltePostcss({
+          plugins: [
+            cssModules({
+              scopeBehaviour: 'global',
+            }),
+          ],
         })
-    })
-  },
-})
+          .style({ content: css.code })
+          .then(postcss => {
+            css.code = postcss.code
 
-const preprocess = createPreprocess(LIB_PATH)
+            return css
+          })
+      })
+    },
+  }
+
+  if (basedir === LIB) {
+    config.script = code => {
+      code.content = code.content.replace(
+        /from\s*("|')@\//g,
+        `from $1${basedir}/`,
+      )
+
+      return { code: code.content }
+    }
+  }
+
+  return config
+}
+
+const preprocess = createPreprocess(LIB)
 
 function moveMixins() {
-  const pathFrom = getPath('..', 'src')
+  const pathFrom = SRC
   const file = 'mixins.scss'
-  fs.copyFileSync(joinPaths(pathFrom, file), joinPaths(LIB_PATH, file))
+  fs.copyFileSync(joinPaths(pathFrom, file), joinPaths(LIB, file))
 }
 
 const onlySvelteExt = file => file.includes('.svelte')
@@ -65,7 +83,7 @@ const onlySvelteExt = file => file.includes('.svelte')
 function preprocessSvelte() {
   moveMixins()
 
-  recursiveList(LIB_PATH, LIB_PATH, (files, newPath) => {
+  recursiveList(LIB, LIB, (files, newPath) => {
     let processedFiles = 0
 
     files.filter(onlySvelteExt).forEach(filename => {
