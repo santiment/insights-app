@@ -140,7 +140,10 @@ function changeIcons(source) {
   while (href) {
     const iconName = getSvgNameFromHref(href)
 
-    result = result.replace(href, `href="{${importName + icons.length}}"`)
+    result = result.replace(
+      href,
+      `href="{${importName + icons.length}}#${iconName}"`,
+    )
     icons.push(iconName)
 
     href = getNextHref(result)

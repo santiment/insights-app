@@ -8,15 +8,16 @@ const ROOT = getPath('..')
 const LIB = joinPaths(ROOT, 'lib')
 const SRC = joinPaths(ROOT, 'src')
 
-function copyFiles(pathFrom, pathTo) {
+function copyFiles(pathFrom, pathTo, filter = noSvgFilter, maxRec) {
   recursiveList(
     pathFrom,
     pathTo,
     (files, newFrom, newTo) =>
-      noSvgFilter(files).forEach(file =>
+      filter(files).forEach(file =>
         fs.copyFileSync(joinPaths(newFrom, file), joinPaths(newTo, file)),
       ),
     (_, newTo) => mkdirp.sync(newTo),
+    maxRec,
   )
 }
 
@@ -26,6 +27,19 @@ function moveUi() {
 
   copyFiles(PATH_FROM, PATH_TO)
   console.log('UI was moved to lib folder!')
+}
+
+function moveStaticIcons() {
+  const PATH_FROM = joinPaths(ROOT, 'static')
+  const PATH_TO = joinPaths(LIB, 'static')
+
+  copyFiles(
+    PATH_FROM,
+    PATH_TO,
+    files => files.filter(file => file.includes('.svg')),
+    0,
+  )
+  console.log('Static files were moved to lib folder!')
 }
 
 function moveComments() {
@@ -53,12 +67,17 @@ function moveUtils() {
   console.log('Utils were moved to lib folder!')
 }
 
-function moveFiles() {
-  moveUi()
+function moveJs() {
   moveComments()
   moveUtils()
 }
 
+function moveUiLib() {
+  moveUi()
+  moveStaticIcons()
+}
+
 module.exports = {
-  moveFiles,
+  moveJs,
+  moveUiLib,
 }

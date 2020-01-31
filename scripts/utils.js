@@ -18,7 +18,17 @@ const getFilesAndDirs = dir => {
   return [files, dirs]
 }
 
-function recursiveList(pathFrom, pathTo, processFiles, onList = () => {}) {
+function recursiveList(
+  pathFrom,
+  pathTo,
+  processFiles,
+  onList = () => {},
+  maxRec = 10,
+) {
+  if (maxRec < 0) {
+    return
+  }
+
   onList(pathFrom, pathTo)
 
   const [files, dirs] = getFilesAndDirs(pathFrom)
@@ -31,6 +41,7 @@ function recursiveList(pathFrom, pathTo, processFiles, onList = () => {}) {
       joinPaths(pathTo, dir),
       processFiles,
       onList,
+      maxRec - 1,
     ),
   )
 }
