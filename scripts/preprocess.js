@@ -213,6 +213,8 @@ function makeStaticIconsImported() {
 
         source = source.replace('<script>', `<script> ${statements}`)
         fs.writeFileSync(filePath, source, 'utf8')
+
+        console.log('Static imports updated')
       })
     },
     undefined,

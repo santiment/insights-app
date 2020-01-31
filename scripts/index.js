@@ -13,9 +13,9 @@ function prepareLib() {
 
   moveJs()
   moveUiLib()
+  makeStaticIconsImported()
   preprocessSvelte()
   prepareIcons(undefined, joinPaths(LIB, 'icons'))
-  makeStaticIconsImported()
 }
 
 module.exports = {
