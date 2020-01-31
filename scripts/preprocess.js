@@ -70,10 +70,7 @@ const createPreprocess = basedir => {
 
     config.markup = code =>
       markupPug(code).then(res => {
-        res.code = res.code.replace(
-          /href="\/san-icons\//g,
-          `href="${basedir}/icons/`,
-        )
+        res.code = changeIcons(res.code)
         return res
       })
   }
@@ -115,6 +112,51 @@ function preprocessSvelte() {
         )
     })
   })
+}
+
+function getNextHref(str) {
+  const searchStr = 'href="/san-icons/'
+  const startIndex = str.indexOf(searchStr)
+
+  if (startIndex === -1) {
+    return
+  }
+
+  const endIndex = str.indexOf('"', startIndex + searchStr.length)
+  return str.slice(startIndex, endIndex + 1)
+}
+
+function getSvgNameFromHref(href) {
+  return href.split('#')[1].slice(0, -1)
+}
+
+function changeIcons(source) {
+  const importName = '__svgIcon_'
+  const icons = []
+
+  let result = source
+  let href = getNextHref(result)
+
+  while (href) {
+    const iconName = getSvgNameFromHref(href)
+
+    result = result.replace(href, `href="{${importName + icons.length}}"`)
+    icons.push(iconName)
+
+    href = getNextHref(result)
+  }
+
+  let imports = ''
+  icons.forEach((name, i) => {
+    imports += `
+      import ${importName + i} from "${LIB}/icons/${name}.svg"`
+  })
+
+  if (imports) {
+    result = result.replace('<script>', `<script> ${imports}`)
+  }
+
+  return result
 }
 
 module.exports = {
