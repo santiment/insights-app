@@ -106,13 +106,13 @@ include /ui/mixins
 
 section
   +if('$session.currentUser || comments.length !== 0')
-    h2 Comments 
+    h2 Conversation 
       span ({commentsCount})
 
   +if('$session.currentUser')
     CommentAuthor({avatarUrl}, {username}, id='{userId}', insightAuthorId='{authorId}')
 
-    CommentForm(on:submit='{postComment}', {classes})
+    CommentForm(on:submit='{postComment}', {commentsCount}, {classes})
       +button.submit(slot='after', variant='fill', accent='jungle-green', type='submit', class:loading) Post
 
   .comments

@@ -8,6 +8,8 @@
     form: '',
     input: '',
   }
+  export let commentsCount = 0
+  $: placeholder = commentsCount === 0 ? 'Be the first to comment...' : 'Type your comment here'
 
   function onInput({ currentTarget }) {
     if (rows > 1) {
@@ -46,7 +48,7 @@
 include /ui/mixins
 
 form(on:submit|preventDefault='{onSubmit}', on:keypress='{onKeyPress}', class='{classes.form}')
-  textarea({rows}, {value}, required, name='comment', placeholder='Type your comment here', on:input='{onInput}', class='{classes.input}')
+  textarea({rows}, {value}, required, name='comment', {placeholder}, on:input='{onInput}', class='{classes.input}')
   slot(name='after')
 </template>
 
