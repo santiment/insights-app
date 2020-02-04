@@ -42,6 +42,7 @@ const createPreprocess = basedir => {
         return sveltePostcss({
           plugins: [
             cssModules({
+              getJSON: () => {},
               scopeBehaviour: 'global',
             }),
           ],
