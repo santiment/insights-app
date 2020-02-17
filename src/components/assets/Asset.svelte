@@ -6,12 +6,18 @@
   export let asset
   let open = false
 
-  let { id, name, slug, ticker, logoUrl, percentChange7d, historyPrice } = asset
+  let {
+    id,
+    name,
+    slug,
+    ticker,
+    logoUrl,
+    percentChange7d,
+    historyPrice,
+    priceUsd,
+  } = asset
 
-  const { priceUsd: currentPrice } = historyPrice[historyPrice.length - 1]
-  const price = currentPrice
-    ? currentPrice.toFixed(currentPrice < 1 ? 6 : 2)
-    : 0
+  const price = priceUsd.toFixed(priceUsd < 1 ? 6 : 2)
 </script>
 
 <template lang="pug">

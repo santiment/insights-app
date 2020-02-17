@@ -25,6 +25,7 @@ export const PROJECTS_BY_TICKER_QUERY = gql`
     allProjectsByTicker(ticker: $ticker) {
       ...projectFragment
       percentChange7d
+      priceUsd
     }
   }
   ${projectFragment}
