@@ -111,13 +111,13 @@
   import SuggestedInsights from '@/components/insights/SuggestedInsights'
   // TODO: Lazy load FeaturedAssets [@vanguard | Nov 11, 2019]
   import FeaturedAssets from '@/components/assets/FeaturedAssets'
-  import { getDateFormats } from '@/utils/dates'
   import { getRawText, grabFirstImageLink } from '@/utils/insights'
   const loadSuggestedInsights = () =>
     import('@/components/insights/SuggestedInsights')
-  const loadAnonBanner = () => import('@/components/Banner/BannerInsight')
-  const loadFollowBanner = () => import('@/components/Banner/FollowBanner')
-  const loadFollowBtn = () => import('@/components/FollowBtn')
+
+  import Thanks from './_components/Thanks.svelte'
+  import Author from './_components/Author.svelte'
+  import Banner from './_components/Banner.svelte'
 
   export let id,
     text,
@@ -125,8 +125,8 @@
     tags,
     user,
     votes,
-    publishedAt,
     createdAt,
+    publishedAt = createdAt,
     votedAt,
     readyState,
     assets = [],
@@ -139,7 +139,7 @@
   const metaDescriptionText = getRawText(text).slice(0, 140)
 
   const options = {
-    rootMargin: '20px 0px 20px',
+    rootMargin: '160px 0px -135px',
   }
   const commentsOptions = {
     rootMargin: '100% 0px 200px',
@@ -150,7 +150,6 @@
 
   let clientHeight
   let hidden = true
-  let insightDate
   let link
   let shareLink
 
@@ -161,16 +160,7 @@
 
   $: liked = !!votedAt
 
-  $: {
-    const { MMM, D, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
-    insightDate = `${MMM} ${D}, ${YYYY}`
-  }
-
   $: isAuthor = currentUser && user.id === currentUser.id
-
-  $: isNotFollowed =
-    currentUser &&
-    currentUser.following.users.every(following => following.id !== user.id)
 
   $: if (process.browser && id) {
     link = window.location.pathname
@@ -208,41 +198,24 @@ svelte:head
     meta(name='twitter:image', content='{previewImgLink}')
     meta(name='og:image', content='{previewImgLink}')
 
-
 .insight(bind:clientHeight)
   h1.title {title}
-  .insight__info
-    ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{insightDate}", classes!='{{wrapper: "insight__profile"}}', withPic)
-    +if('!isAuthor')
-      Loadable(load="{loadFollowBtn}", targetId='{user.id}')
+  Author({user}, {publishedAt}, {isAuthor})
   Text({text})
-
-  +if('$session.currentUser')
-    +if('isNotFollowed && !isAuthor')
-      Loadable(load="{loadFollowBanner}", targetId='{user.id}', author='{user.username}')
-    +else()
-      Loadable(load="{loadAnonBanner}")
 
   .bottom
     Tags({tags})
     .info
-      .info__block.info__block_left
-        ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{insightDate}", classes='{classes}', withPic)
-        +if('$session.currentUser && !isAuthor')
-          Loadable(load="{loadFollowBtn}", targetId='{user.id}')
+      Author({user}, {publishedAt}, {isAuthor})
       ViewportObserver({options}, on:intersect='{hideSidebar}', on:leaving='{showSidebar}', top)
-        .info__block
-          +if('readyState !== "draft"')
-            LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
-            ShareBtn.info__share(link='{shareLink}')
-          +if('isAuthor')
-            a.edit.edit_fixed(href='/edit/{id}')
-              +icon('edit').edit__icon
+        Thanks({id}, {shareLink}, {votes}, {readyState}, {commentsCount}, bind:liked)
+      Banner({user}, {isAuthor})
+
       .info__fixed(class:hidden)
         +if('readyState !== "draft"')
           LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
           CommentCounter.fixed-comments-count({link}, {commentsCount})
-          ShareBtn(link='{shareLink}')
+          ShareBtn.fixed__share(link='{shareLink}')
         +if('isAuthor')
           a.edit(href='/edit/{id}')
             +icon('edit').edit__icon
@@ -312,36 +285,13 @@ ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}'
     margin-top: 16px;
     border-top: 1px solid var(--porcelain);
     padding: 20px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     max-width: 100%;
-
-    :global(&__profile) {
-      max-width: 65%;
-
-      @include responsive('phone', 'phone-xs') {
-        max-width: 100%;
-      }
-    }
-
-    &__block {
-      display: flex;
-
-      &_left {
-        align-items: flex-start;
-        flex: 1;
-
-        @include responsive('phone', 'phone-xs') {
-          max-width: 50%;
-        }
-      }
-    }
 
     &__fixed {
       display: none;
       transition: opacity 150ms ease-in;
       opacity: 1;
+
       &.hidden {
         opacity: 0;
         pointer-events: none;
@@ -356,14 +306,11 @@ ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}'
         right: calc(50% + 440px);
       }
     }
+  }
 
-    :global(&__share) {
-      margin-left: 30px;
-      fill: var(--waterloo);
-      @include responsive('phone-xs') {
-        margin-left: 16px;
-      }
-    }
+  :global(.fixed__share) {
+    fill: var(--casper);
+    margin-top: 3px;
   }
 
   .edit {
@@ -373,6 +320,7 @@ ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}'
       margin: 0 0 0 30px;
     }
   }
+
   .edit__icon {
     @include size(16px);
     cursor: pointer;

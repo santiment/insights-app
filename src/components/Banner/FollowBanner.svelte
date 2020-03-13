@@ -13,7 +13,7 @@ include /ui/mixins
 .wrapper(class='{klass}')
   h2 Never miss a post from {author}!
   h3 Get 'early bird' alerts for new insights from this author
-  FollowBtn({targetId}).follow-banner-btn {' '+author}
+  FollowBtn.follow-banner-btn({targetId}, hasIcon='') {' '+author}
 
 </template>
 
@@ -22,8 +22,8 @@ include /ui/mixins
   @import '@/variables';
 
   .wrapper {
-    background: $mirage;
-    color: $white;
+    background: var(--athens);
+    color: var(--waterloo);
     text-align: center;
     padding: 32px;
     position: relative;
@@ -33,7 +33,7 @@ include /ui/mixins
 
     &::after {
       z-index: -1;
-      opacity: 0.08;
+      opacity: 0.2;
       content: '';
       background: url('/overview_banner.svg') no-repeat 100%;
       position: absolute;
@@ -46,6 +46,7 @@ include /ui/mixins
 
   h2 {
     @include text('h4', 'm');
+    color: var(--rhino);
   }
 
   h3 {
@@ -59,7 +60,7 @@ include /ui/mixins
     min-width: 100px;
     height: 32px !important;
     justify-content: center;
-    background: $jungle-green !important;
+    background: $rhino !important;
     color: $white !important;
     margin: 0 !important;
   }

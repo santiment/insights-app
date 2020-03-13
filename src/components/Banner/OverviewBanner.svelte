@@ -25,8 +25,8 @@ include /ui/mixins
   @import '@/variables';
 
   .wrapper {
-    background: var(--jungle-green);
-    color: var(--white);
+    background: var(--athens);
+    color: var(--waterloo);
     text-align: center;
     padding: 32px;
     position: relative;
@@ -48,6 +48,7 @@ include /ui/mixins
 
   h2 {
     @include text('h4', 'm');
+    color: var(--rhino);
   }
 
   h3 {

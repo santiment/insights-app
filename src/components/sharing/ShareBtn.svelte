@@ -65,7 +65,7 @@ include /ui/mixins
 
 Dialog(bind:open, title='Share insight')
   +button.trigger(slot='trigger', class='{klass}', aria-label='Share')
-    +icon('share').icon-share
+    +icon('share-arrow').icon-share
   +dialogScrollContent.content(slot='content')
     .link
       +input(value='{link}', readonly)

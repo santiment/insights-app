@@ -1,7 +1,9 @@
 <script>
   let klass = ''
   export { klass as class }
-  export let link, commentsCount
+
+  export let link = process.browser ? window.location.pathname : undefined
+  export let commentsCount
 </script>
 
 <template lang="pug">
@@ -16,7 +18,8 @@ a.comments(href='{link}?_wc=1#comments', class='{klass}')
 <style lang="scss">
   @import '@/mixins';
   .comments {
-    fill: var(--waterloo);
+    fill: var(--casper);
+    color: var(--waterloo);
 
     &:hover {
       fill: var(--jungle-green);

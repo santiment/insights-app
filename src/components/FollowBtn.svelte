@@ -7,7 +7,8 @@
 
   let klass = ''
   export { klass as class }
-  export let targetId
+  export let targetId,
+    hasIcon = true
 
   const { session } = stores()
 
@@ -60,29 +61,21 @@
 <template lang="pug">
 include /ui/mixins
 
-+button()(class='{klass}', on:click='{toggleFollow}')
++button(variant='fill', accent='jungle-green')(class='{klass}', on:click='{toggleFollow}')
   +if('followed')
     |Following
     +else
+      +if('hasIcon')
+        +icon('follow')
       |Follow
       slot
 </template>
 
 <style lang="scss">
   @import '@/mixins';
-  @import '@/variables';
 
-  button {
-    @include text('caption');
-    margin: -2px 0 0 8px;
-    height: auto;
-    padding: 1px 8px;
-    background: $casper;
-    color: $white;
-
-    &:hover {
-      color: $white;
-      background: $bali-hai;
-    }
+  svg {
+    @include size(17px, 16px);
+    margin-right: 7px;
   }
 </style>

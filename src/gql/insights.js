@@ -129,6 +129,17 @@ export const PUBLISH_INSIGHT_DRAFT_MUTATION = gql`
   }
 `
 
+export const EMPTY_USER_INSIGHTS = gql`
+  query currentUser {
+    currentUser {
+      id
+      insights {
+        id
+      }
+    }
+  }
+`
+
 export const ALL_USER_INSIGHTS = gql`
   query currentUser {
     currentUser {
