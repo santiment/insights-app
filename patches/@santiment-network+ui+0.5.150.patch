@@ -1,5 +1,5 @@
 diff --git a/node_modules/@santiment-network/ui/main.scss b/node_modules/@santiment-network/ui/main.scss
-index 661e060..1be637e 100644
+index e241f6c..5d59c4a 100644
 --- a/node_modules/@santiment-network/ui/main.scss
 +++ b/node_modules/@santiment-network/ui/main.scss
 @@ -7,7 +7,6 @@
@@ -10,10 +10,10 @@ index 661e060..1be637e 100644
  
    // shades of grey
    --athens: #{$athens}; // NEW
-@@ -17,17 +16,8 @@
-   --waterloo: #{$waterloo}; // NEW
+@@ -18,17 +17,8 @@
    --mirage: #{$mirage}; // NEW
    --shark: #{$shark}; // NEW
+   --rhino: #{$rhino}; // NEW
 -  --grey-light: #{$light-gray};
 -  --grey-light-2: #{$light-gray2};
 -  --grey-light-3: #{$light-gray3};
@@ -28,7 +28,7 @@ index 661e060..1be637e 100644
    --jungle-green: #{$jungle-green}; // NEW
    --jungle-green-hover: #{$jungle-green-hover}; // NEW
    --jungle-green-light: #{$jungle-green-light}; // NEW
-@@ -42,39 +32,26 @@
+@@ -44,40 +34,27 @@
    --sheets-hover: #{$sheets-hover}; // NEW
  
    // orange
@@ -38,6 +38,7 @@ index 661e060..1be637e 100644
    --texas-rose: #{$texas-rose}; // NEW
    --texas-rose-hover: #{$texas-rose-hover}; // NEW
    --texas-rose-light: #{$texas-rose-light}; // NEW
+   --texas-rose-light-2: #{$texas-rose-light-2}; // NEW
  
    // red
 -  --red: #{$red};
@@ -68,7 +69,7 @@ index 661e060..1be637e 100644
    --malibu: #{$malibu}; // NEW
    --malibu-hover: #{$malibu-hover}; // NEW
    --malibu-light: #{$malibu-light}; // NEW
-@@ -82,35 +59,24 @@
+@@ -89,13 +66,7 @@
  
  :global(.night-mode) {
    --white: #{$mirage}; // NEW
@@ -82,12 +83,15 @@ index 661e060..1be637e 100644
    --athens: #{$ebony-clay}; // NEW
    --porcelain: #{$cloud-burst}; // NEW
    --mystic: #{$rhino}; // NEW
-   --casper: #{$fiord}; // NEW
+@@ -103,24 +74,19 @@
    --waterloo: #{$bali-hai}; // NEW
+   --rhino: #{$mystic}; // NEW
    // green
 -  --green-light: #{$green-dark};
    --jungle-green-light: #{$jungle-green-dark}; // NEW
    --jungle-green-light-2: #{$jungle-green-dark-2}; // NEW
+   --jungle-green-light-3: #{$jungle-green-dark-3}; // NEW
+   --jungle-green-accent: #{$jungle-green-a-dark}; // NEW
    // orange
 -  --orange-light: #{$orange-dark};
    --texas-rose-light: #{$texas-rose-dark}; // NEW
@@ -105,48 +109,15 @@ index 661e060..1be637e 100644
    // cyan
    --malibu-light: #{$malibu-dark}; // NEW
 diff --git a/node_modules/@santiment-network/ui/mixins.scss b/node_modules/@santiment-network/ui/mixins.scss
-index bcd6395..517237c 100644
+index 17a9484..6230bd3 100644
 --- a/node_modules/@santiment-network/ui/mixins.scss
 +++ b/node_modules/@santiment-network/ui/mixins.scss
-@@ -87,9 +87,6 @@
+@@ -87,8 +87,6 @@
  }
  
  @mixin text($type, $mod: null) {
 -  font-family: Rubik, sans-serif;
 -  font-weight: 400;
--
+ 
    @if $type == 'h1' {
      font-size: 52px;
-     line-height: 66px;
-@@ -131,9 +128,7 @@
- 
-     @if $mod == 't' {
-       line-height: 28px;
--    }
--
--    @else {
-+    } @else {
-       line-height: 26px;
- 
-       @if $mod == 'm' {
-@@ -182,8 +177,7 @@
-     border-radius: 4px;
-     padding: 5px 12px;
-     box-shadow: 0 2px 2px rgba(24, 27, 43, 0.04),
--      0 2px 6px rgba(24, 27, 43, 0.08),
--      0 4px 12px rgba(24, 27, 43, 0.08);
-+      0 2px 6px rgba(24, 27, 43, 0.08), 0 4px 12px rgba(24, 27, 43, 0.08);
- 
-     @if $position == 'bottom' {
-       top: 100%;
-@@ -214,9 +208,7 @@
-       @if $align == 'end' {
-         right: 0;
-       }
--    }
--
--    @else {
-+    } @else {
-       @if $align == 'center' {
-         transform: translateY(-50%);
-         top: 50%;

@@ -1,19 +1,14 @@
 <script>
   import { stores } from '@sapper/app'
   import SmoothDropdown from '@/components/SmoothDropdown'
-  import NavAssetsDropdown from '@/components/Nav/AssetsDropdown'
-  import NavHelpDropdown from '@/components/Nav/HelpDropdown'
   import NavAccountDropdown from '@/components/Nav/AccountDropdown'
   import NavProductsDropdown from '@/components/Nav/ProductsDropdown'
-  import NavLabsDropdown from '@/components/Nav/LabsDropdown'
-  import ProjectsSearch from '@/components/Nav/Search'
-
-  export let segment
+  import PlanInfo from '@/components/Nav/PlanInfo'
 
   const { session } = stores()
 
-  let avatar
   $: avatar = $session.currentUser ? $session.currentUser.avatarUrl : ''
+  $: isAnonUser = !$session.currentUser
 
   let activeTrigger
   const dropdownItems = [
@@ -22,13 +17,6 @@
       component: NavProductsDropdown,
       class: 'Nav__dd-products',
     },
-    { id: 'assets-trigger', component: NavAssetsDropdown },
-    {
-      id: 'labs-trigger',
-      component: NavLabsDropdown,
-      class: 'Nav__dd-labs',
-    },
-    { id: 'help-trigger', component: NavHelpDropdown },
     { id: 'account-trigger', component: NavAccountDropdown },
   ]
 
@@ -45,24 +33,20 @@ header
   .container
     nav.nav
       .product(on:mouseenter="{onTriggerEnter}", id="products-trigger", data-centered='window', data-active-class='active')
-        a(href=appPath+'/')
+        a(href='/')
           img(src='/san-logo.svg', alt='Santiment logo')
         +button.product__arrow(variant="flat",  aria-label='Products dropdown')
           +icon('arrow-down').icon-arrow-down
-      +button.link(href=appPath+'/feed', variant="flat") Feed
-      +button.link(href=appPath+'/sonar', variant="flat") Sonar
-      +button.link(href=appPath+'/assets', variant="flat", on:mouseenter="{onTriggerEnter}", id="assets-trigger") Assets
-      +button.link.active(href="/", variant="flat", prefetch) Insights
-      +button.link(href=appPath+'/labs', variant="flat", on:mouseenter="{onTriggerEnter}", id="labs-trigger", data-centered='window') Labs
-      +button.link(href='https://graphs.santiment.net/', variant="flat") Graphs
-        +icon('external-link').icon-external-link
+      .divider
+      +button(href=appPath, border)
+        +icon('arrow-down').icon-arrow-left
+        |Back to Sanbase
     .right
-      ProjectsSearch
-      +button(href=appPath+'/help', variant="flat",
-      on:mouseenter="{onTriggerEnter}", id="help-trigger",
-      aria-label="Help menu").right__btn
-        +icon('question-round').icon-question
-      +button(href=appPath+'/account', class:active="{segment === 'account'}", variant="flat", on:mouseenter="{onTriggerEnter}",
+      +if('isAnonUser')
+        +button(href='/login', border, accent='jungle-green') Be an Author
+        .divider
+      PlanInfo
+      +button(href=appPath+'/account', variant="flat", on:mouseenter="{onTriggerEnter}",
       id="account-trigger", aria-label="Profile menu", data-active-class='account_opened', style!='background-image: url({avatar})').right__btn.account
         +if('!avatar')
           +icon('user').icon-user
@@ -75,26 +59,23 @@ header
   @import '@/mixins';
 
   .icon- {
-    &question {
-      @include size(16px);
-    }
     &user {
       @include size(16px);
     }
-    &arrow-down {
+    &arrow-down,
+    &arrow-left {
       @include size(8px, 5px);
     }
-
-    &external-link {
-      @include size(12px);
-      margin-left: 6px;
+    &arrow-left {
+      transform: rotate(90deg);
+      fill: var(--casper);
+      margin-right: 13px;
     }
   }
 
   .product {
     display: flex;
     align-items: center;
-    margin-right: 32px;
 
     &__arrow {
       @include size(16px);
@@ -142,17 +123,6 @@ header
     align-items: center;
   }
 
-  .link {
-    color: var(--waterloo);
-    fill: var(--waterloo);
-    margin-right: 8px;
-
-    &:hover {
-      color: var(--jungle-green);
-      fill: var(--jungle-green);
-    }
-  }
-
   .right {
     display: flex;
     align-items: center;
@@ -172,23 +142,24 @@ header
     width: 1140px;
   }
 
-  :global(.Nav__dd-labs) {
-    padding: 24px;
-    width: 1140px;
-  }
-
   .account {
     @include size(32px);
     background: #edf8f5;
     border-radius: 50%;
     fill: var(--jungle-green);
     justify-content: center;
-    margin-left: 16px;
     background-size: cover;
 
     :global(&.account_opened),
     &:hover {
       box-shadow: inset 0px 0px 0px 1px var(--jungle-green);
     }
+  }
+
+  .divider {
+    margin: 0 24px;
+    width: 1px;
+    height: 32px;
+    background: var(--porcelain);
   }
 </style>

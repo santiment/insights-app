@@ -769,10 +769,10 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-0.5.0.tgz#b21510597fd601e5d7c95008b76bf0d254ebfd31"
   integrity sha512-oZLYFEAzUKyi3SKnXvj32ZCEGH6RDnao7COuCVhDydMS9NrCSVXhM79VaKyP5+Zc33m0QXEd2DN3UkU7OsHcfw==
 
-"@santiment-network/ui@^0.5.80":
-  version "0.5.80"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.80.tgz#a44c9b7be3b1ffb1c35fbe078e3e495b6921c2f5"
-  integrity sha512-9GaCmaOs9Z2ZH3+GLtoAZ8EVjpYZ9LuT1V61a0qGQVMmezylmI10Op0bLbsV7TC5diVOK7ABgsZ/IpFenQK+JA==
+"@santiment-network/ui@^0.5.150":
+  version "0.5.150"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.150.tgz#04a104f12076261197eb583c91b9ecbaa63faded"
+  integrity sha512-7u9E9eQlirfEvbtSmElCW4Eq7UvBwf1qHoceYcWXo/d38YY/y4Ah1u/KvP/QaXCzT+ZrjVGX9tFLtlt1RW2OMw==
 
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.7"

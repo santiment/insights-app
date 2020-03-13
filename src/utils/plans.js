@@ -1,7 +1,10 @@
-const sanbaseProductId = '2'
-export const findSanbasePlan = ({ id }) => id === sanbaseProductId
+import { ONE_DAY_IN_MS } from './dates'
 
-export const getCurrentSanbaseSubscription = user => {
+const sanbaseProductId = '2'
+
+export const findSanbasePlans = ({ id }) => id === sanbaseProductId
+
+export function getCurrentSanbaseSubscription(user) {
   if (!user) return
   const { subscriptions: subs } = user
 
@@ -15,4 +18,17 @@ export const getCurrentSanbaseSubscription = user => {
       }) => id === sanbaseProductId,
     )
   )
+}
+
+export function getTrialDaysLeft(subscription) {
+  if (!subscription) return
+
+  let trialEnd = subscription.trialEnd
+  if (!trialEnd) return
+
+  const daysDiff = Math.ceil((new Date(trialEnd) - Date.now()) / ONE_DAY_IN_MS)
+
+  if (daysDiff < 1) return
+
+  return daysDiff === 1 ? 'last day' : `${daysDiff} days left`
 }

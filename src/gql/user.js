@@ -19,6 +19,7 @@ export const userFragment = gql`
     }
     subscriptions {
       id
+      trialEnd
       plan {
         id
         name
