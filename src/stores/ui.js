@@ -1,10 +1,12 @@
 import { writable } from 'svelte/store'
 
-const uiLS = process.browser && localStorage.getItem('ui')
-let uiDefault = {}
+let uiDefault = {
+  darkMode: false,
+  betaMode: false,
+}
 
-if (uiLS) {
-  uiDefault = JSON.parse(uiLS) || {}
+if (process.browser) {
+  uiDefault = JSON.parse(localStorage.getItem('ui')) || {}
 
   if (uiDefault.darkMode) {
     document.body.classList.add('night-mode')
@@ -20,7 +22,7 @@ function createDarkModeToggle() {
 
   return {
     subscribe,
-    toggleDarkMode: () => {
+    toggleDarkMode() {
       const res = document.body.classList.toggle('night-mode')
       update(str => {
         str.darkMode = res
@@ -28,7 +30,7 @@ function createDarkModeToggle() {
         return str
       })
     },
-    toggleBetaMode: () => {
+    toggleBetaMode() {
       update(str => {
         str.betaMode = !str.betaMode
         saveToLS(str)

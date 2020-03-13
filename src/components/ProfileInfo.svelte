@@ -14,7 +14,7 @@
       img(src="{avatarUrl || 'profile-fallback.svg'}", alt="Profile picture")
 
   .info(class="{classes.info || ''}")
-    a.name(href="/user/{id}") {name}
+    a.name(href="https://app.santiment.net/profile/{id}") {name}
     +if('status')
       .status {status}
 

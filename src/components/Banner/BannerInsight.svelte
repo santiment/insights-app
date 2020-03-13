@@ -1,6 +1,7 @@
 <script>
   import OverviewBanner from './OverviewBanner.svelte'
   import ViewportObserver from '@/components/ViewportObserver'
+ import {cookie} from '@/stores/cookie'
   import { WEEKLY_SUBSCRIPTION_FLAG, loginEmail } from '@/logic/login'
   import { isMobile } from '@/utils/responsive'
   import { sendEvent } from '@/analytics'
@@ -45,17 +46,17 @@ include /ui/mixins
 ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner}', top)
   OverviewBanner.banner-overview({loading}, {onSubmit})
 
-+if('isNotMobile && isShown && isVisibleInSession')
++if('isNotMobile && $cookie && isShown && isVisibleInSession')
   +panel.banner
     +button(aria-label='Close', on:click='{closeBanner}').close
       +icon('close')
-    .content
-      .text
-        h2.title Want more crypto insights?
-        p.desc Read daily analysis of top emerging words/stories
-      form.form(on:submit|preventDefault='{onSubmit}', data-label='Sticky')
-        +input(name='email', type='email', placeholder='Enter your email', aria-label='Your email', required)
-        +button.submit(variant='fill', accent='jungle-green', type='submit', class:loading) Get started
+    h2.title Want more crypto insights?
+    p.desc Subscribe to Santiment’s weekly market Digest!
+    form(on:submit|preventDefault='{onSubmit}', data-label='Sticky')
+      .row
+        +input(name='email', type='email', placeholder='Your email', aria-label='Your email', required)
+        +icon('email').icon-email
+      +button.submit(variant='fill', accent='jungle-green', type='submit', fluid, class:loading) Subscribe
 </template>
 
 <style lang="scss">
@@ -63,57 +64,63 @@ ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner
   @import '@/variables';
 
   .banner {
-    max-width: $desktop-container-width;
-    height: 90px;
-    box-shadow: 0px 10px 20px rgba(24, 27, 43, 0.1);
+    width: 285px;
+    box-shadow: 0px 4px 12px rgba(24, 27, 43, 0.1);
     position: fixed;
-    bottom: 8px;
-    left: 0;
+    bottom: 20px;
+    left: 20px;
     right: 0;
-    margin: 0 auto;
-    border-radius: 10px;
+    border-radius: 4px;
     z-index: 10;
-    padding: 3px 150px 3px 151px;
-    display: flex;
-    background: var(--white) url('/newsletter.svg') no-repeat 18px 50%;
-  }
+    padding: 24px;
+    text-align: left;
+    background: var(--athens);
 
-  .content {
-    display: flex;
-    align-items: center;
-  }
-
-  .content,
-  .text,
-  .form {
-    flex: 1;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      opacity: 0.3;
+      background: url('/overview_banner.svg') no-repeat 100%;
+      background-size: 240%;
+      z-index: -1;
+    }
   }
 
   .title {
-    @include text('body-1');
+    font-weight: bold;
   }
 
   .desc {
+    @include text('caption', 'm');
     color: var(--waterloo);
-    @include text('body-2');
+    margin: 8px 0 20px;
   }
 
-  .form {
-    display: flex;
+  .row {
     position: relative;
   }
 
+  .icon-email {
+    @include size(12px, 10px);
+    position: absolute;
+    top: 10px;
+    left: 18px;
+    fill: var(--casper);
+  }
+
   input {
-    flex: 1;
-    height: 40px;
-    padding: 9px 136px 10px 12px;
+    width: 100%;
+    padding-left: 42px;
   }
 
   .submit {
-    position: absolute;
-    top: 4px;
-    right: 4px;
     --loading-dot-color: var(--white);
+    margin: 12px 0 0;
+    justify-content: center;
   }
 
   :global(.banner-overview) {
@@ -125,7 +132,8 @@ ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner
   }
 
   .close {
-    fill: var(--casper);
+    fill: var(--waterloo);
+    background: transparent;
     position: absolute;
     top: 8px;
     right: 8px;

@@ -93,6 +93,7 @@
       ...data.insight,
       assets: assets.filter(Boolean),
       comments,
+      seoLink: slug,
     }
   }
 </script>
@@ -118,6 +119,7 @@
   import Thanks from './_components/Thanks.svelte'
   import Author from './_components/Author.svelte'
   import Banner from './_components/Banner.svelte'
+  import Breadcrumbs from './_components/Breadcrumbs.svelte'
 
   export let id,
     text,
@@ -131,7 +133,8 @@
     readyState,
     assets = [],
     commentsCount,
-    comments
+    comments,
+    seoLink
 
   const { session } = stores()
   const classes = { wrapper: 'info__profile' }
@@ -199,6 +202,8 @@ svelte:head
     meta(name='og:image', content='{previewImgLink}')
 
 .insight(bind:clientHeight)
+  Breadcrumbs({title}, {seoLink})
+
   h1.title {title}
   Author({user}, {publishedAt}, {isAuthor})
   Text({text})

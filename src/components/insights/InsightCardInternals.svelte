@@ -98,6 +98,8 @@ include /ui/mixins
     &__left {
       max-width: calc(70% - 40px);
       flex: 1;
+      white-space: nowrap;
+      margin-right: 20px;
     }
   }
 

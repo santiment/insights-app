@@ -66,9 +66,9 @@ button(disabled='{!$session.currentUser}', on:click='{toggleLike}', aria-label='
 
     &[disabled] {
       pointer-events: none;
-      color: var(--waterloo);
+      stroke: var(--mystic);
       fill: var(--mystic);
-      cursor: default;
+      cursor: not-allowed;
     }
   }
 

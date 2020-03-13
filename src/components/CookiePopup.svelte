@@ -1,34 +1,17 @@
 <script>
-  import { onMount } from 'svelte'
-
-  const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
-
-  let accepted = true
-
-  function onClick() {
-    acceptCookiePolicy()
-    accepted = true
-  }
-
-  function acceptCookiePolicy() {
-    localStorage.setItem(COOKIE_POLICY_ACCEPTED, true)
-  }
-
-  onMount(() => {
-    accepted = localStorage.getItem(COOKIE_POLICY_ACCEPTED)
-  })
+ import {cookie} from '@/stores/cookie'
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
-+if('!accepted')
++if('!$cookie')
   +panel.wrapper(variant='context')
     h2 We are using cookies
     .bottom
       p This website uses the following types of cookies: strictly necessary, functional, performance and marketing cookies. By using this website, you accept our 
         a(href='https://santiment.net/terms-conditions/', rel='noopener noreferrer', target='_blank') Terms & Conditions
-      +button(variant='fill', accent='jungle-green', on:click='{onClick}') Accept
+      +button(variant='fill', accent='jungle-green', on:click='{cookie.accept}') Accept
 
 </template>
 
