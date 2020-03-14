@@ -50,7 +50,7 @@ include /ui/mixins
 .bottom
   .bottom__left
     LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
-    CommentCounter.Card__comments({link}, {commentsCount})
+    CommentCounter.Card__comments({link}, {commentsCount}, isSSRLink)
 
   div
     Tags({tags})

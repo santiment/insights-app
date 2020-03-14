@@ -41,8 +41,8 @@
 <template lang="pug">
 include /ui/mixins
 
-button(disabled='{!$session.currentUser}', on:click='{toggleLike}', aria-label='Like', class='{klass}')
-  +icon('liked').icon(class:liked)
+button(disabled='{!$session.currentUser}', on:click='{toggleLike}', aria-label='Like', class='{klass}', class:liked)
+  +icon('liked').icon
   | {_likes}
 </template>
 
@@ -78,6 +78,7 @@ button(disabled='{!$session.currentUser}', on:click='{toggleLike}', aria-label='
   }
 
   .liked {
+    color: var(--persimmon);
     stroke: var(--persimmon);
     fill: var(--persimmon);
   }

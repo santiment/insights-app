@@ -16,8 +16,9 @@
 
   $: if (process.browser && id) {
     if (location.hash === '#comments') {
-      location.hash = ''
-      setTimeout(() => (location.hash = '#comments'), 50)
+      setTimeout(() => {
+        document.querySelector('#comments').scrollIntoView()
+      }, 70)
     }
   }
 

@@ -24,7 +24,7 @@ a.title(href="{link}")
   a.user(href='/user/{user.id}') {user.username}
   .right
     LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
-    CommentCounter.Card__comments({link}, {commentsCount})
+    CommentCounter.Card__comments({link}, {commentsCount}, isSSRLink)
 
 </template>
 

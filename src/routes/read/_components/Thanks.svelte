@@ -15,7 +15,7 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
 
 .actions
   +if('readyState !== "draft"')
-    LikeBtn.Thanks__action({id}, bind:liked, likes='{votes.totalVotes}')
+    LikeBtn.Thanks__action.Thanks__like({id}, bind:liked, likes='{votes.totalVotes}')
     CommentCounter.Thanks__action({commentsCount})
     ShareBtn.Thanks__action.Thanks__share(link='{shareLink}')
 
@@ -61,7 +61,8 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
     }
   }
 
-  :global(.Thanks__like) {
+  :global(.Thanks__like.liked) {
+    border-color: var(--persimmon) !important;
   }
 
   :global(.Thanks__share) {

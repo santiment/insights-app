@@ -2,14 +2,18 @@
   let klass = ''
   export { klass as class }
 
-  export let link = process.browser ? window.location.pathname : undefined
-  export let commentsCount
+  export let link = process.browser ? window.location.pathname : ''
+  export let isSSRLink, commentsCount
+
+  $: href =
+    link +
+    (isSSRLink ? '?_wc=1' : process.browser ? window.location.search : '')
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
-a.comments(href='{link}?_wc=1#comments', class='{klass}')
+a.comments(href='{href}#comments', class='{klass}')
   +icon('comment').comments__icon
   | {commentsCount}
 
