@@ -181,6 +181,7 @@ svelte:head
     display: flex;
 
     &__all {
+      max-width: 100%;
       flex: 1;
       display: flex;
       flex-direction: column;

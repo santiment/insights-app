@@ -2,11 +2,13 @@
   import { setContext } from 'svelte'
   import { get } from 'svelte/store'
   import { stores } from '@sapper/app'
+ import { saveComment, clearSavedComment } from '@/logic/comments'
   import Comment from '@/components/comments/Comment'
   import CommentForm from '@/components/comments/Form'
   import CommentAuthor from '@/components/comments/Author'
 
-  const { session } = stores()
+  const { page, session } = stores()
+
   const classes = {
     form: 'Comments__form',
     input: 'Comments__input',
@@ -31,6 +33,8 @@
   let username = ''
   let userId
   let loading
+
+  $: defaultComment = $page.query.comment
 
   $: subComments = comments.reduce((acc, comment) => {
     const { parentId } = comment
@@ -72,6 +76,14 @@
     loading = true
     form.blur()
 
+    const { currentUser } = get(session)
+
+    if (!currentUser) {
+      return saveComment(id, content)
+    }
+
+    clearSavedComment()
+
     createComment(id, content)
       .then(
         ({
@@ -88,7 +100,7 @@
               content,
               parentId: null,
               insertedAt: new Date().toISOString(),
-              user: { ...get(session).currentUser },
+              user: { ...currentUser },
             },
           ]
         },
@@ -105,15 +117,17 @@
 include /ui/mixins
 
 section
-  +if('$session.currentUser || comments.length !== 0')
-    h2 Conversation 
-      span ({commentsCount})
+  h2 Conversations ({commentsCount})
 
   +if('$session.currentUser')
     CommentAuthor({avatarUrl}, {username}, id='{userId}', insightAuthorId='{authorId}')
 
-    CommentForm(on:submit='{postComment}', {commentsCount}, {classes})
-      +button.submit(slot='after', variant='fill', accent='jungle-green', type='submit', class:loading) Post
+  CommentForm(on:submit='{postComment}', {commentsCount}, {classes}, value='{defaultComment}')
+    +button.submit(slot='after', variant='fill', accent='jungle-green', type='submit', class:loading)
+      +if('$session.currentUser')
+        |Post
+        +else()
+          |Sign up to post
 
   .comments
     +each('comments.filter(onlyRootCommentsFilter) as comment (comment.id)')
@@ -125,13 +139,11 @@ section
 
 <style lang="scss">
   @import '@/mixins';
+  @import '@/variables';
 
   h2 {
     @include text('h4');
     margin-bottom: 30px;
-  }
-
-  span {
     color: var(--waterloo);
   }
 
@@ -170,6 +182,7 @@ section
   }
 
   .submit {
+    --loading-dot-color: #{$white};
     height: 40px;
     min-width: 92px;
     justify-content: center;

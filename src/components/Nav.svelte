@@ -1,18 +1,13 @@
 <script>
-  import { onMount } from 'svelte'
   import { stores } from '@sapper/app'
   import { client } from '@/apollo'
   import SmoothDropdown from '@/components/SmoothDropdown'
   import NavAccountDropdown from '@/components/Nav/AccountDropdown'
   import NavProductsDropdown from '@/components/Nav/ProductsDropdown'
   import PlanInfo from '@/components/Nav/PlanInfo'
- import {EMPTY_USER_INSIGHTS } from '@/gql/insights'
+  import { EMPTY_USER_INSIGHTS } from '@/gql/insights'
 
   const { session } = stores()
-
-  let hasNoInsights = false
-  let activeTrigger
-  $: avatar = $session.currentUser ? $session.currentUser.avatarUrl || '' : ''
 
   const dropdownItems = [
     {
@@ -23,21 +18,29 @@
     { id: 'account-trigger', component: NavAccountDropdown },
   ]
 
+  let hasNoInsights = false
+  $: avatar = $session.currentUser ? $session.currentUser.avatarUrl || '' : ''
+
+  $: if (process.browser && !hasNoInsights && $session.currentUser) {
+    client
+      .query({
+        query: EMPTY_USER_INSIGHTS,
+      })
+      .then(
+        ({
+          data: {
+            currentUser: { insights },
+          },
+        }) => {
+          hasNoInsights = insights.length === 0
+        },
+      )
+  }
+
+  let activeTrigger
   function onTriggerEnter({ currentTarget }) {
     activeTrigger = currentTarget
   }
-
-  onMount(() => {
-    if ($session.currentUser) {
-      client
-        .query({
-          query: EMPTY_USER_INSIGHTS,
-        })
-        .then(({ data: {currentUser: {insights}} }) => {
-          hasNoInsights = insights.length === 0
-        })
-    }
-  })
 </script>
 
 <template lang="pug">
@@ -57,7 +60,7 @@ header
         +icon('arrow-down').icon-arrow-left
         |Back to Sanbase
     .right
-      +if('hasNoInsights')
+      +if('$session.currentUser && hasNoInsights')
         +button(href='/login', border, accent='jungle-green') Be an Author
         .divider
       PlanInfo

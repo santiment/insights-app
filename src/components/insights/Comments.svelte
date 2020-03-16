@@ -33,5 +33,5 @@
 </script>
 
 <template lang="pug">
-Comments({comments}, {commentsCount}, {id}, {authorId}, bind:hasMore, {getComments}, {createComment}, {deleteComment}, {editComment})
+Comments({comments}, {commentsCount}, {id}, {authorId}, {getComments}, {createComment}, {deleteComment}, {editComment}, bind:hasMore)
 </template>

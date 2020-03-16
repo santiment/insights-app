@@ -21,7 +21,7 @@ function createNotifications() {
     },
     remove: notification => {
       update(notifications => {
-        const uptaded = new Set([...notifications])
+        const uptaded = new Set(notifications)
         uptaded.delete(notification)
         return uptaded
       })

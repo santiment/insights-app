@@ -20,7 +20,7 @@
     z-index: 10000;
     position: fixed;
     bottom: 20px;
-    left: 15px;
+    left: 20px;
     display: flex;
     flex-direction: column-reverse;
     align-items: flex-end;

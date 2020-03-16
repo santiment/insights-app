@@ -3,13 +3,18 @@
   const dispatch = createEventDispatcher()
 
   export let rows = 1,
-    value = ''
+    value = '',
+    commentsCount = 0
+
   export let classes = {
     form: '',
     input: '',
   }
-  export let commentsCount = 0
-  $: placeholder = commentsCount === 0 ? 'Be the first to comment...' : 'Type your comment here'
+
+  $: placeholder =
+    commentsCount === 0
+      ? 'Be the first to comment...'
+      : 'Type your comment here'
 
   function onInput({ currentTarget }) {
     if (rows > 1) {

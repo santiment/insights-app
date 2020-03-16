@@ -6,16 +6,21 @@
 
   export let notification, i
 
-  let { title, id, type = 'info', dismissAfter = 5000 } = notification
+  let {
+    title,
+    id,
+    type = 'info',
+    dismissAfter = 5000,
+    actions 
+  } = notification
+  let timer
+
+  $: yOffset = `calc(-${i}00% - ${i}0px)`
 
   function destroy() {
     clearTimeout(timer)
     notifications.remove(notification)
   }
-
-  let timer
-  let yOffset
-  $: yOffset = `calc(-${i}00% - ${i}0px)`
 
   function notify(node) {
     return {
@@ -41,9 +46,20 @@
 <template lang="pug">
 include /ui/mixins
 
-+panel().not(on:click!="{() => notifications.remove(notification)}", variant='context', style='--y-offset: {yOffset}',transition:notify )
-  +icon('{type}')(class='{type}')
-  |{title}
++panel().not(variant='context', style='--y-offset: {yOffset}',transition:notify )
+  .top
+    +icon('{type}').icon(class='{type}')
+    |{title}
+    +icon('close').close(on:click="{destroy}")
+  +if('actions')
+    .actions
+      +each('actions as {label, onClick, href}')
+        +if('href')
+          +button.action(accent='jungle-green', href='{href}') {label}
+          +else()
+            +button.action(accent='jungle-green', on:click='{onClick}') {label}
+
+
 
 </template>
 
@@ -52,7 +68,7 @@ include /ui/mixins
 
   .not {
     font-weight: bold;
-    padding: 15px 20px;
+    padding: 16px;
     position: absolute;
     transform: translateY(var(--y-offset));
     transition: transform 350ms;
@@ -69,9 +85,20 @@ include /ui/mixins
     }
   }
 
-  svg {
+  .icon {
     @include size(15.5px);
     margin: -3px 16px 0 0;
+  }
+
+  .close {
+    @include size(12px);
+    fill: var(--casper);
+    cursor: pointer;
+    margin-left: 24px;
+
+    &:hover {
+      fill: var(--rhino);
+    }
   }
 
   .error {
@@ -85,5 +112,14 @@ include /ui/mixins
   }
   .warning {
     fill: var(--texas-rose);
+  }
+
+  .actions {
+    margin: 10px 0 0 32px;
+  }
+
+  .action {
+    height: auto;
+    padding: 0;
   }
 </style>

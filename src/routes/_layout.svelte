@@ -28,6 +28,7 @@
   import NavMobile from '@/components/Mobile/Nav'
   import CookiePopup from '@/components/CookiePopup'
   import Analytics from '@/components/Analytics'
+  import { lookupSavedComment } from '@/logic/comments'
   import { getMobileComponent } from '@/utils/responsive'
 
   export let segment
@@ -46,6 +47,15 @@
     'gdpr',
     'experience',
   ])
+
+
+ let wasNotified = false
+
+ $: if(process.browser && !wasNotified && $session.currentUser) {
+   wasNotified = true
+   lookupSavedComment()
+ }
+
   $: activePath = getActivePath($page.path)
 
   function getActivePath(path) {
@@ -57,6 +67,7 @@
         return '/'
     }
   }
+
 </script>
 
 <template lang="pug">

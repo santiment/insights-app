@@ -3,7 +3,8 @@
   export { klass as class }
 
   export let link = process.browser ? window.location.pathname : ''
-  export let isSSRLink, commentsCount
+  export let isSSRLink = false,
+    commentsCount
 
   $: href =
     link +
