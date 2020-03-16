@@ -99,6 +99,8 @@
 </script>
 
 <script>
+  import { setContext } from 'svelte'
+  import { writable } from 'svelte/store'
   import { stores } from '@sapper/app'
   import ViewportObserver from '@/components/ViewportObserver'
   import Tags from '@/components/insights/Tags'
@@ -110,16 +112,16 @@
   import Loadable from '@/components/Loadable'
   import Dialog from '@/ui/dialog/index'
   import SuggestedInsights from '@/components/insights/SuggestedInsights'
-  // TODO: Lazy load FeaturedAssets [@vanguard | Nov 11, 2019]
   import FeaturedAssets from '@/components/assets/FeaturedAssets'
-  import { getRawText, grabFirstImageLink } from '@/utils/insights'
-  const loadSuggestedInsights = () =>
-    import('@/components/insights/SuggestedInsights')
-
   import Thanks from './_components/Thanks.svelte'
   import Author from './_components/Author.svelte'
   import Banner from './_components/Banner.svelte'
   import Breadcrumbs from './_components/Breadcrumbs.svelte'
+  import { getShareLink } from '@/logic/share'
+  import { getRawText, grabFirstImageLink } from '@/utils/insights'
+  // TODO: Lazy load FeaturedAssets [@vanguard | Nov 11, 2019]
+  const loadSuggestedInsights = () =>
+    import('@/components/insights/SuggestedInsights')
 
   export let id,
     text,
@@ -135,6 +137,19 @@
     commentsCount,
     comments,
     seoLink
+
+  const commentsCounter = writable(commentsCount)
+  setContext('commentsCount', {
+    subscribe: commentsCounter.subscribe,
+    set: value => {
+      commentsCount = value
+      commentsCounter.set(value)
+    },
+  })
+
+  $: {
+    commentsCounter.set(commentsCount)
+  }
 
   const { session } = stores()
   const classes = { wrapper: 'info__profile' }
@@ -153,8 +168,7 @@
 
   let clientHeight
   let hidden = true
-  let link
-  let shareLink
+  $: shareLink = getShareLink(id)
 
   $: shouldLoadSuggestions = !id
   $: shouldLoadComments = !id
@@ -164,11 +178,6 @@
   $: liked = !!votedAt
 
   $: isAuthor = currentUser && user.id === currentUser.id
-
-  $: if (process.browser && id) {
-    link = window.location.pathname
-    shareLink = window.location.origin + link
-  }
 
   function hideSidebar() {
     hidden = true
@@ -213,13 +222,13 @@ svelte:head
     .info
       Author({user}, {publishedAt}, {isAuthor})
       ViewportObserver({options}, on:intersect='{hideSidebar}', on:leaving='{showSidebar}', top)
-        Thanks({id}, {shareLink}, {votes}, {readyState}, {commentsCount}, bind:liked)
+        Thanks({id}, {votes}, {readyState}, {commentsCount}, bind:liked)
       Banner({user}, {isAuthor})
 
       .info__fixed(class:hidden)
         +if('readyState !== "draft"')
           LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
-          CommentCounter.fixed-comments-count({link}, {commentsCount})
+          CommentCounter.fixed-comments-count({commentsCount})
           ShareBtn.fixed__share(link='{shareLink}')
         +if('isAuthor')
           a.edit(href='/edit/{id}')
@@ -231,7 +240,7 @@ svelte:head
 
 ViewportObserver(id='comments', options='{commentsOptions}', on:intersect='{showComments}', top)
   +if('comments || shouldLoadComments')
-    Loadable(load='{loadComments}', {id}, authorId='{user.id}', {commentsCount}, {comments}, Component='{PreloadedComments}')
+    Loadable(load='{loadComments}', {id}, authorId='{user.id}', {comments}, Component='{PreloadedComments}')
 
 
 ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}', top)

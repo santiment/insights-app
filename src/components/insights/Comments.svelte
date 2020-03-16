@@ -1,16 +1,16 @@
 <script>
+  import { getContext } from 'svelte'
   import Comments from '@/components/comments/Comments'
   import {
     getComments,
-    createComment,
+    createComment as unwrappedCreateComment,
     deleteComment,
     editComment,
   } from '@/logic/comments'
 
-  export let id,
-    authorId,
-    commentsCount = 0,
-    comments
+  export let id, authorId, comments
+
+  const commentsCount = getContext('commentsCount')
 
   let hasMore = false
 
@@ -30,8 +30,15 @@
       hasMore = data.comments.length === 10
     })
   }
+
+  function createComment(...args) {
+    return unwrappedCreateComment(...args).then(res => {
+      $commentsCount += 1
+      return res
+    })
+  }
 </script>
 
 <template lang="pug">
-Comments({comments}, {commentsCount}, {id}, {authorId}, {getComments}, {createComment}, {deleteComment}, {editComment}, bind:hasMore)
+Comments({comments}, {id}, {authorId}, {getComments}, {createComment}, {deleteComment}, {editComment}, commentsCount='{$commentsCount}', bind:hasMore)
 </template>

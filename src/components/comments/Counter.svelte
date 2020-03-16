@@ -1,13 +1,18 @@
 <script>
+  import { stores } from '@sapper/app'
+
   let klass = ''
   export { klass as class }
+  export let commentsCount,
+    link = false,
+    isSSRLink = false
 
-  export let link = process.browser ? window.location.pathname : ''
-  export let isSSRLink = false,
-    commentsCount
+  const { page } = stores()
+
+  $: pathname = link || $page.path
 
   $: href =
-    link +
+    pathname +
     (isSSRLink ? '?_wc=1' : process.browser ? window.location.search : '')
 </script>
 

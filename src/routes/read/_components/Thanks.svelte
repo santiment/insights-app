@@ -1,10 +1,12 @@
 <script>
-  import { stores } from '@sapper/app'
   import LikeBtn from '@/components/LikeBtn'
   import ShareBtn from '@/components/sharing/ShareBtn'
   import CommentCounter from '@/components/comments/Counter'
+  import { getShareLink } from '@/logic/share'
 
-  export let id, readyState, shareLink, isAuthor, votes, liked, commentsCount
+  export let id, readyState, isAuthor, votes, liked, commentsCount
+
+  $: link = getShareLink(id)
 </script>
 
 <template lang="pug">
@@ -17,7 +19,7 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
   +if('readyState !== "draft"')
     LikeBtn.Thanks__action.Thanks__like({id}, bind:liked, likes='{votes.totalVotes}')
     CommentCounter.Thanks__action({commentsCount})
-    ShareBtn.Thanks__action.Thanks__share(link='{shareLink}')
+    ShareBtn.Thanks__action.Thanks__share({link})
 
   +if('isAuthor')
     a.edit.edit_fixed(href='/edit/{id}')

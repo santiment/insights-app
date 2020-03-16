@@ -61,7 +61,7 @@ header
         |Back to Sanbase
     .right
       +if('$session.currentUser && hasNoInsights')
-        +button(href='/login', border, accent='jungle-green') Be an Author
+        +button(href='/new', border, accent='jungle-green') Be an Author
         .divider
       PlanInfo
       +button(href=appPath+'/account', variant="flat", on:mouseenter="{onTriggerEnter}",

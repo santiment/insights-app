@@ -4,7 +4,7 @@
 
   let klass = ''
   export { klass as class }
-  export let link = '123'
+  export let link
   export let title = 'Sanbase'
   export let text = 'Hey! Look what I have found at the app.santiment.net!'
 
