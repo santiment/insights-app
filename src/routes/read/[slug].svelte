@@ -239,7 +239,7 @@ svelte:head
       FeaturedAssets({assets})
 
 ViewportObserver(id='comments', options='{commentsOptions}', on:intersect='{showComments}', top)
-  +if('comments || shouldLoadComments')
+  +if('readyState !== "draft" && (comments || shouldLoadComments)')
     Loadable(load='{loadComments}', {id}, authorId='{user.id}', {comments}, Component='{PreloadedComments}')
 
 
