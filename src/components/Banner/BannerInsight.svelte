@@ -1,7 +1,7 @@
 <script>
   import OverviewBanner from './OverviewBanner.svelte'
   import ViewportObserver from '@/components/ViewportObserver'
- import {cookie} from '@/stores/cookie'
+  import { cookie } from '@/stores/cookie'
   import { WEEKLY_SUBSCRIPTION_FLAG, loginEmail } from '@/logic/login'
   import { isMobile } from '@/utils/responsive'
   import { sendEvent } from '@/analytics'
@@ -13,7 +13,7 @@
   let isNotMobile = !isMobile()
 
   const options = {
-    rootMargin: '1000px 0px -50px',
+    rootMargin: '150px 0px -50px',
   }
 
   function closeBanner() {
@@ -64,7 +64,7 @@ ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner
   @import '@/variables';
 
   .banner {
-    width: 285px;
+    width: 270px;
     box-shadow: 0px 4px 12px rgba(24, 27, 43, 0.1);
     position: fixed;
     bottom: 20px;
