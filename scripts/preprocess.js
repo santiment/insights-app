@@ -81,16 +81,19 @@ const createPreprocess = basedir => {
 
 const preprocess = createPreprocess(LIB)
 
-function moveMixins() {
+function moveScss() {
   const pathFrom = SRC
-  const file = 'mixins.scss'
-  fs.copyFileSync(joinPaths(pathFrom, file), joinPaths(LIB, file))
+  const mixins = 'mixins.scss'
+  fs.copyFileSync(joinPaths(pathFrom, mixins), joinPaths(LIB, mixins))
+
+  const variables = 'variables.scss'
+  fs.copyFileSync(joinPaths(pathFrom, variables), joinPaths(LIB, variables))
 }
 
 const onlySvelteExt = file => file.includes('.svelte')
 
 function preprocessSvelte() {
-  moveMixins()
+  moveScss()
 
   recursiveList(LIB, LIB, (files, newPath) => {
     let processedFiles = 0
