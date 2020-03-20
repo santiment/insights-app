@@ -8,8 +8,6 @@ import {
   UPDATE_COMMENT_MUTATION,
 } from '@/gql/comments'
 
-const SCHEDULED_COMMENT = 'SCHEDULED_COMMENT'
-
 export function getComments(id, cursor, apollo = client) {
   return apollo.query({
     query: COMMENTS_FOR_INSIGHT_QUERY,

@@ -1,3 +1,5 @@
+const SCHEDULED_COMMENT = 'SCHEDULED_COMMENT'
+
 export function saveComment(id, content) {
   localStorage.setItem(
     SCHEDULED_COMMENT,
