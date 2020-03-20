@@ -2,7 +2,7 @@
   import { setContext } from 'svelte'
   import { get } from 'svelte/store'
   import { stores } from '@sapper/app'
-  import { saveComment, clearSavedComment } from '@/logic/comments'
+  import { saveComment, clearSavedComment } from '@/utils/comments'
   import Comment from '@/components/comments/Comment'
   import CommentForm from '@/components/comments/Form'
   import CommentAuthor from '@/components/comments/Author'

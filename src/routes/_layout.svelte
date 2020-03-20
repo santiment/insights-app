@@ -28,7 +28,7 @@
   import NavMobile from '@/components/Mobile/Nav'
   import CookiePopup from '@/components/CookiePopup'
   import Analytics from '@/components/Analytics'
-  import { lookupSavedComment } from '@/logic/comments'
+  import { lookupSavedComment } from '@/utils/comments'
   import { getMobileComponent } from '@/utils/responsive'
 
   export let segment
@@ -48,13 +48,12 @@
     'experience',
   ])
 
+  let wasNotified = false
 
- let wasNotified = false
-
- $: if(process.browser && !wasNotified && $session.currentUser) {
-   wasNotified = true
-   lookupSavedComment()
- }
+  $: if (process.browser && !wasNotified && $session.currentUser) {
+    wasNotified = true
+    lookupSavedComment()
+  }
 
   $: activePath = getActivePath($page.path)
 
@@ -67,7 +66,6 @@
         return '/'
     }
   }
-
 </script>
 
 <template lang="pug">
