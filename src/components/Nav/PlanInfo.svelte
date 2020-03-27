@@ -7,7 +7,8 @@
   const userSubscription = subscription$()
 
   $: isAnonUser = !$currentUser
-  $: trialDaysLeft = getTrialDaysLeft($userSubscription)
+  $: subscription = $userSubscription
+  $: trialDaysLeft = getTrialDaysLeft(subscription)
   $: trialPostfix = trialDaysLeft ? `Trial (${trialDaysLeft})` : ''
 </script>
 
@@ -17,7 +18,7 @@ include /ui/mixins
 +if('isAnonUser')
   a.text(href='/login') Sign in
 
-  +elseif('!userSubscription')
+  +elseif('!subscription')
     .text.free Free plan
       a.upgrade(href='https://app.santiment.net/pricing') Upgrade
   +else()
