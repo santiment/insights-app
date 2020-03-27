@@ -46,6 +46,7 @@ class InsightEditor extends Component {
     readyState: 'draft',
     tags: [],
     isPaywallRequired: false,
+    isPro: false,
   }
 
   defaultEditorContent = convertToRaw(mediumDraftImporter(this.props.text))
@@ -166,6 +167,7 @@ class InsightEditor extends Component {
       isUpdating,
       publishDraft,
       readyState,
+      isPro,
     } = this.props
     const {
       isEditing,
@@ -204,6 +206,7 @@ class InsightEditor extends Component {
             isDraft={this.isDraft}
             togglePaywallRequired={this.togglePaywallRequired}
             isPaywallRequired={isPaywallRequired}
+            isPro={isPro}
           />
         </div>
       </ApolloProvider>

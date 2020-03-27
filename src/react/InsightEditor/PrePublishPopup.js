@@ -16,6 +16,7 @@ const PrePublishPopup = ({
   actionTargetLabel,
   isPaywallRequired,
   togglePaywallRequired,
+  isPro,
 }) => {
   return (
     <ContextMenu
@@ -37,13 +38,16 @@ const PrePublishPopup = ({
           <span className={styles.bold}>Tags</span>({defaultTags.length}/5)
         </div>
         <TagSelector onChange={onTagsChange} defaultTags={defaultTags} />
-        <div className={styles.paywall}>
-          <div
-            className={cx(styles.toggle, isPaywallRequired && styles.active)}
-            onClick={togglePaywallRequired}
-          />
-          PRO Insight
-        </div>
+
+        {isPro && (
+          <div className={styles.paywall}>
+            <div
+              className={cx(styles.toggle, isPaywallRequired && styles.active)}
+              onClick={togglePaywallRequired}
+            />
+            PRO Insight
+          </div>
+        )}
 
         <Button
           variant='fill'

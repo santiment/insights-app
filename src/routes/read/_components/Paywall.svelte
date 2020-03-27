@@ -7,7 +7,7 @@ include /ui/mixins
 
   +panel(variant='box').card
     h3 Sanbase PRO
-    .description Unlock all paid insights
+    .description Unlock all PRO insights
     .price $45
       span.billing /mo
     +button.upgrade(href='https://app.santiment.net/pricing', variant='fill', accent='texas-rose', fluid) Upgrade to PRO

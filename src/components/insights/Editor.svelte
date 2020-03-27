@@ -1,7 +1,7 @@
 <script>
   import { get } from 'svelte/store'
   import { onMount } from 'svelte'
-  import { goto, stores } from '@sapper/app'
+  import { goto } from '@sapper/app'
   import React from 'react'
   import ReactDOM from 'react-dom'
   import { client } from '@/apollo'
@@ -12,6 +12,8 @@
     PUBLISH_INSIGHT_DRAFT_MUTATION,
     INSIGHT_BY_ID_QUERY,
   } from '@/gql/insights'
+  import { user$ } from '@/stores/user'
+  import { subscription$ } from '@/stores/user/subscription'
 
   export let currentTrends = ''
   export let draft = {}
@@ -19,8 +21,9 @@
   let Component
   let isUpdating
 
-  const { session } = stores()
-  const { username } = get(session).currentUser
+  const { username } = get(user$())
+  const subscription = get(subscription$())
+  const isPro = subscription && subscription.plan.name === 'PRO'
 
   $: if (Component) {
     const tags = currentTrends
@@ -34,6 +37,7 @@
         isUpdating,
         updateDraft,
         publishDraft,
+        isPro,
       }),
       reactMount,
     )
