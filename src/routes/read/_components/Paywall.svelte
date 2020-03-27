@@ -1,3 +1,33 @@
+<script>
+  import { onMount } from 'svelte'
+  import { client } from '@/apollo'
+  import { PLANS_QUERY } from '@/gql/plans'
+  import { findSanbasePlans } from '@/utils/plans'
+
+  let price = 51
+
+  onMount(() => {
+    client
+      .query({
+        query: PLANS_QUERY,
+      })
+      .then(({ data: { productsWithPlans = [] } }) => {
+        const product = productsWithPlans.find(findSanbasePlans)
+
+        if (!product) return
+
+        const proPlan = product.plans.find(
+          ({ name, isDeprecated, interval }) =>
+            !isDeprecated && name === 'PRO' && interval === 'month',
+        )
+
+        if (!proPlan) return
+
+        price = proPlan.amount / 100
+      })
+  })
+</script>
+
 <template lang="pug">
 include /ui/mixins
 
@@ -8,7 +38,7 @@ include /ui/mixins
   +panel(variant='box').card
     h3 Sanbase PRO
     .description Unlock all PRO insights
-    .price $45
+    .price ${price}
       span.billing /mo
     +button.upgrade(href='https://app.santiment.net/pricing', variant='fill', accent='texas-rose', fluid) Upgrade to PRO
 
