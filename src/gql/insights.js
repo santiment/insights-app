@@ -75,6 +75,7 @@ export const INSIGHT_BY_ID_QUERY = gql`
   query insightById($id: ID!) {
     insight: post(id: $id) {
       ...insightCommon
+      isPaywallRequired
       text
     }
   }
@@ -99,8 +100,18 @@ export const ALL_TAGS_QUERY = gql`
 `
 
 export const CREATE_INSIGHT_DRAFT_MUTATION = gql`
-  mutation createPost($title: String!, $text: String, $tags: [String]) {
-    updatedDraft: createPost(title: $title, text: $text, tags: $tags) {
+  mutation createInsight(
+    $title: String!
+    $text: String
+    $tags: [String]
+    $isPaywallRequired: Boolean
+  ) {
+    updatedDraft: createInsight(
+      title: $title
+      text: $text
+      tags: $tags
+      isPaywallRequired: $isPaywallRequired
+    ) {
       id
       updatedAt
     }
@@ -113,8 +124,15 @@ export const UPDATE_INSIGHT_DRAFT_MUTATION = gql`
     $title: String
     $text: String
     $tags: [String]
+    $isPaywallRequired: Boolean
   ) {
-    updatedDraft: updatePost(id: $id, title: $title, text: $text, tags: $tags) {
+    updatedDraft: updateInsight(
+      id: $id
+      title: $title
+      text: $text
+      tags: $tags
+      isPaywallRequired: $isPaywallRequired
+    ) {
       id
       updatedAt
     }

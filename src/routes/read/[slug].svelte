@@ -117,8 +117,11 @@
   import Author from './_components/Author.svelte'
   import Banner from './_components/Banner.svelte'
   import Breadcrumbs from './_components/Breadcrumbs.svelte'
+  import Paywall from './_components/Paywall.svelte'
   import { getShareLink } from '@/logic/share'
   import { getRawText, grabFirstImageLink } from '@/utils/insights'
+  import { user$ } from '@/stores/user'
+  import { subscription$ } from '@/stores/user/subscription'
   // TODO: Lazy load FeaturedAssets [@vanguard | Nov 11, 2019]
   const loadSuggestedInsights = () =>
     import('@/components/insights/SuggestedInsights')
@@ -136,6 +139,7 @@
     assets = [],
     commentsCount,
     comments,
+    isPaywallRequired,
     seoLink
 
   const commentsCounter = writable(commentsCount)
@@ -152,6 +156,9 @@
   }
 
   const { session } = stores()
+  const userSubscription = subscription$()
+  const currentUser = user$()
+
   const classes = { wrapper: 'info__profile' }
   const previewImgLink = grabFirstImageLink(text)
   const metaDescriptionText = getRawText(text).slice(0, 140)
@@ -173,11 +180,11 @@
   $: shouldLoadSuggestions = !id
   $: shouldLoadComments = !id
 
-  $: currentUser = $session.currentUser
-
   $: liked = !!votedAt
 
-  $: isAuthor = currentUser && user.id === currentUser.id
+  $: isAuthor = $currentUser && user.id === $currentUser.id
+  $: isPro = $userSubscription && $userSubscription.plan.name === 'PRO'
+  $: hasPaywall = isPaywallRequired && !(isAuthor || isPro)
 
   function hideSidebar() {
     hidden = true
@@ -217,31 +224,34 @@ svelte:head
   Author({user}, {publishedAt}, {isAuthor})
   Text({text})
 
-  .bottom
-    Tags({tags})
-    .info
-      Author({user}, {publishedAt}, {isAuthor})
-      ViewportObserver({options}, on:intersect='{hideSidebar}', on:leaving='{showSidebar}', top)
-        Thanks({id}, {votes}, {readyState}, {commentsCount}, bind:liked)
-      Banner({user}, {isAuthor})
+  +if('hasPaywall')
+    Paywall 
+    +else()
+      .bottom
+        Tags({tags})
+        .info
+          Author({user}, {publishedAt}, {isAuthor})
+          ViewportObserver({options}, on:intersect='{hideSidebar}', on:leaving='{showSidebar}', top)
+            Thanks({id}, {votes}, {readyState}, {commentsCount}, bind:liked)
+          Banner({user}, {isAuthor})
 
-      .info__fixed(class:hidden)
-        +if('readyState !== "draft"')
-          LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
-          CommentCounter.fixed-comments-count({commentsCount})
-          ShareBtn.fixed__share(link='{shareLink}')
-        +if('isAuthor')
-          a.edit(href='/edit/{id}')
-            +icon('edit').edit__icon
+          .info__fixed(class:hidden)
+            +if('readyState !== "draft"')
+              LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
+              CommentCounter.fixed-comments-count({commentsCount})
+              ShareBtn.fixed__share(link='{shareLink}')
+            +if('isAuthor')
+              a.edit(href='/edit/{id}')
+                +icon('edit').edit__icon
 
   +if('assets.length && !$session.isMobile')
     .assets
       FeaturedAssets({assets})
 
-ViewportObserver(id='comments', options='{commentsOptions}', on:intersect='{showComments}', top)
-  +if('readyState !== "draft" && (comments || shouldLoadComments)')
-    Loadable(load='{loadComments}', {id}, authorId='{user.id}', {comments}, Component='{PreloadedComments}')
-
++if('!hasPaywall')
+  ViewportObserver(id='comments', options='{commentsOptions}', on:intersect='{showComments}', top)
+    +if('readyState !== "draft" && (comments || shouldLoadComments)')
+      Loadable(load='{loadComments}', {id}, authorId='{user.id}', {comments}, Component='{PreloadedComments}')
 
 ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}', top)
   +if('shouldLoadSuggestions')

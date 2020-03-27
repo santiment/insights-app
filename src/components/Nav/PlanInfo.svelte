@@ -1,16 +1,13 @@
 <script>
-  import { stores } from '@sapper/app'
-  import {
-    getCurrentSanbaseSubscription,
-    getTrialDaysLeft,
-  } from '@/utils/plans'
+  import { user$ } from '@/stores/user'
+  import { subscription$ } from '@/stores/user/subscription'
+  import { getTrialDaysLeft } from '@/utils/plans'
 
-  const { session } = stores()
+  const currentUser = user$()
+  const userSubscription = subscription$()
 
-  $: isAnonUser = !$session.currentUser
-  $: subscription = getCurrentSanbaseSubscription($session.currentUser)
-
-  $: trialDaysLeft = getTrialDaysLeft(subscription)
+  $: isAnonUser = !$currentUser
+  $: trialDaysLeft = getTrialDaysLeft($userSubscription)
   $: trialPostfix = trialDaysLeft ? `Trial (${trialDaysLeft})` : ''
 </script>
 
@@ -20,7 +17,7 @@ include /ui/mixins
 +if('isAnonUser')
   a.text(href='/login') Sign in
 
-  +elseif('!subscription')
+  +elseif('!userSubscription')
     .text.free Free plan
       a.upgrade(href='https://app.santiment.net/pricing') Upgrade
   +else()

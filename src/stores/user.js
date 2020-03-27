@@ -1,6 +1,5 @@
 import { stores } from '@sapper/app'
+import { derived, readable } from 'svelte/store'
 
-export const user = () => {
-  const { session } = stores()
-  return session
-}
+export const user$ = () =>
+  derived(stores().session, $session => $session.currentUser)
