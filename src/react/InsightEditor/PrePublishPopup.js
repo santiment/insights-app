@@ -1,6 +1,8 @@
 import React from 'react'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
+import Toggle from '@santiment-network/ui/Toggle'
 import IconArrowUp from '@santiment-network/ui/Icon/IconArrowUp'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import TagSelector from '../TagSelector'
@@ -12,6 +14,9 @@ const PrePublishPopup = ({
   onTagsChange,
   isLoading,
   actionTargetLabel,
+  isPaywallRequired,
+  togglePaywallRequired,
+  isPro,
 }) => {
   return (
     <ContextMenu
@@ -33,9 +38,16 @@ const PrePublishPopup = ({
           <span className={styles.bold}>Tags</span>({defaultTags.length}/5)
         </div>
         <TagSelector onChange={onTagsChange} defaultTags={defaultTags} />
-        <p className={styles.warning}>
-          You’ll not be able to edit an insight after publishing
-        </p>
+
+        {isPro && (
+          <div className={styles.paywall}>
+            <div
+              className={cx(styles.toggle, isPaywallRequired && styles.active)}
+              onClick={togglePaywallRequired}
+            />
+            PRO Insight
+          </div>
+        )}
 
         <Button
           variant='fill'

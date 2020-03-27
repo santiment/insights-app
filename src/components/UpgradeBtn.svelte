@@ -1,14 +1,12 @@
 <script>
-  import { stores } from '@sapper/app'
-  import { getCurrentSanbaseSubscription } from '@/utils/plans'
+  import { subscription$ } from '@/stores/user/subscription'
+
+  const userSubscription = subscription$()
 
   let klass = ''
   export { klass as class }
 
-  const { session } = stores()
-
-  let withoutPlan
-  $: withoutPlan = !getCurrentSanbaseSubscription($session.currentUser)
+  $: withoutPlan = !$userSubscription
 </script>
 
 <template lang="pug">

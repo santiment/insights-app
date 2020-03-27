@@ -10,7 +10,7 @@
     if (!currentUser) {
       return this.redirect(302, '/experience')
     }
-    console.log(page)
+
     return {
       currentTrends: page.query.currentTrends,
     }

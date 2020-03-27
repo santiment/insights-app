@@ -30,6 +30,7 @@
   import Analytics from '@/components/Analytics'
   import { lookupSavedComment } from '@/utils/comments'
   import { getMobileComponent } from '@/utils/responsive'
+  import { user$ } from '@/stores/user'
 
   export let segment
 
@@ -37,6 +38,7 @@
   const isMobile = Nav === NavMobile
 
   const { page, session } = stores()
+  const currentUser = user$()
 
   const ROUTES_WITHOUT_TABS = new Set([
     'new',
@@ -50,7 +52,7 @@
 
   let wasNotified = false
 
-  $: if (process.browser && !wasNotified && $session.currentUser) {
+  $: if (process.browser && !wasNotified && $currentUser) {
     wasNotified = true
     lookupSavedComment()
   }

@@ -18,6 +18,7 @@ const InsightEditorBottom = ({
   isLoading,
   hasMetTextRequirements,
   isDraft,
+  ...props
 }) => {
   const options = { from: new Date(updatedAt) }
   const hasMetRequirements =
@@ -68,6 +69,7 @@ const InsightEditorBottom = ({
             defaultTags={tags}
             onPublishClick={onPublishClick}
             actionTargetLabel={actionTargetLabel}
+            {...props}
           />
         )}
       </div>
