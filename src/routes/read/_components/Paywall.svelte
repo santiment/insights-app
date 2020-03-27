@@ -13,7 +13,7 @@ include /ui/mixins
     +button.upgrade(href='https://app.santiment.net/pricing', variant='fill', accent='texas-rose', fluid) Upgrade to PRO
 
   .question Any questions? 
-    a.contact(href='/') Contact us
+    a.contact(href='mailto:support@santiment.net') Contact us
 </template>
 
 <style lang="scss">

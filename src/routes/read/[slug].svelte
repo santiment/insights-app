@@ -105,9 +105,6 @@
   import ViewportObserver from '@/components/ViewportObserver'
   import Tags from '@/components/insights/Tags'
   import Text from '@/components/insights/Text'
-  import LikeBtn from '@/components/LikeBtn'
-  import ShareBtn from '@/components/sharing/ShareBtn'
-  import CommentCounter from '@/components/comments/Counter'
   import ProfileInfo from '@/components/ProfileInfo'
   import Loadable from '@/components/Loadable'
   import Dialog from '@/ui/dialog/index'
@@ -118,6 +115,7 @@
   import Banner from './_components/Banner.svelte'
   import Breadcrumbs from './_components/Breadcrumbs.svelte'
   import Paywall from './_components/Paywall.svelte'
+  import FixedControls from './_components/FixedControls.svelte'
   import { getShareLink } from '@/logic/share'
   import { getRawText, grabFirstImageLink } from '@/utils/insights'
   import { user$ } from '@/stores/user'
@@ -177,6 +175,7 @@
   let hidden = true
   $: shareLink = getShareLink(id)
 
+  $: isMobile = $session.isMobile
   $: shouldLoadSuggestions = !id
   $: shouldLoadComments = !id
 
@@ -185,6 +184,10 @@
   $: isAuthor = $currentUser && user.id === $currentUser.id
   $: isPro = $userSubscription && $userSubscription.plan.name === 'PRO'
   $: hasPaywall = isPaywallRequired && !(isAuthor || isPro)
+
+  $: if (hasPaywall) {
+    hidden = false
+  }
 
   function hideSidebar() {
     hidden = true
@@ -226,6 +229,7 @@ svelte:head
 
   +if('hasPaywall')
     Paywall 
+
     +else()
       .bottom
         Tags({tags})
@@ -235,18 +239,12 @@ svelte:head
             Thanks({id}, {votes}, {readyState}, {commentsCount}, bind:liked)
           Banner({user}, {isAuthor})
 
-          .info__fixed(class:hidden)
-            +if('readyState !== "draft"')
-              LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
-              CommentCounter.fixed-comments-count({commentsCount})
-              ShareBtn.fixed__share(link='{shareLink}')
-            +if('isAuthor')
-              a.edit(href='/edit/{id}')
-                +icon('edit').edit__icon
-
-  +if('assets.length && !$session.isMobile')
+  +if('assets.length && !isMobile')
     .assets
       FeaturedAssets({assets})
+
+  +if('!isMobile')
+    FixedControls({id}, {readyState}, {commentsCount}, {shareLink}, {votes}, {hidden}, {isAuthor}, bind:liked)
 
 +if('!hasPaywall')
   ViewportObserver(id='comments', options='{commentsOptions}', on:intersect='{showComments}', top)
@@ -284,11 +282,6 @@ ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}'
     :global(&__profile) {
       max-width: 80%;
     }
-
-    &__info {
-      display: flex;
-      align-items: flex-start;
-    }
   }
 
   .title {
@@ -310,51 +303,5 @@ ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}'
     border-top: 1px solid var(--porcelain);
     padding: 20px 0;
     max-width: 100%;
-
-    &__fixed {
-      display: none;
-      transition: opacity 150ms ease-in;
-      opacity: 1;
-
-      &.hidden {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      @include responsive('desktop', 'laptop') {
-        position: fixed;
-        top: 200px;
-        flex-direction: column;
-        display: flex;
-        align-items: start;
-        right: calc(50% + 440px);
-      }
-    }
-  }
-
-  :global(.fixed__share) {
-    fill: var(--casper);
-    margin-top: 3px;
-  }
-
-  .edit {
-    margin: 20px 0 0;
-
-    &_fixed {
-      margin: 0 0 0 30px;
-    }
-  }
-
-  .edit__icon {
-    @include size(16px);
-    cursor: pointer;
-
-    &:hover {
-      fill: var(--jungle-green);
-    }
-  }
-
-  :global(.fixed-comments-count) {
-    margin: 16px 0;
   }
 </style>
