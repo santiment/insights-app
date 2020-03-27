@@ -1,5 +1,5 @@
-@import "~@santiment-network/ui/mixins.scss";
-@import "~@santiment-network/ui/variables.scss";
+@import '~@santiment-network/ui/mixins.scss';
+@import '~@santiment-network/ui/variables.scss';
 
 .wrapper {
   padding: 16px 20px;
@@ -52,4 +52,57 @@
 .button {
   width: 100%;
   justify-content: center;
+}
+
+.paywall {
+  display: flex;
+  align-items: center;
+  margin: 25px 0;
+  color: var(--waterloo);
+  font-weight: bold;
+}
+
+.toggle {
+  margin-right: 8px;
+  border-radius: 10px;
+  width: 36px;
+  height: 20px;
+  padding: 3px;
+  background: var(--casper);
+  position: relative;
+  cursor: pointer;
+  transition: background 80ms ease-in;
+
+  &::before {
+    @include text('caption', 'm');
+    display: inline-block;
+    content: '$';
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--white);
+  }
+
+  &::after {
+    display: inline-block;
+    content: '';
+    width: 14px;
+    height: 14px;
+    background: var(--white);
+    border-radius: 50%;
+  }
+
+  &:hover {
+    background: var(--waterloo);
+  }
+}
+
+.active {
+  background: var(--texas-rose);
+  text-align: right;
+
+  &:hover {
+    background: var(--texas-rose-hover);
+  }
 }

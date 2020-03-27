@@ -45,6 +45,7 @@ class InsightEditor extends Component {
     text: '',
     readyState: 'draft',
     tags: [],
+    isPaywallRequired: false,
   }
 
   defaultEditorContent = convertToRaw(mediumDraftImporter(this.props.text))
@@ -56,6 +57,7 @@ class InsightEditor extends Component {
     tags: this.props.tags,
     defaultTags: this.props.tags,
     isEditing: false,
+    isPaywallRequired: this.props.isPaywallRequired,
   }
 
   componentDidUpdate({ tags }) {
@@ -69,6 +71,16 @@ class InsightEditor extends Component {
   trendTag = this.props.tags.find(({ name }) =>
     name.endsWith('-trending-words'),
   )
+
+  togglePaywallRequired = () => {
+    this.setState(
+      state => ({
+        ...state,
+        isPaywallRequired: !state.isPaywallRequired,
+      }),
+      this.isDraft ? this.updateDraft : undefined,
+    )
+  }
 
   onTitleChange = title => {
     this.setState(
@@ -124,7 +136,7 @@ class InsightEditor extends Component {
   // NOTE(vanguard): Maybe should be placed in the InsightsEditorPage?
   updateDraft = debounce(
     (currentContent = this.state.textEditorState.getCurrentContent()) => {
-      const { title, tags } = this.state
+      const { title, tags, isPaywallRequired } = this.state
 
       if (!this.isTitleAndTextOk()) {
         return
@@ -138,6 +150,7 @@ class InsightEditor extends Component {
         title,
         text: sanitizeMediumDraftHtml(currentHtml),
         tags: this.trendTag ? [...tags, this.trendTag] : tags,
+        isPaywallRequired,
       })
 
       this.setState(prevState => ({ ...prevState, isEditing: false }))
@@ -154,7 +167,12 @@ class InsightEditor extends Component {
       publishDraft,
       readyState,
     } = this.props
-    const { isEditing, defaultTags, isTagsModified } = this.state
+    const {
+      isEditing,
+      defaultTags,
+      isTagsModified,
+      isPaywallRequired,
+    } = this.state
     const tags = isTagsModified ? this.state.tags : defaultTags
 
     const isLoading = isEditing || isUpdating
@@ -184,6 +202,8 @@ class InsightEditor extends Component {
               this.isDraft ? publishDraft(id) : this.updateDraft()
             }
             isDraft={this.isDraft}
+            togglePaywallRequired={this.togglePaywallRequired}
+            isPaywallRequired={isPaywallRequired}
           />
         </div>
       </ApolloProvider>
