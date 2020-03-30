@@ -25,6 +25,7 @@
     votes,
     votedAt,
     commentsCount,
+    isPaywallRequired
   } = insight
 
   const AWAITING_APPROVAL_STATE = 'awaiting_approval'
@@ -54,6 +55,8 @@ include /ui/mixins
 
   div
     Tags({tags})
+    +if('isPaywallRequired')
+      +icon('crown').paywalled
 
 </template>
 
@@ -101,6 +104,12 @@ include /ui/mixins
       white-space: nowrap;
       margin-right: 20px;
     }
+  }
+
+  .paywalled {
+    @include size(12px, 9px);
+    fill: var(--texas-rose);
+    margin-left: 20px;
   }
 
   :global(.Card__comments) {

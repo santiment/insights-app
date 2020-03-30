@@ -52,12 +52,13 @@
 .button {
   width: 100%;
   justify-content: center;
+  margin-top: 25px;
 }
 
 .paywall {
   display: flex;
   align-items: center;
-  margin: 25px 0;
+  margin: 25px 0 0;
   color: var(--waterloo);
   font-weight: bold;
 }
@@ -67,11 +68,13 @@
   border-radius: 10px;
   width: 36px;
   height: 20px;
-  padding: 3px;
+  padding: 0 3px;
   background: var(--casper);
   position: relative;
   cursor: pointer;
   transition: background 80ms ease-in;
+  display: flex;
+  align-items: center;
 
   &::before {
     @include text('caption', 'm');

@@ -8,7 +8,7 @@
   export { klass as class }
   export let insight
 
-  let { id, user, title, votes, votedAt, commentsCount = 0 } = insight
+ let { id, user, title, votes, votedAt, commentsCount = 0, isPaywallRequired } = insight
 
   const seoLink = getSEOLinkFromIdAndTitle(id, title)
   const link = `/read/${seoLink}`
@@ -25,6 +25,8 @@ a.title(href="{link}")
   .right
     LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
     CommentCounter.Card__comments({link}, {commentsCount}, isSSRLink)
+    +if('isPaywallRequired')
+      +icon('crown').paywalled
 
 </template>
 
@@ -60,6 +62,13 @@ a.title(href="{link}")
     justify-content: space-between;
     align-items: center;
   }
+
+ .paywalled {
+   @include size(12px, 9px);
+   fill: var(--texas-rose);
+   margin-left: 20px;
+ }
+
 
   :global(.Card__comments) {
     margin-left: 22px;

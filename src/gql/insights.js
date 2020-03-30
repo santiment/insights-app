@@ -5,6 +5,7 @@ export const insightCommon = gql`
     readyState
     id
     title
+    isPaywallRequired
     createdAt
     publishedAt
     updatedAt
@@ -60,6 +61,7 @@ export const FEATURED_INSIGHTS_QUERY = gql`
       publishedAt
       votedAt
       commentsCount
+      isPaywallRequired
       votes {
         totalVotes
       }
@@ -75,7 +77,6 @@ export const INSIGHT_BY_ID_QUERY = gql`
   query insightById($id: ID!) {
     insight: post(id: $id) {
       ...insightCommon
-      isPaywallRequired
       text
     }
   }
