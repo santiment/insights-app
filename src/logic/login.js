@@ -30,16 +30,14 @@ function loginWithEthereum() {
 }
 
 export const handleEthLogin = consent =>
-  loginWithEthereum()
-    .then(({ data: { ethLogin } }) => {
-      notifications.add({
-        type: 'success',
-        title: 'You are logged in!',
-      })
-
-      return ethLogin
+  loginWithEthereum().then(({ data: { ethLogin } }) => {
+    notifications.add({
+      type: 'success',
+      title: 'You are logged in!',
     })
-    .catch(console.warn)
+
+    return ethLogin
+  })
 
 export const logout = () =>
   client
