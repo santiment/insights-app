@@ -22,61 +22,69 @@
 <template lang="pug">
 include /ui/mixins
 
-h2.title.email__title Authenticate
+.wrapper 
+  +if('success')
+    h2 Email Confirmation
+    p We just sent you an email. Please check your inbox and click on the confirmation link.
+    .options Back to 
+      a(href='/login') log in options
 
-+if('success === true')
-  h3.email__subtitle We sent an email to you. Please login in to email provider and click the confirm link. Waiting for your confirmation...
+    +else()
+      h2 Welcome Back
+      p Log in to your Sanbase account to access additional features of our platform
+      form(on:submit|preventDefault="{onSubmit}")
+        +input(placeholder='Your email', name='email', type='email', autocomplete='off', required)
+        +button(variant="fill", accent='jungle-green', type='submit', fluid, class:loading) Continue
 
-  +else()
-    h3.email__subtitle To sign up or log in, fill in your email address below
-    form.email__form(on:submit|preventDefault="{onSubmit}")
-      +input(placeholder="your@email.com",name="email",type="email",autocomplete='off', required)
-      +button.email__btn(variant="fill", accent='jungle-green', type='submit', class:loading) Continue
+      .options Or choose 
+        a(href='/login') another log in option
 
-a.email__link(href='/login')
-  +icon('pointer-right')
-  |All login options
 </template>
 
 <style lang="scss">
   @import '@/mixins.scss';
 
-  .title {
-    @include text('body-1');
+  .wrapper {
+    max-width: 320px;
+    margin: 0 auto;
   }
 
-  .email {
-    &__subtitle {
-      @include text('caption');
-      margin: 10px 0;
-    }
+  h2 {
+    @include text('h3');
+  }
 
-    &__form {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  p {
+    @include text('body-2');
+    color: var(--waterloo);
+    margin: 10px 0 34px;
+  }
 
-    &__btn {
-      --loading-dot-color: var(--white);
-      margin: 15px 0 30px;
-    }
+  input {
+    height: 40px;
+  }
 
-    &__link {
-      font-size: 12px;
-      color: var(--casper);
-      fill: var(--casper);
+  button {
+    --loading-dot-color: var(--white);
+    height: 40px;
+    margin: 24px 0 0;
+    justify-content: center;
+  }
+
+  .options {
+    @include text('body-2');
+    color: var(--waterloo);
+    margin: 24px 0 0;
+  }
+
+  a {
+    color: var(--jungle-green);
+
+    &:hover {
+      color: var(--jungle-green-hover);
     }
   }
 
   input {
     width: 100%;
-  }
-
-  svg {
-    transform: rotate(180deg);
-    @include size(11px, 5px);
-    margin-right: 5px;
   }
 </style>

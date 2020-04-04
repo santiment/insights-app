@@ -12,7 +12,7 @@ include /ui/mixins
 
 
 .wrapper
-  +panel.content
+  +panel(variant='box').content
     slot
 </template>
 
@@ -23,10 +23,22 @@ include /ui/mixins
     display: flex;
     align-items: center;
     height: 100%;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: -1;
+      background: url('/login-bg.svg') no-repeat 50%;
+    }
   }
 
   .content {
-    width: 500px;
+    min-width: 608px;
     margin: 0 auto;
     padding: 30px 80px 36px;
     text-align: center;
