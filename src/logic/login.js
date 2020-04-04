@@ -8,9 +8,7 @@ import {
   LOGOUT_MUTATION,
 } from '@/gql/login'
 
-export const WEEKLY_SUBSCRIPTION_FLAG = 'WEEKLY_SUBSCRIPTION_FLAG'
-
-const loginWithEthereum = () => {
+function loginWithEthereum() {
   let address = ''
   return web3Helpers
     .getAccount()

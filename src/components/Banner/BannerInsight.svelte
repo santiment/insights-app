@@ -2,7 +2,8 @@
   import OverviewBanner from './OverviewBanner.svelte'
   import ViewportObserver from '@/components/ViewportObserver'
   import { cookie } from '@/stores/cookie'
-  import { WEEKLY_SUBSCRIPTION_FLAG, loginEmail } from '@/logic/login'
+  import { loginEmail } from '@/logic/login'
+  import { scheduleWeeklySubscription } from '@/logic/user'
   import { isMobile } from '@/utils/responsive'
   import { sendEvent } from '@/analytics'
 
@@ -36,7 +37,7 @@
 
   function onSuccess({ data: { emailLogin } }) {
     loading = false
-    window.localStorage.setItem(WEEKLY_SUBSCRIPTION_FLAG, '+')
+    scheduleWeeklySubscription()
   }
 </script>
 
