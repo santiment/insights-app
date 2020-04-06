@@ -28,6 +28,7 @@
   import NavMobile from '@/components/Mobile/Nav'
   import CookiePopup from '@/components/CookiePopup'
   import Analytics from '@/components/Analytics'
+  import Intercom from '@/components/Intercom'
   import { lookupSavedComment } from '@/utils/comments'
   import { getMobileComponent } from '@/utils/responsive'
   import { user$ } from '@/stores/user'
@@ -37,7 +38,7 @@
   const Nav = getMobileComponent(NavMobile, NavDesktop)
   const isMobile = Nav === NavMobile
 
-  const { page, session } = stores()
+  const { page } = stores()
   const currentUser = user$()
 
   const ROUTES_WITHOUT_TABS = new Set([
@@ -108,6 +109,8 @@ main(class:isMobile)
   slot
 
 Notifications
+
+Intercom 
 
 </template>
 

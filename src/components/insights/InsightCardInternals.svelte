@@ -25,7 +25,7 @@
     votes,
     votedAt,
     commentsCount,
-    isPaywallRequired
+    isPaywallRequired,
   } = insight
 
   const AWAITING_APPROVAL_STATE = 'awaiting_approval'
@@ -49,14 +49,14 @@ include /ui/mixins
   withPic, classes="{{wrapper: 'card__profile'}}")
 
 .bottom
-  .bottom__left
+  .stats
     LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
     CommentCounter.Card__comments({link}, {commentsCount}, isSSRLink)
 
-  div
+  div.tags
     Tags({tags})
-    +if('isPaywallRequired')
-      +icon('crown').paywalled
+  +if('isPaywallRequired')
+    +icon('crown').paywalled
 
 </template>
 
@@ -95,15 +95,17 @@ include /ui/mixins
 
   .bottom {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+  }
 
-    &__left {
-      max-width: calc(70% - 40px);
-      flex: 1;
-      white-space: nowrap;
-      margin-right: 20px;
-    }
+  .stats {
+    white-space: nowrap;
+    margin-right: 20px;
+  }
+
+  .tags {
+    margin-left: auto;
+    text-align: right;
   }
 
   .paywalled {

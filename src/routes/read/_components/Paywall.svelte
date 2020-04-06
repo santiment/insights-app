@@ -3,6 +3,7 @@
   import { client } from '@/apollo'
   import { PLANS_QUERY } from '@/gql/plans'
   import { findSanbasePlans } from '@/utils/plans'
+  import { sendEvent } from '@/analytics'
 
   let price = 51
 
@@ -26,6 +27,12 @@
         price = proPlan.amount / 100
       })
   })
+
+  function onUpgradeClick() {
+    sendEvent('upgrade', {
+      method: `Insight Paywall`,
+    })
+  }
 </script>
 
 <template lang="pug">
@@ -40,7 +47,7 @@ include /ui/mixins
     .description Unlock all PRO insights
     .price ${price}
       span.billing /mo
-    +button.upgrade(href='https://app.santiment.net/pricing', variant='fill', accent='texas-rose', fluid) Upgrade to PRO
+    +button.upgrade(href='https://app.santiment.net/pricing?utm_source=insights&utm_medium=paywall&utm_campaign=insight_paywall', variant='fill', accent='texas-rose', fluid, on:click='{onUpgradeClick}') Upgrade to PRO
 
   .question Any questions? 
     a.contact(href='mailto:support@santiment.net') Contact us
