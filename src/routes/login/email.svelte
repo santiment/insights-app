@@ -3,10 +3,12 @@
   import { sendEvent } from '@/analytics'
 
   let loading = false
+  let email
   let success
 
   function onSubmit({ currentTarget }) {
-    loginEmail(currentTarget.email.value).then(isSuccess)
+    email = currentTarget.email.value
+    loginEmail(email).then(isSuccess)
     loading = true
     sendEvent('sign_up', {
       method: 'email',
@@ -25,7 +27,9 @@ include /ui/mixins
 .wrapper 
   +if('success')
     h2 Email Confirmation
-    p We just sent you an email. Please check your inbox and click on the confirmation link.
+    p We just sent an email to 
+      span {email}
+      |. Please check your inbox and click on the confirmation link.
     .options Back to 
       a(href='/login') log in options
 
@@ -57,6 +61,10 @@ include /ui/mixins
     @include text('body-2');
     color: var(--waterloo);
     margin: 10px 0 34px;
+  }
+
+  span {
+    color: var(--mirage);
   }
 
   input {

@@ -22,7 +22,7 @@ include /ui/mixins
   .right
     h2 Start your free trial
     p Enjoy 14 days free of Sanbase Pro, no card or payment information required
-    +button.btn.trial(variant='fill', accent='jungle-green', href='/login/sign-up', fluid) Start my Free Trial
+    +button.btn.trial(variant='fill', accent='jungle-green', href='/sign-up', fluid) Start my Free Trial
 
 </template>
 
