@@ -13,6 +13,7 @@
   import SignUp from './_components/SignUp.svelte'
   import Reasons from './_components/Reasons.svelte'
   import Confirmation from '../login/_components/Confirmation.svelte'
+  import MobileCard from '../login/_components/MobileCard.svelte'
 
   const isMobile = checkIsMobile()
 
@@ -29,14 +30,14 @@ include /ui/mixins
 +if('isMobile')
   .mobile-wrapper
     +if('email')
-      +panel.mobile-card.centered.mobile-confirmation(variant='box')
+      MobileCard(margin)
         Confirmation({email})
 
       +else()
         Carousel(children='{2}')
-          +panel.mobile-card.centered(variant='box')
+          MobileCard
             SignUp(on:success='{onSuccess}')
-          +panel.mobile-card(variant='box')
+          MobileCard
             Reasons 
 
   +else()
@@ -62,23 +63,6 @@ include /ui/mixins
     padding: 0 0 44px;
     display: flex;
     flex-direction: column;
-  }
-
-  .mobile-card {
-    padding: 40px 24px 31px 24px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .centered {
-    text-align: center;
-  }
-
-  .mobile-confirmation {
-    height: 100%;
-    margin: 0 0 16px;
   }
 
   .wrapper {

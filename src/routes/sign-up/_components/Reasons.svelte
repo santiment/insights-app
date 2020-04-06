@@ -16,6 +16,7 @@ include /ui/mixins
     padding: 0 0 0 40px;
     margin: 0 0 30px;
     max-width: 306px;
+    text-align: left;
 
     &:last-child {
       margin: 0;

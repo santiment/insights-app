@@ -4,10 +4,9 @@
   import { checkIsMobile } from '@/utils/responsive'
   import WelcomeInsights from './_components/WelcomeInsights.svelte'
   import TrialCTA from './_components/TrialCTA.svelte'
+  import MobileCard from './_components/MobileCard.svelte'
 
   const isMobile = checkIsMobile()
-
-  console.log(isMobile)
 </script>
 
 <template lang="pug">
@@ -16,10 +15,10 @@ include /ui/mixins
 +if('isMobile')
   .mobile-wrapper
     Carousel(children='{2}')
-      +panel.mobile-card(variant='box')
+      MobileCard(centered='')
         WelcomeInsights 
-        
-      +panel.mobile-card.mobile-cta(variant='box')
+
+      MobileCard
         TrialCTA 
 
   +else()
@@ -39,17 +38,6 @@ include /ui/mixins
     padding: 0 0 44px;
     display: flex;
     flex-direction: column;
-  }
-
-  .mobile-card {
-    text-align: center;
-    padding: 40px 24px 31px 24px;
-    border-radius: 10px;
-  }
-
-  .mobile-cta {
-    display: flex;
-    align-items: center;
   }
 
   .wrapper {

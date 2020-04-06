@@ -2,6 +2,7 @@
   import { checkIsMobile } from '@/utils/responsive'
   import Confirmation from './_components/Confirmation.svelte'
   import Email from './_components/Email.svelte'
+  import MobileCard from './_components/MobileCard.svelte'
 
   const isMobile = checkIsMobile()
 
@@ -18,11 +19,11 @@ include /ui/mixins
 +if('isMobile')
   .mobile-wrapper
     +if('email')
-      +panel.mobile-card(variant='box')
+      MobileCard
         Confirmation({email})
 
       +else()
-        +panel.mobile-card(variant='box')
+        MobileCard
           Email(on:success='{onSuccess}')
 
 
@@ -41,20 +42,7 @@ include /ui/mixins
 
   .mobile-wrapper {
     height: 100%;
-    padding: 0 0 44px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .mobile-card {
-    text-align: center;
-    padding: 40px 24px 31px 24px;
-    border-radius: 10px;
-    height: 100%;
-    margin: 0 0 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding: 0 0 60px;
   }
 
   .wrapper {
