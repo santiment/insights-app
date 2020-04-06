@@ -8,9 +8,7 @@ import {
   LOGOUT_MUTATION,
 } from '@/gql/login'
 
-export const WEEKLY_SUBSCRIPTION_FLAG = 'WEEKLY_SUBSCRIPTION_FLAG'
-
-const loginWithEthereum = () => {
+function loginWithEthereum() {
   let address = ''
   return web3Helpers
     .getAccount()
@@ -32,16 +30,14 @@ const loginWithEthereum = () => {
 }
 
 export const handleEthLogin = consent =>
-  loginWithEthereum()
-    .then(({ data: { ethLogin } }) => {
-      notifications.add({
-        type: 'success',
-        title: 'You are logged in!',
-      })
-
-      return ethLogin
+  loginWithEthereum().then(({ data: { ethLogin } }) => {
+    notifications.add({
+      type: 'success',
+      title: 'You are logged in!',
     })
-    .catch(console.warn)
+
+    return ethLogin
+  })
 
 export const logout = () =>
   client

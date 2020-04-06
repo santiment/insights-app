@@ -48,6 +48,7 @@
     'logout',
     'gdpr',
     'experience',
+    'sign-up',
   ])
 
   let wasNotified = false
@@ -77,6 +78,9 @@ mixin newInsight()
   +button(href='/new', variant='fill', accent='jungle-green')&attributes(attributes)
     +icon('plus-round').plus
     |Write insight
+
+svelte:head
+  title Insights
 
 Analytics
 

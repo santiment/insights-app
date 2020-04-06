@@ -2,26 +2,14 @@
   import { client } from '@/apollo'
   import Checkbox from '@/components/Checkbox'
   import { setGDPR } from '@/logic/gdpr'
-  import { WEEKLY_SUBSCRIPTION_FLAG } from '@/logic/login'
-  import { NEWSLETTER_SUBSCRIPTION_MUTATION } from '@/gql/user'
+  import { handleWeeklySubscription } from '@/logic/user'
 
   let active = false
   let loading = false
 
   function onClick() {
     loading = true
-    setGDPR(true).then(() => {
-      if (localStorage.getItem(WEEKLY_SUBSCRIPTION_FLAG)) {
-        localStorage.removeItem(WEEKLY_SUBSCRIPTION_FLAG)
-
-        client.mutate({
-          mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
-          variables: {
-            subscription: 'WEEKLY',
-          },
-        })
-      }
-    })
+    setGDPR(true).then(handleWeeklySubscription)
   }
 </script>
 

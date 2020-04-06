@@ -1,40 +1,60 @@
 <script>
+  import Carousel from '@/components/Carousel/index.svelte'
   import MetamaskBtn from '@/components/login/MetamaskBtn'
+  import { checkIsMobile } from '@/utils/responsive'
+  import WelcomeInsights from './_components/WelcomeInsights.svelte'
+  import TrialCTA from './_components/TrialCTA.svelte'
+  import MobileCard from './_components/MobileCard.svelte'
+
+  const isMobile = checkIsMobile()
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
-h2.title Log in your account with
-.options
-  MetamaskBtn
-  +button.btn(href='/login/email', fluid)
-    +icon('email')
-    |Email
++if('isMobile')
+  .mobile-wrapper
+    Carousel(children='{2}')
+      MobileCard(centered='')
+        WelcomeInsights 
+
+      MobileCard
+        TrialCTA 
+
+  +else()
+    .wrapper
+      .left
+        WelcomeInsights 
+      .right
+        TrialCTA 
 
 </template>
 
 <style lang="scss">
   @import '@/mixins.scss';
 
-  .title {
-    @include text('body-1');
+  .mobile-wrapper {
+    height: 100%;
+    padding: 0 0 44px;
+    display: flex;
+    flex-direction: column;
   }
 
-  .options {
-    margin: 29px 0 24px;
+  .wrapper {
+    display: flex;
+    padding: 20px 30px;
   }
 
-  .btn {
-    color: #fff;
-    fill: #fff;
-    height: 40px;
-    margin: 8px 0;
-    background: #7a859e;
+  .left {
+    max-width: 340px;
   }
 
-  svg {
-    @include size(16px, 14px);
-    margin-right: 10px;
+  .right {
+    display: flex;
+    align-items: center;
+    margin-left: 114px;
+    padding-left: 114px;
+    max-width: 435px;
+    border-left: 1px solid var(--porcelain);
   }
 </style>

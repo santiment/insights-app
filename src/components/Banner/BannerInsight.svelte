@@ -2,15 +2,16 @@
   import OverviewBanner from './OverviewBanner.svelte'
   import ViewportObserver from '@/components/ViewportObserver'
   import { cookie } from '@/stores/cookie'
-  import { WEEKLY_SUBSCRIPTION_FLAG, loginEmail } from '@/logic/login'
-  import { isMobile } from '@/utils/responsive'
+  import { loginEmail } from '@/logic/login'
+  import { scheduleWeeklySubscription } from '@/logic/user'
+  import { checkIsMobile } from '@/utils/responsive'
   import { sendEvent } from '@/analytics'
 
   let banner
   let isVisibleInSession = true
   let isShown = false
   let loading = false
-  let isNotMobile = !isMobile()
+  let isNotMobile = !checkIsMobile()
 
   const options = {
     rootMargin: '150px 0px -50px',
@@ -36,7 +37,7 @@
 
   function onSuccess({ data: { emailLogin } }) {
     loading = false
-    window.localStorage.setItem(WEEKLY_SUBSCRIPTION_FLAG, '+')
+    scheduleWeeklySubscription()
   }
 </script>
 

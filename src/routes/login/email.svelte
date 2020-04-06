@@ -1,82 +1,52 @@
 <script>
-  import { loginEmail } from '@/logic/login'
-  import { sendEvent } from '@/analytics'
+  import { checkIsMobile } from '@/utils/responsive'
+  import Confirmation from './_components/Confirmation.svelte'
+  import Email from './_components/Email.svelte'
+  import MobileCard from './_components/MobileCard.svelte'
 
-  let loading = false
-  let success
+  const isMobile = checkIsMobile()
 
-  function onSubmit({ currentTarget }) {
-    loginEmail(currentTarget.email.value).then(isSuccess)
-    loading = true
-    sendEvent('sign_up', {
-      method: 'email',
-    })
-  }
+  let email
 
-  function isSuccess({ data: { emailLogin } }) {
-    success = emailLogin.success
-    loading = false
+  function onSuccess({ detail }) {
+    email = detail.email
   }
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
-h2.title.email__title Authenticate
++if('isMobile')
+  .mobile-wrapper
+    +if('email')
+      MobileCard
+        Confirmation({email})
 
-+if('success === true')
-  h3.email__subtitle We sent an email to you. Please login in to email provider and click the confirm link. Waiting for your confirmation...
+      +else()
+        MobileCard
+          Email(on:success='{onSuccess}')
+
 
   +else()
-    h3.email__subtitle To sign up or log in, fill in your email address below
-    form.email__form(on:submit|preventDefault="{onSubmit}")
-      +input(placeholder="your@email.com",name="email",type="email",autocomplete='off', required)
-      +button.email__btn(variant="fill", accent='jungle-green', type='submit', class:loading) Continue
+    .wrapper 
+      +if('email')
+        Confirmation({email})
 
-a.email__link(href='/login')
-  +icon('pointer-right')
-  |All login options
+        +else()
+          Email(on:success='{onSuccess}')
+
 </template>
 
 <style lang="scss">
   @import '@/mixins.scss';
 
-  .title {
-    @include text('body-1');
+  .mobile-wrapper {
+    height: 100%;
+    padding: 0 0 60px;
   }
 
-  .email {
-    &__subtitle {
-      @include text('caption');
-      margin: 10px 0;
-    }
-
-    &__form {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    &__btn {
-      --loading-dot-color: var(--white);
-      margin: 15px 0 30px;
-    }
-
-    &__link {
-      font-size: 12px;
-      color: var(--casper);
-      fill: var(--casper);
-    }
-  }
-
-  input {
-    width: 100%;
-  }
-
-  svg {
-    transform: rotate(180deg);
-    @include size(11px, 5px);
-    margin-right: 5px;
+  .wrapper {
+    max-width: 320px;
+    margin: 0 auto;
   }
 </style>
