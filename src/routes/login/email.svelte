@@ -1,6 +1,9 @@
 <script>
+  import { checkIsMobile } from '@/utils/responsive'
   import Confirmation from './_components/Confirmation.svelte'
-  import EmailForm from './_components/EmailForm.svelte'
+  import Email from './_components/Email.svelte'
+
+  const isMobile = checkIsMobile()
 
   let email
 
@@ -12,49 +15,50 @@
 <template lang="pug">
 include /ui/mixins
 
-.wrapper 
-  +if('email')
-    Confirmation({email})
++if('isMobile')
+  .mobile-wrapper
+    +if('email')
+      +panel.mobile-card(variant='box')
+        Confirmation({email})
 
-    +else()
-      h2 Welcome Back
-      p Log in to your Sanbase account to access additional features of our platform
-      EmailForm(on:success='{onSuccess}')
+      +else()
+        +panel.mobile-card(variant='box')
+          Email(on:success='{onSuccess}')
 
-      .options Or choose 
-        a(href='/login') another log in option
+
+  +else()
+    .wrapper 
+      +if('email')
+        Confirmation({email})
+
+        +else()
+          Email(on:success='{onSuccess}')
 
 </template>
 
 <style lang="scss">
   @import '@/mixins.scss';
 
+  .mobile-wrapper {
+    height: 100%;
+    padding: 0 0 44px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-card {
+    text-align: center;
+    padding: 40px 24px 31px 24px;
+    border-radius: 10px;
+    height: 100%;
+    margin: 0 0 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
   .wrapper {
     max-width: 320px;
     margin: 0 auto;
-  }
-
-  h2 {
-    @include text('h3');
-  }
-
-  p {
-    @include text('body-2');
-    color: var(--waterloo);
-    margin: 10px 0 34px;
-  }
-
-  .options {
-    @include text('body-2');
-    color: var(--waterloo);
-    margin: 24px 0 0;
-  }
-
-  a {
-    color: var(--jungle-green);
-
-    &:hover {
-      color: var(--jungle-green-hover);
-    }
   }
 </style>

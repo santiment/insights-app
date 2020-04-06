@@ -32,7 +32,7 @@
 include /ui/mixins
 
 form(on:submit|preventDefault="{onSubmit}")
-  +input(placeholder='Your email', name='email', type='email', autocomplete='off', autofocus, required)
+  +input(placeholder='Your email', name='email', type='email', autocomplete='off', required)
   +button(variant="fill", accent='jungle-green', type='submit', fluid, class:loading) Continue
 
 </template>

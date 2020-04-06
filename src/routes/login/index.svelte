@@ -1,10 +1,9 @@
 <script>
   import Carousel from '@/components/Carousel/index.svelte'
   import MetamaskBtn from '@/components/login/MetamaskBtn'
+  import { checkIsMobile } from '@/utils/responsive'
   import WelcomeInsights from './_components/WelcomeInsights.svelte'
   import TrialCTA from './_components/TrialCTA.svelte'
-
-  import { checkIsMobile } from '@/utils/responsive'
 
   const isMobile = checkIsMobile()
 
@@ -20,7 +19,7 @@ include /ui/mixins
       +panel.mobile-card(variant='box')
         WelcomeInsights 
         
-      +panel.mobile-card(variant='box')
+      +panel.mobile-card.mobile-cta(variant='box')
         TrialCTA 
 
   +else()
@@ -46,6 +45,11 @@ include /ui/mixins
     text-align: center;
     padding: 40px 24px 31px 24px;
     border-radius: 10px;
+  }
+
+  .mobile-cta {
+    display: flex;
+    align-items: center;
   }
 
   .wrapper {
