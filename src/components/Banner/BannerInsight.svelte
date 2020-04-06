@@ -4,14 +4,14 @@
   import { cookie } from '@/stores/cookie'
   import { loginEmail } from '@/logic/login'
   import { scheduleWeeklySubscription } from '@/logic/user'
-  import { isMobile } from '@/utils/responsive'
+  import { checkIsMobile } from '@/utils/responsive'
   import { sendEvent } from '@/analytics'
 
   let banner
   let isVisibleInSession = true
   let isShown = false
   let loading = false
-  let isNotMobile = !isMobile()
+  let isNotMobile = !checkIsMobile()
 
   const options = {
     rootMargin: '150px 0px -50px',

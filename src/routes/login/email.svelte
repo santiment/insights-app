@@ -1,23 +1,11 @@
 <script>
-  import { loginEmail } from '@/logic/login'
-  import { sendEvent } from '@/analytics'
+  import Confirmation from './_components/Confirmation.svelte'
+  import EmailForm from './_components/EmailForm.svelte'
 
-  let loading = false
   let email
-  let success
 
-  function onSubmit({ currentTarget }) {
-    email = currentTarget.email.value
-    loginEmail(email).then(isSuccess)
-    loading = true
-    sendEvent('sign_up', {
-      method: 'email',
-    })
-  }
-
-  function isSuccess({ data: { emailLogin } }) {
-    success = emailLogin.success
-    loading = false
+  function onSuccess({ detail }) {
+    email = detail.email
   }
 </script>
 
@@ -25,20 +13,13 @@
 include /ui/mixins
 
 .wrapper 
-  +if('success')
-    h2 Email Confirmation
-    p We just sent an email to 
-      span {email}
-      |. Please check your inbox and click on the confirmation link.
-    .options Back to 
-      a(href='/login') log in options
+  +if('email')
+    Confirmation({email})
 
     +else()
       h2 Welcome Back
       p Log in to your Sanbase account to access additional features of our platform
-      form(on:submit|preventDefault="{onSubmit}")
-        +input(placeholder='Your email', name='email', type='email', autocomplete='off', required)
-        +button(variant="fill", accent='jungle-green', type='submit', fluid, class:loading) Continue
+      EmailForm(on:success='{onSuccess}')
 
       .options Or choose 
         a(href='/login') another log in option
@@ -63,21 +44,6 @@ include /ui/mixins
     margin: 10px 0 34px;
   }
 
-  span {
-    color: var(--mirage);
-  }
-
-  input {
-    height: 40px;
-  }
-
-  button {
-    --loading-dot-color: var(--white);
-    height: 40px;
-    margin: 24px 0 0;
-    justify-content: center;
-  }
-
   .options {
     @include text('body-2');
     color: var(--waterloo);
@@ -90,9 +56,5 @@ include /ui/mixins
     &:hover {
       color: var(--jungle-green-hover);
     }
-  }
-
-  input {
-    width: 100%;
   }
 </style>

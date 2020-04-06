@@ -7,13 +7,23 @@
   }
 </script>
 
+<script>
+  import { checkIsMobile } from '@/utils/responsive'
+
+  const isMobile = checkIsMobile()
+</script>
+
 <template lang="pug">
 include /ui/mixins
 
++if('isMobile')
+  slot
 
-.wrapper
-  +panel(variant='box').content
-    slot
+  +else()
+    .wrapper
+      +panel(variant='box').content
+        slot
+
 </template>
 
 <style lang="scss">
