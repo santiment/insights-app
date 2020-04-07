@@ -83,7 +83,8 @@ mixin newInsight()
 svelte:head
   title Insights
 
-Analytics
++if('process.env.BACKEND_URL !== "https://api-stage.santiment.net"')
+  Analytics
 
 LoadProgress
 
@@ -110,7 +111,8 @@ main(class:isMobile)
 
 Notifications
 
-Intercom 
++if('process.env.BACKEND_URL !== "https://api-stage.santiment.net" && !isMobile')
+  Intercom 
 
 </template>
 
