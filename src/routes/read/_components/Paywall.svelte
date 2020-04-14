@@ -1,13 +1,16 @@
 <script>
-  import { onMount } from 'svelte'
+  import { onMount, getContext } from 'svelte'
   import { client } from '@/apollo'
   import { PLANS_QUERY } from '@/gql/plans'
   import { findSanbasePlans } from '@/utils/plans'
   import { sendEvent } from '@/analytics'
+  import PaymentDialog from '@/components/PaymentDialog/index.svelte'
 
   let price = 51
 
   onMount(() => {
+    console.log(getContext('stripe'))
+
     client
       .query({
         query: PLANS_QUERY,
@@ -48,6 +51,9 @@ include /ui/mixins
     .price ${price}
       span.billing /mo
     +button.upgrade(href='https://app.santiment.net/pricing?utm_source=insights&utm_medium=paywall&utm_campaign=insight_paywall', variant='fill', accent='texas-rose', fluid, on:click='{onUpgradeClick}') Upgrade to PRO
+
+    PaymentDialog 
+      +button(border) Test
 
   .question Any questions? 
     a.contact(href='mailto:support@santiment.net') Contact us

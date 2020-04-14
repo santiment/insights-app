@@ -29,6 +29,7 @@
   import CookiePopup from '@/components/CookiePopup'
   import Analytics from '@/components/Analytics'
   import Intercom from '@/components/Intercom'
+  import Stripe from '@/components/Stripe'
   import { lookupSavedComment } from '@/utils/comments'
   import { getMobileComponent } from '@/utils/responsive'
   import { user$ } from '@/stores/user'
@@ -83,6 +84,7 @@ mixin newInsight()
 svelte:head
   title Insights
 
+
 +if('process.env.BACKEND_URL !== "https://api-stage.santiment.net"')
   Analytics
 
@@ -90,24 +92,25 @@ LoadProgress
 
 CookiePopup
 
-Nav({segment})
+Stripe 
+  Nav({segment})
 
-main(class:isMobile)
-  +if("!ROUTES_WITHOUT_TABS.has(segment)")
-    .top
-      h1 Insights
-      .right
-        +if('!isMobile')
-          +newInsight(rel='prefetch').btn
-  
-    +tabs.tabs(class:tabs_mobile='{isMobile}')
-      +tab(href="/", class:active="{activePath === '/'}", prefetch) All Insights
-      +tab(href="/my", class:active="{activePath === '/my'}", prefetch) My Insights
-      +tab(href="/my/drafts", class:active="{activePath === '/my/drafts'}", prefetch) My Drafts
-    +if('isMobile')
-      +newInsight().btn_mobile(fluid)
+  main(class:isMobile)
+    +if("!ROUTES_WITHOUT_TABS.has(segment)")
+      .top
+        h1 Insights
+        .right
+          +if('!isMobile')
+            +newInsight(rel='prefetch').btn
 
-  slot
+      +tabs.tabs(class:tabs_mobile='{isMobile}')
+        +tab(href="/", class:active="{activePath === '/'}", prefetch) All Insights
+        +tab(href="/my", class:active="{activePath === '/my'}", prefetch) My Insights
+        +tab(href="/my/drafts", class:active="{activePath === '/my/drafts'}", prefetch) My Drafts
+      +if('isMobile')
+        +newInsight().btn_mobile(fluid)
+
+    slot
 
 Notifications
 
