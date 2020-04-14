@@ -90,5 +90,7 @@ export function buyPlan(stripe, card, form, plan) {
           },
         ],
       })
+
+      return Promise.reject(e)
     })
 }

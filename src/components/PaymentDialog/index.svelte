@@ -1,5 +1,5 @@
 <script>
-  import { getContext, onMount } from 'svelte'
+  import { getContext, onMount, createEventDispatcher } from 'svelte'
   import { client } from '@/apollo'
   import COLOR from '@santiment-network/ui/variables.scss'
   import Dialog from '@/ui/dialog/index'
@@ -9,6 +9,10 @@
   import PlanSelector from './PlanSelector.svelte'
   import { getSanbasePlans, getTokenDataByForm, buyPlan } from '@/logic/plans'
   import { getAlternativeBillingPlan, formatOnlyPrice } from '@/utils/plans'
+
+  export let open
+
+  const dispatch = createEventDispatcher()
 
   const style = {
     base: {
@@ -26,19 +30,31 @@
 
   const stripe = getContext('stripe')
   let stripeCard
+  let stripeInput
 
-  $: if ($stripe) {
+  $: if ($stripe && stripeInput) {
     stripeCard = $stripe.elements().create('card', { style })
     stripeCard.mount('#card-element')
   }
 
+  let loading = false
   let coupon
   let plans = []
   let currentPlan = {}
   $: alternativePlan = getAlternativeBillingPlan(plans, currentPlan)
 
   function onSubmit({ target }) {
+    loading = true
+
     buyPlan($stripe, stripeCard, getTokenDataByForm(target), currentPlan)
+      .then(subscription => {
+        dispatch('success', subscription)
+        loading = false
+      })
+      .catch(() => {
+        dispatch('error')
+        loading = false
+      })
   }
 
   onMount(() => {
@@ -56,7 +72,7 @@ mixin field(name, label, placeholder)
   label= label
     +input()(name=name, required, placeholder=placeholder)
 
-Dialog(open='{true}', title='Payment details')
+Dialog(bind:open, title='Payment details')
   +dialogScrollContent.wrapper(slot='content')
     form.main(on:submit|preventDefault='{onSubmit}')
       .info
@@ -67,7 +83,7 @@ Dialog(open='{true}', title='Payment details')
         .form
           +field('name', 'Full name', 'John Doe')
           label Card number
-            #card-element
+            #card-element(bind:this='{stripeInput}')
           +field('address_country', 'Country', 'US')
 
       .address
@@ -85,7 +101,7 @@ Dialog(open='{true}', title='Payment details')
           PlanSelector(bind:currentPlan, {plans})
           DiscountInput(bind:coupon)
           TotalPrice({currentPlan}, {...coupon})
-          +button(type='submit', fluid, variant='fill', accent='jungle-green').submit Go PRO now
+          +button(type='submit', fluid, variant='fill', accent='jungle-green', class:loading).submit Go PRO now
           ChargeInfo({currentPlan})
 
     .footer
@@ -206,6 +222,7 @@ Dialog(open='{true}', title='Payment details')
     height: 40px;
     justify-content: center;
     margin: 37px 0 16px;
+    --loading-dot-color: var(--white);
   }
 
   @include responsive('phone', 'phone-xs') {

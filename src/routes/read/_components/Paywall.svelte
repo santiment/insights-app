@@ -6,6 +6,7 @@
   import { sendEvent } from '@/analytics'
   import PaymentDialog from '@/components/PaymentDialog/index.svelte'
 
+  let open = false
   let price = 51
 
   onMount(() => {
@@ -30,9 +31,15 @@
   })
 
   function onUpgradeClick() {
+    open = true
     sendEvent('upgrade', {
       method: `Insight Paywall`,
     })
+  }
+
+  function onSuccess() {
+    open = false
+    setTimeout(() => window.location.reload(), 3000)
   }
 </script>
 
@@ -48,13 +55,13 @@ include /ui/mixins
     .description Unlock all PRO insights
     .price ${price}
       span.billing /mo
-    +button.upgrade(href='https://app.santiment.net/pricing?utm_source=insights&utm_medium=paywall&utm_campaign=insight_paywall', variant='fill', accent='texas-rose', fluid, on:click='{onUpgradeClick}') Upgrade to PRO
+    +button.upgrade(variant='fill', accent='texas-rose', fluid, on:click='{onUpgradeClick}') Upgrade to PRO
 
-    PaymentDialog 
-      +button(border) Test
 
   .question Any questions? 
     a.contact(href='mailto:support@santiment.net') Contact us
+
+PaymentDialog(bind:open, on:success='{onSuccess}')
 </template>
 
 <style lang="scss">
