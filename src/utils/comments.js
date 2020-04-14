@@ -1,3 +1,5 @@
+import { goto } from '@sapper/app'
+
 const SCHEDULED_COMMENT = 'SCHEDULED_COMMENT'
 
 export function saveComment(id, content) {

@@ -8,14 +8,11 @@ export const userFragment = gql`
     privacyPolicyAccepted
     marketingAccepted
     avatarUrl
+    sanBalance
     following {
       users {
         id
       }
-    }
-    ethAccounts {
-      address
-      sanBalance
     }
     subscriptions {
       id

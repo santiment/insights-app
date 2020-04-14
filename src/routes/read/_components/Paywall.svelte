@@ -1,10 +1,16 @@
 <script>
   import { onMount } from 'svelte'
+  import { goto } from '@sapper/app'
   import { client } from '@/apollo'
+  import { sendEvent } from '@/analytics'
   import { PLANS_QUERY } from '@/gql/plans'
   import { findSanbasePlans } from '@/utils/plans'
-  import { sendEvent } from '@/analytics'
+  import { user$ } from '@/stores/user'
+  import PaymentDialog from '@/components/PaymentDialog/index.svelte'
 
+  const currentUser = user$()
+
+  let open = false
   let price = 51
 
   onMount(() => {
@@ -29,9 +35,19 @@
   })
 
   function onUpgradeClick() {
+    if (!$currentUser) {
+      return goto('/login')
+    }
+
+    open = true
     sendEvent('upgrade', {
       method: `Insight Paywall`,
     })
+  }
+
+  function onSuccess() {
+    open = false
+    setTimeout(() => window.location.reload(), 3000)
   }
 </script>
 
@@ -47,10 +63,13 @@ include /ui/mixins
     .description Unlock all PRO insights
     .price ${price}
       span.billing /mo
-    +button.upgrade(href='https://app.santiment.net/pricing?utm_source=insights&utm_medium=paywall&utm_campaign=insight_paywall', variant='fill', accent='texas-rose', fluid, on:click='{onUpgradeClick}') Upgrade to PRO
+    +button.upgrade(variant='fill', accent='texas-rose', fluid, on:click='{onUpgradeClick}') Upgrade to PRO
+
 
   .question Any questions? 
     a.contact(href='mailto:support@santiment.net') Contact us
+
+PaymentDialog(bind:open, on:success='{onSuccess}')
 </template>
 
 <style lang="scss">
