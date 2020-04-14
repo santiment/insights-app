@@ -1,10 +1,14 @@
 <script>
   import { onMount } from 'svelte'
+  import { goto } from '@sapper/app'
   import { client } from '@/apollo'
+  import { sendEvent } from '@/analytics'
   import { PLANS_QUERY } from '@/gql/plans'
   import { findSanbasePlans } from '@/utils/plans'
-  import { sendEvent } from '@/analytics'
+  import { user$ } from '@/stores/user'
   import PaymentDialog from '@/components/PaymentDialog/index.svelte'
+
+  const currentUser = user$()
 
   let open = false
   let price = 51
@@ -31,6 +35,10 @@
   })
 
   function onUpgradeClick() {
+    if (!$currentUser) {
+      return goto('/login')
+    }
+
     open = true
     sendEvent('upgrade', {
       method: `Insight Paywall`,
