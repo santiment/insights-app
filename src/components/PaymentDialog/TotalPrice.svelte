@@ -1,9 +1,5 @@
 <script>
-  import { getContext, onMount } from 'svelte'
-  import { client } from '@/apollo'
-  import COLOR from '@santiment-network/ui/variables.scss'
-  import { PLANS_QUERY } from '@/gql/plans'
-  import { getAlternativeBillingPlan, formatOnlyPrice } from '@/utils/plans'
+  import { formatOnlyPrice } from '@/utils/plans'
   import { user$ } from '@/stores/user'
 
   export let currentPlan, percentOff
@@ -24,8 +20,6 @@
   $: discountMsg = percentOff
     ? 'Discount code'
     : hasSanDiscount && 'SAN Holder discount'
-
-  onMount(() => {})
 </script>
 
 <template lang="pug">

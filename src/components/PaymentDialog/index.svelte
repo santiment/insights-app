@@ -1,6 +1,5 @@
 <script>
   import { getContext, onMount, createEventDispatcher } from 'svelte'
-  import { client } from '@/apollo'
   import COLOR from '@santiment-network/ui/variables.scss'
   import Dialog from '@/ui/dialog/index'
   import TotalPrice from './TotalPrice.svelte'
@@ -8,7 +7,7 @@
   import DiscountInput from './DiscountInput.svelte'
   import PlanSelector from './PlanSelector.svelte'
   import { getSanbasePlans, getTokenDataByForm, buyPlan } from '@/logic/plans'
-  import { getAlternativeBillingPlan, formatOnlyPrice } from '@/utils/plans'
+  import { getAlternativeBillingPlan } from '@/utils/plans'
 
   export let open
 

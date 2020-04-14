@@ -1,9 +1,5 @@
 <script>
-  import {
-    getAlternativeBillingPlan,
-    formatOnlyPrice,
-    getNextPaymentDate,
-  } from '@/utils/plans'
+  import { formatOnlyPrice, getNextPaymentDate } from '@/utils/plans'
 
   export let currentPlan
 </script>
