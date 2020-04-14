@@ -9,6 +9,7 @@
   import TotalPrice from './TotalPrice.svelte'
   import ChargeInfo from './ChargeInfo.svelte'
   import DiscountInput from './DiscountInput.svelte'
+  import PlanSelector from './PlanSelector.svelte'
 
   const style = {
     base: {
@@ -36,7 +37,9 @@
   let currentPlan = {}
   $: alternativePlan = getAlternativeBillingPlan(plans, currentPlan)
 
-  $: console.log(plans, currentPlan, alternativePlan)
+  function onSubmit(a) {
+    console.log(a)
+  }
 
   onMount(() => {
     getSanbasePlans().then(sanbasePlans => {
@@ -49,33 +52,34 @@
 <template lang="pug">
 include /ui/mixins
 
-mixin field(label, placeholder)
+mixin field(name, label, placeholder)
   label= label
-    +input()(required, placeholder=placeholder)
+    +input()(name=name, required, placeholder=placeholder)
 
 Dialog(open='{true}', title='Payment details')
   +dialogScrollContent.wrapper(slot='content')
-    form.main
+    form.main(on:submit|preventDefault='{onSubmit}')
       .card.info
         .top Card information
         .form
-          +field('Full name', 'John Doe')
+          +field('name', 'Full name', 'John Doe')
           label Card number
             #card-element
-          +field('Country', 'US')
+          +field('address_country', 'Country', 'US')
 
       .card.address
         .top Billing address
         .form
-          +field('Street address', '1483 Pearl Street')
-          +field('City', 'Sacramento')
-          +field('State / Region', 'California')
+          +field('address_line1', 'Street address', '1483 Pearl Street')
+          +field('address_city', 'City', 'Sacramento')
+          +field('address_state', 'State / Region', 'California')
 
       .card.confirmation
         .top Confirmation
           span.top__right Payment with DAI? 
             a(href='mailto:info@santiment.net') Contact us
         .form.form_white
+          PlanSelector(bind:currentPlan, {plans})
           DiscountInput(bind:coupon)
           TotalPrice({currentPlan}, {...coupon})
           +button(type='submit', fluid, variant='fill', accent='jungle-green').submit Go PRO now
