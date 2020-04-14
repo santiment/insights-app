@@ -1,11 +1,12 @@
 <script>
-  import { onMount, getContext } from 'svelte'
+  import { getContext, onMount } from 'svelte'
   import { client } from '@/apollo'
-  import { PLANS_QUERY } from '@/gql/plans'
-  import { findSanbasePlans } from '@/utils/plans'
-  import Dialog from '@/ui/dialog/index'
-  import { sendEvent } from '@/analytics'
   import COLOR from '@santiment-network/ui/variables.scss'
+  import { PLANS_QUERY } from '@/gql/plans'
+  import Dialog from '@/ui/dialog/index'
+  import { getSanbasePlans } from '@/logic/plans'
+  import { getAlternativeBillingPlan, formatOnlyPrice } from '@/utils/plans'
+  import TotalPrice from './TotalPrice.svelte'
 
   const style = {
     base: {
@@ -28,40 +29,51 @@
     card.mount('#card-element')
   }
 
-  function onUpgradeClick() {}
+  let plans = []
+  let currentPlan = {}
+  $: alternativePlan = getAlternativeBillingPlan(plans, currentPlan)
+
+  $: console.log(plans, currentPlan, alternativePlan)
+
+  onMount(() => {
+    getSanbasePlans().then(sanbasePlans => {
+      plans = sanbasePlans
+      currentPlan = sanbasePlans.find(({ name }) => name === 'PRO')
+    })
+  })
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
+mixin field(label, placeholder)
+  label= label
+    +input()(required, placeholder=placeholder)
+
 Dialog(open='{true}', title='Payment details')
   +dialogScrollContent.wrapper(slot='content')
-    .main
+    form.main
       .card.info
         .top Card information
         .form
-          label Full name
-            +input()(required, placeholder='John Doe')
+          +field('Full name', 'John Doe')
           label Card number
             #card-element
-          label Country
-            +input()(required, placeholder='US')
+          +field('Country', 'US')
 
       .card.address
         .top Billing address
         .form
-          label Street address
-            +input()(required, placeholder='1483 Pearl Street')
-          label City
-            +input()(required, placeholder='Sacramento')
-          label State / Region
-            +input()(required, placeholder='California')
+          +field('Street address', '1483 Pearl Street')
+          +field('City', 'Sacramento')
+          +field('State / Region', 'California')
 
       .card.confirmation
         .top Confirmation
           span.top__right Payment with DAI? 
             a(href='mailto:info@santiment.net') Contact us
-        .form.form_white 123
+        .form.form_white
+          TotalPrice({currentPlan})
 
     .footer
       span Fully secured checkout
