@@ -6,9 +6,7 @@
   import { getAlternativeBillingPlan, formatOnlyPrice } from '@/utils/plans'
   import { user$ } from '@/stores/user'
 
-  export let currentPlan,
-    percentOff = 20,
-    hasSanDiscount
+  export let currentPlan, percentOff
 
   const user = user$()
 
@@ -53,31 +51,31 @@ include /ui/mixins
   @import '@/variables';
   @import '@/mixins';
 
- .holder {
-   position: relative;
-   border-radius: 4px;
-   color: var(--mirage);
-   padding: 12px 16px 10px 40px;
-   background: #ecfaf6;
-   margin-bottom: 44px;
- }
+  .holder {
+    position: relative;
+    border-radius: 4px;
+    color: var(--mirage);
+    padding: 12px 16px 10px 40px;
+    background: #ecfaf6;
+    margin-bottom: 44px;
+  }
 
- a {
-   color: var(--jungle-green);
-   text-decoration: underline;
+  a {
+    color: var(--jungle-green);
+    text-decoration: underline;
 
-   &:hover {
-     color: var(--jungle-green-hover);
-   }
- }
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
+  }
 
- .question {
-   @include size(15px);
-   position: absolute;
-   left: 17px;
-   top: 15px;
-   fill: var(--mirage);
- }
+  .question {
+    @include size(15px);
+    position: absolute;
+    left: 17px;
+    top: 15px;
+    fill: var(--mirage);
+  }
 
   .row {
     display: flex;

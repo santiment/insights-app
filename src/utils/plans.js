@@ -1,4 +1,4 @@
-import { ONE_DAY_IN_MS } from './dates'
+import { ONE_DAY_IN_MS, getDateFormats } from './dates'
 
 const sanbaseProductId = '2'
 
@@ -58,4 +58,18 @@ export const getAlternativeBillingPlan = (plans, oldPlan) => {
     ({ name, interval }) =>
       name.toUpperCase() === oldName && interval !== oldInterval,
   )
+}
+
+const NEXT_DATE_GET_SET_MONTH = ['setMonth', 'getMonth']
+const NEXT_DATE_GET_SET_YEAR = ['setFullYear', 'getFullYear']
+export const getNextPaymentDate = billing => {
+  const [setter, getter] =
+    billing === 'year' ? NEXT_DATE_GET_SET_YEAR : NEXT_DATE_GET_SET_MONTH
+
+  const date = new Date()
+  date[setter](date[getter]() + 1)
+
+  const { DD, MM, YY } = getDateFormats(date)
+
+  return `${DD}/${MM}/${YY}`
 }

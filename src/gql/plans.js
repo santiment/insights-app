@@ -14,3 +14,15 @@ export const PLANS_QUERY = gql`
     }
   }
 `
+
+export const CHECK_COUPON_QUERY = gql`
+  query getCoupon($coupon: String!) {
+    getCoupon(coupon: $coupon) {
+      amountOff
+      id
+      isValid
+      name
+      percentOff
+    }
+  }
+`

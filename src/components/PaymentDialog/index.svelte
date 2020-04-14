@@ -7,6 +7,8 @@
   import { getSanbasePlans } from '@/logic/plans'
   import { getAlternativeBillingPlan, formatOnlyPrice } from '@/utils/plans'
   import TotalPrice from './TotalPrice.svelte'
+  import ChargeInfo from './ChargeInfo.svelte'
+  import DiscountInput from './DiscountInput.svelte'
 
   const style = {
     base: {
@@ -29,6 +31,7 @@
     card.mount('#card-element')
   }
 
+  let coupon
   let plans = []
   let currentPlan = {}
   $: alternativePlan = getAlternativeBillingPlan(plans, currentPlan)
@@ -73,7 +76,10 @@ Dialog(open='{true}', title='Payment details')
           span.top__right Payment with DAI? 
             a(href='mailto:info@santiment.net') Contact us
         .form.form_white
-          TotalPrice({currentPlan})
+          DiscountInput(bind:coupon)
+          TotalPrice({currentPlan}, {...coupon})
+          +button(type='submit', fluid, variant='fill', accent='jungle-green').submit Go PRO now
+          ChargeInfo({currentPlan})
 
     .footer
       span Fully secured checkout
@@ -181,5 +187,11 @@ Dialog(open='{true}', title='Payment details')
     &__info {
       margin-left: 49px;
     }
+  }
+
+  .submit {
+    height: 40px;
+    justify-content: center;
+    margin: 37px 0 16px;
   }
 </style>
