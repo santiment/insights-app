@@ -59,22 +59,25 @@ mixin field(name, label, placeholder)
 Dialog(open='{true}', title='Payment details')
   +dialogScrollContent.wrapper(slot='content')
     form.main(on:submit|preventDefault='{onSubmit}')
-      .card.info
-        .top Card information
+      .info
+        .top.card Card information
+          .cards
+            img(src='/visa.png', width='40').visa
+            img(src='/mastercard.png', width='40')
         .form
           +field('name', 'Full name', 'John Doe')
           label Card number
             #card-element
           +field('address_country', 'Country', 'US')
 
-      .card.address
+      .address
         .top Billing address
         .form
           +field('address_line1', 'Street address', '1483 Pearl Street')
           +field('address_city', 'City', 'Sacramento')
           +field('address_state', 'State / Region', 'California')
 
-      .card.confirmation
+      .confirmation
         .top Confirmation
           span.top__right Payment with DAI? 
             a(href='mailto:info@santiment.net') Contact us
@@ -86,8 +89,13 @@ Dialog(open='{true}', title='Payment details')
           ChargeInfo({currentPlan})
 
     .footer
-      span Fully secured checkout
-      span.footer__info 30 day money back guarantee
+      span
+        +icon('paylock').paylock
+        | Fully secured checkout
+      span.footer__info
+        +icon('dollar').dollar
+        | 30 day money back guarantee
+
 </template>
 
 <style lang="scss">
@@ -198,5 +206,64 @@ Dialog(open='{true}', title='Payment details')
     height: 40px;
     justify-content: center;
     margin: 37px 0 16px;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    .wrapper {
+      width: auto;
+    }
+
+    .main {
+      grid-template-columns: 1fr;
+      padding: 8px;
+      grid-template-rows: 3fr;
+      grid-template-areas:
+        'info'
+        'address'
+        'confirmation';
+    }
+
+    .form {
+      padding: 18px 12px;
+    }
+
+    .footer {
+      display: flex;
+      flex-direction: column;
+
+      &__info {
+        margin: 0;
+      }
+    }
+  }
+
+  .paylock {
+    @include size(12px, 15px);
+    margin-top: -2px;
+  }
+
+  .dollar {
+    @include size(14px);
+  }
+
+  .paylock,
+  .dollar {
+    margin-right: 10px;
+  }
+
+  .card {
+    position: relative;
+  }
+
+  .cards {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  .visa {
+    margin-right: 16px;
   }
 </style>

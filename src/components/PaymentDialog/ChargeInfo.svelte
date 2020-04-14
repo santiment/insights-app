@@ -13,7 +13,7 @@ include /ui/mixins
 
 .wrapper Your card will be charged 
   b {formatOnlyPrice(currentPlan.amount)} 
-  | every year until you decide to downgrade or unsubscribe. Next payment: 
+  | every {currentPlan.interval} until you decide to downgrade or unsubscribe. Next payment: 
   b {getNextPaymentDate(currentPlan.interval)}
 
 </template>
