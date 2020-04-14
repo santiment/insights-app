@@ -2,14 +2,13 @@
   import { getContext, onMount } from 'svelte'
   import { client } from '@/apollo'
   import COLOR from '@santiment-network/ui/variables.scss'
-  import { PLANS_QUERY } from '@/gql/plans'
   import Dialog from '@/ui/dialog/index'
-  import { getSanbasePlans } from '@/logic/plans'
-  import { getAlternativeBillingPlan, formatOnlyPrice } from '@/utils/plans'
   import TotalPrice from './TotalPrice.svelte'
   import ChargeInfo from './ChargeInfo.svelte'
   import DiscountInput from './DiscountInput.svelte'
   import PlanSelector from './PlanSelector.svelte'
+  import { getSanbasePlans, getTokenDataByForm, buyPlan } from '@/logic/plans'
+  import { getAlternativeBillingPlan, formatOnlyPrice } from '@/utils/plans'
 
   const style = {
     base: {
@@ -26,10 +25,11 @@
   }
 
   const stripe = getContext('stripe')
+  let stripeCard
 
   $: if ($stripe) {
-    const card = $stripe.elements().create('card', { style })
-    card.mount('#card-element')
+    stripeCard = $stripe.elements().create('card', { style })
+    stripeCard.mount('#card-element')
   }
 
   let coupon
@@ -37,8 +37,8 @@
   let currentPlan = {}
   $: alternativePlan = getAlternativeBillingPlan(plans, currentPlan)
 
-  function onSubmit(a) {
-    console.log(a)
+  function onSubmit({ target }) {
+    buyPlan($stripe, stripeCard, getTokenDataByForm(target), currentPlan)
   }
 
   onMount(() => {
@@ -169,6 +169,7 @@ Dialog(open='{true}', title='Payment details')
   input {
     width: 100%;
     height: 40px;
+    color: var(--rhino);
   }
 
   #card-element {

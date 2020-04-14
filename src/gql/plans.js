@@ -26,3 +26,23 @@ export const CHECK_COUPON_QUERY = gql`
     }
   }
 `
+
+export const SUBSCRIBE_MUTATION = gql`
+  mutation subscribe($cardToken: String!, $planId: Int!, $coupon: String) {
+    subscription: subscribe(
+      cardToken: $cardToken
+      planId: $planId
+      coupon: $coupon
+    ) {
+      id
+      trialEnd
+      plan {
+        id
+        name
+        product {
+          id
+        }
+      }
+    }
+  }
+`

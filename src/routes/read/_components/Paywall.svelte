@@ -1,5 +1,5 @@
 <script>
-  import { onMount, getContext } from 'svelte'
+  import { onMount } from 'svelte'
   import { client } from '@/apollo'
   import { PLANS_QUERY } from '@/gql/plans'
   import { findSanbasePlans } from '@/utils/plans'
@@ -9,8 +9,6 @@
   let price = 51
 
   onMount(() => {
-    console.log(getContext('stripe'))
-
     client
       .query({
         query: PLANS_QUERY,

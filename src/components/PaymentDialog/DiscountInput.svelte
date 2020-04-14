@@ -28,7 +28,7 @@
 include /ui/mixins
 
 label Discount code
-  +input()(required, placeholder='2H8vZG5P', name='coupon', on:input='{onInput}')
+  +input(placeholder='2H8vZG5P', name='coupon', on:input='{onInput}')
   +if('loading')
     .spinner
 
@@ -52,6 +52,7 @@ label Discount code
   input {
     width: 100%;
     height: 40px;
+    color: var(--rhino);
   }
 
   .valid,

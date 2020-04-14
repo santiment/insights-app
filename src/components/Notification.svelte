@@ -11,7 +11,8 @@
     id,
     type = 'info',
     dismissAfter = 5000,
-    actions 
+    description,
+    actions,
   } = notification
   let timer
 
@@ -51,6 +52,8 @@ include /ui/mixins
     +icon('{type}').icon(class='{type}')
     |{title}
     +icon('close').close(on:click="{destroy}")
+  +if('description')
+    p {description}
   +if('actions')
     .actions
       +each('actions as {label, onClick, href}')
@@ -121,5 +124,13 @@ include /ui/mixins
   .action {
     height: auto;
     padding: 0;
+  }
+
+  p {
+    padding: 10px 25px 0 31px;
+    color: var(--waterloo);
+    max-width: 100%;
+    white-space: pre;
+    overflow-x: auto;
   }
 </style>
