@@ -47,12 +47,12 @@ include /ui/mixins
       .time {publishTime}
     .text
       +html('text')
-    ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", withPic, classes="{{wrapper: 'card__profile'}}")
+    ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", withPic, classes="{{wrapper: 'PulseCard__profile'}}")
 
   .bottom
     .stats
       LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
-      CommentCounter.Card__comments({link}, {commentsCount}, isSSRLink)
+      CommentCounter.PulseCard__comments({link}, {commentsCount}, isSSRLink)
 
     div.tags
       Tags({tags})
@@ -179,11 +179,11 @@ include /ui/mixins
     text-align: right;
   }
 
-  :global(.Card__comments) {
+  :global(.PulseCard__comments) {
     margin-left: 22px;
   }
 
-  :global(.card__profile) {
+  :global(.PulseCard__profile) {
     max-width: 400px;
     color: var(--waterloo);
     @include text('caption');

@@ -1,7 +1,7 @@
 <script context="module">
   import { client } from '@/apollo'
-  import { PULSE_INSIGHTS_BY_PAGE_QUERY } from '@/gql/insights'
   import { checkGDPR } from '@/logic/gdpr'
+  import { getPulseInsights } from '@/logic/insights'
 
   export async function preload(_, session, { apollo = client }) {
     await session.loadingUser
@@ -9,16 +9,8 @@
       return
     }
 
-    const response = await apollo.query({
-      query: PULSE_INSIGHTS_BY_PAGE_QUERY,
-      variables: {
-        page: 1,
-      },
-      fetchPolicy: 'network-only',
-    })
-
     return {
-      insights: response.data.insights,
+      insights: await getPulseInsights({ page: 1 }, apollo),
     }
   }
 </script>
@@ -26,10 +18,8 @@
 <script>
   import Feed from '@/components/Feed'
   import ViewportObserver from '@/components/ViewportObserver'
-  import { publishDateSorter } from '@/utils/insights'
   import PulseCard from '@/components/insights/PulseCard'
-
-  const InsightCard = PulseCard
+  import { publishDateSorter } from '@/utils/insights'
 
   const options = {
     rootMargin: '650px',
@@ -46,23 +36,16 @@
   function getInsights() {
     loading = true
     page = page + 1
-    return client
-      .query({
-        query: PULSE_INSIGHTS_BY_PAGE_QUERY,
-        variables: {
-          page,
-        },
-        fetchPolicy: 'network-only',
-      })
-      .then(({ data }) => {
-        if (data.insights.length === 0) {
-          hasMore = false
-        } else {
-          insights = insights.concat(data.insights)
-        }
 
-        loading = false
-      })
+    return getPulseInsights({ page }).then((newInsights) => {
+      if (newInsights.length === 0) {
+        hasMore = false
+      } else {
+        insights = insights.concat(newInsights)
+      }
+
+      loading = false
+    })
   }
 
   function onIntersect() {
@@ -86,7 +69,7 @@ svelte:head
     ViewportObserver({options}, on:intersect='{onIntersect}', observeWhile='{hasMore}')
       Feed(items="{insights}", dateKey="publishedAt", preIndex='{4}')
         div.insights__item(slot="item", let:item="{insight}")
-          InsightCard({insight})
+          PulseCard({insight})
         
 </template>
 
