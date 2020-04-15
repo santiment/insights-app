@@ -35,6 +35,16 @@ export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
   ${insightCommon}
 `
 
+export const PULSE_INSIGHTS_BY_PAGE_QUERY = gql`
+  query allInsights($page: Int) {
+    insights: allInsights(page: $page, pageSize: 10, isPulse: false) {
+      ...insightCommon
+      text
+    }
+  }
+  ${insightCommon}
+`
+
 export const INSIGHTS_BY_USERID_QUERY = gql`
   query allInsightsForUser($id: Int!) {
     insights: allInsightsForUser(userId: $id) {
