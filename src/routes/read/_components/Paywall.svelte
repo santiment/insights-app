@@ -35,14 +35,15 @@
   })
 
   function onUpgradeClick() {
+    sendEvent('upgrade', {
+        method: `Insight Paywall`,
+    })
+
     if (!$currentUser) {
       return goto('/login')
     }
 
     open = true
-    sendEvent('upgrade', {
-      method: `Insight Paywall`,
-    })
   }
 
   function onSuccess() {
