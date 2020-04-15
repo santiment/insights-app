@@ -21,6 +21,7 @@
 </script>
 
 <script>
+  import { setContext } from 'svelte'
   import { stores } from '@sapper/app'
   import Notifications from '@/components/Notifications'
   import LoadProgress from '@/components/LoadProgress'
@@ -30,9 +31,10 @@
   import Analytics from '@/components/Analytics'
   import Intercom from '@/components/Intercom'
   import Stripe from '@/components/Stripe'
+  import { user$ } from '@/stores/user'
+  import { toggleInsightLike } from '@/logic/likes'
   import { lookupSavedComment } from '@/utils/comments'
   import { getMobileComponent } from '@/utils/responsive'
-  import { user$ } from '@/stores/user'
 
   export let segment
 
@@ -72,6 +74,8 @@
         return '/'
     }
   }
+
+  setContext('toggleInsightLike', toggleInsightLike)
 </script>
 
 <template lang="pug">

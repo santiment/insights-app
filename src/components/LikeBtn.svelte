@@ -1,10 +1,11 @@
 <script>
-  import { stores } from '@sapper/app'
-  import { client } from '@/apollo'
-  import { LIKE_INSIGHT_MUTATION, UNLIKE_INSIGHT_MUTATION } from '@/gql/likes'
+  import { getContext } from 'svelte'
   import { debounce } from '@/utils/func'
+  import { user$ } from '@/stores/user'
 
-  const { session } = stores()
+  const toggleInsightLike = getContext('toggleInsightLike')
+  const currentUser = user$()
+
   let klass = ''
   export { klass as class }
   export let id, likes, liked
@@ -19,18 +20,12 @@
       return
     }
     wasLiked = liked
-    client
-      .mutate({
-        mutation: liked ? LIKE_INSIGHT_MUTATION : UNLIKE_INSIGHT_MUTATION,
-        variables: {
-          id: +id,
-        },
-      })
-      .catch(() => {
-        wasLiked = !wasLiked
-        liked = wasLiked
-      })
-  }, 150)
+
+    toggleInsightLike(id, liked).catch(() => {
+      wasLiked = !wasLiked
+      liked = wasLiked
+    })
+  }, 200)
 
   function toggleLike() {
     liked = !liked
@@ -41,7 +36,7 @@
 <template lang="pug">
 include /ui/mixins
 
-button(disabled='{!$session.currentUser}', on:click='{toggleLike}', aria-label='Like', class='{klass}', class:liked)
+button(disabled='{!$currentUser}', on:click='{toggleLike}', aria-label='Like', class='{klass}', class:liked)
   +icon('liked').icon
   | {_likes}
 </template>

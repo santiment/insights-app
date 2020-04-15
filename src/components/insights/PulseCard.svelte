@@ -2,7 +2,6 @@
   import ProfileInfo from '@/components/ProfileInfo'
   import LikeBtn from '@/components/LikeBtn'
   import CommentCounter from '@/components/comments/Counter'
-  import MultilineText from '@/components/MultilineText'
   import Tag from '@/components/insights/Tag'
   import Tags from './Tags.svelte'
   import { getTimeFormats, getDateFormats } from '@/utils/dates'
