@@ -6,9 +6,9 @@ import IconArrowUp from '@santiment-network/ui/Icon/IconArrowUp'
 import Timer from '../Timer'
 import InsightEditorPublishHelp from './PrePublishHelp'
 import PrePublishButton from './PrePublishPopup'
-import ShortToggle from './ShortToggle'
-import {dateDifferenceInWords} from '../../utils/dates'
-import {noTrendTagsFilter} from '../../utils/insights'
+import PulseToggle from './PulseToggle'
+import { dateDifferenceInWords } from '../../utils/dates'
+import { noTrendTagsFilter } from '../../utils/insights'
 import styles from './InsightEditor.module.scss'
 
 const InsightEditorBottom = ({
@@ -23,9 +23,11 @@ const InsightEditorBottom = ({
   toggleIsPulse,
   ...props
 }) => {
-  const options = {from: new Date(updatedAt)}
+  const options = { from: new Date(updatedAt) }
   const hasMetRequirements =
-    hasMetTextRequirements.title && hasMetTextRequirements.text
+    hasMetTextRequirements.title &&
+    hasMetTextRequirements.text &&
+    hasMetTextRequirements.pulseText
   const tags = defaultTags.filter(noTrendTagsFilter)
   const actionTargetLabel = isDraft ? 'Publish' : 'Update'
   return (
@@ -45,7 +47,7 @@ const InsightEditorBottom = ({
             )}
           </span>
         )}
-        {isDraft && <ShortToggle isActive={isPulse} onClick={toggleIsPulse} />}
+        {isDraft && <PulseToggle isActive={isPulse} onClick={toggleIsPulse} />}
         {!hasMetRequirements && (
           <Tooltip
             on='hover'
@@ -54,7 +56,7 @@ const InsightEditorBottom = ({
               <div>
                 <Button border disabled>
                   {actionTargetLabel} insight
-                  {React.cloneElement(IconArrowUp, {className: styles.icon})}
+                  {React.cloneElement(IconArrowUp, { className: styles.icon })}
                 </Button>
               </div>
             }

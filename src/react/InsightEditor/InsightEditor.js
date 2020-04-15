@@ -1,16 +1,16 @@
-import React, {Component} from 'react'
-import {ApolloProvider} from 'react-apollo'
+import React, { Component } from 'react'
+import { ApolloProvider } from 'react-apollo'
 import PropTypes from 'prop-types'
 import sanitizeHtml from 'sanitize-html/dist/sanitize-html'
 import debounce from 'lodash.debounce'
-import {convertToRaw} from 'draft-js'
+import { convertToRaw } from 'draft-js'
 import mediumDraftImporter from 'medium-draft/lib/importer'
 import mediumDraftExporter from 'medium-draft/lib/exporter'
-import {createEditorState} from 'medium-draft'
+import { createEditorState } from 'medium-draft'
 import Editor from '../Editor/Editor'
 import InsightEditorBottom from './InsightEditorBottom'
 import InsightEditorTitle from './InsightEditorTitle'
-import {client} from '../../apollo'
+import { client } from '../../apollo'
 import styles from './InsightEditor.module.scss'
 
 const removeAmpersandRepetitions = (str) =>
@@ -63,15 +63,17 @@ class InsightEditor extends Component {
     isPulse: this.props.isPulse,
   }
 
-  componentDidUpdate({tags}) {
-    const {defaultTags} = this.state
-    const {tags: currentTags} = this.props
+  componentDidUpdate({ tags }) {
+    const { defaultTags } = this.state
+    const { tags: currentTags } = this.props
     if (!tags.length && !defaultTags.length && currentTags.length > 0) {
-      this.setState({defaultTags: this.props.tags})
+      this.setState({ defaultTags: this.props.tags })
     }
   }
 
-  trendTag = this.props.tags.find(({name}) => name.endsWith('-trending-words'))
+  trendTag = this.props.tags.find(({ name }) =>
+    name.endsWith('-trending-words'),
+  )
 
   toggleIsPulse = () => {
     this.setState(
@@ -133,7 +135,7 @@ class InsightEditor extends Component {
   }
 
   isTitleAndTextOk() {
-    const {title, textEditorState} = this.state
+    const { title, textEditorState, isPulse } = this.state
 
     const trimmedTitle = title.trim()
     const trimmedText = textEditorState
@@ -141,20 +143,25 @@ class InsightEditor extends Component {
       .getPlainText()
       .trim()
 
-    return {title: trimmedTitle.length > 5, text: trimmedText.length > 5}
+    return {
+      title: trimmedTitle.length > 5,
+      text: trimmedText.length > 5,
+      pulseText: isPulse ? trimmedText.split(' ').length < 151 : true,
+    }
   }
 
   // NOTE(vanguard): Maybe should be placed in the InsightsEditorPage?
   updateDraft = debounce(
     (currentContent = this.state.textEditorState.getCurrentContent()) => {
-      const {title, tags, isPaywallRequired} = this.state
+      const { title, tags, isPaywallRequired, isPulse } = this.state
 
-      if (!this.isTitleAndTextOk()) {
+      const hasMetRequirements = this.isTitleAndTextOk()
+      if (!hasMetRequirements.title || !hasMetRequirements.text) {
         return
       }
 
       const currentHtml = mediumDraftExporter(currentContent)
-      const {id, updateDraft} = this.props
+      const { id, updateDraft } = this.props
 
       updateDraft({
         id,
@@ -162,9 +169,10 @@ class InsightEditor extends Component {
         text: sanitizeMediumDraftHtml(currentHtml),
         tags: this.trendTag ? [...tags, this.trendTag] : tags,
         isPaywallRequired,
+        isPulse,
       })
 
-      this.setState((prevState) => ({...prevState, isEditing: false}))
+      this.setState((prevState) => ({ ...prevState, isEditing: false }))
     },
     1000,
   )

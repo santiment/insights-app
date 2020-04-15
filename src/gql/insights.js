@@ -37,7 +37,7 @@ export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
 
 export const PULSE_INSIGHTS_BY_PAGE_QUERY = gql`
   query allInsights($page: Int) {
-    insights: allInsights(page: $page, pageSize: 10, isPulse: false) {
+    insights: allInsights(page: $page, pageSize: 10, isPulse: true) {
       ...insightCommon
       text
     }
@@ -88,6 +88,7 @@ export const INSIGHT_BY_ID_QUERY = gql`
     insight: post(id: $id) {
       ...insightCommon
       text
+      isPulse
     }
   }
 
@@ -136,6 +137,7 @@ export const UPDATE_INSIGHT_DRAFT_MUTATION = gql`
     $text: String
     $tags: [String]
     $isPaywallRequired: Boolean
+    $isPulse: Boolean
   ) {
     updatedDraft: updateInsight(
       id: $id
@@ -143,6 +145,7 @@ export const UPDATE_INSIGHT_DRAFT_MUTATION = gql`
       text: $text
       tags: $tags
       isPaywallRequired: $isPaywallRequired
+      isPulse: $isPulse
     ) {
       id
       updatedAt
