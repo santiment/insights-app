@@ -1,9 +1,7 @@
 <script context="module">
   import { client } from '@/apollo'
-  import {
-    ALL_INSIGHTS_BY_PAGE_QUERY,
-    FEATURED_INSIGHTS_QUERY,
-  } from '@/gql/insights'
+  import { FEATURED_INSIGHTS_QUERY } from '@/gql/insights'
+  import { getAllInsights } from '@/logic/insights'
   import { checkGDPR } from '@/logic/gdpr'
 
   export async function preload(_, session, { apollo = client }) {
@@ -13,20 +11,14 @@
     }
 
     const [resAll, resFeat] = await Promise.all([
-      apollo.query({
-        query: ALL_INSIGHTS_BY_PAGE_QUERY,
-        variables: {
-          page: 1,
-        },
-        fetchPolicy: 'network-only',
-      }),
+      getAllInsights({ page: 1 }, apollo),
       apollo.query({
         query: FEATURED_INSIGHTS_QUERY,
       }),
     ])
 
     return {
-      insights: resAll.data.insights,
+      insights: resAll,
       featured: resFeat.data.insights,
     }
   }
@@ -63,23 +55,15 @@
   function getInsights() {
     loading = true
     page = page + 1
-    return client
-      .query({
-        query: ALL_INSIGHTS_BY_PAGE_QUERY,
-        variables: {
-          page,
-        },
-        fetchPolicy: 'network-only',
-      })
-      .then(({ data }) => {
-        if (data.insights.length === 0) {
-          hasMore = false
-        } else {
-          insights = insights.concat(data.insights)
-        }
+    return getAllInsights({ page }).then((newInsights) => {
+      if (newInsights.length === 0) {
+        hasMore = false
+      } else {
+        insights = insights.concat(newInsights)
+      }
 
-        loading = false
-      })
+      loading = false
+    })
   }
 
   function onIntersect() {

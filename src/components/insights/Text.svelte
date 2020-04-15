@@ -43,6 +43,13 @@ Modal(bind:open='{enlargedImgSrc}')
       margin: 16px 0 32px;
     }
 
+    :global(.md-block-image-caption) {
+      font-size: 14px;
+      line-height: 20px;
+      font-style: italic;
+      color: var(--waterloo);
+    }
+
     :global(img) {
       cursor: pointer;
       max-height: 500px;
@@ -56,13 +63,6 @@ Modal(bind:open='{enlargedImgSrc}')
     :global(.md-inline-link) {
       text-decoration: underline;
       color: var(--jungle-green);
-    }
-
-    :global(.md-block-image-caption) {
-      font-size: 14px;
-      line-height: 20px;
-      font-style: italic;
-      color: var(--waterloo);
     }
 
     :global(.md-inline-underline) {

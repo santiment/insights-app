@@ -6,6 +6,7 @@ import IconArrowUp from '@santiment-network/ui/Icon/IconArrowUp'
 import Timer from '../Timer'
 import InsightEditorPublishHelp from './PrePublishHelp'
 import PrePublishButton from './PrePublishPopup'
+import PulseToggle from './PulseToggle'
 import { dateDifferenceInWords } from '../../utils/dates'
 import { noTrendTagsFilter } from '../../utils/insights'
 import styles from './InsightEditor.module.scss'
@@ -18,11 +19,15 @@ const InsightEditorBottom = ({
   isLoading,
   hasMetTextRequirements,
   isDraft,
+  isPulse,
+  toggleIsPulse,
   ...props
 }) => {
   const options = { from: new Date(updatedAt) }
   const hasMetRequirements =
-    hasMetTextRequirements.title && hasMetTextRequirements.text
+    hasMetTextRequirements.title &&
+    hasMetTextRequirements.text &&
+    hasMetTextRequirements.pulseText
   const tags = defaultTags.filter(noTrendTagsFilter)
   const actionTargetLabel = isDraft ? 'Publish' : 'Update'
   return (
@@ -42,6 +47,7 @@ const InsightEditorBottom = ({
             )}
           </span>
         )}
+        {isDraft && <PulseToggle isActive={isPulse} onClick={toggleIsPulse} />}
         {!hasMetRequirements && (
           <Tooltip
             on='hover'
@@ -58,6 +64,7 @@ const InsightEditorBottom = ({
             <Panel padding>
               <InsightEditorPublishHelp
                 requiredOptions={hasMetTextRequirements}
+                isPulse={isPulse}
               />
             </Panel>
           </Tooltip>

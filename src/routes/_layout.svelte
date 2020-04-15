@@ -64,6 +64,7 @@
 
   function getActivePath(path) {
     switch (path) {
+      case '/pulse':
       case '/my':
       case '/my/drafts':
         return path
@@ -105,6 +106,7 @@ Stripe
 
       +tabs.tabs(class:tabs_mobile='{isMobile}')
         +tab(href="/", class:active="{activePath === '/'}", prefetch) All Insights
+        +tab(href="/pulse", class:active="{activePath === '/pulse'}", prefetch) Pulse Insights
         +tab(href="/my", class:active="{activePath === '/my'}", prefetch) My Insights
         +tab(href="/my/drafts", class:active="{activePath === '/my/drafts'}", prefetch) My Drafts
       +if('isMobile')

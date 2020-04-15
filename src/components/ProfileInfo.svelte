@@ -1,7 +1,7 @@
 <script>
   export let name,
     id,
-    status,
+    status = '',
     classes = {},
     avatarUrl = '',
     withPic = false

@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import Toggle from '@santiment-network/ui/Toggle'
 import IconArrowUp from '@santiment-network/ui/Icon/IconArrowUp'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import TagSelector from '../TagSelector'
@@ -24,7 +23,7 @@ const PrePublishPopup = ({
       trigger={
         <Button accent='positive' border>
           {actionTargetLabel} insight
-          {React.cloneElement(IconArrowUp, { className: styles.icon })}
+          {React.cloneElement(IconArrowUp, {className: styles.icon})}
         </Button>
       }
     >

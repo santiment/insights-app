@@ -13,10 +13,10 @@ import InsightEditorTitle from './InsightEditorTitle'
 import { client } from '../../apollo'
 import styles from './InsightEditor.module.scss'
 
-const removeAmpersandRepetitions = str =>
+const removeAmpersandRepetitions = (str) =>
   str.replace(/(?!<a(.*)>(.*))(&amp;)(?=(.*)<\/a>)/gi, '&')
 
-const sanitizeMediumDraftHtml = html =>
+const sanitizeMediumDraftHtml = (html) =>
   removeAmpersandRepetitions(
     sanitizeHtml(html, {
       allowedTags: [
@@ -47,6 +47,7 @@ class InsightEditor extends Component {
     tags: [],
     isPaywallRequired: false,
     isPro: false,
+    isPulse: false,
   }
 
   defaultEditorContent = convertToRaw(mediumDraftImporter(this.props.text))
@@ -59,6 +60,7 @@ class InsightEditor extends Component {
     defaultTags: this.props.tags,
     isEditing: false,
     isPaywallRequired: this.props.isPaywallRequired,
+    isPulse: this.props.isPulse,
   }
 
   componentDidUpdate({ tags }) {
@@ -73,9 +75,19 @@ class InsightEditor extends Component {
     name.endsWith('-trending-words'),
   )
 
+  toggleIsPulse = () => {
+    this.setState(
+      (state) => ({
+        ...state,
+        isPulse: !state.isPulse,
+      }),
+      this.isDraft ? this.updateDraft : undefined,
+    )
+  }
+
   togglePaywallRequired = () => {
     this.setState(
-      state => ({
+      (state) => ({
         ...state,
         isPaywallRequired: !state.isPaywallRequired,
       }),
@@ -83,7 +95,7 @@ class InsightEditor extends Component {
     )
   }
 
-  onTitleChange = title => {
+  onTitleChange = (title) => {
     this.setState(
       {
         title,
@@ -93,7 +105,7 @@ class InsightEditor extends Component {
     )
   }
 
-  onTextChange = textEditorState => {
+  onTextChange = (textEditorState) => {
     const currentContent = textEditorState.getCurrentContent()
     if (
       mediumDraftExporter(currentContent) ===
@@ -111,7 +123,7 @@ class InsightEditor extends Component {
     )
   }
 
-  onTagsChange = tags => {
+  onTagsChange = (tags) => {
     this.setState(
       {
         tags,
@@ -123,7 +135,7 @@ class InsightEditor extends Component {
   }
 
   isTitleAndTextOk() {
-    const { title, textEditorState } = this.state
+    const { title, textEditorState, isPulse } = this.state
 
     const trimmedTitle = title.trim()
     const trimmedText = textEditorState
@@ -131,15 +143,20 @@ class InsightEditor extends Component {
       .getPlainText()
       .trim()
 
-    return { title: trimmedTitle.length > 5, text: trimmedText.length > 5 }
+    return {
+      title: trimmedTitle.length > 5,
+      text: trimmedText.length > 5,
+      pulseText: isPulse ? trimmedText.split(' ').length < 151 : true,
+    }
   }
 
   // NOTE(vanguard): Maybe should be placed in the InsightsEditorPage?
   updateDraft = debounce(
     (currentContent = this.state.textEditorState.getCurrentContent()) => {
-      const { title, tags, isPaywallRequired } = this.state
+      const { title, tags, isPaywallRequired, isPulse } = this.state
 
-      if (!this.isTitleAndTextOk()) {
+      const hasMetRequirements = this.isTitleAndTextOk()
+      if (!hasMetRequirements.title || !hasMetRequirements.text) {
         return
       }
 
@@ -152,9 +169,10 @@ class InsightEditor extends Component {
         text: sanitizeMediumDraftHtml(currentHtml),
         tags: this.trendTag ? [...tags, this.trendTag] : tags,
         isPaywallRequired,
+        isPulse,
       })
 
-      this.setState(prevState => ({ ...prevState, isEditing: false }))
+      this.setState((prevState) => ({ ...prevState, isEditing: false }))
     },
     1000,
   )
@@ -174,6 +192,7 @@ class InsightEditor extends Component {
       defaultTags,
       isTagsModified,
       isPaywallRequired,
+      isPulse,
     } = this.state
     const tags = isTagsModified ? this.state.tags : defaultTags
 
@@ -207,6 +226,8 @@ class InsightEditor extends Component {
             togglePaywallRequired={this.togglePaywallRequired}
             isPaywallRequired={isPaywallRequired}
             isPro={isPro}
+            isPulse={isPulse}
+            toggleIsPulse={this.toggleIsPulse}
           />
         </div>
       </ApolloProvider>
