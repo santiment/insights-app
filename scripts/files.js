@@ -2,7 +2,7 @@ const fs = require('fs')
 const mkdirp = require('mkdirp')
 const { recursiveList, joinPaths, getPath } = require('./utils')
 
-const noSvgFilter = files => files.filter(file => !file.includes('.svg'))
+const noSvgFilter = (files) => files.filter((file) => !file.includes('.svg'))
 
 const ROOT = getPath('..')
 const LIB = joinPaths(ROOT, 'lib')
@@ -13,7 +13,7 @@ function copyFiles(pathFrom, pathTo, filter = noSvgFilter, maxRec) {
     pathFrom,
     pathTo,
     (files, newFrom, newTo) =>
-      filter(files).forEach(file =>
+      filter(files).forEach((file) =>
         fs.copyFileSync(joinPaths(newFrom, file), joinPaths(newTo, file)),
       ),
     (_, newTo) => mkdirp.sync(newTo),
@@ -36,18 +36,22 @@ function moveStaticIcons() {
   copyFiles(
     PATH_FROM,
     PATH_TO,
-    files => files.filter(file => file.includes('.svg')),
+    (files) => files.filter((file) => file.includes('.svg')),
     0,
   )
   console.log('Static files were moved to lib folder!')
 }
 
-function moveComments() {
+function moveComponents() {
   const comments = ['components', 'comments']
   const PATH_FROM = joinPaths(SRC, ...comments)
   const PATH_TO = joinPaths(LIB, ...comments)
-
   copyFiles(PATH_FROM, PATH_TO)
+
+  const insights = ['components', 'insights']
+  const INS_PATH_FROM = joinPaths(SRC, ...insights)
+  const INS_PATH_TO = joinPaths(LIB, ...insights)
+  copyFiles(INS_PATH_FROM, INS_PATH_TO)
 
   const contextMenu = ['components', 'ContextMenu.svelte']
   fs.copyFileSync(
@@ -55,7 +59,26 @@ function moveComments() {
     joinPaths(LIB, ...contextMenu),
   )
 
-  console.log('Comments were moved to lib folder!')
+  const profileInfo = ['components', 'ProfileInfo.svelte']
+  fs.copyFileSync(
+    joinPaths(SRC, ...profileInfo),
+    joinPaths(LIB, ...profileInfo),
+  )
+
+  const likeBtn = ['components', 'LikeBtn.svelte']
+  fs.copyFileSync(joinPaths(SRC, ...likeBtn), joinPaths(LIB, ...likeBtn))
+
+  console.log('Components were moved to lib folder!')
+}
+
+function moveStores() {
+  const stores = ['stores']
+  const PATH_FROM = joinPaths(SRC, ...stores)
+  const PATH_TO = joinPaths(LIB, ...stores)
+
+  copyFiles(PATH_FROM, PATH_TO)
+
+  console.log('Stores were moved to lib folder!')
 }
 
 function moveUtils() {
@@ -68,8 +91,9 @@ function moveUtils() {
 }
 
 function moveJs() {
-  moveComments()
+  moveComponents()
   moveUtils()
+  moveStores()
 }
 
 function moveUiLib() {
