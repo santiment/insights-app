@@ -9,7 +9,8 @@
 
   let className = ''
   export { className as class }
-  export let insight
+  export let insight,
+    transformLink = (link) => link
 
   let {
     id,
@@ -34,7 +35,7 @@
   const publishTime = `${DD}-${MM}-${YY}, ${HH}:${mm}`
 
   const seoLink = getSEOLinkFromIdAndTitle(id, title)
-  const link = `/read/${seoLink}`
+  const link = transformLink(`/read/${seoLink}`)
 </script>
 
 <template lang="pug">
@@ -65,8 +66,9 @@ mixin rawHtml(variables)
   @import '@/mixins';
 
   .wrapper {
-    padding: 18px 16px 12px 56px;
+    padding: 14px 16px 12px 56px;
     background: url('/pulse-icon.svg') no-repeat 16px 16px;
+    word-break: break-word;
   }
 
   .top {
@@ -78,8 +80,8 @@ mixin rawHtml(variables)
   .title {
     @include text('body-1');
     display: flex;
-    word-break: break-word;
     color: var(--rhino);
+    justify-content: space-between;
 
     &:hover {
       color: var(--jungle-green);
@@ -89,7 +91,8 @@ mixin rawHtml(variables)
   .time {
     @include text('caption');
     color: var(--casper);
-    margin: 4px 0 0 auto;
+    margin: 4px 0 0 16px;
+    white-space: nowrap;
   }
 
   .text {
@@ -186,14 +189,14 @@ mixin rawHtml(variables)
       border-radius: 4px;
       color: var(--mirage);
       position: relative;
-      margin: 12xp 0 16px;
+      margin: 12px 0 16px;
 
       &::before {
         content: '“';
         position: absolute;
         display: block;
         left: 28px;
-        top: 1px;
+        top: 4px;
         font-size: 50px;
         font-family: sans-serif;
         font-weight: bold;

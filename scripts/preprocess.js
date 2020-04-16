@@ -197,10 +197,11 @@ function makeStaticIconsImported() {
           const length = staticFile.length + 2
           let isInStyles = false
           let startIndex = findInQuotesIndex(source, staticFile)
-          if (startIndex === -1) {
-            startIndex = findInQuotesIndex(source, '/' + staticFile)
-            isInStyles = startIndex > -1
-          }
+          // Disable style replace for now
+          /* if (startIndex === -1) {
+           *   startIndex = findInQuotesIndex(source, '/' + staticFile)
+           *   isInStyles = startIndex > -1
+           * } */
 
           while (startIndex !== -1) {
             if (isInStyles) {
