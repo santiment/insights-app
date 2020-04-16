@@ -40,12 +40,15 @@
 <template lang="pug">
 include /ui/mixins
 
+mixin rawHtml(variables)
+  | {@html !{variables}}
+
 +panel().wrapper(class="{className}")
   .top
     a.title(href="{link}") {title}
       .time {publishTime}
-    .text
-      +html('text')
+    .text.PulseCard__text
+      +rawHtml('text')
     ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", withPic, classes="{{wrapper: 'PulseCard__profile'}}")
 
   .bottom
@@ -76,6 +79,7 @@ include /ui/mixins
     @include text('body-1');
     display: flex;
     word-break: break-word;
+    color: var(--rhino);
 
     &:hover {
       color: var(--jungle-green);
@@ -92,72 +96,6 @@ include /ui/mixins
     @include text('caption');
     color: var(--waterloo);
     margin: 10px 0 12px;
-
-    :global(&) {
-      figure {
-        text-align: center;
-        margin-bottom: 6px;
-
-        & + figure {
-          margin-top: 20px;
-        }
-      }
-
-      img {
-        max-width: 100%;
-      }
-      .md-inline-bold {
-        font-weight: bold;
-      }
-
-      .md-inline-link {
-        text-decoration: underline;
-        color: var(--jungle-green);
-
-        &:hover {
-          color: var(--jungle-green-hover);
-        }
-      }
-
-      .md-inline-underline {
-        text-decoration: underline;
-      }
-
-      .md-block-unordered-list-item {
-        padding-left: 35px;
-        margin: 10px 0 25px;
-
-        :global(li) {
-          list-style: disc outside;
-        }
-      }
-
-      .md-block-blockquote {
-        @include text('h4');
-        padding: 23px 32px;
-        background: var(--athens);
-        border-radius: 4px;
-        color: var(--mirage);
-        position: relative;
-        margin: 20px 0 30px;
-
-        &::before {
-          content: '“';
-          position: absolute;
-          display: block;
-          left: 28px;
-          top: 1px;
-          font-size: 74px;
-          font-family: sans-serif;
-          font-weight: bold;
-          color: var(--casper);
-        }
-      }
-
-      .md-block-blockquote + .md-block-blockquote::before {
-        display: none;
-      }
-    }
   }
 
   .bottom {
@@ -184,13 +122,87 @@ include /ui/mixins
 
   :global(.PulseCard__profile) {
     max-width: 400px;
-    color: var(--waterloo);
     @include text('caption');
 
-    .icon {
+    :global(.icon) {
       min-width: 24px !important;
       width: 24px !important;
       height: 24px !important;
+    }
+
+    :global(.name) {
+      color: var(--waterloo);
+
+      &:hover {
+        color: var(--jungle-green);
+      }
+    }
+  }
+
+  :global(.PulseCard__text) {
+    figure {
+      text-align: center;
+      margin-bottom: 6px;
+
+      & + figure {
+        margin-top: 20px;
+      }
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    strong,
+    b {
+      font-weight: bold;
+    }
+
+    :global(a) {
+      text-decoration: underline;
+      color: var(--jungle-green);
+
+      &:hover {
+        color: var(--jungle-green-hover);
+      }
+    }
+
+    u {
+      text-decoration: underline;
+    }
+
+    ul {
+      padding-left: 35px;
+      margin: 10px 0 25px;
+
+      :global(li) {
+        list-style: disc outside;
+      }
+    }
+
+    blockquote {
+      padding: 12px 20px;
+      background: var(--athens);
+      border-radius: 4px;
+      color: var(--mirage);
+      position: relative;
+      margin: 12xp 0 16px;
+
+      &::before {
+        content: '“';
+        position: absolute;
+        display: block;
+        left: 28px;
+        top: 1px;
+        font-size: 50px;
+        font-family: sans-serif;
+        font-weight: bold;
+        color: var(--casper);
+      }
+    }
+
+    blockquote + blockquote::before {
+      display: none;
     }
   }
 </style>
