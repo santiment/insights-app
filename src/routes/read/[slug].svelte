@@ -220,7 +220,7 @@
   }
 
   onMount(() => {
-    if (getPostponedPaymentInsight()) {
+    if ($currentUser && getPostponedPaymentInsight()) {
       open = true
       removePostponedPayment()
     }

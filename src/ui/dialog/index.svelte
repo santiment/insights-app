@@ -56,6 +56,7 @@
   onDestroy(() => {
     if (process.browser) {
       window.removeEventListener('keyup', onKeyup)
+      document.body.style.overflowY = ''
     }
   })
 </script>
