@@ -18,7 +18,7 @@ const COMMETS_PATH = joinPaths(LIB, 'components', 'comments')
 
 const { style } = scss()
 
-const createPreprocess = basedir => {
+const createPreprocess = (basedir) => {
   const config = {
     ...autoPreprocess({
       postcss: false,
@@ -30,7 +30,7 @@ const createPreprocess = basedir => {
         basedir,
       },
     }),
-    style: code => {
+    style: (code) => {
       if (code.attributes.lang !== 'scss') return { code: code.content }
 
       code.content = code.content.replace(
@@ -38,7 +38,7 @@ const createPreprocess = basedir => {
         `@import $1${basedir}/`,
       )
 
-      return style(code).then(css => {
+      return style(code).then((css) => {
         return sveltePostcss({
           plugins: [
             cssModules({
@@ -48,7 +48,7 @@ const createPreprocess = basedir => {
           ],
         })
           .style({ content: css.code })
-          .then(postcss => {
+          .then((postcss) => {
             css.code = postcss.code
 
             return css
@@ -58,7 +58,7 @@ const createPreprocess = basedir => {
   }
 
   if (basedir === LIB) {
-    config.script = code => {
+    config.script = (code) => {
       code.content = code.content.replace(
         /from\s*("|')@\//g,
         `from $1${basedir}/`,
@@ -69,8 +69,8 @@ const createPreprocess = basedir => {
 
     const markupPug = config.markup
 
-    config.markup = code =>
-      markupPug(code).then(res => {
+    config.markup = (code) =>
+      markupPug(code).then((res) => {
         res.code = changeIcons(res.code)
         return res
       })
@@ -90,7 +90,7 @@ function moveScss() {
   fs.copyFileSync(joinPaths(pathFrom, variables), joinPaths(LIB, variables))
 }
 
-const onlySvelteExt = file => file.includes('.svelte')
+const onlySvelteExt = (file) => file.includes('.svelte')
 
 function preprocessSvelte() {
   moveScss()
@@ -98,7 +98,7 @@ function preprocessSvelte() {
   recursiveList(LIB, LIB, (files, newPath) => {
     let processedFiles = 0
 
-    files.filter(onlySvelteExt).forEach(filename => {
+    files.filter(onlySvelteExt).forEach((filename) => {
       const filePath = joinPaths(newPath, filename)
       const source = fs.readFileSync(filePath, 'utf8')
 
@@ -174,7 +174,7 @@ function makeStaticIconsImported() {
   recursiveList(
     staticsPath,
     staticsPath,
-    files => {
+    (files) => {
       statics = [...files]
     },
     undefined,
@@ -187,25 +187,36 @@ function makeStaticIconsImported() {
     LIB,
     LIB,
     (files, newPath) => {
-      files.filter(onlySvelteExt).forEach(filename => {
+      files.filter(onlySvelteExt).forEach((filename) => {
         const filePath = joinPaths(newPath, filename)
         let source = fs.readFileSync(filePath, 'utf8')
+        let wasModified = false
         const imports = []
 
-        statics.forEach(staticFile => {
+        statics.forEach((staticFile) => {
           const length = staticFile.length + 2
+          let isInStyles = false
           let startIndex = findInQuotesIndex(source, staticFile)
+          if (startIndex === -1) {
+            startIndex = findInQuotesIndex(source, '/' + staticFile)
+            isInStyles = startIndex > -1
+          }
 
           while (startIndex !== -1) {
-            const match = source.slice(startIndex, startIndex + length)
-            source = source.replace(match, importName + imports.length)
-            imports.push(match.slice(1, -1))
-
+            if (isInStyles) {
+              const match = source.slice(startIndex, startIndex + 1 + length)
+              source = source.replace(match, `"${staticsPath}/${staticFile}"`)
+            } else {
+              const match = source.slice(startIndex, startIndex + length)
+              source = source.replace(match, importName + imports.length)
+              imports.push(match.slice(1, -1))
+            }
+            wasModified = true
             startIndex = findInQuotesIndex(source, staticFile)
           }
         })
 
-        if (!imports.length) {
+        if (wasModified === false) {
           return
         }
 
