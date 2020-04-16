@@ -30,6 +30,8 @@ export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
   query allInsights($page: Int) {
     insights: allInsights(page: $page, pageSize: 10) {
       ...insightCommon
+      isPulse
+      text
     }
   }
   ${insightCommon}

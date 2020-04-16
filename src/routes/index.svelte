@@ -32,6 +32,7 @@
   import InsightCardDesktop from '@/components/insights/InsightCardWithMarketcap'
   import InsightCardMobile from '@/components/insights/InsightCard'
   import InsightSmallCard from '@/components/insights/SmallCard'
+  import PulseCard from '@/components/insights/PulseCard'
   import { publishDateSorter } from '@/utils/insights'
   import { getMobileComponent } from '@/utils/responsive'
 
@@ -87,7 +88,10 @@ svelte:head
     ViewportObserver({options}, on:intersect='{onIntersect}', observeWhile='{hasMore}')
       Feed(items="{insights}", dateKey="publishedAt", preIndex='{4}')
         div.insights__item(slot="item", let:item="{insight}")
-          InsightCard({insight})
+          +if('insight.isPulse')
+            PulseCard({insight})
+            +else()
+              InsightCard({insight})
         div(slot='preIndex')
           +if('$session.isMobile')
             .mobile-featured

@@ -1,7 +1,8 @@
 <script>
-  import { stores } from '@sapper/app'
+  import { stores, goto } from '@sapper/app'
   import { detectMetamask } from '@/utils/web3'
   import { handleEthLogin } from '@/logic/login'
+  import { getPostponedPaymentInsight } from '@/logic/insights'
   import { sendEvent } from '@/analytics'
 
   const hasMetamask = detectMetamask()
@@ -17,6 +18,7 @@
       .then((ethLogin) => {
         const { session } = stores()
         session.update((ses) => ({ ...ses, currentUser: ethLogin.user }))
+        goto(getPostponedPaymentInsight() || '/')
       })
       .catch((err) => {
         console.warn(err)

@@ -4,14 +4,21 @@
   import { parse } from 'query-string'
   import { client } from '@/apollo'
   import { VERIFY_EMAIL_MUTATION } from '@/gql/login'
+  import { getPostponedPaymentInsight } from '@/logic/insights'
 
   let error, verifiedTimer
   const { session } = stores()
 
   function startSuccessTimer({ data: { emailLoginVerify } }) {
-    session.update(ses => ({ ...ses, currentUser: emailLoginVerify.user }))
+    const currentUser = emailLoginVerify.user
+    session.update((ses) => ({ ...ses, currentUser }))
+
     verifiedTimer = setTimeout(() => {
-      goto('/')
+      goto(
+        currentUser.privacyPolicyAccepted
+          ? getPostponedPaymentInsight() || '/'
+          : '/gdpr',
+      )
     }, 3000)
   }
 
