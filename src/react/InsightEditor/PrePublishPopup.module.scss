@@ -103,7 +103,7 @@
 
 .active {
   background: var(--texas-rose);
-  text-align: right;
+  justify-content: flex-end;
 
   &:hover {
     background: var(--texas-rose-hover);

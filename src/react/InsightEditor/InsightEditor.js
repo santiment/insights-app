@@ -79,6 +79,7 @@ class InsightEditor extends Component {
     this.setState(
       (state) => ({
         ...state,
+        isPaywallRequired: false,
         isPulse: !state.isPulse,
       }),
       this.isDraft ? this.updateDraft : undefined,

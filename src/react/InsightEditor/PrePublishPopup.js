@@ -16,6 +16,7 @@ const PrePublishPopup = ({
   isPaywallRequired,
   togglePaywallRequired,
   isPro,
+  isPulse,
 }) => {
   return (
     <ContextMenu
@@ -23,7 +24,7 @@ const PrePublishPopup = ({
       trigger={
         <Button accent='positive' border>
           {actionTargetLabel} insight
-          {React.cloneElement(IconArrowUp, {className: styles.icon})}
+          {React.cloneElement(IconArrowUp, { className: styles.icon })}
         </Button>
       }
     >
@@ -38,7 +39,7 @@ const PrePublishPopup = ({
         </div>
         <TagSelector onChange={onTagsChange} defaultTags={defaultTags} />
 
-        {isPro && (
+        {!isPulse && isPro && (
           <div className={styles.paywall}>
             <div
               className={cx(styles.toggle, isPaywallRequired && styles.active)}

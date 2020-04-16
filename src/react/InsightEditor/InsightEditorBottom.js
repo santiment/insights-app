@@ -76,6 +76,7 @@ const InsightEditorBottom = ({
             defaultTags={tags}
             onPublishClick={onPublishClick}
             actionTargetLabel={actionTargetLabel}
+            isPulse={isPulse}
             {...props}
           />
         )}
