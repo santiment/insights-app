@@ -22,7 +22,7 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
     ShareBtn.Thanks__action.Thanks__share({link})
 
   +if('isAuthor')
-    a.edit.edit_fixed(href='/edit/{id}')
+    a.Thanks__action.edit(href='/edit/{id}')
       +icon('edit').edit__icon
 </template>
 
@@ -49,6 +49,18 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
   .actions {
     display: flex;
     justify-content: center;
+  }
+
+  .edit {
+    fill: var(--casper);
+
+    &:hover {
+      fill: var(--jungle-green);
+    }
+
+    &__icon {
+      @include size(15px);
+    }
   }
 
   :global(.Thanks__action) {

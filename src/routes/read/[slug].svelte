@@ -12,7 +12,7 @@
   let PreloadedComments = null
   if (!process.browser) {
     import('@/components/insights/Comments').then(
-      res => (PreloadedComments = res.default),
+      (res) => (PreloadedComments = res.default),
     )
   }
 
@@ -143,7 +143,7 @@
   const commentsCounter = writable(commentsCount)
   setContext('commentsCount', {
     subscribe: commentsCounter.subscribe,
-    set: value => {
+    set: (value) => {
       commentsCount = value
       commentsCounter.set(value)
     },
@@ -236,7 +236,7 @@ svelte:head
         .info
           Author({user}, {publishedAt}, {isAuthor})
           ViewportObserver({options}, on:intersect='{hideSidebar}', on:leaving='{showSidebar}', top)
-            Thanks({id}, {votes}, {readyState}, {commentsCount}, bind:liked)
+            Thanks({id}, {votes}, {readyState}, {commentsCount}, {isAuthor}, bind:liked)
           Banner({user}, {isAuthor})
 
   +if('assets.length && !isMobile')
