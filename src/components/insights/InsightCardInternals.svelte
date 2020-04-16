@@ -8,8 +8,6 @@
   import { getDateFormats } from '@/utils/dates'
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
 
-  let klass = ''
-  export { klass as class }
   export let insight,
     size = 'xl'
 

@@ -4,11 +4,17 @@
   import MultilineText from '@/components/MultilineText'
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
 
-  let klass = ''
-  export { klass as class }
   export let insight
 
- let { id, user, title, votes, votedAt, commentsCount = 0, isPaywallRequired } = insight
+  let {
+    id,
+    user,
+    title,
+    votes,
+    votedAt,
+    commentsCount = 0,
+    isPaywallRequired,
+  } = insight
 
   const seoLink = getSEOLinkFromIdAndTitle(id, title)
   const link = `/read/${seoLink}`
@@ -63,12 +69,11 @@ a.title(href="{link}")
     align-items: center;
   }
 
- .paywalled {
-   @include size(12px, 9px);
-   fill: var(--texas-rose);
-   margin-left: 20px;
- }
-
+  .paywalled {
+    @include size(12px, 9px);
+    fill: var(--texas-rose);
+    margin-left: 20px;
+  }
 
   :global(.Card__comments) {
     margin-left: 22px;

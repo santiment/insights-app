@@ -7,8 +7,8 @@
   import { getTimeFormats, getDateFormats } from '@/utils/dates'
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
 
-  let klass = ''
-  export { klass as class }
+  let className = ''
+  export { className as class }
   export let insight
 
   let {
@@ -40,7 +40,7 @@
 <template lang="pug">
 include /ui/mixins
 
-+panel().wrapper
++panel().wrapper(class="{className}")
   .top
     a.title(href="{link}") {title}
       .time {publishTime}

@@ -27,12 +27,6 @@ h2 Welcome to Insights
     @include text('h3');
   }
 
-  p {
-    @include text('body-2');
-    color: var(--waterloo);
-    margin: 10px 0 18px;
-  }
-
   .options {
     margin: 26px 0;
   }

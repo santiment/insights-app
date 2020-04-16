@@ -1,5 +1,4 @@
 <script>
-  export let segment
   export let isLoggedIn = false
 
   let menuOpened = false

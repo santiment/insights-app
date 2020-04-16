@@ -4,9 +4,6 @@
   import { handleEthLogin } from '@/logic/login'
   import { sendEvent } from '@/analytics'
 
-  let klass = ''
-  export { klass as class }
-
   const hasMetamask = detectMetamask()
 
   let loading = false
@@ -16,13 +13,15 @@
     sendEvent('sign_up', {
       method: 'metamask',
     })
-    handleEthLogin().then(ethLogin => {
-      const { session } = stores()
-      session.update(ses => ({ ...ses, currentUser: ethLogin.user }))
-    }).catch((err) => {
-      console.warn(err)
-      loading = false
-    })
+    handleEthLogin()
+      .then((ethLogin) => {
+        const { session } = stores()
+        session.update((ses) => ({ ...ses, currentUser: ethLogin.user }))
+      })
+      .catch((err) => {
+        console.warn(err)
+        loading = false
+      })
   }
 </script>
 
@@ -67,10 +66,6 @@ include /ui/mixins
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  img {
-    margin: -2px 2px 0 -8px;
   }
 
   h4 {

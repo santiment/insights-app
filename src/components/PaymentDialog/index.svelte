@@ -46,7 +46,7 @@
     loading = true
 
     buyPlan($stripe, stripeCard, getTokenDataByForm(target), currentPlan)
-      .then(subscription => {
+      .then((subscription) => {
         dispatch('success', subscription)
         loading = false
       })
@@ -57,7 +57,7 @@
   }
 
   onMount(() => {
-    getSanbasePlans().then(sanbasePlans => {
+    getSanbasePlans().then((sanbasePlans) => {
       plans = sanbasePlans
       currentPlan = sanbasePlans.find(({ name }) => name === 'PRO')
     })
@@ -77,8 +77,8 @@ Dialog(bind:open, title='Payment details')
       .info
         .top.card Card information
           .cards
-            img(src='/visa.png', width='40').visa
-            img(src='/mastercard.png', width='40')
+            img(src='/visa.png', width='40', alt='Visa').visa
+            img(src='/mastercard.png', width='40', alt='Mastercard')
         .form
           +field('name', 'Full name', 'John Doe')
           label Card number

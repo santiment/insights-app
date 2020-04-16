@@ -39,7 +39,7 @@
   }, 500)
 
   function updateFollowings() {
-    session.update(ses => {
+    session.update((ses) => {
       const followings = ses.currentUser.following.users
       ses.currentUser.following.users = wasFollowed
         ? [...followings, { id: targetId }]
@@ -61,7 +61,7 @@
 <template lang="pug">
 include /ui/mixins
 
-+button(variant='fill', accent='jungle-green')(class='{klass}', on:click='{toggleFollow}')
++button(variant='fill', accent='jungle-green', class='{klass}', on:click='{toggleFollow}')
   +if('followed')
     |Following
     +else

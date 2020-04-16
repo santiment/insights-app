@@ -69,7 +69,7 @@ svelte:head
     ViewportObserver({options}, on:intersect='{onIntersect}', observeWhile='{hasMore}')
       Feed(items="{insights}", dateKey="publishedAt", preIndex='{4}')
         div.insights__item(slot="item", let:item="{insight}")
-          PulseCard({insight})
+          PulseCard({insight}).TEST_CLASS
         
 </template>
 
@@ -92,10 +92,5 @@ svelte:head
       margin-bottom: 24px;
       width: 100%;
     }
-  }
-
-  h2 {
-    @include text('h4', 'm');
-    margin: 0 0 23px;
   }
 </style>
