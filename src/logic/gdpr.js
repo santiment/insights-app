@@ -1,6 +1,7 @@
 import { goto, stores } from '@sapper/app'
 import gql from 'graphql-tag'
 import { client } from '@/apollo'
+import { getPostponedPaymentInsight } from '@/logic/insights'
 
 const PRIVACY_QUERY = gql`
   mutation updateTermsAndConditions($privacyPolicyAccepted: Boolean) {
@@ -26,7 +27,7 @@ export function setGDPR(privacyPolicyAccepted) {
         },
       }) => {
         const { session } = stores()
-        session.update(ses => ({
+        session.update((ses) => ({
           ...ses,
           currentUser: {
             ...ses.currentUser,
@@ -35,7 +36,7 @@ export function setGDPR(privacyPolicyAccepted) {
         }))
 
         if (privacyPolicyAccepted) {
-          goto('/')
+          goto(getPostponedPaymentInsight() || '/')
         }
       },
     )

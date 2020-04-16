@@ -1,54 +1,41 @@
 <script>
-  import { onMount } from 'svelte'
+  import { onMount, createEventDispatcher } from 'svelte'
   import { goto } from '@sapper/app'
   import { client } from '@/apollo'
   import { sendEvent } from '@/analytics'
-  import { PLANS_QUERY } from '@/gql/plans'
-  import { findSanbasePlans } from '@/utils/plans'
   import { user$ } from '@/stores/user'
-  import PaymentDialog from '@/components/PaymentDialog/index.svelte'
+  import { getSanbasePlans } from '@/logic/plans'
+  import { postponePayment } from '@/logic/insights'
 
   const currentUser = user$()
+  const dispatch = createEventDispatcher()
 
-  let open = false
   let price = 51
 
   onMount(() => {
-    client
-      .query({
-        query: PLANS_QUERY,
-      })
-      .then(({ data: { productsWithPlans = [] } }) => {
-        const product = productsWithPlans.find(findSanbasePlans)
+    getSanbasePlans().then((plans) => {
+      const proPlan = plans.find(
+        ({ name, isDeprecated, interval }) =>
+          !isDeprecated && name === 'PRO' && interval === 'month',
+      )
 
-        if (!product) return
-
-        const proPlan = product.plans.find(
-          ({ name, isDeprecated, interval }) =>
-            !isDeprecated && name === 'PRO' && interval === 'month',
-        )
-
-        if (!proPlan) return
-
+      if (proPlan) {
         price = proPlan.amount / 100
-      })
+      }
+    })
   })
 
   function onUpgradeClick() {
     sendEvent('upgrade', {
-        method: `Insight Paywall`,
+      method: `Insight Paywall`,
     })
 
     if (!$currentUser) {
+      postponePayment()
       return goto('/login')
     }
 
-    open = true
-  }
-
-  function onSuccess() {
-    open = false
-    setTimeout(() => window.location.reload(), 3000)
+    dispatch('upgradeClick')
   }
 </script>
 
@@ -70,7 +57,6 @@ include /ui/mixins
   .question Any questions? 
     a.contact(href='mailto:support@santiment.net') Contact us
 
-PaymentDialog(bind:open, on:success='{onSuccess}')
 </template>
 
 <style lang="scss">

@@ -99,7 +99,7 @@
 </script>
 
 <script>
-  import { setContext } from 'svelte'
+  import { setContext, onMount } from 'svelte'
   import { writable } from 'svelte/store'
   import { stores } from '@sapper/app'
   import ViewportObserver from '@/components/ViewportObserver'
@@ -110,6 +110,7 @@
   import Dialog from '@/ui/dialog/index'
   import SuggestedInsights from '@/components/insights/SuggestedInsights'
   import FeaturedAssets from '@/components/assets/FeaturedAssets'
+  import PaymentDialog from '@/components/PaymentDialog/index.svelte'
   import Thanks from './_components/Thanks.svelte'
   import Author from './_components/Author.svelte'
   import Banner from './_components/Banner.svelte'
@@ -117,10 +118,13 @@
   import Paywall from './_components/Paywall.svelte'
   import FixedControls from './_components/FixedControls.svelte'
   import { getShareLink } from '@/logic/share'
+  import {
+    getPostponedPaymentInsight,
+    removePostponedPayment,
+  } from '@/logic/insights'
   import { getRawText, grabFirstImageLink } from '@/utils/insights'
   import { user$ } from '@/stores/user'
   import { subscription$ } from '@/stores/user/subscription'
-  // TODO: Lazy load FeaturedAssets [@vanguard | Nov 11, 2019]
   const loadSuggestedInsights = () =>
     import('@/components/insights/SuggestedInsights')
 
@@ -171,6 +175,7 @@
     rootMargin: '100% 0px 300px',
   }
 
+  let open = false
   let clientHeight
   let hidden = true
   $: shareLink = getShareLink(id)
@@ -204,6 +209,22 @@
   function showComments() {
     shouldLoadComments = true
   }
+
+  function onUpgradeClick() {
+    open = true
+  }
+
+  function onPaymentSuccess() {
+    open = false
+    setTimeout(() => window.location.reload(), 3000)
+  }
+
+  onMount(() => {
+    if (getPostponedPaymentInsight()) {
+      open = true
+      removePostponedPayment()
+    }
+  })
 </script>
 
 <template lang="pug">
@@ -228,7 +249,7 @@ svelte:head
   Text({text})
 
   +if('hasPaywall')
-    Paywall 
+    Paywall(on:upgradeClick='{onUpgradeClick}')
 
     +else()
       .bottom
@@ -254,6 +275,9 @@ svelte:head
 ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}', top)
   +if('shouldLoadSuggestions')
     Loadable(load='{loadSuggestedInsights}', {id}, userId='{+user.id}')
+
++if('open')
+  PaymentDialog(bind:open, on:success='{onPaymentSuccess}')
 
 .bot-scroll
 </template>
