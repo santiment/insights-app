@@ -186,6 +186,10 @@ include /ui/mixins
     width: 100%;
     max-width: 310px;
     border-radius: 4px;
+
+    @include responsive('phone', 'phone-xs') {
+      display: none;
+    }
   }
 
   .benefit {
@@ -209,12 +213,10 @@ include /ui/mixins
   }
 
   .text {
-    color: var(--waterloo);
+    @include text('body-2');
+    color: var(--rhino);
     margin: 0 0 16px;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    opacity: 0.8;
   }
 
   .features {
@@ -225,23 +227,27 @@ include /ui/mixins
 
   .feature {
     @include text('body-2');
-    margin: 0 0 19px;
+    margin: 0 0 18px;
     position: relative;
+    padding-left: 24px;
+    opacity: 0.8;
 
     &::before {
-      content: '';
-      width: 16px;
-      height: 16px;
-      background: url('san-icons/success-circle.svg');
+      content: url('/success-circle.svg');
       display: block;
       position: absolute;
-      top: 8px;
-      left: 14px;
+      top: 5px;
+      left: 0;
+      opacity: 1;
     }
   }
 
   .link {
     color: var(--jungle-green);
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .call__title {
@@ -256,6 +262,7 @@ include /ui/mixins
     max-width: 562px;
     width: 60%;
     margin: 0 auto 32px;
+    opacity: 0.8;
 
     @include text('body-2');
   }
@@ -267,3 +274,4 @@ include /ui/mixins
   }
 
 </style>
+
