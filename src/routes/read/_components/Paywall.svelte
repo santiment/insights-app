@@ -53,9 +53,33 @@ include /ui/mixins
       span.billing /mo
     +button.upgrade(variant='fill', accent='texas-rose', fluid, on:click='{onUpgradeClick}') Upgrade to PRO
 
+  .benefit
+    .content
+      h3.title Years of market experience, compressed in each report
+      p.text Since 2017, Santiment has been an industry leader in on-chain data, social intelligence and behavior-based analysis of the crypto market.
+      p.text Our tools have a proven track record of timing price tops for cryptocurrencies, helping traders find profitable exit points and mitigate HODLing risk.
+      h6.title__small Our previous TOP calls:
+      a.link(href='https://insights.santiment.net/read/waves-crowd-sentiment-pattern-124') WAVES crowd sentiment pattern
+      a.link(href='https://insights.santiment.net/read/matic-charts-a-new-ath%3A-is-the-top-in%3F-2959') MATIC charts a new ATH: is the top in?
+      a.link(href='https://insights.santiment.net/read/icx-insanity.-how-far-could-it-go%3F-5611') ICX insanity. How far could it go?
+    img.image(src='/insight_preview.png', alt='insight card')
 
-  .question Any questions? 
-    a.contact(href='mailto:support@santiment.net') Contact us
+
+  .benefit
+    img.image(src='/signal_preview.png', alt='signal form')
+    .content
+      h3.title What you get with Sanbase Pro:
+      ul.features
+        li.feature Members-only daily market insights and analysis
+        li.feature 30+ on-chain, social & project indicators for 900 cryptocurrencies
+        li.feature Custom alerts for the coins' price, on-chain & social trends
+        li.feature Santiment Spreadsheet plugin with 10+ pre-made market templates
+        li.feature Personalized asset watchlists and weekly performance reports
+
+  h2.call__title Gain unfair advantage with Sanbase Pro
+  p.call__description Subscribe to Sanbase Pro for access to exclusive insights, market-beating metrics, strategies and templates!
+  +button.call__upgrade(variant='fill', accent='texas-rose', fluid, on:click='{onUpgradeClick}') Subscribe to PRO
+
 
 </template>
 
@@ -146,4 +170,100 @@ include /ui/mixins
       color: var(--jungle-green-hover);
     }
   }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+
+    &:first-of-type {
+      margin: 0 24px;
+    }
+  }
+
+  .image {
+    width: 100%;
+    max-width: 310px;
+    border-radius: 4px;
+  }
+
+  .benefit {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 644px;
+    margin: 64px 0;
+  }
+
+  .title {
+    @include text('body-1');
+    font-weight: 600;
+    margin: 16px 0 24px;
+  }
+
+  .title__small {
+    @include text('body-2');
+    fonr-weight: 600;
+    margin: 6px 0;
+  }
+
+  .text {
+    color: var(--waterloo);
+    margin: 0 0 16px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .features {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .feature {
+    @include text('body-2');
+    margin: 0 0 19px;
+    position: relative;
+
+    &::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      background: url('san-icons/success-circle.svg');
+      display: block;
+      position: absolute;
+      top: 8px;
+      left: 14px;
+    }
+  }
+
+  .link {
+    color: var(--jungle-green);
+  }
+
+  .call__title {
+    margin: 0 0 16px;
+
+    @include text('h4');
+    font-weight: 600;
+  }
+
+  .call__description {
+    color: var(--waterloo);
+    max-width: 562px;
+    width: 60%;
+    margin: 0 auto 32px;
+
+    @include text('body-2');
+  }
+
+  .call__upgrade {
+    width: 197px;
+    justify-content: center;
+    margin: 0 auto 40px;
+  }
+
 </style>
