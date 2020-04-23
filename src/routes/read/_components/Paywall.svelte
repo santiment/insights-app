@@ -62,11 +62,11 @@ include /ui/mixins
       a.link(href='https://insights.santiment.net/read/waves-crowd-sentiment-pattern-124') WAVES crowd sentiment pattern
       a.link(href='https://insights.santiment.net/read/matic-charts-a-new-ath%3A-is-the-top-in%3F-2959') MATIC charts a new ATH: is the top in?
       a.link(href='https://insights.santiment.net/read/icx-insanity.-how-far-could-it-go%3F-5611') ICX insanity. How far could it go?
-    img.image(src='/insight_preview.png', alt='insight card')
+    img.image.image__insight(src='/insight_preview.png', alt='insight card')
 
 
   .benefit
-    img.image(src='/signal_preview.png', alt='signal form')
+    img.image.image__signal(src='/signal_preview.png', alt='signal form')
     .content
       h3.title What you get with Sanbase Pro:
       ul.features
@@ -176,10 +176,7 @@ include /ui/mixins
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
-
-    &:first-of-type {
-      margin: 0 24px;
-    }
+    width: 100%;
   }
 
   .image {
@@ -192,11 +189,19 @@ include /ui/mixins
     }
   }
 
+  .image__insight {
+    margin-left: 24px;
+  }
+
+  .image__signal {
+    margin-right: 36px;
+  }
+
   .benefit {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    max-width: 644px;
+    max-width: 620px;
     margin: 64px 0;
   }
 
@@ -229,7 +234,7 @@ include /ui/mixins
     @include text('body-2');
     margin: 0 0 18px;
     position: relative;
-    padding-left: 24px;
+    padding-left: 28px;
     opacity: 0.8;
 
     &::before {
