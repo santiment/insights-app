@@ -1,5 +1,5 @@
 export const getInsightIdFromSEOLink = link =>
-  +link.slice(link.lastIndexOf('-') + 1)
+  parseInt(link.slice(link.lastIndexOf('-') + 1), 10)
 
 export const getSEOLinkFromIdAndTitle = (id, title) =>
   encodeURIComponent(
