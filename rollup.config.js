@@ -20,7 +20,7 @@ const { prepareIcons } = require('./scripts/icons')
 
 prepareIcons()
 
-const dedupe = importee =>
+const dedupe = (importee) =>
   importee === 'svelte' || importee.startsWith('svelte/')
 
 const ALIASES = {
@@ -38,7 +38,7 @@ sass.render(
     file: './src/main.scss',
     outFile: './static/global.css',
   },
-  function(error, result) {
+  function (error, result) {
     if (!error) {
       postcss([
         cssModules({
@@ -50,8 +50,8 @@ sass.render(
           from: './static/global.css',
           to: './static/global.css',
         })
-        .then(result => {
-          fs.writeFile('./static/global.css', result.css, function(err) {
+        .then((result) => {
+          fs.writeFile('./static/global.css', result.css, function (err) {
             if (!err) {
             }
           })
@@ -73,6 +73,7 @@ export default {
           dev ? 'development' : 'production',
         ),
         'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
+        'process.env.GIT_HEAD': JSON.stringify(process.env.GIT_HEAD),
       }),
       rollPostcss({
         extensions: ['.scss'],
@@ -205,6 +206,7 @@ export default {
           dev ? 'development' : 'production',
         ),
         'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
+        'process.env.GIT_HEAD': JSON.stringify(process.env.GIT_HEAD),
       }),
       commonjs(),
       !dev && terser(),

@@ -3,8 +3,8 @@
   "description": "Santiment Insights",
   "version": "0.0.1",
   "scripts": {
-    "dev": "BACKEND_URL=https://api-stage.santiment.net sapper dev",
-    "build": "NODE_ENV=production sapper build",
+    "dev": "GIT_HEAD=$GIT_HEAD BACKEND_URL=https://api-stage.santiment.net sapper dev",
+    "build": "GIT_HEAD=$GIT_HEAD NODE_ENV=production sapper build",
     "export": "sapper export --legacy",
     "start": "node __sapper__/build",
     "cy:run": "cypress run",
@@ -37,6 +37,7 @@
     "polka": "^0.5.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.7.0",
+    "raven-js": "^3.27.2",
     "react": "^16.8.6",
     "react-apollo": "^2.5.8",
     "react-dom": "^16.9.0",
