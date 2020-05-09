@@ -7,6 +7,6 @@ import { httpLink } from './httpLink'
 import { authLink } from './authLink'
 
 export const client = new ApolloClient({
-  link: from([authLink, uploadLink, httpLink, errorLink]),
+  link: from([authLink, errorLink, uploadLink, httpLink]),
   cache: new InMemoryCache(),
 })
