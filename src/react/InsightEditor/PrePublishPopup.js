@@ -1,9 +1,9 @@
 import React from 'react'
-import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import IconArrowUp from '@santiment-network/ui/Icon/IconArrowUp'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
+import ProInsightToggle from './ProInsightToggle'
 import TagSelector from '../TagSelector'
 import styles from './PrePublishPopup.module.scss'
 
@@ -39,15 +39,12 @@ const PrePublishPopup = ({
         </div>
         <TagSelector onChange={onTagsChange} defaultTags={defaultTags} />
 
-        {!isPulse && isPro && (
-          <div className={styles.paywall}>
-            <div
-              className={cx(styles.toggle, isPaywallRequired && styles.active)}
-              onClick={togglePaywallRequired}
-            />
-            PRO Insight
-          </div>
-        )}
+        <ProInsightToggle
+          isPulse={isPulse}
+          isPro={isPro}
+          togglePaywallRequired={togglePaywallRequired}
+          isPaywallRequired={isPaywallRequired}
+        />
 
         <Button
           variant='fill'
