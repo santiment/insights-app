@@ -13,7 +13,7 @@
 
     timer = setTimeout(() => {
       sendEvent(
-        'reading',
+        'reading_insight',
         {
           category: 'user',
         },
