@@ -154,6 +154,7 @@ mixin rawHtml(variables)
 
     img {
       max-width: 100%;
+      max-width: 600px;
     }
 
     strong,
