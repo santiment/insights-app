@@ -117,6 +117,7 @@
   import Breadcrumbs from './_components/Breadcrumbs.svelte'
   import Paywall from './_components/Paywall.svelte'
   import FixedControls from './_components/FixedControls.svelte'
+  import ReadAnalytics from './_components/ReadAnalytics.svelte'
   import { getShareLink } from '@/logic/share'
   import {
     getPostponedPaymentInsight,
@@ -278,6 +279,8 @@ ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}'
 
 +if('open')
   PaymentDialog(bind:open, on:success='{onPaymentSuccess}')
+
+ReadAnalytics({id})
 
 .bot-scroll
 </template>

@@ -1,17 +1,20 @@
 {
-    "parser": "babel-eslint",
-    "env": {
-        "browser": true,
-        "es6": true,
-        "node": true
-    },
-    "plugins": [ "react" ],
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended"
-    ],
-    "rules": {
-        "no-unused-vars": ["error"],
-        "react/prop-types": "off"
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "plugins": ["react", "svelte3"],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "overrides": [
+    {
+      "files": ["*.svelte"],
+      "processor": "svelte3/svelte3"
     }
+  ],
+  "rules": {
+    "no-unused-vars": ["error"],
+    "react/prop-types": "off"
+  }
 }
