@@ -20,7 +20,7 @@ const { prepareIcons } = require('./scripts/icons')
 
 prepareIcons()
 
-const dedupe = importee =>
+const dedupe = (importee) =>
   importee === 'svelte' || importee.startsWith('svelte/')
 
 const ALIASES = {
@@ -38,7 +38,7 @@ sass.render(
     file: './src/main.scss',
     outFile: './static/global.css',
   },
-  function(error, result) {
+  function (error, result) {
     if (!error) {
       postcss([
         cssModules({
@@ -50,8 +50,8 @@ sass.render(
           from: './static/global.css',
           to: './static/global.css',
         })
-        .then(result => {
-          fs.writeFile('./static/global.css', result.css, function(err) {
+        .then((result) => {
+          fs.writeFile('./static/global.css', result.css, function (err) {
             if (!err) {
             }
           })
@@ -118,6 +118,8 @@ export default {
             'createElement',
             'Children',
             'Component',
+            'useState',
+            'useEffect',
           ],
           'node_modules/prop-types/index.js': [
             'object',
