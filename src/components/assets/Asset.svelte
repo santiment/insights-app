@@ -28,7 +28,7 @@ AssetContainer({asset})
   .body__top
     h4 $ {price}
     .chart
-    ChangeChart(change='{percentChange7d}', data='{historyPrice}')
+      ChangeChart(change='{percentChange7d}', data='{historyPrice}')
   .body__bottom
     ValueChange.FeaturedAssets__change(change='{percentChange7d}', formatter='{percentChange}')
     |in last 7d
