@@ -3,6 +3,8 @@ import {
   ALL_INSIGHTS_BY_PAGE_QUERY,
   PULSE_INSIGHTS_BY_PAGE_QUERY,
 } from '@/gql/insights'
+import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
+import { getTimeIntervalFromToday, MONTH } from '@/utils/dates'
 
 const POSTPONED_PAYMENT_INSIGHT = 'POSTPONED_PAYMENT_INSIGHT'
 
@@ -28,3 +30,35 @@ export const getPostponedPaymentInsight = () =>
 
 export const removePostponedPayment = () =>
   localStorage.removeItem(POSTPONED_PAYMENT_INSIGHT)
+
+export const getPeriodSincePublication = (publishDate) =>
+  getTimeIntervalFromToday(-2, MONTH, {
+    from: new Date(publishDate),
+  })
+
+export function getPriceDataSincePublication(ticker, from, to) {
+  const arg =
+    ticker === 'XRP'
+      ? {
+          slug: 'ripple',
+        }
+      : { ticker }
+
+  return client
+    .query({
+      query: HISTORY_PRICE_QUERY,
+      variables: {
+        from,
+        to,
+        interval: '1d',
+        ...arg,
+      },
+    })
+    .then(({ data: { historyPrice } }) => {
+      if (!historyPrice.length) {
+        return Promise.reject(`${ticker} historyPrice has no data`)
+      }
+
+      return historyPrice
+    })
+}

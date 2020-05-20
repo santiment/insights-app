@@ -95,7 +95,7 @@ svelte:head
         div(slot='preIndex')
           +if('$session.isMobile')
             .mobile-featured
-              h2.mobile-featured__title Featured insights
+              h2.mobile-featured__title Handpicked Takes
               .mobile-featured__list
                 .mobile-featured__visible
                   .mobile-featured__scroll
@@ -105,7 +105,7 @@ svelte:head
             
   +if('!$session.isMobile')
     .insights__featured
-      h2 Featured insights
+      h2 Handpicked Takes
       +panel(variant='box').featured
         .featured__scroll
           +each('featured as insight')

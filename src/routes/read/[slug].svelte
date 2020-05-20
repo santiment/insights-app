@@ -263,7 +263,7 @@ svelte:head
 
   +if('assets.length && !isMobile')
     .assets
-      FeaturedAssets({assets})
+      FeaturedAssets({assets}, {publishedAt})
 
   +if('!isMobile')
     FixedControls({id}, {readyState}, {commentsCount}, {shareLink}, {votes}, {hidden}, {isAuthor}, bind:liked)

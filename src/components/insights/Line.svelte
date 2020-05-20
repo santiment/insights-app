@@ -3,6 +3,7 @@
   export let publishedIndex = 0
   export let publishedPrice = 0
   export let change
+  export let minHeight = 0
 
   let points
   let chart
@@ -11,6 +12,10 @@
 
   let cx = 0,
     cy = 0
+
+  $: if (minHeight) {
+    height = height >= minHeight ? height : minHeight
+  }
 
   let changeColor
   $: changeColor = `--change: var(--${change > 0 ? 'lima' : 'persimmon'})`
@@ -35,8 +40,9 @@
     points = data
       .map(
         ({ priceUsd }, index) =>
-          `${(index / maxX) * width},${height -
-            (max && priceUsd / max) * height}`,
+          `${(index / maxX) * width},${
+            height - (max && priceUsd / max) * height
+          }`,
       )
       .join(' ')
   }
@@ -47,7 +53,7 @@
   div(bind:clientWidth='{width}', bind:clientHeight='{height}', style='{changeColor}')
     svg(viewBox='0 0 {width} {height}', style='height:{height}px')
       polyline({points})
-      circle({cx},{cy})
+      circle({cx},{cy}, r="3.5")
 </template>
 
 <style>
@@ -70,6 +76,5 @@
     fill: var(--white);
     stroke: var(--change);
     stroke-width: 1.5px;
-    r: 3.5;
   }
 </style>
