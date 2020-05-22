@@ -86,8 +86,8 @@ export const FEATURED_INSIGHTS_QUERY = gql`
 `
 
 export const INSIGHT_BY_ID_QUERY = gql`
-  query insightById($id: ID!) {
-    insight: post(id: $id) {
+  query insightById($id: Int!) {
+    insight(id: $id) {
       ...insightCommon
       text
       isPulse
