@@ -73,6 +73,7 @@ export default {
           dev ? 'development' : 'production',
         ),
         'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
+        'process.env.GIT_HEAD': JSON.stringify(process.env.GIT_HEAD),
       }),
       rollPostcss({
         extensions: ['.scss'],
@@ -207,6 +208,7 @@ export default {
           dev ? 'development' : 'production',
         ),
         'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
+        'process.env.GIT_HEAD': JSON.stringify(process.env.GIT_HEAD),
       }),
       commonjs(),
       !dev && terser(),
