@@ -145,6 +145,8 @@ mixin rawHtml(variables)
   :global(.PulseCard__text) {
     figure {
       text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
       margin-bottom: 6px;
 
       & + figure {
@@ -154,7 +156,6 @@ mixin rawHtml(variables)
 
     img {
       max-width: 100%;
-      max-width: 600px;
     }
 
     strong,
