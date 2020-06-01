@@ -6,7 +6,7 @@ export const HISTORY_PRICE_QUERY = gql`
     $ticker: String
     $from: DateTime
     $to: DateTime
-    $interval: String
+    $interval: interval
   ) {
     historyPrice(
       slug: $slug
