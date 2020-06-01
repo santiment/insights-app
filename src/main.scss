@@ -1,5 +1,28 @@
 @import '../node_modules/@santiment-network/ui/main.scss';
-@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('fonts/ProximaNova-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('fonts/ProximaNova-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('fonts/ProximaNova-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 
 * {
   box-sizing: border-box;
@@ -21,11 +44,11 @@ body {
 }
 
 body {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Proxima Nova', sans-serif;
   font-size: 14px;
   line-height: 20px;
-  color: var(--mirage);
-  fill: var(--mirage);
+  color: var(--rhino);
+  fill: var(--rhino);
   overflow-x: hidden;
 }
 
