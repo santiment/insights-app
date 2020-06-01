@@ -4,7 +4,7 @@
 :global {
   .md-RichEditor-root {
     background: var(--white);
-    color: var(--mirage);
+    color: var(--rhino);
     position: relative;
 
     & span::selection {
@@ -32,14 +32,14 @@
 
     & .public-DraftEditor-content {
       h1 {
-        color: var(--mirage);
+        color: var(--rhino);
         margin: 0;
 
         @include text('h3', 'm');
       }
 
       h2 {
-        color: var(--mirage);
+        color: var(--rhino);
         margin: 0;
 
         @include text('h4', 'm');
@@ -187,7 +187,7 @@
     padding: 23px 32px;
     background: var(--athens);
     border-radius: $border-radius;
-    color: var(--mirage);
+    color: var(--rhino);
     position: relative;
 
     @include text('h4');
@@ -316,7 +316,7 @@
       font-size: 17px;
       line-height: 0;
       transition: transform 200ms;
-      font-family: Rubik, sans-serif;
+      font-family: 'Proxima Nova', sans-serif;
       left: 52%;
       top: 45%;
       transform: translate3d(-50%, -50%, 0);
