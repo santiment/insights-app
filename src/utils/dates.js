@@ -1,63 +1,63 @@
-export const ONE_SECOND_IN_MS = 1000;
-export const ONE_MINUTE_IN_MS = ONE_SECOND_IN_MS * 60;
-export const ONE_HOUR_IN_MS = ONE_MINUTE_IN_MS * 60;
-export const ONE_DAY_IN_MS = ONE_HOUR_IN_MS * 24;
-export const ONE_MONTH_IN_MS = 2505600000; // Estimate
-export const ONE_YEAR_IN_MS = 31557600000; // Estimate
+export const ONE_SECOND_IN_MS = 1000
+export const ONE_MINUTE_IN_MS = ONE_SECOND_IN_MS * 60
+export const ONE_HOUR_IN_MS = ONE_MINUTE_IN_MS * 60
+export const ONE_DAY_IN_MS = ONE_HOUR_IN_MS * 24
+export const ONE_MONTH_IN_MS = 2505600000 // Estimate
+export const ONE_YEAR_IN_MS = 31557600000 // Estimate
 
-export const SECOND = "s";
-export const MINUTE = "min";
-export const HOUR = "h";
-export const DAY = "d";
-export const WEEK = "w";
-export const MONTH = "m";
-export const YEAR = "y";
+export const SECOND = 's'
+export const MINUTE = 'min'
+export const HOUR = 'h'
+export const DAY = 'd'
+export const WEEK = 'w'
+export const MONTH = 'm'
+export const YEAR = 'y'
 
 const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
-];
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+]
 const SHORT_MONTH_NAMES = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec"
-];
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+]
 
 const WEEK_DAY_NAMES = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday"
-];
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+]
 
-const SHORT_WEEK_DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const SHORT_WEEK_DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 const DateFormat = {
-  [MONTH]: ["getMonth", "setMonth"],
-  [DAY]: ["getDate", "setDate"]
-};
+  [MONTH]: ['getMonth', 'setMonth'],
+  [DAY]: ['getDate', 'setDate'],
+}
 
 const FormatToIndex = {
   [SECOND]: 0,
@@ -65,24 +65,24 @@ const FormatToIndex = {
   [HOUR]: 2,
   [DAY]: 3,
   [MONTH]: 4,
-  [YEAR]: 5
-};
+  [YEAR]: 5,
+}
 
 const FormatToString = {
-  [SECOND]: "second",
-  [MINUTE]: "minute",
-  [HOUR]: "hour",
-  [DAY]: "day",
-  [MONTH]: "month",
-  [YEAR]: "year"
-};
+  [SECOND]: 'second',
+  [MINUTE]: 'minute',
+  [HOUR]: 'hour',
+  [DAY]: 'day',
+  [MONTH]: 'month',
+  [YEAR]: 'year',
+}
 
 const FormatToTimestamp = {
   [SECOND]: ONE_SECOND_IN_MS,
   [MINUTE]: ONE_MINUTE_IN_MS,
   [HOUR]: ONE_HOUR_IN_MS,
-  [DAY]: ONE_DAY_IN_MS
-};
+  [DAY]: ONE_DAY_IN_MS,
+}
 
 /**
  * @param {number} amount - Amount of days/months to add or substract
@@ -95,72 +95,72 @@ const FormatToTimestamp = {
  *  getTimeIntervalFromToday(-9, 'd')
  */
 export const getTimeIntervalFromToday = (amount, dateFormat, defaults = {}) => {
-  const { from = new Date(), to = new Date() } = defaults;
-  const [get, set] = DateFormat[dateFormat];
+  const { from = new Date(), to = new Date() } = defaults
+  const [get, set] = DateFormat[dateFormat]
 
-  to.setHours(24, 0, 0, 0);
-  from.setHours(0, 0, 0, 0);
+  to.setHours(24, 0, 0, 0)
+  from.setHours(0, 0, 0, 0)
 
-  const target = amount <= 0 ? from : to;
+  const target = amount <= 0 ? from : to
 
-  target[set](from[get]() + amount);
+  target[set](from[get]() + amount)
 
   return {
     from,
-    to
-  };
-};
+    to,
+  }
+}
 
 const calculateUnitByFormat = (diff, format) =>
-  parseInt(diff / FormatToTimestamp[format], 10);
+  parseInt(diff / FormatToTimestamp[format], 10)
 
 const getUnitFormattedString = (amount, format) => {
   if (format === SECOND && amount < 60) {
-    return "a few seconds ago";
+    return 'a few seconds ago'
   }
 
-  const number = amount + " ";
-  const plural = amount > 1 ? "s" : "";
+  const number = amount + ' '
+  const plural = amount > 1 ? 's' : ''
 
-  return `${number}${FormatToString[format]}${plural} ago`;
-};
+  return `${number}${FormatToString[format]}${plural} ago`
+}
 
 export const dateDifference = ({ from, to = new Date(), format = YEAR }) => {
-  const diff = to - from;
-  let resultFormat;
+  const diff = to - from
+  let resultFormat
 
   if (diff < ONE_MINUTE_IN_MS) {
-    resultFormat = SECOND;
+    resultFormat = SECOND
   } else if (diff < ONE_HOUR_IN_MS) {
-    resultFormat = MINUTE;
+    resultFormat = MINUTE
   } else if (diff < ONE_DAY_IN_MS) {
-    resultFormat = HOUR;
+    resultFormat = HOUR
   } else if (diff < ONE_MONTH_IN_MS) {
-    resultFormat = DAY;
+    resultFormat = DAY
   } else if (diff < ONE_YEAR_IN_MS) {
-    resultFormat = MONTH;
+    resultFormat = MONTH
   } else {
-    resultFormat = YEAR;
+    resultFormat = YEAR
   }
   resultFormat =
-    FormatToIndex[format] < FormatToIndex[resultFormat] ? format : resultFormat;
+    FormatToIndex[format] < FormatToIndex[resultFormat] ? format : resultFormat
 
-  let result;
+  let result
   if (resultFormat === YEAR || resultFormat === MONTH) {
-    const yearDiff = to.getFullYear() - from.getFullYear();
-    const monthDiff = to.getMonth() - from.getMonth() + yearDiff * 12;
+    const yearDiff = to.getFullYear() - from.getFullYear()
+    const monthDiff = to.getMonth() - from.getMonth() + yearDiff * 12
     if (monthDiff > 11 && format === YEAR) {
-      resultFormat = YEAR;
-      result = yearDiff;
+      resultFormat = YEAR
+      result = yearDiff
     } else {
-      result = monthDiff;
+      result = monthDiff
     }
   } else {
-    result = calculateUnitByFormat(diff, resultFormat);
+    result = calculateUnitByFormat(diff, resultFormat)
   }
 
-  return { diff: result, format: resultFormat };
-};
+  return { diff: result, format: resultFormat }
+}
 
 /**
  * @param {Object} args - Arguments
@@ -175,10 +175,10 @@ export const dateDifference = ({ from, to = new Date(), format = YEAR }) => {
  * //=> '2 days ago'
  *
  */
-export const dateDifferenceInWords = args => {
-  const { diff, format } = dateDifference(args);
-  return getUnitFormattedString(diff, format);
-};
+export const dateDifferenceInWords = (args) => {
+  const { diff, format } = dateDifference(args)
+  return getUnitFormattedString(diff, format)
+}
 
 /**
  *
@@ -194,12 +194,12 @@ export const dateDifferenceInWords = args => {
    * //=> "Wednesday, 17 April 2019"
 
  */
-export const getDateFormats = date => {
-  const month = date.getMonth();
-  const M = month + 1;
-  const D = date.getDate();
-  const d = date.getDay();
-  const YYYY = date.getFullYear();
+export const getDateFormats = (date) => {
+  const month = date.getMonth()
+  const M = month + 1
+  const D = date.getDate()
+  const d = date.getDay()
+  const YYYY = date.getFullYear()
 
   return {
     D,
@@ -211,16 +211,16 @@ export const getDateFormats = date => {
     MMM: SHORT_MONTH_NAMES[month],
     MMMM: MONTH_NAMES[month],
     YYYY,
-    YY: YYYY.toString().slice(-2)
-  };
-};
+    YY: YYYY.toString().slice(-2),
+  }
+}
 
-export const getUTCDateFormats = date => {
-  const month = date.getUTCMonth();
-  const M = month + 1;
-  const D = date.getUTCDate();
-  const d = date.getUTCDay();
-  const YYYY = date.getUTCFullYear();
+export const getUTCDateFormats = (date) => {
+  const month = date.getUTCMonth()
+  const M = month + 1
+  const D = date.getUTCDate()
+  const d = date.getUTCDay()
+  const YYYY = date.getUTCFullYear()
 
   return {
     D,
@@ -232,29 +232,14 @@ export const getUTCDateFormats = date => {
     MMM: SHORT_MONTH_NAMES[month],
     MMMM: MONTH_NAMES[month],
     YYYY,
-    YY: YYYY.toString().slice(-2)
-  };
-};
+    YY: YYYY.toString().slice(-2),
+  }
+}
 
-export const getTimeFormats = date => {
-  const m = date.getMinutes();
-  const s = date.getSeconds();
-  const H = date.getHours();
-
-  return {
-    H,
-    HH: H < 10 ? `0${H}` : H,
-    m,
-    mm: m < 10 ? `0${m}` : m,
-    s,
-    ss: s < 10 ? `0${s}` : s
-  };
-};
-
-export const getUTCTimeFormats = date => {
-  const m = date.getUTCMinutes();
-  const s = date.getUTCSeconds();
-  const H = date.getUTCHours();
+export const getTimeFormats = (date) => {
+  const m = date.getMinutes()
+  const s = date.getSeconds()
+  const H = date.getHours()
 
   return {
     H,
@@ -262,9 +247,24 @@ export const getUTCTimeFormats = date => {
     m,
     mm: m < 10 ? `0${m}` : m,
     s,
-    ss: s < 10 ? `0${s}` : s
-  };
-};
+    ss: s < 10 ? `0${s}` : s,
+  }
+}
+
+export const getUTCTimeFormats = (date) => {
+  const m = date.getUTCMinutes()
+  const s = date.getUTCSeconds()
+  const H = date.getUTCHours()
+
+  return {
+    H,
+    HH: H < 10 ? `0${H}` : H,
+    m,
+    mm: m < 10 ? `0${m}` : m,
+    s,
+    ss: s < 10 ? `0${s}` : s,
+  }
+}
 
 /**
  *
@@ -277,22 +277,22 @@ export const getUTCTimeFormats = date => {
  * getIntervalByTimeRange('2m')
  * //=> {from: new Date("2019-02-08T00:00:00.000Z"), to: new Date("2019-04-08T00:00:00.000Z") }
  */
-export const getIntervalByTimeRange = timeRange => {
-  if (timeRange === "all") {
-    return getTimeIntervalFromToday(-24, MONTH); // utils/utils.js - getTimeFromFromString
+export const getIntervalByTimeRange = (timeRange) => {
+  if (timeRange === 'all') {
+    return getTimeIntervalFromToday(-24, MONTH) // utils/utils.js - getTimeFromFromString
   }
 
-  const amount = -timeRange.slice(0, -1);
-  const format = timeRange.slice(-1);
-  const result = { amount, format };
+  const amount = -timeRange.slice(0, -1)
+  const format = timeRange.slice(-1)
+  const result = { amount, format }
 
   if (format === WEEK) {
-    result.amount = amount * 7;
-    result.format = DAY;
+    result.amount = amount * 7
+    result.format = DAY
   } else if (format === YEAR) {
-    result.amount = amount * 12;
-    result.format = MONTH;
+    result.amount = amount * 12
+    result.format = MONTH
   }
 
-  return getTimeIntervalFromToday(result.amount, result.format);
-};
+  return getTimeIntervalFromToday(result.amount, result.format)
+}

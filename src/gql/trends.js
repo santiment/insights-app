@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag'
 
 export const TRENDING_WORDS_QUERY = gql`
   query trendingWords {
@@ -16,4 +16,4 @@ export const TRENDING_WORDS_QUERY = gql`
       }
     }
   }
-`;
+`

@@ -10,7 +10,27 @@
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test": "run-p --race dev cy:run",
-    "postinstall": "patch-package"
+    "lint:js": "yarn eslint src/**/*.js",
+    "prettify:js": "yarn prettier --write src/**/*.js",
+    "postinstall": "patch-package",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "{src,test,stories}/**/*.{js,ts}": [
+      "prettier --write src/"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettify:js & npm run lint:js",
+      "pre-push": "npm run lint:js"
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "arrowParens": "always"
   },
   "dependencies": {
     "@santiment-network/ui": "^0.5.150",
@@ -68,11 +88,13 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-svelte3": "^2.7.3",
     "glob": "^7.1.4",
+    "husky": "^4.2.5",
     "ngrok": "^3.1.1",
     "node-sass": "^4.12.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^7.0.16",
     "postcss-modules": "^1.4.1",
+    "prettier": "^2.0.5",
     "pug": "^2.0.3",
     "rollup": "^1.21.2",
     "rollup-plugin-babel": "^4.0.2",

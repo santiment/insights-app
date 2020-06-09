@@ -12,7 +12,7 @@ function loginWithEthereum() {
   let address = ''
   return web3Helpers
     .getAccount()
-    .then(addr => {
+    .then((addr) => {
       address = addr
       return addr
     })
@@ -29,7 +29,7 @@ function loginWithEthereum() {
     })
 }
 
-export const handleEthLogin = consent =>
+export const handleEthLogin = () =>
   loginWithEthereum().then(({ data: { ethLogin } }) => {
     notifications.add({
       type: 'success',
@@ -44,11 +44,11 @@ export const logout = () =>
     .mutate({ mutation: LOGOUT_MUTATION })
     .then(() => {
       const { session } = stores()
-      session.update(ses => ({ ...ses, currentUser: undefined }))
+      session.update((ses) => ({ ...ses, currentUser: undefined }))
     })
     .catch(console.warn)
 
-export const loginEmail = email =>
+export const loginEmail = (email) =>
   client
     .mutate({
       mutation: EMAIL_REGISTRATION,
@@ -57,7 +57,7 @@ export const loginEmail = email =>
         consent: '',
       },
     })
-    .then(data => {
+    .then((data) => {
       notifications.add({
         title: 'Verification email was sent to the provided email',
       })

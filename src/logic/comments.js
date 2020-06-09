@@ -1,6 +1,4 @@
-import { goto } from '@sapper/app'
 import { client } from '@/apollo'
-import { notifications } from '@/stores/notifications'
 import {
   COMMENTS_FOR_INSIGHT_QUERY,
   CREATE_COMMENT_MUTATION,

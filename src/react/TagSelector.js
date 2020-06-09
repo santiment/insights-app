@@ -34,7 +34,7 @@ class TagSelect extends Component {
     }
   }
 
-  onChange = tags => {
+  onChange = (tags) => {
     if (tags.length <= 5) {
       this.setState({ tags }, () => {
         this.props.onChange(tags)
@@ -53,15 +53,15 @@ class TagSelect extends Component {
       <Select
         multi
         topDropdown
-        placeholder='Add a tag...'
-        options={isLimitReached ? [] : options.filter(option => !!option)}
+        placeholder="Add a tag..."
+        options={isLimitReached ? [] : options.filter((option) => !!option)}
         isLoading={loading}
         value={tags}
         searchable={!isLimitReached}
         className={className}
         onChange={this.onChange}
-        valueKey='name'
-        labelKey='name'
+        valueKey="name"
+        labelKey="name"
       />
     )
   }

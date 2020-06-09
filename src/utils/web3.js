@@ -1,10 +1,10 @@
 export const getWeb3 = () => {
   if (process.browser) {
     if (window.ethereum) {
-      return new Web3(window.ethereum)
+      return new window.Web3(window.ethereum)
     }
     if (window.web3) {
-      return new Web3(window.web3.currentProvider)
+      return new window.Web3(window.web3.currentProvider)
     }
   }
   return false
@@ -25,18 +25,18 @@ export const detectMetamask = () => {
 
 export const getAccount = () => {
   if (window.ethereum) {
-    return window.ethereum.enable().then(accounts => accounts && accounts[0])
+    return window.ethereum.enable().then((accounts) => accounts && accounts[0])
   }
   if (window.web3) {
     const localWeb3 = getWeb3()
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(localWeb3.eth.accounts[0])
     })
   }
   return Promise.resolve()
 }
 
-export const signMessage = account => {
+export const signMessage = (account) => {
   const message = `Login into Santiment with address ${account}`
   const localWeb3 = getWeb3()
   const messageHash = localWeb3.sha3(

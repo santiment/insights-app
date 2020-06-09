@@ -1,9 +1,13 @@
-import {stores} from '@sapper/app'
-import {sendEvent} from '@/analytics'
-import {client} from '@/apollo'
-import {PLANS_QUERY, CHECK_COUPON_QUERY, SUBSCRIBE_MUTATION} from '@/gql/plans'
-import {findSanbasePlans} from '@/utils/plans'
-import {notifications} from '@/stores/notifications'
+import { stores } from '@sapper/app'
+import { sendEvent } from '@/analytics'
+import { client } from '@/apollo'
+import {
+  PLANS_QUERY,
+  CHECK_COUPON_QUERY,
+  SUBSCRIBE_MUTATION,
+} from '@/gql/plans'
+import { findSanbasePlans } from '@/utils/plans'
+import { notifications } from '@/stores/notifications'
 
 export const formatError = (msg) => msg.replace('GraphQL error: ', '')
 
@@ -12,7 +16,7 @@ export const getProductsWithPlans = () =>
     .query({
       query: PLANS_QUERY,
     })
-    .then(({data: {productsWithPlans}}) => productsWithPlans)
+    .then(({ data: { productsWithPlans } }) => productsWithPlans)
 
 export const getSanbasePlans = () =>
   getProductsWithPlans().then((products) => {
@@ -22,11 +26,11 @@ export const getSanbasePlans = () =>
 
 export const getCoupon = (coupon) =>
   client
-    .query({query: CHECK_COUPON_QUERY, variables: {coupon}})
-    .then(({data: {getCoupon}}) => getCoupon)
+    .query({ query: CHECK_COUPON_QUERY, variables: { coupon } })
+    .then(({ data: { getCoupon } }) => getCoupon)
 
 export const subscribeToPlan = (variables) =>
-  client.mutate({mutation: SUBSCRIBE_MUTATION, variables})
+  client.mutate({ mutation: SUBSCRIBE_MUTATION, variables })
 
 export function getTokenDataByForm(form) {
   const res = {}
@@ -37,16 +41,16 @@ export function getTokenDataByForm(form) {
 }
 
 export function buyPlan(stripe, card, form, plan) {
-  const {coupon, ...checkoutInfo} = form
+  const { coupon, ...checkoutInfo } = form
 
   return stripe
     .createToken(card, checkoutInfo)
-    .then(({token, error}) => {
+    .then(({ token, error }) => {
       if (error) {
         return Promise.reject(error)
       }
 
-      const variables = {cardToken: token.id, planId: +plan.id}
+      const variables = { cardToken: token.id, planId: +plan.id }
 
       if (coupon) {
         variables.coupon = coupon
@@ -58,8 +62,8 @@ export function buyPlan(stripe, card, form, plan) {
 
       return subscribeToPlan(variables)
     })
-    .then(({data: {subscription}}) => {
-      const {session} = stores()
+    .then(({ data: { subscription } }) => {
+      const { session } = stores()
 
       session.update((ses) => ({
         ...ses,

@@ -33,10 +33,10 @@ export function getTrialDaysLeft(subscription) {
   return daysDiff === 1 ? 'last day' : `${daysDiff} days left`
 }
 
-export const formatOnlyPrice = amount => `$${Math.round(amount / 100, 10)}`
+export const formatOnlyPrice = (amount) => `$${Math.round(amount / 100, 10)}`
 
 export const formatPrice = (price, name, billing) => {
-  if (name === PLANS.FREE) return ['$0']
+  if (name.toLowerCase() === 'free') return ['$0']
   if (!price) return ['Custom']
 
   const devider = 100 * (billing === 'year' ? 12 : 1)
@@ -62,7 +62,7 @@ export const getAlternativeBillingPlan = (plans, oldPlan) => {
 
 const NEXT_DATE_GET_SET_MONTH = ['setMonth', 'getMonth']
 const NEXT_DATE_GET_SET_YEAR = ['setFullYear', 'getFullYear']
-export const getNextPaymentDate = billing => {
+export const getNextPaymentDate = (billing) => {
   const [setter, getter] =
     billing === 'year' ? NEXT_DATE_GET_SET_YEAR : NEXT_DATE_GET_SET_MONTH
 

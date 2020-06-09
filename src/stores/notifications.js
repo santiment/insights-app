@@ -6,9 +6,9 @@ function createNotifications() {
 
   return {
     subscribe,
-    add: notification => {
+    add: (notification) => {
       _id = _id + 1
-      update(notifications => {
+      update((notifications) => {
         const newNot = new Set([
           ...notifications,
           {
@@ -19,8 +19,8 @@ function createNotifications() {
         return newNot
       })
     },
-    remove: notification => {
-      update(notifications => {
+    remove: (notification) => {
+      update((notifications) => {
         const uptaded = new Set(notifications)
         uptaded.delete(notification)
         return uptaded

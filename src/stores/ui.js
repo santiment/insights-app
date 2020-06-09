@@ -24,14 +24,14 @@ function createDarkModeToggle() {
     subscribe,
     toggleDarkMode() {
       const res = document.body.classList.toggle('night-mode')
-      update(str => {
+      update((str) => {
         str.darkMode = res
         saveToLS(str)
         return str
       })
     },
     toggleBetaMode() {
-      update(str => {
+      update((str) => {
         str.betaMode = !str.betaMode
         saveToLS(str)
         return str

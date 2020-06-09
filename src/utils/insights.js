@@ -1,13 +1,8 @@
-export const getInsightIdFromSEOLink = link =>
+export const getInsightIdFromSEOLink = (link) =>
   parseInt(link.slice(link.lastIndexOf('-') + 1), 10)
 
 export const getSEOLinkFromIdAndTitle = (id, title) =>
-  encodeURIComponent(
-    `${title
-      .toLowerCase()
-      .split(' ')
-      .join('-')}-${id}`,
-  )
+  encodeURIComponent(`${title.toLowerCase().split(' ').join('-')}-${id}`)
 
 export const updateDateSorter = ({ updatedAt: a }, { updatedAt: b }) =>
   new Date(b) - new Date(a)
@@ -43,7 +38,7 @@ export const InsightSorter = {
 
 const IMG_SRC_ATTR_START = 'src="'
 const IMG_SRC_ATTR_START_LENGTH = IMG_SRC_ATTR_START.length
-export const grabFirstImageLink = text => {
+export const grabFirstImageLink = (text) => {
   const start = text.indexOf(IMG_SRC_ATTR_START)
 
   if (start === -1) {
@@ -55,7 +50,7 @@ export const grabFirstImageLink = text => {
   return text.slice(linkStart, text.indexOf('"', linkStart))
 }
 
-export const getRawText = text => {
+export const getRawText = (text) => {
   const res = text.split(/<.*?>/g).join('')
   return res[0] === ' ' ? res.slice(1) : res
 }

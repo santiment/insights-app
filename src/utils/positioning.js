@@ -1,4 +1,4 @@
-export const getSignByPosition = position => {
+export const getSignByPosition = (position) => {
   switch (position) {
     case 'top':
       return -1
@@ -32,12 +32,7 @@ export const getTooltipStyles = (
   offsetX,
   offsetY,
 ) => {
-  const {
-    offsetLeft: tooltipLeft,
-    offsetTop: tooltipTop,
-    clientWidth: tooltipWidth,
-    clientHeight: tooltipHeight,
-  } = tooltip
+  const { clientWidth: tooltipWidth, clientHeight: tooltipHeight } = tooltip
   const {
     left: triggerLeft,
     top: triggerTop,

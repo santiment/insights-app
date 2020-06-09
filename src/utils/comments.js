@@ -1,4 +1,5 @@
 import { goto } from '@sapper/app'
+import { notifications } from '@/stores/notifications'
 
 const SCHEDULED_COMMENT = 'SCHEDULED_COMMENT'
 

@@ -1,7 +1,4 @@
-import {
-  ALL_USER_WATCHLISTS_WITH_ITEMS,
-  UPDATE_WATCHLIST,
-} from '@/gql/watchlists'
+import { UPDATE_WATCHLIST } from '@/gql/watchlists'
 import { client } from '@/apollo'
 
 const mapWatchlistUpdateProjects = ({ project: { id: projectId } }) => ({
@@ -18,12 +15,12 @@ const updateWatchlist = ({ id, listItems }, reducer) =>
   })
 
 export const addProjectToWatchlist = (projectId, watchlist) =>
-  updateWatchlist(watchlist, listItems => {
+  updateWatchlist(watchlist, (listItems) => {
     listItems.push({ project_id: projectId })
     return listItems
   })
 
 export const removeProjectFromWatchlist = (projectId, watchlist) =>
-  updateWatchlist(watchlist, listItems =>
+  updateWatchlist(watchlist, (listItems) =>
     listItems.filter(({ project_id }) => project_id !== projectId),
   )
