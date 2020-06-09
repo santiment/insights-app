@@ -24,7 +24,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run prettify:svelte & npm run prettify:js & npm run lint:js",
-      "pre-push": "npm run lint:js"
+      "pre-push": "npm run prettify:svelte & npm run prettify:js & npm run lint:js"
     }
   },
   "prettier": {
