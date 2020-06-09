@@ -108,12 +108,11 @@
       }
     }
 
-    return `left: ${leftPosition -
-      viewportAlign +
-      +triggerSettings.offsetX}px; top: ${offsetY +
-      offsetTop +
-      +triggerSettings.offsetY +
-      triggerHeight}px; height: ${clientHeight}px; width: ${clientWidth}px`
+    return `left: ${
+      leftPosition - viewportAlign + +triggerSettings.offsetX
+    }px; top: ${
+      offsetY + offsetTop + +triggerSettings.offsetY + triggerHeight
+    }px; height: ${clientHeight}px; width: ${clientWidth}px`
   }
 </script>
 

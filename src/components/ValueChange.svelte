@@ -1,12 +1,12 @@
 <script context="module">
-  export const percentChange = change => `${parseFloat(change).toFixed(2)}%`
+  export const percentChange = (change) => `${parseFloat(change).toFixed(2)}%`
 </script>
 
 <script>
   let klass = ''
   export { klass as class }
   export let change = 0
-  export let formatter = val => val
+  export let formatter = (val) => val
 
   let res
   $: res = change > 0 ? 'up' : 'down'

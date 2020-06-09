@@ -14,7 +14,7 @@
   function feedInsights(insights) {
     feedDates.clear()
     lastDate = undefined
-    return insights.map(item => {
+    return insights.map((item) => {
       const { MMM, D } = getDateFormats(new Date(item[dateKey]))
       const feedDate = `${MMM} ${D}`
       if (lastDate !== feedDate) {

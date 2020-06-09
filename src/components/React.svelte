@@ -1,19 +1,19 @@
 <script>
-  import { onMount } from "svelte";
-  import ReactDOM from "react-dom";
+  import { onMount } from 'svelte'
+  import ReactDOM from 'react-dom'
 
-  let reactMount;
-  let Component;
+  let reactMount
+  let Component
 
   $: if (Component) {
-    ReactDOM.render(Component, reactMount);
+    ReactDOM.render(Component, reactMount)
   }
 
   onMount(() => {
-    import("@/react/index").then(({ default: loaded }) => {
-      Component = loaded;
-    });
-  });
+    import('@/react/index').then(({ default: loaded }) => {
+      Component = loaded
+    })
+  })
 </script>
 
 <template lang="pug">

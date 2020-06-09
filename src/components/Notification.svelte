@@ -36,7 +36,7 @@
     }
   }
 
-onMount(() => {
+  onMount(() => {
     timer = setTimeout(destroy, dismissAfter)
   })
   onDestroy(() => {

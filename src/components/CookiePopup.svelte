@@ -1,5 +1,5 @@
 <script>
- import {cookie} from '@/stores/cookie'
+  import { cookie } from '@/stores/cookie'
 </script>
 
 <template lang="pug">
