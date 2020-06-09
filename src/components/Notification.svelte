@@ -26,7 +26,7 @@
   function notify(node) {
     return {
       duration: 300,
-      css: t => {
+      css: (t) => {
         const eased = cubicOut(t)
 
         return `
@@ -36,7 +36,7 @@
     }
   }
 
-  onMount(() => {
+onMount(() => {
     timer = setTimeout(destroy, dismissAfter)
   })
   onDestroy(() => {

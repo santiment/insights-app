@@ -12,6 +12,7 @@
     "test": "run-p --race dev cy:run",
     "lint:js": "yarn eslint src/**/*.js",
     "prettify:js": "yarn prettier --write src/**/*.js",
+    "prettify:svelte": "yarn prettier --write src/**/*.svelte --parser=html",
     "postinstall": "patch-package",
     "precommit": "lint-staged"
   },
@@ -22,7 +23,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prettify:js & npm run lint:js",
+      "pre-commit": "npm run prettify:svelte & npm run prettify:js & npm run lint:js",
       "pre-push": "npm run lint:js"
     }
   },
