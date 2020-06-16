@@ -86,9 +86,6 @@ mixin newInsight()
     +icon('plus-round').plus
     |Write insight
 
-svelte:head
-  title Insights
-
 
 +if('process.env.BACKEND_URL !== "https://api-stage.santiment.net"')
   Analytics

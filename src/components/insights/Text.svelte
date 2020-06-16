@@ -38,6 +38,18 @@ Modal(bind:open='{enlargedImgSrc}')
     word-break: break-word;
     @include text('body-1');
 
+    :global(.md-block-header-one) {
+      font-size: 28px;
+      line-height: 40px;
+      font-weight: 500;
+    }
+
+    :global(.md-block-header-two) {
+      font-size: 22px;
+      line-height: 30px;
+      font-weight: 500;
+    }
+
     :global(.md-block-image) {
       text-align: center;
       margin: 16px 0 32px;
