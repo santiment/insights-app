@@ -1,9 +1,10 @@
 <script>
-  import { readable, writable } from 'svelte/store'
+  import { writable } from 'svelte/store'
   import { onMount, setContext } from 'svelte'
 
   const stripeKey =
-    process.env.BACKEND_URL === 'https://api-stage.santiment.net'
+    process.env.BACKEND_URL === 'https://api-stage.santiment.net' ||
+    process.env.NODE_ENV === 'development'
       ? 'pk_test_gy9lndGDPXEFslDp8mJ24C3p'
       : 'pk_live_t7lOPOW79IIVcxjPPK5QfESD'
 

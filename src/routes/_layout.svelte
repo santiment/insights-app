@@ -29,6 +29,7 @@
   import NavMobile from '@/components/Mobile/Nav'
   import CookiePopup from '@/components/CookiePopup'
   import Analytics from '@/components/Analytics'
+  import FirstPromoter from '@/components/FirstPromoter'
   import Intercom from '@/components/Intercom'
   import Stripe from '@/components/Stripe'
   import { user$ } from '@/stores/user'
@@ -89,6 +90,7 @@ mixin newInsight()
 
 +if('process.env.BACKEND_URL !== "https://api-stage.santiment.net"')
   Analytics
+  FirstPromoter 
 
 LoadProgress
 
