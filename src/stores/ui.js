@@ -17,7 +17,7 @@ function saveToLS(state) {
   localStorage.setItem('ui', JSON.stringify(state))
 }
 
-function createDarkModeToggle() {
+function createUIStore() {
   const { subscribe, update } = writable(uiDefault)
 
   return {
@@ -40,4 +40,4 @@ function createDarkModeToggle() {
   }
 }
 
-export const ui = createDarkModeToggle()
+export const ui = createUIStore()

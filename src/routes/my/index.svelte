@@ -44,6 +44,8 @@
 </script>
 
 <template lang="pug">
+include /ui/mixins
+
 svelte:head
   title My Insights
   meta(property='og:title', content='My Insights')

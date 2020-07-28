@@ -36,7 +36,7 @@
   import { publishDateSorter } from '@/utils/insights'
   import { getMobileComponent } from '@/utils/responsive'
 
-  const { session } = stores()
+  const { page, session } = stores()
 
   const InsightCard = getMobileComponent(InsightCardMobile, InsightCardDesktop)
   const options = {
@@ -49,14 +49,14 @@
   $: insights = [...insights].sort(publishDateSorter)
   $: featured = [...featured].sort(publishDateSorter)
 
-  let page = 1
+  let pageOffset = 1
   let loading = false
   let hasMore = true
 
   function getInsights() {
     loading = true
-    page = page + 1
-    return getAllInsights({ page }).then((newInsights) => {
+    pageOffset = pageOffset + 1
+    return getAllInsights({ page: pageOffset }).then((newInsights) => {
       if (newInsights.length === 0) {
         hasMore = false
       } else {
@@ -83,6 +83,7 @@ svelte:head
   meta(name='description', content='All Community Insights')
   meta(property='og:description', content='All Commmunity Insights')
 
+
 .insights.bot-scroll
   .insights__all
     ViewportObserver({options}, on:intersect='{onIntersect}', observeWhile='{hasMore}')
@@ -102,6 +103,8 @@ svelte:head
                     +each('featured as insight')
                       +panel(variant='box').mobile-featured__item
                         InsightSmallCard({insight})
+      +if('loading')
+        | Loading...
             
   +if('!$session.isMobile')
     .insights__featured

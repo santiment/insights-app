@@ -43,6 +43,7 @@ include /ui/mixins
   hr.divider
   .category.category_links
     +if('currentUser')
+      +button.item(href=appPath+"/labs", variant='ghost', fluid) Labs
       +button.item(href=appPath+"/account", variant='ghost', fluid) Account Settings
       +button.item.item_logout(href="/logout", variant='ghost', fluid)
         +icon('logout').logout

@@ -869,10 +869,10 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-0.5.0.tgz#b21510597fd601e5d7c95008b76bf0d254ebfd31"
   integrity sha512-oZLYFEAzUKyi3SKnXvj32ZCEGH6RDnao7COuCVhDydMS9NrCSVXhM79VaKyP5+Zc33m0QXEd2DN3UkU7OsHcfw==
 
-"@santiment-network/ui@^0.5.150":
-  version "0.5.150"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.150.tgz#04a104f12076261197eb583c91b9ecbaa63faded"
-  integrity sha512-7u9E9eQlirfEvbtSmElCW4Eq7UvBwf1qHoceYcWXo/d38YY/y4Ah1u/KvP/QaXCzT+ZrjVGX9tFLtlt1RW2OMw==
+"@santiment-network/ui@^0.5.177":
+  version "0.5.177"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.177.tgz#c0e19f8e2b17bbba59c106c4b8ec6ca8c4c55ccc"
+  integrity sha512-mfyMdktHNP7UzTPW+avnyUZrBKIqpO60v6GrKqE6g1/8Nk264CVOPtBC9PHvm9aiXdpXnqzX57XPq1mZP8Fv1g==
 
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.7"
@@ -7567,10 +7567,10 @@ svelte-preprocess@2.12.0:
     postcss-load-config "^2.0.0"
     strip-indent "^2.0.0"
 
-svelte@^3.14.1:
-  version "3.14.1"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.14.1.tgz#dd884b5c0fcf8458333902cc7a64dea8ec3b64f8"
-  integrity sha512-7gMPjARR9D797MSVaiUkILVfqDaDLKRQAPTGK5kktSmrPWE0iuHRTKIdhpMOa/MSQBM94NMUv8owR4LXrhrgfQ==
+svelte@^3.24.0:
+  version "3.24.0"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.24.0.tgz#6565a42c9705796fa66c6abb4fedc09f4323a4a8"
+  integrity sha512-VFXom6EP2DK83kxy4ZlBbaZklSbZIrpNH3oNXlPYHJUuW4q1OuAr3ZoYbfIVTVYPDgrI7Yq0gQcOhDlAtO4qfw==
 
 svg-sprite@^1.5.0:
   version "1.5.0"
