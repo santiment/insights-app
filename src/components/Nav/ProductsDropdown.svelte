@@ -5,23 +5,26 @@
     {
       title: 'Sanbase',
       desc: 'Behavior analysis & monitoring platform for 1000+ crypto assets',
-      goto: 'Go to Sanbase',
       link: 'https://app.santiment.net',
       logo: '/san-logo.svg',
     },
     {
       title: 'Sansheets',
       desc: 'Google Spreadsheets plugin for importing Santiment data',
-      goto: 'Go to Sansheets',
       link: 'https://sheets.santiment.net',
       logo: '/sheets-logo.svg',
     },
     {
       title: 'SanAPI',
       desc: 'The most comprehensive crypto API on the market',
-      goto: 'Go to SanAPI',
       link: 'https://neuro.santiment.net',
       logo: '/neuro-logo.svg',
+    },
+    {
+      title: 'Santrends',
+      desc: 'Explore the social volume of any word on crypto social media',
+      link: 'https://app.santiment.net/labs/trends/',
+      logo: '/trends-logo.svg',
     },
   ]
 </script>

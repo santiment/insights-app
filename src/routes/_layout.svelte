@@ -71,7 +71,7 @@ LoadProgress
 CookiePopup
 
 Stripe 
-  Nav({segment})
+  Nav
 
   main(class:isMobile)
     +if("ROUTES_WITH_TABS.has(segment)")

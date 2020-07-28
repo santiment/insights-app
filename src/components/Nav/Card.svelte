@@ -4,7 +4,6 @@
     logo,
     title,
     desc,
-    goto,
     animated
 </script>
 
@@ -15,9 +14,8 @@ a.product(href='{link}', class!='{classes.wrapper || ""}')
   img.fading-up(src='{logo}', alt='{title} logo', class:fading-up='{animated}')
   h2(class:fading-up='{animated}') {title}
   h4(class:fading-up='{animated}') {desc}
-  +if('goto')
-    span.link.product__link {goto}
-      +icon('pointer-right').icon-pointer
+  span.link.product__link Go to {title}
+    +icon('pointer-right').icon-pointer
 
 </template>
 

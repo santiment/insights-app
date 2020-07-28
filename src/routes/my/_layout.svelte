@@ -1,10 +1,10 @@
 <script>
-  import { stores } from '@sapper/app'
   import { checkIsMobile } from '@/utils/responsive'
   import WriteInsight from './_WriteInsight.svelte'
 
+  export let segment
+
   const isMobile = checkIsMobile()
-  const { page } = stores()
 </script>
 
 <template lang="pug">
@@ -16,8 +16,8 @@ include /ui/mixins
     WriteInsight.My__new
 
 +tabs.tabs(class:tabs_mobile='{isMobile}')
-  +tab(href="/my/drafts", class:active="{$page.path === '/my/drafts'}", prefetch) Drafts
-  +tab(href="/my", class:active="{$page.path === '/my'}", prefetch) Published
+  +tab(href="/my/drafts", class:active="{segment === 'drafts'}", prefetch) Drafts
+  +tab(href="/my", class:active="{!segment}", prefetch) Published
 
 slot
 </template>
