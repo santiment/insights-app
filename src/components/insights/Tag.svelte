@@ -13,7 +13,7 @@ include /ui/mixins
 <style lang="scss">
   @import '@/mixins';
 
-  :global(.tag) {
+  .tag {
     height: auto;
     padding: 1px 6px;
     color: var(--waterloo);

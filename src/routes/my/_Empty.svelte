@@ -24,6 +24,7 @@ include /ui/mixins
     padding-top: $height;
     margin: auto;
     text-align: center;
+    max-width: 100%;
 
     :global(.night-mode) & {
       background-image: url('/empty-page_dark.svg');

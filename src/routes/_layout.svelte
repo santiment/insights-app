@@ -32,6 +32,7 @@
   import FirstPromoter from '@/components/FirstPromoter'
   import Intercom from '@/components/Intercom'
   import Stripe from '@/components/Stripe'
+  import Tags from './_Tags.svelte'
   import { user$ } from '@/stores/user'
   import { toggleInsightLike } from '@/logic/likes'
   import { lookupSavedComment } from '@/utils/comments'
@@ -47,6 +48,7 @@
   const ROUTES_WITH_TABS = new Set([
     undefined, // index page
     'pulse',
+    'tags',
   ])
 
   let wasNotified = false
@@ -78,6 +80,7 @@ Stripe
       .tabs
         a.tab(href="/", class:active="{!segment}", prefetch) Insights
         a.tab(href="/pulse", class:active="{segment === 'pulse'}", prefetch) Pulse Insight
+      Tags(base!='{segment || ""}')
 
     slot
 

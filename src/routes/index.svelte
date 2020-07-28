@@ -1,17 +1,20 @@
 <script context="module">
   import { client } from '@/apollo'
   import { FEATURED_INSIGHTS_SMALL_QUERY } from '@/gql/insights'
-  import { getAllInsights } from '@/logic/insights'
+  import { getAllInsights, getInsightsByTag } from '@/logic/insights'
   import { checkGDPR } from '@/logic/gdpr'
 
-  export async function preload(_, session, { apollo = client }) {
+  export async function preload(page, session, { apollo = client }) {
     await session.loadingUser
     if (checkGDPR(session.currentUser, this)) {
       return
     }
 
+    const { tags } = page.query
+    const getInsights = tags ? getInsightsByTag : getAllInsights
+
     const [resAll, resFeat] = await Promise.all([
-      getAllInsights({ page: 1 }, apollo),
+      getInsights({ page: 1, tag: tags }, apollo),
       apollo.query({
         query: FEATURED_INSIGHTS_SMALL_QUERY,
       }),
@@ -20,6 +23,7 @@
     return {
       insights: resAll,
       featured: resFeat.data.insights.slice(0, 5),
+      tags,
     }
   }
 </script>
@@ -43,20 +47,22 @@
     rootMargin: '650px',
   }
 
+  export let tags = ''
   export let insights = []
   export let featured = []
 
   $: insights = [...insights].sort(publishDateSorter)
   $: featured = [...featured].sort(publishDateSorter)
+  $: getInsights = tags ? getInsightsByTag : getAllInsights
 
   let pageOffset = 1
   let loading = false
   let hasMore = true
 
-  function getInsights() {
+  function loadInsights() {
     loading = true
     pageOffset = pageOffset + 1
-    return getAllInsights({ page: pageOffset }).then((newInsights) => {
+    return getInsights({ page: pageOffset, tag: tags }).then((newInsights) => {
       if (newInsights.length === 0) {
         hasMore = false
       } else {
@@ -69,7 +75,7 @@
 
   function onIntersect() {
     if (hasMore && !loading) {
-      getInsights()
+      loadInsights()
     }
   }
 </script>
