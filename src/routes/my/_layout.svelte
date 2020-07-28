@@ -1,6 +1,7 @@
 <script>
   import { stores } from '@sapper/app'
   import { checkIsMobile } from '@/utils/responsive'
+  import WriteInsight from './_WriteInsight.svelte'
 
   const isMobile = checkIsMobile()
   const { page } = stores()
@@ -9,19 +10,16 @@
 <template lang="pug">
 include /ui/mixins
 
-mixin newInsight()
-  +button(href='/new', variant='fill', accent='jungle-green')&attributes(attributes)
-    +icon('plus-round').plus
-    |Write insight
-
 .top
   h1 My Insights
   +if('!isMobile')
-    +newInsight(rel='prefetch').btn
+    WriteInsight.My__new
 
 +tabs.tabs(class:tabs_mobile='{isMobile}')
   +tab(href="/my/drafts", class:active="{$page.path === '/my/drafts'}", prefetch) Drafts
   +tab(href="/my", class:active="{$page.path === '/my'}", prefetch) Published
+
+slot
 </template>
 
 <style lang="scss">
@@ -42,13 +40,8 @@ mixin newInsight()
     margin-right: 8px;
   }
 
-  .btn {
+  :global(.My__new) {
     margin-left: auto;
-
-    &_mobile {
-      justify-content: center;
-      margin-bottom: 20px;
-    }
   }
 
   .tabs {

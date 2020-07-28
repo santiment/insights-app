@@ -32,6 +32,7 @@
 
 <script>
   import DraftCard from '@/components/insights/DraftCard'
+  import Empty from './_Empty.svelte'
 
   export let insights = []
 
@@ -44,11 +45,12 @@
 </script>
 
 <template lang="pug">
++if('insights.length === 0')
+  Empty
 
 .insights.bot-scroll
   +each('sortedInsights as insight (insight.id)')
     DraftCard({insight})
-
 </template>
 
 <style lang="scss">
