@@ -1,6 +1,6 @@
 <script context="module">
   import { client } from '@/apollo'
-  import { FEATURED_INSIGHTS_QUERY } from '@/gql/insights'
+  import { FEATURED_INSIGHTS_SMALL_QUERY } from '@/gql/insights'
   import { getAllInsights } from '@/logic/insights'
   import { checkGDPR } from '@/logic/gdpr'
 
@@ -13,13 +13,13 @@
     const [resAll, resFeat] = await Promise.all([
       getAllInsights({ page: 1 }, apollo),
       apollo.query({
-        query: FEATURED_INSIGHTS_QUERY,
+        query: FEATURED_INSIGHTS_SMALL_QUERY,
       }),
     ])
 
     return {
       insights: resAll,
-      featured: resFeat.data.insights,
+      featured: resFeat.data.insights.slice(0, 5),
     }
   }
 </script>
@@ -109,7 +109,7 @@ svelte:head
   +if('!$session.isMobile')
     .insights__featured
       h2 Handpicked Takes
-      +panel(variant='box').featured
+      .featured
         .featured__scroll
           +each('featured as insight')
             .featured__item
@@ -179,7 +179,7 @@ svelte:head
     }
 
     &__featured {
-      width: 370px;
+      width: 353px;
       height: 90vh;
       position: -webkit-sticky;
       position: sticky;
@@ -204,6 +204,7 @@ svelte:head
     position: relative;
     overflow: hidden;
     flex: 1;
+    border: none;
 
     &:hover {
       overflow-y: auto;
@@ -215,8 +216,7 @@ svelte:head
     }
 
     &__item {
-      padding: 16px 23px;
-      border-bottom: 1px solid var(--porcelain);
+      padding: 16px 0;
 
       &:last-child {
         border: none;
