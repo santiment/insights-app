@@ -2,13 +2,13 @@
   let klass = ''
   export { klass as class }
   export let base = '',
-    name
+    name = ''
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
-+button.tag(href="{base}?tags={name}", border, class="{klass}") {name}
++button.tag(href="{base}?tags={name.toLowerCase()}", border, class="{klass}") {name}
 </template>
 
 <style lang="scss">

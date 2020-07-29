@@ -36,6 +36,7 @@ include /ui/mixins
       +button.item(href=appPath+'/sonar/my-signals', variant='ghost', fluid) My signals
       +button.item(href=appPath+'/assets', variant='ghost', fluid) My watchlists
       +button.item(href='/my', variant='ghost', fluid) My insights
+      +button.new(href='/new', variant='fill', accent='jungle-green', rel='prefetch') Write insight
   hr.divider
   .category.category_links
     +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Night mode
@@ -109,5 +110,9 @@ include /ui/mixins
   .logout {
     @include size(16px);
     margin: 0 8px 0 -1px;
+  }
+
+  .new {
+    margin: 6px 0 8px 8px;
   }
 </style>
