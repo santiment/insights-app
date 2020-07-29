@@ -1,27 +1,19 @@
 <script>
   import { stores } from '@sapper/app'
-  import { onMount, onDestroy } from 'svelte'
-  import gql from 'graphql-tag'
   import { client } from '@/apollo'
-
-  const HIDDEN_WIDGET_URLS = 'HIDDEN_WIDGET_URLS'
+  import { onMount, onDestroy } from 'svelte'
+  import { ACTIVE_WIDGETS_QUERY } from '@/gql/promotions'
+  import {
+    prepareThumbnail,
+    wasPromotionHidden,
+    hidePromotion,
+  } from '@/utils/promotions'
 
   let promotion
 
-  export const ACTIVE_WIDGETS_QUERY = gql`
-    query {
-      activeWidgets {
-        title
-        description
-        videoLink
-        imageLink
-        createdAt
-      }
-    }
-  `
-  function wasWidgetHidden(url) {
-    const urls = localStorage.getItem(HIDDEN_WIDGET_URLS)
-    return !!urls && urls.split(',').includes(url)
+  function onClose() {
+    hidePromotion(promotion.videoLink)
+    promotion = null
   }
 
   onMount(() => {
@@ -29,8 +21,12 @@
       .query({ query: ACTIVE_WIDGETS_QUERY })
       .then(({ data: { activeWidgets } }) => {
         if (activeWidgets && activeWidgets.length) {
-          const widget = activeWidgets[0]
-          console.log(widget, wasWidgetHidden(widget.videoLink))
+          const newPromotion = activeWidgets[0]
+
+          if (wasPromotionHidden(newPromotion.videoLink)) return
+
+          newPromotion.imageLink = prepareThumbnail(newPromotion)
+          promotion = newPromotion
         }
       })
   })
@@ -39,13 +35,13 @@
 <template lang="pug">
 include /ui/mixins
 
-//+if('promotion')
-section
-  a(target='_blank', rel='noopener noreferrer', href='/')
-  div
-    h3 THIS WEEK IN CRYPTO
-    h4 Making a cautiously bullish case for BTC
-    +icon('close').close
++if('promotion')
+  section
+    a(target='_blank', rel='noopener noreferrer', href='{promotion.videoLink}', style='background-image:url("{promotion.imageLink}")')
+    div
+      h3 {promotion.title}
+      h4 {promotion.description}
+      +icon('close').close(on:click='{onClose}')
 </template>
 
 <style lang="scss">
@@ -88,8 +84,7 @@ section
     width: 230px;
     position: relative;
     border-radius: 4px;
-    background: url('https://production-sanbase-images.s3.amazonaws.com/uploads/3b6413fca638bf9a561302bd0cef0ac9e033b6e49cb1f2affc93743da9d98f6b_1591116477664_image%203%20(1).png')
-      no-repeat 50% / cover;
+    background: no-repeat 50% / cover;
     display: flex;
     align-items: center;
     justify-content: center;
