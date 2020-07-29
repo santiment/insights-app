@@ -1,7 +1,7 @@
 <script>
   import { stores } from '@sapper/app'
-  import { client } from '@/apollo'
   import { onMount, onDestroy } from 'svelte'
+  import { client } from '@/apollo'
   import { ACTIVE_WIDGETS_QUERY } from '@/gql/promotions'
   import {
     prepareThumbnail,
