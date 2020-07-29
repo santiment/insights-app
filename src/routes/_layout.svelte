@@ -32,6 +32,7 @@
   import FirstPromoter from '@/components/FirstPromoter'
   import Intercom from '@/components/Intercom'
   import Stripe from '@/components/Stripe'
+  import Promotion from '@/components/Promotion'
   import Tags from './_Tags.svelte'
   import { user$ } from '@/stores/user'
   import { toggleInsightLike } from '@/logic/likes'
@@ -77,6 +78,7 @@ Stripe
 
   main(class:isMobile)
     +if("ROUTES_WITH_TABS.has(segment)")
+      Promotion
       .tabs
         a.tab(href="/", class:active="{!segment}", prefetch) Insights
         a.tab(href="/pulse", class:active="{segment === 'pulse'}", prefetch) Pulse Insight
