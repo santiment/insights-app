@@ -1,20 +1,10 @@
 <script>
-  import LikeBtn from '@/components/LikeBtn'
-  import CommentCounter from '@/components/comments/Counter'
   import MultilineText from '@/components/MultilineText'
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
 
   export let insight
 
-  let {
-    id,
-    user,
-    title,
-    votes,
-    votedAt,
-    commentsCount = 0,
-    isPaywallRequired,
-  } = insight
+  let { id, user, title, isPaywallRequired } = insight
 
   const seoLink = getSEOLinkFromIdAndTitle(id, title)
   const link = `/read/${seoLink}`
@@ -28,11 +18,8 @@ a.title(href="{link}")
 
 .bottom
   a.user(href='/user/{user.id}') {user.username}
-  .right
-    LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
-    CommentCounter.Card__comments({link}, {commentsCount}, isSSRLink)
-    +if('isPaywallRequired')
-      +icon('crown').paywalled
+  +if('isPaywallRequired')
+    +icon('crown').paywalled
 
 </template>
 
@@ -72,10 +59,6 @@ a.title(href="{link}")
   .paywalled {
     @include size(12px, 9px);
     fill: var(--texas-rose);
-    margin-left: 20px;
-  }
-
-  :global(.Card__comments) {
-    margin-left: 22px;
+    margin-left: auto;
   }
 </style>

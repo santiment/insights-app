@@ -35,6 +35,7 @@
   import ViewportObserver from '@/components/ViewportObserver'
   import InsightCardDesktop from '@/components/insights/InsightCardWithMarketcap'
   import InsightCardMobile from '@/components/insights/InsightCard'
+  import Empty from './_Empty.svelte'
   import { getMobileComponent } from '@/utils/responsive'
   import { updateDateSorter } from '@/utils/insights'
 
@@ -44,10 +45,15 @@
 </script>
 
 <template lang="pug">
+include /ui/mixins
+
 svelte:head
   title My Insights
   meta(property='og:title', content='My Insights')
   meta(name='description', property='og:description', content='My Commmunity Insights')
+
++if('insights.length === 0')
+  Empty
 
 .insights.bot-scroll
   Feed(items="{insights.sort(updateDateSorter)}", dateKey="updatedAt")

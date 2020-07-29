@@ -57,23 +57,46 @@ export const INSIGHTS_BY_USERID_QUERY = gql`
 `
 
 export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
-  query allInsightsByTag($tag: String!) {
-    insights: allInsightsByTag(tag: $tag) {
+  query allInsightsByTag($tag: String!, $isPulse: Boolean) {
+    insights: allInsightsByTag(tag: $tag, isPulse: $isPulse) {
       ...insightCommon
+      isPulse
+      text
     }
   }
   ${insightCommon}
 `
 
+export const featuredCommon = gql`
+  fragment featuredCommon on Post {
+    id
+    title
+    isPaywallRequired
+    publishedAt
+    user {
+      id
+      username
+      avatarUrl
+    }
+    __typename
+  }
+`
+
+export const FEATURED_INSIGHTS_SMALL_QUERY = gql`
+  query featuredInsights {
+    insights: featuredInsights {
+      ...featuredCommon
+    }
+  }
+  ${featuredCommon}
+`
+
 export const FEATURED_INSIGHTS_QUERY = gql`
   query featuredInsights {
     insights: featuredInsights {
-      id
-      title
-      publishedAt
+      ...featuredCommon
       votedAt
       commentsCount
-      isPaywallRequired
       votes {
         totalVotes
       }
@@ -83,6 +106,7 @@ export const FEATURED_INSIGHTS_QUERY = gql`
       }
     }
   }
+  ${featuredCommon}
 `
 
 export const INSIGHT_BY_ID_QUERY = gql`

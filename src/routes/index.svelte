@@ -1,25 +1,29 @@
 <script context="module">
   import { client } from '@/apollo'
-  import { FEATURED_INSIGHTS_QUERY } from '@/gql/insights'
-  import { getAllInsights } from '@/logic/insights'
+  import { FEATURED_INSIGHTS_SMALL_QUERY } from '@/gql/insights'
+  import { getAllInsights, getInsightsByTag } from '@/logic/insights'
   import { checkGDPR } from '@/logic/gdpr'
 
-  export async function preload(_, session, { apollo = client }) {
+  export async function preload(page, session, { apollo = client }) {
     await session.loadingUser
     if (checkGDPR(session.currentUser, this)) {
       return
     }
 
+    const { tags } = page.query
+    const getInsights = tags ? getInsightsByTag : getAllInsights
+
     const [resAll, resFeat] = await Promise.all([
-      getAllInsights({ page: 1 }, apollo),
+      getInsights({ page: 1, tag: tags }, apollo),
       apollo.query({
-        query: FEATURED_INSIGHTS_QUERY,
+        query: FEATURED_INSIGHTS_SMALL_QUERY,
       }),
     ])
 
     return {
       insights: resAll,
-      featured: resFeat.data.insights,
+      featured: resFeat.data.insights.slice(0, 5),
+      tags,
     }
   }
 </script>
@@ -36,27 +40,29 @@
   import { publishDateSorter } from '@/utils/insights'
   import { getMobileComponent } from '@/utils/responsive'
 
-  const { session } = stores()
+  const { page, session } = stores()
 
   const InsightCard = getMobileComponent(InsightCardMobile, InsightCardDesktop)
   const options = {
     rootMargin: '650px',
   }
 
+  export let tags = ''
   export let insights = []
   export let featured = []
 
   $: insights = [...insights].sort(publishDateSorter)
   $: featured = [...featured].sort(publishDateSorter)
+  $: getInsights = tags ? getInsightsByTag : getAllInsights
 
-  let page = 1
+  let pageOffset = 1
   let loading = false
   let hasMore = true
 
-  function getInsights() {
+  function loadInsights() {
     loading = true
-    page = page + 1
-    return getAllInsights({ page }).then((newInsights) => {
+    pageOffset = pageOffset + 1
+    return getInsights({ page: pageOffset, tag: tags }).then((newInsights) => {
       if (newInsights.length === 0) {
         hasMore = false
       } else {
@@ -68,8 +74,8 @@
   }
 
   function onIntersect() {
-    if (hasMore && !loading) {
-      getInsights()
+    if (hasMore && !loading && !tags) {
+      loadInsights()
     }
   }
 </script>
@@ -82,6 +88,7 @@ svelte:head
   meta(property='og:title', content='Insights')
   meta(name='description', content='All Community Insights')
   meta(property='og:description', content='All Commmunity Insights')
+
 
 .insights.bot-scroll
   .insights__all
@@ -102,11 +109,13 @@ svelte:head
                     +each('featured as insight')
                       +panel(variant='box').mobile-featured__item
                         InsightSmallCard({insight})
+      +if('loading')
+        | Loading...
             
   +if('!$session.isMobile')
     .insights__featured
       h2 Handpicked Takes
-      +panel(variant='box').featured
+      .featured
         .featured__scroll
           +each('featured as insight')
             .featured__item
@@ -176,7 +185,7 @@ svelte:head
     }
 
     &__featured {
-      width: 370px;
+      width: 353px;
       height: 90vh;
       position: -webkit-sticky;
       position: sticky;
@@ -201,6 +210,7 @@ svelte:head
     position: relative;
     overflow: hidden;
     flex: 1;
+    border: none;
 
     &:hover {
       overflow-y: auto;
@@ -212,8 +222,7 @@ svelte:head
     }
 
     &__item {
-      padding: 16px 23px;
-      border-bottom: 1px solid var(--porcelain);
+      padding: 16px 0;
 
       &:last-child {
         border: none;

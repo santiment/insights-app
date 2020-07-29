@@ -83,7 +83,7 @@
     const deletionTargets = []
     const additionSet = new Set(selected)
 
-    initialSelectedWatchlists.forEach(watchlist =>
+    initialSelectedWatchlists.forEach((watchlist) =>
       additionSet.has(watchlist)
         ? additionSet.delete(watchlist)
         : deletionTargets.push(watchlist),
@@ -95,16 +95,16 @@
     initialSelectedWatchlists = new Set(selected)
 
     // TODO: Correctly update watchlist cache [@vanguard | Nov 11, 2019]
-    watchlists.forEach(watchlist => {
+    watchlists.forEach((watchlist) => {
       const { listItems = [] } = watchlist
       watchlist.listItems = listItems
     })
 
     return Promise.all(
       additionTargets
-        .map(watchlist => addProjectToWatchlist(project, watchlist))
+        .map((watchlist) => addProjectToWatchlist(project, watchlist))
         .concat(
-          deletionTargets.map(watchlist =>
+          deletionTargets.map((watchlist) =>
             removeProjectFromWatchlist(project, watchlist),
           ),
         ),
@@ -136,7 +136,7 @@ Dialog(bind:open, title='Add to watchlist')
     .items
       +await('getWatchlists()')
         .loading.process
-        +then()
+        +then('_')
           +each('watchlists as watchlist (watchlist.id)')
             +button.item(fluid, on:click!='{()=>toggleWatchlist(watchlist)}')
               span.item__left

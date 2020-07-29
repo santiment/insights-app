@@ -32,6 +32,8 @@
   import FirstPromoter from '@/components/FirstPromoter'
   import Intercom from '@/components/Intercom'
   import Stripe from '@/components/Stripe'
+  import Promotion from '@/components/Promotion'
+  import Tags from './_Tags.svelte'
   import { user$ } from '@/stores/user'
   import { toggleInsightLike } from '@/logic/likes'
   import { lookupSavedComment } from '@/utils/comments'
@@ -42,18 +44,12 @@
   const Nav = getMobileComponent(NavMobile, NavDesktop)
   const isMobile = Nav === NavMobile
 
-  const { page } = stores()
   const currentUser = user$()
 
-  const ROUTES_WITHOUT_TABS = new Set([
-    'new',
-    'read',
-    'edit',
-    'login',
-    'logout',
-    'gdpr',
-    'experience',
-    'sign-up',
+  const ROUTES_WITH_TABS = new Set([
+    undefined, // index page
+    'pulse',
+    'tags',
   ])
 
   let wasNotified = false
@@ -63,30 +59,11 @@
     lookupSavedComment()
   }
 
-  $: activePath = getActivePath($page.path)
-
-  function getActivePath(path) {
-    switch (path) {
-      case '/pulse':
-      case '/my':
-      case '/my/drafts':
-        return path
-      default:
-        return '/'
-    }
-  }
-
   setContext('toggleInsightLike', toggleInsightLike)
 </script>
 
 <template lang="pug">
 include /ui/mixins
-
-mixin newInsight()
-  +button(href='/new', variant='fill', accent='jungle-green')&attributes(attributes)
-    +icon('plus-round').plus
-    |Write insight
-
 
 +if('process.env.BACKEND_URL !== "https://api-stage.santiment.net"')
   Analytics
@@ -97,23 +74,16 @@ LoadProgress
 CookiePopup
 
 Stripe 
-  Nav({segment})
+  Nav
 
   main(class:isMobile)
-    +if("!ROUTES_WITHOUT_TABS.has(segment)")
-      .top
-        h1 Insights
-        .right
-          +if('!isMobile')
-            +newInsight(rel='prefetch').btn
-
-      +tabs.tabs(class:tabs_mobile='{isMobile}')
-        +tab(href="/", class:active="{activePath === '/'}", prefetch) All Insights
-        +tab(href="/pulse", class:active="{activePath === '/pulse'}", prefetch) Pulse Insights
-        +tab(href="/my", class:active="{activePath === '/my'}", prefetch) My Insights
-        +tab(href="/my/drafts", class:active="{activePath === '/my/drafts'}", prefetch) My Drafts
-      +if('isMobile')
-        +newInsight().btn_mobile(fluid)
+    +if("ROUTES_WITH_TABS.has(segment)")
+      +if('!isMobile')
+        Promotion
+      .tabs
+        a.tab(href="/", class:active="{!segment}", prefetch) Insights
+        a.tab(href="/pulse", class:active="{segment === 'pulse'}", prefetch) Pulse Insight
+      Tags(base!='{segment || ""}')
 
     slot
 
@@ -127,39 +97,6 @@ Notifications
 <style lang="scss">
   @import '@/mixins';
   @import '@/variables';
-
-  .top {
-    display: flex;
-    align-items: center;
-    margin: 0 0 20px;
-    justify-content: space-between;
-  }
-
-  .right {
-    display: flex;
-  }
-
-  h1 {
-    @include text('h3', 'm');
-
-    @include responsive('phone', 'phone-xs') {
-      @include text('h4', 'm');
-    }
-  }
-
-  .plus {
-    @include size(15px);
-    margin-right: 8px;
-  }
-
-  .btn {
-    margin-left: 16px;
-
-    &_mobile {
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-  }
 
   main {
     max-width: $desktop-container-width;
@@ -181,12 +118,26 @@ Notifications
   }
 
   .tabs {
-    margin-bottom: 40px;
+    margin-bottom: 32px;
 
     &_mobile {
       width: auto;
       margin: 0 -16px 20px;
       padding: 0 16px;
+    }
+  }
+
+  .tab {
+    @include text('h4', 'm');
+    margin-right: 32px;
+    color: var(--casper);
+
+    &:last-child {
+      margin: 0;
+    }
+
+    &.active {
+      color: var(--rhino);
     }
   }
 </style>

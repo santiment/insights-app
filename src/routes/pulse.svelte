@@ -1,16 +1,23 @@
 <script context="module">
   import { client } from '@/apollo'
   import { checkGDPR } from '@/logic/gdpr'
-  import { getPulseInsights } from '@/logic/insights'
+  import { getPulseInsights, getInsightsByTag } from '@/logic/insights'
 
-  export async function preload(_, session, { apollo = client }) {
+  export async function preload(page, session, { apollo = client }) {
     await session.loadingUser
     if (checkGDPR(session.currentUser, this)) {
       return
     }
 
+    const { tags } = page.query
+    const getInsights = tags ? getInsightsByTag : getPulseInsights
+
     return {
-      insights: await getPulseInsights({ page: 1 }, apollo),
+      insights: await getInsights(
+        { page: 1, tag: tags, isPulse: true },
+        apollo,
+      ),
+      tags,
     }
   }
 </script>
@@ -26,31 +33,35 @@
   }
 
   export let insights = []
+  export let tags = ''
 
   $: insights = [...insights].sort(publishDateSorter)
+  $: getInsights = tags ? getInsightsByTag : getPulseInsights
 
   let page = 1
   let loading = false
   let hasMore = true
 
-  function getInsights() {
+  function loadInsights() {
     loading = true
     page = page + 1
 
-    return getPulseInsights({ page }).then((newInsights) => {
-      if (newInsights.length === 0) {
-        hasMore = false
-      } else {
-        insights = insights.concat(newInsights)
-      }
+    return getInsights({ page, tag: tags, isPulse: true }).then(
+      (newInsights) => {
+        if (newInsights.length === 0) {
+          hasMore = false
+        } else {
+          insights = insights.concat(newInsights)
+        }
 
-      loading = false
-    })
+        loading = false
+      },
+    )
   }
 
   function onIntersect() {
-    if (hasMore && !loading) {
-      getInsights()
+    if (hasMore && !loading && !tags) {
+      loadInsights()
     }
   }
 </script>

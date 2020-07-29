@@ -143,23 +143,23 @@ mixin rawHtml(variables)
   }
 
   :global(.PulseCard__text) {
-    figure {
+    :global(figure) {
       text-align: center;
       max-width: 600px;
       margin: 0 auto;
       margin-bottom: 6px;
 
-      & + figure {
+      & + :global(figure) {
         margin-top: 20px;
       }
     }
 
-    img {
+    :global(img) {
       max-width: 100%;
     }
 
-    strong,
-    b {
+    :global(strong),
+    :global(b) {
       font-weight: bold;
     }
 
@@ -172,11 +172,11 @@ mixin rawHtml(variables)
       }
     }
 
-    u {
+    :global(u) {
       text-decoration: underline;
     }
 
-    ul {
+    :global(ul) {
       padding-left: 35px;
       margin: 10px 0 25px;
 
@@ -185,7 +185,7 @@ mixin rawHtml(variables)
       }
     }
 
-    blockquote {
+    :global(blockquote) {
       padding: 12px 20px;
       background: var(--athens);
       border-radius: 4px;
@@ -206,8 +206,12 @@ mixin rawHtml(variables)
       }
     }
 
-    blockquote + blockquote::before {
-      display: none;
+    :global(h1) {
+      font-size: 16px;
+    }
+
+    :global(h2) {
+      font-size: 14px;
     }
   }
 </style>
