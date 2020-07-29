@@ -14,7 +14,8 @@
     {name: 'defi', label: 'DeFi'},
     {name: 'btc', label: 'BTC'},
     {name: 'eth', label: 'ETH + ERC-20'},
-    {name: 'alpha', label: 'Alpha'},
+    //{name: 'alpha', label: 'Alpha'},
+    //{name: 'tutorials', label: 'Tutorials'},
   ] 
 
 .tags

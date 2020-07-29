@@ -78,7 +78,8 @@ Stripe
 
   main(class:isMobile)
     +if("ROUTES_WITH_TABS.has(segment)")
-      Promotion
+      +if('!isMobile')
+        Promotion
       .tabs
         a.tab(href="/", class:active="{!segment}", prefetch) Insights
         a.tab(href="/pulse", class:active="{segment === 'pulse'}", prefetch) Pulse Insight
