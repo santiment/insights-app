@@ -1,13 +1,14 @@
 <script>
   let klass = ''
   export { klass as class }
-  export let name
+  export let base = '',
+    name
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
-+button.tag(href="/tags/{name}", border, class="{klass}") {name}
++button.tag(href="{base}?tags={name}", border, class="{klass}") {name}
 </template>
 
 <style lang="scss">

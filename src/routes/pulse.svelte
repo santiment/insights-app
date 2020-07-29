@@ -60,7 +60,7 @@
   }
 
   function onIntersect() {
-    if (hasMore && !loading) {
+    if (hasMore && !loading && !tags) {
       loadInsights()
     }
   }
