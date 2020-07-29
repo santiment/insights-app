@@ -27,8 +27,8 @@ export const insightCommon = gql`
 `
 
 export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
-  query allInsights($page: Int) {
-    insights: allInsights(page: $page, pageSize: 10) {
+  query allInsights($page: Int, $tags: [String]) {
+    insights: allInsights(page: $page, pageSize: 10, tags: $tags) {
       ...insightCommon
       isPulse
       text
@@ -38,8 +38,13 @@ export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
 `
 
 export const PULSE_INSIGHTS_BY_PAGE_QUERY = gql`
-  query allInsights($page: Int) {
-    insights: allInsights(page: $page, pageSize: 10, isPulse: true) {
+  query allInsights($page: Int, $tags: [String]) {
+    insights: allInsights(
+      page: $page
+      tags: $tags
+      pageSize: 10
+      isPulse: true
+    ) {
       ...insightCommon
       text
     }

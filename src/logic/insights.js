@@ -1,7 +1,6 @@
 import { client } from '@/apollo'
 import {
   ALL_INSIGHTS_BY_PAGE_QUERY,
-  ALL_INSIGHTS_BY_TAG_QUERY,
   PULSE_INSIGHTS_BY_PAGE_QUERY,
 } from '@/gql/insights'
 import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
@@ -22,7 +21,6 @@ export const getAllInsights = buildInsightsGetter(ALL_INSIGHTS_BY_PAGE_QUERY)
 export const getPulseInsights = buildInsightsGetter(
   PULSE_INSIGHTS_BY_PAGE_QUERY,
 )
-export const getInsightsByTag = buildInsightsGetter(ALL_INSIGHTS_BY_TAG_QUERY)
 
 export const postponePayment = () =>
   localStorage.setItem(POSTPONED_PAYMENT_INSIGHT, window.location.pathname)
@@ -37,6 +35,9 @@ export const getPeriodSincePublication = (publishDate) =>
   getTimeIntervalFromToday(-2, MONTH, {
     from: new Date(publishDate),
   })
+
+export const extractURLTags = (tagsString) =>
+  tagsString && tagsString.toUpperCase().split(',')
 
 export function getPriceDataSincePublication(ticker, from, to) {
   const arg =

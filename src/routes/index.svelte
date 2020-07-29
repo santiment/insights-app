@@ -1,7 +1,7 @@
 <script context="module">
   import { client } from '@/apollo'
   import { FEATURED_INSIGHTS_SMALL_QUERY } from '@/gql/insights'
-  import { getAllInsights, getInsightsByTag } from '@/logic/insights'
+  import { getAllInsights, extractURLTags } from '@/logic/insights'
   import { checkGDPR } from '@/logic/gdpr'
 
   export async function preload(page, session, { apollo = client }) {
@@ -10,11 +10,10 @@
       return
     }
 
-    const { tags = '' } = page.query
-    const getInsights = tags ? getInsightsByTag : getAllInsights
+    const tags = extractURLTags(page.query.tags)
 
     const [resAll, resFeat] = await Promise.all([
-      getInsights({ page: 1, tag: tags.toUpperCase() }, apollo),
+      getAllInsights({ page: 1, tags }, apollo),
       apollo.query({
         query: FEATURED_INSIGHTS_SMALL_QUERY,
       }),
@@ -22,7 +21,7 @@
 
     return {
       insights: resAll,
-      featured: resFeat.data.insights.slice(0, 5),
+      featured: resFeat.data.insights.sort(publishDateSorter).slice(0, 5),
       tags,
     }
   }
@@ -47,13 +46,11 @@
     rootMargin: '650px',
   }
 
-  export let tags = ''
+  export let tags = undefined
   export let insights = []
   export let featured = []
 
   $: insights = [...insights].sort(publishDateSorter)
-  $: featured = [...featured].sort(publishDateSorter)
-  $: getInsights = tags ? getInsightsByTag : getAllInsights
 
   let pageOffset = 1
   let loading = false
@@ -62,21 +59,19 @@
   function loadInsights() {
     loading = true
     pageOffset = pageOffset + 1
-    return getInsights({ page: pageOffset, tag: tags.toUpperCase() }).then(
-      (newInsights) => {
-        if (newInsights.length === 0) {
-          hasMore = false
-        } else {
-          insights = insights.concat(newInsights)
-        }
+    return getAllInsights({ page: pageOffset, tags }).then((newInsights) => {
+      if (newInsights.length === 0) {
+        hasMore = false
+      } else {
+        insights = insights.concat(newInsights)
+      }
 
-        loading = false
-      },
-    )
+      loading = false
+    })
   }
 
   function onIntersect() {
-    if (hasMore && !loading && !tags) {
+    if (hasMore && !loading) {
       loadInsights()
     }
   }
