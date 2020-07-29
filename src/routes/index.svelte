@@ -51,10 +51,17 @@
   export let featured = []
 
   $: insights = [...insights].sort(publishDateSorter)
+  $: reset(tags)
 
   let pageOffset = 1
   let loading = false
   let hasMore = true
+
+  function reset() {
+    pageOffset = 1
+    loading = false
+    hasMore = true
+  }
 
   function loadInsights() {
     loading = true
