@@ -9,12 +9,12 @@
       return
     }
 
-    const { tags } = page.query
+    const { tags = '' } = page.query
     const getInsights = tags ? getInsightsByTag : getPulseInsights
 
     return {
       insights: await getInsights(
-        { page: 1, tag: tags, isPulse: true },
+        { page: 1, tag: tags.toUpperCase(), isPulse: true },
         apollo,
       ),
       tags,
@@ -46,7 +46,7 @@
     loading = true
     page = page + 1
 
-    return getInsights({ page, tag: tags, isPulse: true }).then(
+    return getInsights({ page, tag: tags.toUpperCase(), isPulse: true }).then(
       (newInsights) => {
         if (newInsights.length === 0) {
           hasMore = false

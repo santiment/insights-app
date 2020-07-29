@@ -27,7 +27,7 @@
 
   $: if (Component) {
     const tags = currentTrends
-      ? currentTrends.split(',').map(name => ({ name }))
+      ? currentTrends.split(',').map((name) => ({ name }))
       : []
 
     ReactDOM.render(
@@ -46,7 +46,7 @@
   function updateDraft(payload) {
     isUpdating = true
     const { tags, ...rest } = payload
-    const tagsSet = new Set(tags.map(({ name }) => name))
+    const tagsSet = new Set(tags.map(({ name }) => name.toUpperCase()))
 
     client
       .mutate({

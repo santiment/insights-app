@@ -30,10 +30,6 @@ include /ui/mixins
     .user
       ProfileInfo(name="{username}", id="{id}" status="SANBase: {plan} plan", classes="{{wrapper: 'account-dd__profile'}}")
       UpgradeBtn.AccountDropdown__upgrade
-    hr.divider
-  .category.category_toggles
-    +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Night mode
-      Toggle(active="{$ui.darkMode}")
   +if('currentUser')
     hr.divider
     .category.category_links
@@ -42,9 +38,12 @@ include /ui/mixins
       +button.item(href='/my', variant='ghost', fluid) My insights
   hr.divider
   .category.category_links
+    +button.item.item_toggle(variant='ghost', on:click="{ui.toggleDarkMode}", fluid) Night mode
+      Toggle(active="{$ui.darkMode}")
     +if('currentUser')
       +button.item(href=appPath+"/labs", variant='ghost', fluid) Labs
       +button.item(href=appPath+"/account", variant='ghost', fluid) Account Settings
+      +button.item(href="mailto:support@santiment.net", variant='ghost', fluid) Contact us
       +button.item.item_logout(href="/logout", variant='ghost', fluid)
         +icon('logout').logout
         |Logout

@@ -18,6 +18,7 @@ include /ui/mixins
   .tag {
     color: var(--waterloo);
     padding: 6px 16px;
+    margin-right: 15px;
   }
 
   .active {

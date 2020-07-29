@@ -51,6 +51,7 @@ export const grabFirstImageLink = (text) => {
 }
 
 export const getRawText = (text) => {
+  if (!text) return ''
   const res = text.split(/<.*?>/g).join('')
   return res[0] === ' ' ? res.slice(1) : res
 }

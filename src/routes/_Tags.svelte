@@ -4,7 +4,7 @@
 
   export let base = ''
   const { page } = stores()
-  $: activeTags = $page.query.tags || ''
+  $: activeTags = ($page.query.tags || '').toLowerCase()
 </script>
 
 <template lang="pug">
@@ -30,7 +30,6 @@
 
   .tags {
     display: flex;
-    grid-column-gap: 15px;
     margin-bottom: 40px;
   }
 </style>

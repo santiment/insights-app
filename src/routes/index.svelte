@@ -10,11 +10,11 @@
       return
     }
 
-    const { tags } = page.query
+    const { tags = '' } = page.query
     const getInsights = tags ? getInsightsByTag : getAllInsights
 
     const [resAll, resFeat] = await Promise.all([
-      getInsights({ page: 1, tag: tags }, apollo),
+      getInsights({ page: 1, tag: tags.toUpperCase() }, apollo),
       apollo.query({
         query: FEATURED_INSIGHTS_SMALL_QUERY,
       }),
@@ -62,15 +62,17 @@
   function loadInsights() {
     loading = true
     pageOffset = pageOffset + 1
-    return getInsights({ page: pageOffset, tag: tags }).then((newInsights) => {
-      if (newInsights.length === 0) {
-        hasMore = false
-      } else {
-        insights = insights.concat(newInsights)
-      }
+    return getInsights({ page: pageOffset, tag: tags.toUpperCase() }).then(
+      (newInsights) => {
+        if (newInsights.length === 0) {
+          hasMore = false
+        } else {
+          insights = insights.concat(newInsights)
+        }
 
-      loading = false
-    })
+        loading = false
+      },
+    )
   }
 
   function onIntersect() {
