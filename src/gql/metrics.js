@@ -20,3 +20,23 @@ export const HISTORY_PRICE_QUERY = gql`
     }
   }
 `
+
+export const PROJECT_PRICE_DIFF_QUERY = gql`
+  query getMetric($slug: String!, $from: DateTime!, $to: DateTime!) {
+    getMetric(metric: "price_usd") {
+      publishPrice: aggregatedTimeseriesData(
+        slug: $slug
+        from: $from
+        to: $to
+        aggregation: LAST
+      )
+
+      currentPrice: aggregatedTimeseriesData(
+        slug: $slug
+        from: $from
+        to: $to
+        aggregation: FIRST
+      )
+    }
+  }
+`

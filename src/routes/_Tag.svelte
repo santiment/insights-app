@@ -18,7 +18,11 @@ include /ui/mixins
   .tag {
     color: var(--waterloo);
     padding: 6px 16px;
-    margin-right: 15px;
+    margin: 8px 15px 0 0;
+
+    @include responsive('phone', 'phone-xs') {
+      margin-right: 8px;
+    }
   }
 
   .active {

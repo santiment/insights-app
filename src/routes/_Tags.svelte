@@ -14,8 +14,8 @@
     {name: 'defi', label: 'DeFi'},
     {name: 'btc', label: 'BTC'},
     {name: 'eth,erc-20', label: 'ETH + ERC-20'},
-    //{name: 'alpha', label: 'Alpha'},
-    //{name: 'tutorials', label: 'Tutorials'},
+    {name: 'strategies/alpha', label: 'Strategies/Alpha'},
+    {name: 'metric tutorials', label: 'Metric Tutorials'},
   ] 
 
 .tags
@@ -30,6 +30,7 @@
 
   .tags {
     display: flex;
-    margin-bottom: 40px;
+    flex-wrap: wrap;
+    margin: -8px 0 40px;
   }
 </style>
