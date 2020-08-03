@@ -22,6 +22,7 @@
   let tooltip
 
   $: if (modal) {
+    modal.style.top = window.scrollY + 'px'
     document.body.appendChild(modal)
   }
 
@@ -47,9 +48,8 @@
       offsetY,
     )
 
-    const { scrollY, scrollX } = window
-    tooltip.style.top = `${top + scrollY}px`
-    tooltip.style.left = `${left + scrollX}px`
+    tooltip.style.top = top + 'px'
+    tooltip.style.left = left + 'px'
   }
 
   function onClickAway() {
@@ -81,17 +81,19 @@ slot(name='trigger')
     display: none;
   }
 
-  .clickaway,
   .modal {
     position: absolute;
     left: 0;
-    top: 0;
-    bottom: 0;
     right: 0;
+    height: 100vh;
   }
 
   .clickaway {
     position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
   }
 
   .tooltip {
