@@ -1,12 +1,11 @@
 <script>
   export let data
   export let publishedIndex = 0
-  export let publishedPrice = 0
+  export let publicationPrice = 0
   export let change
   export let minHeight = 0
 
   let points
-  let chart
   let width = 0,
     height = 0
 
@@ -35,7 +34,7 @@
 
     const maxX = data.length
     cx = (publishedIndex / maxX) * width
-    cy = height - (publishedPrice / max) * height
+    cy = height - (publicationPrice / max) * height
 
     points = data
       .map(

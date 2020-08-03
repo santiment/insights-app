@@ -3,21 +3,11 @@ import gql from 'graphql-tag'
 const projectFragment = gql`
   fragment projectFragment on Project {
     id
-    name
     slug
+    name
     ticker
     logoUrl
   }
-`
-
-export const ALL_PROJECTS_SEARCH_QUERY = gql`
-  query allProjects($minVolume: Int = 0) {
-    allProjects(minVolume: $minVolume) {
-      ...projectFragment
-      rank
-    }
-  }
-  ${projectFragment}
 `
 
 export const PROJECTS_BY_TICKER_QUERY = gql`
@@ -29,4 +19,22 @@ export const PROJECTS_BY_TICKER_QUERY = gql`
     }
   }
   ${projectFragment}
+`
+
+export const INSIGHT_PROJECT_QUERY = gql`
+  query insightById($insightId: Int!, $from: DateTime!, $to: DateTime!) {
+    insight(id: $insightId) {
+      id
+      project: priceChartProject {
+        id
+        currentPrice: priceUsd
+        publicationPrice: aggregatedTimeseriesData(
+          from: $from
+          to: $to
+          metric: "price_usd"
+          aggregation: LAST
+        )
+      }
+    }
+  }
 `

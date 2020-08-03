@@ -40,7 +40,7 @@ h2 Assets from this insight
 
 +if('priceDataSincePublication')
   AssetContainer(asset='{priceAsset}', {classes})
-    PriceSincePublication(publishDate='{publishedAt}', data='{priceDataSincePublication}', chartMinHeight='{46}')
+    PriceSincePublication(publishDate='{publishedAt}', priceHistory='{priceDataSincePublication}', chartMinHeight='{46}')
 
 +each('assets as asset (asset.slug)')
   +if('asset.historyPrice.length')

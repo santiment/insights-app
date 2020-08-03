@@ -5,26 +5,31 @@
   import Line from './Line.svelte'
   import { binarySearchByDatetime } from '@/utils/search'
 
-  export let publishDate
+  const calculateChange = (newPrice, oldPrice) =>
+    (100 * (newPrice - oldPrice)) / oldPrice
+
   export let ticker = ''
-  export let data
+  export let publicationPrice = 0
+  export let publishDate
+  export let currentPrice
+  export let priceHistory
   export let chartMinHeight
 
   let change
   let publishedIndex = 0
-  let publishedPrice = 0
 
-  $: if (data) {
-    const { length } = data
-
-    const { value, index } = binarySearchByDatetime(data, publishDate)
+  $: if (priceHistory) {
+    const { length } = priceHistory
+    const { value, index } = binarySearchByDatetime(priceHistory, publishDate)
 
     if (value) {
       publishedIndex = index
-      publishedPrice = value.priceUsd
+      publicationPrice = publicationPrice || value.priceUsd
 
-      change =
-        (100 * (data[length - 1].priceUsd - publishedPrice)) / publishedPrice
+      change = calculateChange(
+        currentPrice || priceHistory[length - 1].priceUsd,
+        publicationPrice,
+      )
     }
   }
 </script>
@@ -33,7 +38,7 @@
 include /ui/mixins
 
 h3 {ticker} price since publication
-Line({data}, {publishedIndex}, {publishedPrice}, {change}, minHeight='{chartMinHeight}')
+Line({publishedIndex}, {publicationPrice}, {change}, minHeight='{chartMinHeight}', data='{priceHistory}')
 ValueChange({formatter}, {change})
 </template>
 
