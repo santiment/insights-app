@@ -7,6 +7,7 @@
     deleteComment,
     editComment,
   } from '@/logic/comments'
+  import { saveComment, clearSavedComment } from '@/utils/comments'
 
   export let id, authorId, comments
 
@@ -32,7 +33,7 @@
   }
 
   function createComment(...args) {
-    return unwrappedCreateComment(...args).then(res => {
+    return unwrappedCreateComment(...args).then((res) => {
       $commentsCount += 1
       return res
     })
@@ -40,5 +41,5 @@
 </script>
 
 <template lang="pug">
-Comments({comments}, {id}, {authorId}, {getComments}, {createComment}, {deleteComment}, {editComment}, commentsCount='{$commentsCount}', bind:hasMore)
+Comments({comments}, {id}, {authorId}, {getComments}, {createComment}, {deleteComment}, {editComment}, commentsCount='{$commentsCount}', {saveComment}, {clearSavedComment}, bind:hasMore)
 </template>
