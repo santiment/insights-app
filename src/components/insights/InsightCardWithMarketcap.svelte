@@ -3,10 +3,8 @@
   import ViewportObserver from '@/components/ViewportObserver'
   import PriceSincePublication from './PriceSincePublication.svelte'
   import { noTrendTagsFilter } from '@/utils/insights'
-  import {
-    getPeriodSincePublication,
-    getPriceDataSincePublication,
-  } from '@/logic/insights'
+  import { getPeriodSincePublication } from '@/logic/insights'
+  import { getInsightChartProjectData } from '@/logic/projects'
 
   const options = {
     rootMargin: '200px',
@@ -32,8 +30,8 @@
   $: observeWhile = data ? false : ticker
 
   function onIntersect() {
-    getPriceDataSincePublication(ticker, isoFrom, isoTo)
-      .then((historyPrice) => (data = historyPrice))
+    getInsightChartProjectData(+insight.id, ticker, isoFrom, isoTo)
+      .then((chartData) => (data = chartData))
       .catch((e) => {
         console.warn(e)
         observeWhile = false
@@ -50,7 +48,7 @@ ViewportObserver(top, {options}, on:intersect='{onIntersect}', {observeWhile})
       InsightCardInternals({insight})
     +if('data')
       .right
-        PriceSincePublication({ticker}, {data}, {publishDate})
+        PriceSincePublication({ticker}, {publishDate}, {...data})
 </template>
 
 <style>

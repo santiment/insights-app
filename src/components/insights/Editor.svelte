@@ -12,6 +12,7 @@
     PUBLISH_INSIGHT_DRAFT_MUTATION,
     INSIGHT_BY_ID_QUERY,
   } from '@/gql/insights'
+  import { getProjectByTicker } from '@/logic/projects'
   import { user$ } from '@/stores/user'
   import { subscription$ } from '@/stores/user/subscription'
 
@@ -47,37 +48,49 @@
     isUpdating = true
     const { tags, ...rest } = payload
     const tagsSet = new Set(tags.map(({ name }) => name.toUpperCase()))
+    const normalizedTags = [...tagsSet]
+    let chartProjectTicker = normalizedTags[0]
+    let chartProjectPromise = Promise.resolve()
 
-    client
-      .mutate({
-        mutation: payload.id
-          ? UPDATE_INSIGHT_DRAFT_MUTATION
-          : CREATE_INSIGHT_DRAFT_MUTATION,
-        variables: {
-          tags: [...tagsSet],
-          ...rest,
-        },
-      })
-      .then(setUpdateTime)
-      .then(() => {
-        if (draft.readyState !== 'published') return
+    if (chartProjectTicker) {
+      chartProjectPromise = getProjectByTicker(chartProjectTicker)
+        .then(({ id }) => +id)
+        .catch(console.warn)
+    }
 
-        client
-          .query({
-            query: INSIGHT_BY_ID_QUERY,
-            variables: {
-              id: +draft.id,
-            },
-            fetchPolicy: 'network-only',
-          })
-          .then(() => goto(`/read/${draft.id}`))
-
-        notifications.add({
-          type: 'success',
-          title: 'Your insight was successfully updated',
+    chartProjectPromise.then((priceChartProjectId) =>
+      client
+        .mutate({
+          mutation: payload.id
+            ? UPDATE_INSIGHT_DRAFT_MUTATION
+            : CREATE_INSIGHT_DRAFT_MUTATION,
+          variables: {
+            tags: normalizedTags,
+            priceChartProjectId,
+            ...rest,
+          },
         })
-      })
-      .catch(console.warn)
+        .then(setUpdateTime)
+        .then(() => {
+          if (draft.readyState !== 'published') return
+
+          client
+            .query({
+              query: INSIGHT_BY_ID_QUERY,
+              variables: {
+                id: +draft.id,
+              },
+              fetchPolicy: 'network-only',
+            })
+            .then(() => goto(`/read/${draft.id}`))
+
+          notifications.add({
+            type: 'success',
+            title: 'Your insight was successfully updated',
+          })
+        })
+        .catch(console.warn),
+    )
   }
 
   function setUpdateTime({ data: { updatedDraft } }) {

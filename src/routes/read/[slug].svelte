@@ -3,9 +3,9 @@
   import { getInsightIdFromSEOLink, noTrendTagsFilter } from '@/utils/insights'
   import { INSIGHT_BY_ID_QUERY } from '@/gql/insights'
   import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
-  import { PROJECTS_BY_TICKER_QUERY } from '@/gql/projects'
   import { getTimeIntervalFromToday, DAY } from '@/utils/dates'
   import { getComments } from '@/logic/comments'
+  import { getProjectByTicker } from '@/logic/projects'
   const loadComments = () => import('@/components/insights/Comments')
 
   // TODO: Think of a better way to do a ssr loadable component [@vanguard | Jan 17, 2020]
@@ -36,7 +36,6 @@
       variables: {
         id,
       },
-      /* fetchPolicy: process.browser ? undefined : 'network-only', */
     })
 
     if (data.insight.readyState === 'draft') {
@@ -59,18 +58,9 @@
 
     const assets = await Promise.all(
       data.insight.tags.filter(noTrendTagsFilter).map(({ name: ticker }) =>
-        apollo
-          .query({
-            query: PROJECTS_BY_TICKER_QUERY,
-            variables: { ticker },
-          })
-          .then(({ data: { allProjectsByTicker } }) => {
-            const project = allProjectsByTicker[0]
-            if (!project) {
-              return Promise.reject()
-            }
-
-            return client
+        getProjectByTicker(ticker, apollo)
+          .then((project) =>
+            apollo
               .query({
                 query: HISTORY_PRICE_QUERY,
                 variables: {
@@ -83,8 +73,8 @@
               .then(({ data: { historyPrice } }) => ({
                 ...project,
                 historyPrice,
-              }))
-          })
+              })),
+          )
           .catch(() => {}),
       ),
     )
@@ -263,7 +253,7 @@ svelte:head
 
   +if('assets.length && !isMobile')
     .assets
-      FeaturedAssets({assets}, {publishedAt})
+      FeaturedAssets({assets}, {publishedAt}, insightId='{id}')
 
   +if('!isMobile')
     FixedControls({id}, {readyState}, {commentsCount}, {shareLink}, {votes}, {hidden}, {isAuthor}, bind:liked)

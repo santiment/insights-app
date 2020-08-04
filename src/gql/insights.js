@@ -148,12 +148,14 @@ export const CREATE_INSIGHT_DRAFT_MUTATION = gql`
     $text: String
     $tags: [String]
     $isPaywallRequired: Boolean
+    $priceChartProjectId: Int
   ) {
     updatedDraft: createInsight(
       title: $title
       text: $text
       tags: $tags
       isPaywallRequired: $isPaywallRequired
+      priceChartProjectId: $priceChartProjectId
     ) {
       id
       updatedAt
@@ -169,6 +171,7 @@ export const UPDATE_INSIGHT_DRAFT_MUTATION = gql`
     $tags: [String]
     $isPaywallRequired: Boolean
     $isPulse: Boolean
+    $priceChartProjectId: Int
   ) {
     updatedDraft: updateInsight(
       id: $id
@@ -177,6 +180,7 @@ export const UPDATE_INSIGHT_DRAFT_MUTATION = gql`
       tags: $tags
       isPaywallRequired: $isPaywallRequired
       isPulse: $isPulse
+      priceChartProjectId: $priceChartProjectId
     ) {
       id
       updatedAt

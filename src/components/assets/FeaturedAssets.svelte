@@ -3,16 +3,16 @@
   import Asset from './Asset.svelte'
   import AssetContainer from './AssetContainer.svelte'
   import PriceSincePublication from '@/components/insights/PriceSincePublication.svelte'
-  import {
-    getPeriodSincePublication,
-    getPriceDataSincePublication,
-  } from '@/logic/insights'
+  import { getPeriodSincePublication } from '@/logic/insights'
+  import { getInsightChartProjectData } from '@/logic/projects'
 
+  export let insightId
   export let assets
   export let publishedAt
 
   let priceAsset
-  let priceDataSincePublication
+  let priceHistory
+  let chartData
 
   const classes = {
     body: 'FeaturedAssets__container-body',
@@ -27,8 +27,8 @@
     const isoFrom = from.toISOString()
     const isoTo = to.toISOString()
 
-    getPriceDataSincePublication(priceAsset.ticker, isoFrom, isoTo)
-      .then((historyPrice) => (priceDataSincePublication = historyPrice))
+    getInsightChartProjectData(+insightId, priceAsset.ticker, isoFrom, isoTo)
+      .then((data) => (chartData = data))
       .catch(console.warn)
   })
 </script>
@@ -38,9 +38,9 @@ include /ui/mixins
 
 h2 Assets from this insight
 
-+if('priceDataSincePublication')
++if('chartData')
   AssetContainer(asset='{priceAsset}', {classes})
-    PriceSincePublication(publishDate='{publishedAt}', data='{priceDataSincePublication}', chartMinHeight='{46}')
+    PriceSincePublication({...chartData}, publishDate='{publishedAt}', chartMinHeight='{46}')
 
 +each('assets as asset (asset.slug)')
   +if('asset.historyPrice.length')
