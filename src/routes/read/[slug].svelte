@@ -60,7 +60,6 @@
       data.insight.tags.filter(noTrendTagsFilter).map(({ name: ticker }) =>
         getProjectByTicker(ticker, apollo)
           .then((project) =>
-            /* client */
             apollo
               .query({
                 query: HISTORY_PRICE_QUERY,
@@ -254,7 +253,7 @@ svelte:head
 
   +if('assets.length && !isMobile')
     .assets
-      FeaturedAssets({assets}, {publishedAt})
+      FeaturedAssets({assets}, {publishedAt}, insightId='{id}')
 
   +if('!isMobile')
     FixedControls({id}, {readyState}, {commentsCount}, {shareLink}, {votes}, {hidden}, {isAuthor}, bind:liked)

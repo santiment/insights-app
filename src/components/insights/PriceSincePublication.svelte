@@ -10,10 +10,10 @@
 
   export let ticker = ''
   export let publicationPrice = 0
+  export let currentPrice = 0
+  export let chartMinHeight = undefined
   export let publishDate
-  export let currentPrice
   export let priceHistory
-  export let chartMinHeight
 
   let change
   let publishedIndex = 0
