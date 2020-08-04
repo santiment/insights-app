@@ -25,6 +25,7 @@ export const userFragment = gql`
         }
       }
     }
+    __typename
   }
 `
 

@@ -1,24 +1,17 @@
 import gql from 'graphql-tag'
 
-const projectFragment = gql`
-  fragment projectFragment on Project {
-    id
-    slug
-    name
-    ticker
-    logoUrl
-  }
-`
-
 export const PROJECTS_BY_TICKER_QUERY = gql`
   query allProjectsByTicker($ticker: String!) {
     allProjectsByTicker(ticker: $ticker) {
-      ...projectFragment
+      id
+      slug
+      name
+      ticker
+      logoUrl
       percentChange7d
       priceUsd
     }
   }
-  ${projectFragment}
 `
 
 export const INSIGHT_PROJECT_QUERY = gql`

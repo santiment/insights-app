@@ -23,7 +23,9 @@ function getServerContext(req) {
         fetch,
         credentials: 'include',
       }),
-      cache: new InMemoryCache(),
+      cache: new InMemoryCache({
+        addTypename: false,
+      }),
     }),
   }
 }
@@ -34,13 +36,13 @@ polka() // You can also use Express
     sirv('static', { dev }),
     sapper.middleware({
       serverContext: getServerContext,
-      session: req => {
+      session: (req) => {
         return {
           isMobile: new MobileDetect(req.headers['user-agent']).mobile(),
         }
       },
     }),
   )
-  .listen(PORT, err => {
+  .listen(PORT, (err) => {
     if (err) console.log('error', err)
   })
