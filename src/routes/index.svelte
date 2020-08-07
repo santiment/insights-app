@@ -10,19 +10,22 @@
       return
     }
 
-    const tags = extractURLTags(page.query.tags)
+    const { tags: qTags, onlyPro } = page.query
+    const isOnlyPro = onlyPro !== undefined || undefined
+    const tags = extractURLTags(qTags)
 
     const [resAll, resFeat] = await Promise.all([
-      getAllInsights({ page: 1, tags }, apollo),
+      getAllInsights({ page: 1, tags, isOnlyPro }, apollo),
       apollo.query({
         query: FEATURED_INSIGHTS_SMALL_QUERY,
       }),
     ])
 
     return {
+      tags,
+      isOnlyPro,
       insights: resAll,
       featured: resFeat.data.insights.sort(publishDateSorter).slice(0, 5),
-      tags,
     }
   }
 </script>
@@ -46,12 +49,13 @@
     rootMargin: '650px',
   }
 
+  export let isOnlyPro = undefined
   export let tags = undefined
   export let insights = []
   export let featured = []
 
   $: insights = [...insights].sort(publishDateSorter)
-  $: reset(tags)
+  $: reset(tags, isOnlyPro)
 
   let pageOffset = 1
   let loading = false
@@ -66,15 +70,17 @@
   function loadInsights() {
     loading = true
     pageOffset = pageOffset + 1
-    return getAllInsights({ page: pageOffset, tags }).then((newInsights) => {
-      if (newInsights.length === 0) {
-        hasMore = false
-      } else {
-        insights = insights.concat(newInsights)
-      }
+    return getAllInsights({ page: pageOffset, tags, isOnlyPro }).then(
+      (newInsights) => {
+        if (newInsights.length === 0) {
+          hasMore = false
+        } else {
+          insights = insights.concat(newInsights)
+        }
 
-      loading = false
-    })
+        loading = false
+      },
+    )
   }
 
   function onIntersect() {

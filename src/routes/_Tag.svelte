@@ -1,4 +1,6 @@
 <script>
+  let klass = ''
+  export { klass as class }
   export let href,
     active = false
 </script>
@@ -6,7 +8,7 @@
 <template lang="pug">
 include /ui/mixins
 
-+panel.tag(href='{href}', class:active)
++panel.tag(href='{href}', class:active, class='{klass}')
   slot
 
 </template>

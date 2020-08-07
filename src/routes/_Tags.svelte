@@ -4,7 +4,12 @@
 
   export let base = ''
   const { page } = stores()
-  $: activeTags = ($page.query.tags || '').toLowerCase()
+
+  let activeTags
+  $: {
+    const { tags, onlyPro } = $page.query
+    activeTags = onlyPro !== undefined ? 'pro' : (tags || '').toLowerCase()
+  }
 </script>
 
 <template lang="pug">
@@ -22,6 +27,9 @@
   each tag in tags
     - const {name, label} = tag
     Tag(href=name ? '{base}?tags='+name : '{base}', active=`{'${name}' === activeTags}`)= label 
+
+  +if('base !== "pulse"')
+    Tag.Tags__pro(href='{base}?onlyPro', active!='{"pro" === activeTags}') Only for PRO
 </template>
 
 <style lang="scss">
@@ -32,5 +40,14 @@
     display: flex;
     flex-wrap: wrap;
     margin: -8px 0 40px;
+  }
+
+  :global(.Tags__pro) {
+    border-color: var(--texas-rose);
+    color: var(--texas-rose) !important;
+
+    &.active {
+      background: var(--texas-rose-light);
+    }
   }
 </style>
