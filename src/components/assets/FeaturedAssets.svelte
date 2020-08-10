@@ -3,7 +3,6 @@
   import Asset from './Asset.svelte'
   import AssetContainer from './AssetContainer.svelte'
   import PriceSincePublication from '@/components/insights/PriceSincePublication.svelte'
-  import { getPeriodSincePublication } from '@/logic/insights'
   import { getInsightChartProjectData } from '@/logic/projects'
 
   export let insightId
@@ -23,11 +22,7 @@
 
     priceAsset = assets[0]
 
-    const { from, to } = getPeriodSincePublication(publishedAt)
-    const isoFrom = from.toISOString()
-    const isoTo = to.toISOString()
-
-    getInsightChartProjectData(+insightId, priceAsset.ticker, isoFrom, isoTo)
+    getInsightChartProjectData(+insightId, priceAsset.ticker, publishedAt)
       .then((data) => (chartData = data))
       .catch(console.warn)
   })

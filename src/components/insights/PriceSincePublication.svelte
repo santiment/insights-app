@@ -17,6 +17,7 @@
 
   let change
   let publishedIndex = 0
+  let publishedPrice = 0
 
   $: if (priceHistory) {
     const { length } = priceHistory
@@ -24,11 +25,11 @@
 
     if (value) {
       publishedIndex = index
-      publicationPrice = publicationPrice || value.priceUsd
+      publishedPrice = value.priceUsd
 
       change = calculateChange(
         currentPrice || priceHistory[length - 1].priceUsd,
-        publicationPrice,
+        publicationPrice || value.priceUsd,
       )
     }
   }
@@ -38,7 +39,7 @@
 include /ui/mixins
 
 h3 {ticker} price since publication
-Line({publishedIndex}, {publicationPrice}, {change}, minHeight='{chartMinHeight}', data='{priceHistory}')
+Line({publishedIndex}, {publishedPrice}, {change}, minHeight='{chartMinHeight}', data='{priceHistory}')
 ValueChange({formatter}, {change})
 </template>
 

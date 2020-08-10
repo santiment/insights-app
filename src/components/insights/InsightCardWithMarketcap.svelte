@@ -3,7 +3,6 @@
   import ViewportObserver from '@/components/ViewportObserver'
   import PriceSincePublication from './PriceSincePublication.svelte'
   import { noTrendTagsFilter } from '@/utils/insights'
-  import { getPeriodSincePublication } from '@/logic/insights'
   import { getInsightChartProjectData } from '@/logic/projects'
 
   const options = {
@@ -19,10 +18,6 @@
   let observeWhile
 
   const publishDate = insight.publishedAt || insight.updatedAt
-  const { from, to } = getPeriodSincePublication(publishDate)
-  const isoFrom = from.toISOString()
-  const isoTo = to.toISOString()
-
   const filteredTags = insight.tags.filter(noTrendTagsFilter)
   const ticker =
     filteredTags.length > 0 ? filteredTags[0].name.toUpperCase() : ''
@@ -30,7 +25,7 @@
   $: observeWhile = data ? false : ticker
 
   function onIntersect() {
-    getInsightChartProjectData(+insight.id, ticker, isoFrom, isoTo)
+    getInsightChartProjectData(+insight.id, ticker, publishDate)
       .then((chartData) => (data = chartData))
       .catch((e) => {
         console.warn(e)
