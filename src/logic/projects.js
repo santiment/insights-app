@@ -1,6 +1,9 @@
 import { client } from '@/apollo'
 import { PROJECTS_BY_TICKER_QUERY, INSIGHT_PROJECT_QUERY } from '@/gql/projects'
-import { getPriceDataSincePublication } from '@/logic/insights'
+import {
+  getPriceDataSincePublication,
+  getPeriodSincePublication,
+} from '@/logic/insights'
 
 export function getInsightProject(insightId, from, to, apollo = client) {
   return apollo
@@ -23,9 +26,12 @@ export function getProjectByTicker(ticker, apollo = client) {
     )
 }
 
-export function getInsightChartProjectData(insightId, ticker, from, to) {
+export function getInsightChartProjectData(insightId, ticker, publishDate) {
+  const { from, to } = getPeriodSincePublication(publishDate)
+  const toIso = to.toISOString()
+
   return Promise.all([
-    getInsightProject(insightId, from, to),
-    getPriceDataSincePublication(ticker, from, to),
+    getInsightProject(insightId, publishDate, toIso),
+    getPriceDataSincePublication(ticker, from.toISOString(), toIso),
   ]).then(([project, priceHistory]) => Object.assign({ priceHistory }, project))
 }

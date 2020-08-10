@@ -25,7 +25,7 @@ export const INSIGHT_PROJECT_QUERY = gql`
           from: $from
           to: $to
           metric: "price_usd"
-          aggregation: LAST
+          aggregation: FIRST
         )
       }
     }
