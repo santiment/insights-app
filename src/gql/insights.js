@@ -225,3 +225,16 @@ export const ALL_USER_INSIGHTS = gql`
   }
   ${insightCommon}
 `
+
+export const POPULAR_AUTHORS_QUERY = gql`
+  query popularAuthors {
+    popularInsightAuthors {
+      id
+      username
+      avatarUrl
+      insights {
+        id
+      }
+    }
+  }
+`

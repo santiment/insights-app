@@ -2,8 +2,16 @@ import gql from 'graphql-tag'
 import { userFragment } from '@/gql/user'
 
 export const EMAIL_REGISTRATION = gql`
-  mutation($email: String!, $consent: String!) {
-    emailLogin(email: $email, consent: $consent) {
+  mutation(
+    $email: String!
+    $consent: String!
+    $subscribeToWeeklyNewsletter: Boolean
+  ) {
+    emailLogin(
+      email: $email
+      consent: $consent
+      subscribeToWeeklyNewsletter: $subscribeToWeeklyNewsletter
+    ) {
       success
     }
   }
