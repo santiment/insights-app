@@ -3,7 +3,6 @@
   import ViewportObserver from '@/components/ViewportObserver'
   import { cookie } from '@/stores/cookie'
   import { loginEmail } from '@/logic/login'
-  import { scheduleWeeklySubscription } from '@/logic/user'
   import { checkIsMobile } from '@/utils/responsive'
   import { sendEvent } from '@/analytics'
 
@@ -28,16 +27,11 @@
   }
 
   function onSubmit({ currentTarget }) {
-    loginEmail(currentTarget.email.value).then(onSuccess)
+    loginEmail(currentTarget.email.value, true).then(() => (loading = false))
     loading = true
     sendEvent('sign_up', {
       method: `${currentTarget.dataset.label} banner`,
     })
-  }
-
-  function onSuccess({ data: { emailLogin } }) {
-    loading = false
-    scheduleWeeklySubscription()
   }
 </script>
 

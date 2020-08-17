@@ -48,12 +48,13 @@ export const logout = () =>
     })
     .catch(console.warn)
 
-export const loginEmail = (email) =>
+export const loginEmail = (email, subscribeToWeeklyNewsletter) =>
   client
     .mutate({
       mutation: EMAIL_REGISTRATION,
       variables: {
         email,
+        subscribeToWeeklyNewsletter,
         consent: '',
       },
     })

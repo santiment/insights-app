@@ -1,7 +1,11 @@
 <script context="module">
   import { client } from '@/apollo'
   import { FEATURED_INSIGHTS_SMALL_QUERY } from '@/gql/insights'
-  import { getAllInsights, extractURLTags } from '@/logic/insights'
+  import {
+    getAllInsights,
+    getPopularAuthors,
+    extractURLTags,
+  } from '@/logic/insights'
   import { checkGDPR } from '@/logic/gdpr'
 
   export async function preload(page, session, { apollo = client }) {
@@ -14,16 +18,18 @@
     const isOnlyPro = onlyPro !== undefined || undefined
     const tags = extractURLTags(qTags)
 
-    const [resAll, resFeat] = await Promise.all([
+    const [resAll, resFeat, popularAuthors] = await Promise.all([
       getAllInsights({ page: 1, tags, isOnlyPro }, apollo),
       apollo.query({
         query: FEATURED_INSIGHTS_SMALL_QUERY,
       }),
+      session.isMobile ? undefined : getPopularAuthors(),
     ])
 
     return {
       tags,
       isOnlyPro,
+      popularAuthors,
       insights: resAll,
       featured: resFeat.data.insights.sort(publishDateSorter).slice(0, 5),
     }
@@ -34,6 +40,7 @@
   import { onMount } from 'svelte'
   import { stores } from '@sapper/app'
   import Feed from '@/components/Feed'
+  import ProfileInfo from '@/components/ProfileInfo'
   import ViewportObserver from '@/components/ViewportObserver'
   import InsightCardDesktop from '@/components/insights/InsightCardWithMarketcap'
   import InsightCardMobile from '@/components/insights/InsightCard'
@@ -49,10 +56,19 @@
     rootMargin: '650px',
   }
 
+  const PopularAuthorsClasses = {
+    wrapper: 'PopularAuthors__wrapper',
+    icon: 'PopularAuthors__icon',
+    info: 'PopularAuthors__info',
+    name: 'PopularAuthors__name',
+    status: 'PopularAuthors__status',
+  }
+
   export let isOnlyPro = undefined
   export let tags = undefined
   export let insights = []
   export let featured = []
+  export let popularAuthors = undefined
 
   $: insights = [...insights].sort(publishDateSorter)
   $: reset(tags, isOnlyPro)
@@ -130,6 +146,12 @@ svelte:head
           +each('featured as insight')
             .featured__item
               InsightSmallCard({insight})
+      h2.authors Popular Authors
+      .featured
+        .featured__scroll
+          +each('popularAuthors as author')
+            ProfileInfo(name="{author.username}", id="{author.id}", avatarUrl="{author.avatarUrl}", status='{author.insightsCount} insights', classes='{PopularAuthorsClasses}', withPic)
+
 
 </template>
 
@@ -196,10 +218,10 @@ svelte:head
 
     &__featured {
       width: 353px;
-      height: 90vh;
+      height: calc(100vh - 60px);
       position: -webkit-sticky;
       position: sticky;
-      top: 5vh;
+      top: 30px;
       margin: 30px 0 0 30px;
       display: flex;
       flex-direction: column;
@@ -213,7 +235,11 @@ svelte:head
 
   h2 {
     @include text('h4', 'm');
-    margin: 0 0 23px;
+    margin: 0 0 16px;
+  }
+
+  .authors {
+    margin: 32px 0;
   }
 
   .featured {
@@ -228,6 +254,7 @@ svelte:head
     }
 
     &__scroll {
+      width: 100%;
       position: absolute;
     }
 
@@ -237,6 +264,43 @@ svelte:head
       &:last-child {
         border: none;
       }
+    }
+  }
+
+  .featured :global() {
+    &.PopularAuthors__wrapper {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--porcelain);
+
+      &:first-child {
+        padding-top: 0;
+      }
+
+      &:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+    }
+
+    &.PopularAuthors__icon {
+      @include size(48px);
+      min-width: 48px;
+      margin-right: 16px;
+    }
+
+    &.PopularAuthors__info {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    &.PopularAuthors__name {
+      @include text('body-2');
+      height: auto;
+    }
+
+    &.PopularAuthors__status {
+      @include text('body-3');
+      margin: 0;
     }
   }
 </style>

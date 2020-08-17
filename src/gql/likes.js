@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const UNLIKE_INSIGHT_MUTATION = gql`
   mutation unvote($id: Int!) {
-    unvote(postId: $id) {
+    unvote(insightId: $id) {
       votedAt
     }
   }
@@ -10,7 +10,7 @@ export const UNLIKE_INSIGHT_MUTATION = gql`
 
 export const LIKE_INSIGHT_MUTATION = gql`
   mutation vote($id: Int!) {
-    vote(postId: $id) {
+    vote(insightId: $id) {
       votedAt
     }
   }

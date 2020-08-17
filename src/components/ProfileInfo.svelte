@@ -10,13 +10,13 @@
 <template lang="pug">
 .wrapper(class="{classes.wrapper || ''}")
   +if('withPic')
-    .icon
+    .icon(class="{classes.icon || ''}")
       img(src="{avatarUrl || 'profile-fallback.svg'}", alt="Profile picture")
 
   .info(class="{classes.info || ''}")
-    a.name(href="https://app.santiment.net/profile/{id}") {name}
+    a.name(class="{classes.name || ''}", href="https://app.santiment.net/profile/{id}") {name}
     +if('status')
-      .status {status}
+      .status(class="{classes.status || ''}") {status}
 
 </template>
 
@@ -29,8 +29,7 @@
   }
 
   .icon {
-    width: 32px;
-    height: 32px;
+    @include size(32px);
     min-width: 32px;
     border-radius: 50%;
     background: var(--porcelain);

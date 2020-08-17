@@ -2,6 +2,7 @@ import { client } from '@/apollo'
 import {
   ALL_INSIGHTS_BY_PAGE_QUERY,
   PULSE_INSIGHTS_BY_PAGE_QUERY,
+  POPULAR_AUTHORS_QUERY,
 } from '@/gql/insights'
 import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
 import { getTimeIntervalFromToday, MONTH } from '@/utils/dates'
@@ -65,3 +66,22 @@ export function getPriceDataSincePublication(ticker, from, to) {
       return historyPrice
     })
 }
+
+const popularAuthorsSorter = ({ insightsCount: a }, { insightsCount: b }) =>
+  b - a
+
+export const getPopularAuthors = (variables, apollo = client) =>
+  apollo
+    .query({
+      query: POPULAR_AUTHORS_QUERY,
+    })
+    .then(({ data }) =>
+      data.popularInsightAuthors
+        // eslint-disable-next-line
+        .map(({ __typename, insights, ...author }) =>
+          Object.assign(author, {
+            insightsCount: insights.length,
+          }),
+        )
+        .sort(popularAuthorsSorter),
+    )
