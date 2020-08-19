@@ -83,5 +83,6 @@ export const getPopularAuthors = (variables, apollo = client) =>
             insightsCount: insights.length,
           }),
         )
-        .sort(popularAuthorsSorter),
+        .sort(popularAuthorsSorter)
+        .slice(0, 5),
     )
