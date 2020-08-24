@@ -24,7 +24,7 @@ function getServerContext(req) {
         credentials: 'include',
       }),
       cache: new InMemoryCache({
-        addTypename: false,
+        //addTypename: false,
       }),
     }),
   }
