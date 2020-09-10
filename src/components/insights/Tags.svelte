@@ -8,6 +8,7 @@
 
   $: filteredTags = tags.filter(noTrendTagsFilter)
   $: base = $page.path === '/pulse' ? 'pulse' : ''
+
 </script>
 
 <template lang="pug">
