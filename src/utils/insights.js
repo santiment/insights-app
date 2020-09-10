@@ -24,7 +24,10 @@ export const popularitySorter = (
   )
 }
 
-export const noTrendTagsFilter = ({ name }) => !name.endsWith('-trending-words')
+export const checkIsTrendTag = (tag) =>
+  tag.toLowerCase().endsWith('-trending-words')
+
+export const noTrendTagsFilter = ({ name }) => !checkIsTrendTag(name)
 
 export const onlyPublishedFilter = ({ readyState }) =>
   readyState === 'published'

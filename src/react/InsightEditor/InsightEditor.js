@@ -11,6 +11,7 @@ import Editor from '../Editor/Editor'
 import InsightEditorBottom from './InsightEditorBottom'
 import InsightEditorTitle from './InsightEditorTitle'
 import { client } from '../../apollo'
+import { checkIsTrendTag } from '../../utils/insights'
 import styles from './InsightEditor.module.scss'
 
 const removeAmpersandRepetitions = (str) =>
@@ -71,9 +72,7 @@ class InsightEditor extends Component {
     }
   }
 
-  trendTag = this.props.tags.find(({ name }) =>
-    name.endsWith('-trending-words'),
-  )
+  trendTag = this.props.tags.find(({ name }) => checkIsTrendTag(name))
 
   toggleIsPulse = () => {
     this.setState(
