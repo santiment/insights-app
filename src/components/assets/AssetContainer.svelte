@@ -10,7 +10,7 @@ include /ui/mixins
 
 +panel.card(variant='box')
   a.head(href='https://app.santiment.net/projects/{slug}')
-    img(src='{logoUrl}', alt='{name} logo')
+    img(src="{logoUrl || '/asset-fallback.svg'}", alt='{name} logo')
     h3 {name}
       span {ticker}
   .body(class='{classes.body}')
