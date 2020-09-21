@@ -20,6 +20,7 @@ export const INSIGHT_PROJECT_QUERY = gql`
       id
       project: priceChartProject {
         id
+        ticker
         currentPrice: priceUsd
         publicationPrice: aggregatedTimeseriesData(
           from: $from
