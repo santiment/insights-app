@@ -30,8 +30,11 @@ export function getInsightChartProjectData(insightId, ticker, publishDate) {
   const { from, to } = getPeriodSincePublication(publishDate)
   const toIso = to.toISOString()
 
-  return Promise.all([
-    getInsightProject(insightId, publishDate, toIso),
-    getPriceDataSincePublication(ticker, from.toISOString(), toIso),
-  ]).then(([project, priceHistory]) => Object.assign({ priceHistory }, project))
+  return getInsightProject(insightId, publishDate, toIso).then((project) =>
+    getPriceDataSincePublication(
+      project ? project.ticker : ticker,
+      from.toISOString(),
+      toIso,
+    ).then((priceHistory) => Object.assign({ priceHistory }, project)),
+  )
 }
