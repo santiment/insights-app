@@ -40,13 +40,19 @@ export const getPeriodSincePublication = (publishDate) =>
 export const extractURLTags = (tagsString) =>
   tagsString && tagsString.toUpperCase().split(',')
 
+function substituteTicker(ticker) {
+  switch (ticker.toUpperCase()) {
+    case 'XRP':
+      return { slug: 'ripple' }
+    case 'UNI':
+      return { slug: 'uniswap' }
+    default:
+      return { ticker }
+  }
+}
+
 export function getPriceDataSincePublication(ticker, from, to) {
-  const arg =
-    ticker === 'XRP'
-      ? {
-          slug: 'ripple',
-        }
-      : { ticker }
+  const arg = substituteTicker(ticker)
 
   return client
     .query({
