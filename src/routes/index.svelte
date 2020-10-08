@@ -142,15 +142,13 @@ svelte:head
     .insights__featured
       h2 Handpicked Takes
       .featured
-        .featured__scroll
-          +each('featured as insight')
-            .featured__item
-              InsightSmallCard({insight})
+        +each('featured as insight')
+          .featured__item
+            InsightSmallCard({insight})
       h2.authors Popular Authors
       .featured
-        .featured__scroll
-          +each('popularAuthors as author')
-            ProfileInfo(name="{author.username}", id="{author.id}", avatarUrl="{author.avatarUrl}", status='{author.insightsCount.totalCount} insights', classes='{PopularAuthorsClasses}', withPic)
+        +each('popularAuthors as author')
+          ProfileInfo(name="{author.username}", id="{author.id}", avatarUrl="{author.avatarUrl}", status='{author.insightsCount.totalCount} insights', classes='{PopularAuthorsClasses}', withPic)
 
 
 </template>
@@ -245,17 +243,11 @@ svelte:head
   .featured {
     position: relative;
     overflow: hidden;
-    flex: 1;
     border: none;
 
     &:hover {
       overflow-y: auto;
       overflow-y: overlay;
-    }
-
-    &__scroll {
-      width: 100%;
-      position: absolute;
     }
 
     &__item {
