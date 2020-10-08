@@ -150,7 +150,7 @@ svelte:head
       .featured
         .featured__scroll
           +each('popularAuthors as author')
-            ProfileInfo(name="{author.username}", id="{author.id}", avatarUrl="{author.avatarUrl}", status='{author.insightsCount} insights', classes='{PopularAuthorsClasses}', withPic)
+            ProfileInfo(name="{author.username}", id="{author.id}", avatarUrl="{author.avatarUrl}", status='{author.insightsCount.totalCount} insights', classes='{PopularAuthorsClasses}', withPic)
 
 
 </template>
@@ -239,7 +239,7 @@ svelte:head
   }
 
   .authors {
-    margin: 32px 0;
+    margin-top: 28px;
   }
 
   .featured {
@@ -259,17 +259,18 @@ svelte:head
     }
 
     &__item {
-      padding: 16px 0;
+      padding: 0 0 22px;
 
       &:last-child {
         border: none;
+        padding: 0;
       }
     }
   }
 
   .featured :global() {
     &.PopularAuthors__wrapper {
-      padding: 24px 0;
+      padding: 18px 0;
       border-bottom: 1px solid var(--porcelain);
 
       &:first-child {
@@ -283,8 +284,8 @@ svelte:head
     }
 
     &.PopularAuthors__icon {
-      @include size(48px);
-      min-width: 48px;
+      @include size(45px);
+      min-width: 45px;
       margin-right: 16px;
     }
 

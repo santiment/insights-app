@@ -41,7 +41,7 @@ a.title(href="{link}")
 
   .title {
     @include text('body-2');
-    margin: 0 0 6px;
+    margin: 0 0 3px;
     display: block;
     word-break: break-word;
 
