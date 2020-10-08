@@ -232,8 +232,8 @@ export const POPULAR_AUTHORS_QUERY = gql`
       id
       username
       avatarUrl
-      insights {
-        id
+      insightsCount {
+        totalCount
       }
     }
   }

@@ -74,7 +74,7 @@ export function getPriceDataSincePublication(ticker, from, to) {
 }
 
 const popularAuthorsSorter = ({ insightsCount: a }, { insightsCount: b }) =>
-  b - a
+  b.totalCount - a.totalCount
 
 export const getPopularAuthors = (variables, apollo = client) =>
   apollo
@@ -82,13 +82,5 @@ export const getPopularAuthors = (variables, apollo = client) =>
       query: POPULAR_AUTHORS_QUERY,
     })
     .then(({ data }) =>
-      data.popularInsightAuthors
-        // eslint-disable-next-line
-        .map(({ __typename, insights, ...author }) =>
-          Object.assign(author, {
-            insightsCount: insights.length,
-          }),
-        )
-        .sort(popularAuthorsSorter)
-        .slice(0, 5),
+      data.popularInsightAuthors.sort(popularAuthorsSorter).slice(0, 5),
     )
