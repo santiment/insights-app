@@ -7,7 +7,9 @@
   const currentUser = user$()
 
   let klass = ''
+  let moonClass = ''
   export { klass as class }
+  export { moonClass }
   export let id, likes, liked
 
   let wasLiked = liked
@@ -44,12 +46,12 @@
   }
 
   function stopVote () {
-    const newMoonTimeout = setTimeout(() => { showMoon = false }, 1000)
-    moonTimeout = newMoonTimeout
-
     if (votingInterval) {
       clearInterval(votingInterval)
     }
+
+    const newMoonTimeout = setTimeout(() => { showMoon = false }, 1000)
+    moonTimeout = newMoonTimeout
   }
 
   function makeFire () {
@@ -76,7 +78,7 @@
 include /ui/mixins
 
 button(on:mouseenter='{startShakeRocket}', on:mouseleave='{stopShakeRocket}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:voted='{!!currentVoting || wasLiked}')
-  div(class='moonWrapper', class:showMoon, class:scaleMoon, on:animationend='{stopScaleMoon}')
+  div(class='moonWrapper', class:showMoon, class:scaleMoon, on:animationend='{stopScaleMoon}', class='{moonClass}')
     img(src="moon.svg", alt="moon").moon
     span + {currentVoting}
   svg(xmlns='http://www.w3.org/2000/svg', width='20', height='22', viewBox='0 0 15 22', preserveAspectRatio='xMidYMid', class='rocket')
