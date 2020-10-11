@@ -63,7 +63,7 @@ button(on:click='{toggleLike}', on:mouseenter='{startShakeRocket}', on:mouseleav
             animateTransform(attributeName='transform', type='translate', values='0 0; -2 2; 0 0', keyTimes='0; 0.55; 1', dur='1s', begin='smokeOpacity.begin', repeatCount='1')
           path(d='M7.5 19.93a.5.5 0 111 0v1.22a.5.5 0 01-1 0v-1.22z')
             animateTransform(attributeName='transform', type='translate', values='0 0; 0 2; 0 0', keyTimes='0; 0.55; 1', dur='1s', begin='smokeOpacity.begin', repeatCount='1')
-  span.text {_likes}
+  span(class='text', style='--digits-number: {likes.toString().length}') {_likes}
 </template>
 
 <style lang="scss">
@@ -127,8 +127,31 @@ button(on:click='{toggleLike}', on:mouseenter='{startShakeRocket}', on:mouseleav
   }
 
   .text {
+    width: calc((var(--digits-number) + 1) * 7px);
     text-align: left;
     @include text('body-3', 'm');
+  }
+
+  .showMoon {
+    transition-duration: 0.2s, 0.17s;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .scaleMoon {
+    animation-name: scaleMoon;
+    animation-duration: 0.2s;
+  }
+
+  @keyframes scaleMoon {
+    0% {
+      transform: scale(1);
+    }
+
+    70%,
+    100% {
+      transform: scale(1.05);
+    }
   }
 
 </style>
