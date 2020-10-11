@@ -32,6 +32,44 @@
     mutateLikes()
   }
 
+  function startVote () {
+//     if (moonTimeout) {
+//       clearTimeout(moonTimeout)
+//     }
+//
+//     if (showMoon) {
+//       setScaleMoon(true)
+//     }
+//
+//     setCurrentVoting(currentVoting + 1)
+//     setShowMoon(true)
+
+    makeFire()
+
+    // const newVotingInterval = setInterval(repeatVote, 400)
+    // setVotingInterval(newVotingInterval)
+  }
+
+  function repeatVote () {
+    makeFire()
+    // setCurrentVoting(number => number + 1)
+    // setScaleMoon(currScale => true)
+  }
+
+  function stopVote () {
+//     const newMoonTimeout = setTimeout(() => setShowMoon(false), 1000)
+//     setMoonTimeout(newMoonTimeout)
+//
+//     if (votingInterval) {
+//       clearInterval(votingInterval)
+//     }
+  }
+
+  function makeFire () {
+    const rocketSmoke = document.getElementById('smokeOpacity')
+    rocketSmoke.beginElement()
+  }
+
   function startShakeRocket() {
     const rocket = document.getElementById('shakeRocket')
     rocket.beginElement()
@@ -46,7 +84,7 @@
 <template lang="pug">
 include /ui/mixins
 
-button(on:click='{toggleLike}', on:mouseenter='{startShakeRocket}', on:mouseleave='{stopShakeRocket}', aria-label='Like', class='{klass}', class:liked)
+button(on:click='{toggleLike}', on:mouseenter='{startShakeRocket}', on:mouseleave='{stopShakeRocket}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:liked)
   .moonWrapper
     img(src="moon.svg", alt="moon").moon
     span + 14
