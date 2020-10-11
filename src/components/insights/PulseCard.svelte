@@ -1,6 +1,6 @@
 <script>
   import ProfileInfo from '@/components/ProfileInfo'
-  import LikeBtn from '@/components/LikeBtn'
+  import RocketMoonBtn from '@/components/RocketMoonBtn'
   import CommentCounter from '@/components/comments/Counter'
   import Tag from '@/components/insights/Tag'
   import Tags from './Tags.svelte'
@@ -54,7 +54,7 @@ mixin rawHtml(variables)
 
   .bottom
     .stats
-      LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+      RocketMoonBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
       CommentCounter.PulseCard__comments({link}, {commentsCount}, isSSRLink)
 
     div.tags
