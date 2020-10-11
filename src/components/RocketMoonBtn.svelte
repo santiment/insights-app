@@ -14,6 +14,11 @@
 
   likes -= liked
   $: _likes = likes + liked
+  $: showMoon = false
+  $: scaleMoon = false
+  $: moonTimeout = null
+  $: currentVoting = 0
+  $: votingInterval = null
 
   const [mutateLikes] = debounce(() => {
     if (wasLiked === liked) {
@@ -33,41 +38,44 @@
   }
 
   function startVote () {
-//     if (moonTimeout) {
-//       clearTimeout(moonTimeout)
-//     }
-//
-//     if (showMoon) {
-//       setScaleMoon(true)
-//     }
-//
-//     setCurrentVoting(currentVoting + 1)
-//     setShowMoon(true)
+    if (moonTimeout) {
+      clearTimeout(moonTimeout)
+    }
 
+    if (showMoon) {
+      scaleMoon = true
+    }
+
+    currentVoting += 1
+    showMoon = true
     makeFire()
 
-    // const newVotingInterval = setInterval(repeatVote, 400)
-    // setVotingInterval(newVotingInterval)
+    const newVotingInterval = setInterval(repeatVote, 400)
+    votingInterval = newVotingInterval
   }
 
   function repeatVote () {
     makeFire()
-    // setCurrentVoting(number => number + 1)
-    // setScaleMoon(currScale => true)
+    scaleMoon = true
+    currentVoting += 1
   }
 
   function stopVote () {
-//     const newMoonTimeout = setTimeout(() => setShowMoon(false), 1000)
-//     setMoonTimeout(newMoonTimeout)
-//
-//     if (votingInterval) {
-//       clearInterval(votingInterval)
-//     }
+    const newMoonTimeout = setTimeout(() => { showMoon = false }, 1000)
+    moonTimeout = newMoonTimeout
+
+    if (votingInterval) {
+      clearInterval(votingInterval)
+    }
   }
 
   function makeFire () {
     const rocketSmoke = document.getElementById('smokeOpacity')
     rocketSmoke.beginElement()
+  }
+
+  function stopScaleMoon () {
+    scaleMoon = false
   }
 
   function startShakeRocket() {
@@ -85,9 +93,9 @@
 include /ui/mixins
 
 button(on:click='{toggleLike}', on:mouseenter='{startShakeRocket}', on:mouseleave='{stopShakeRocket}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:liked)
-  .moonWrapper
+  div(class='moonWrapper', class:showMoon, class:scaleMoon, on:animationend='{stopScaleMoon}')
     img(src="moon.svg", alt="moon").moon
-    span + 14
+    span + {currentVoting}
   svg(xmlns='http://www.w3.org/2000/svg', width='20', height='22', viewBox='0 0 15 22', preserveAspectRatio='xMidYMid', class='rocket')
     g(id='rocket')
       g
