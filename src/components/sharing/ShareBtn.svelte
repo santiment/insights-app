@@ -84,10 +84,26 @@ Dialog(bind:open, title='Share insight')
   .trigger {
     height: auto;
     padding: 0;
+    fill: var(--waterloo);
+    border-radius: 100px;
+    padding: 8px 12px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--porcelain);
+    transition: color, fill, box-shadow 0.15s ease-in-out;
+
+    @include text('body-3', 'm');
+
+    &:hover {
+      fill: var(--rhino);
+      color: var(--rhino);
+      box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1);
+    }
   }
 
   .icon-share {
-    @include size(16px);
+    @include size(16px, 14px);
   }
 
   .content {

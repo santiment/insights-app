@@ -17,9 +17,9 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
 
 .actions
   +if('readyState !== "draft"')
-    RocketMoonBtn.Thanks__action.Thanks__like({id}, bind:liked, likes='{votes.totalVotes}')
+    RocketMoonBtn.Thanks__action({id}, bind:liked, likes='{votes.totalVotes}')
     CommentCounter.Thanks__action({commentsCount})
-    ShareBtn.Thanks__action.Thanks__share({link})
+    ShareBtn.Thanks__action({link})
 
   +if('isAuthor')
     a.Thanks__action.edit(href='/edit/{id}')
@@ -64,30 +64,10 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
   }
 
   :global(.Thanks__action) {
-    border-radius: 100px !important;
-    padding: 8px 12px !important;
-    height: 32px !important;
-    border: 1px solid var(--porcelain);
     margin-right: 10px;
-    display: flex;
-    align-items: center;
-    max-width: 90px;
-
-    &:first-child {
-      max-width: 180px;
-      padding: 8px 8px 8px 7px !important;
-    }
 
     &:last-child {
       margin: 0;
     }
-  }
-
-  :global(.Thanks__like.liked) {
-    border-color: var(--persimmon) !important;
-  }
-
-  :global(.Thanks__share) {
-    fill: var(--casper);
   }
 </style>

@@ -115,7 +115,7 @@ include /ui/mixins
   }
 
   :global(.Card__comments) {
-    margin-left: 22px;
+    margin-left: 10px;
   }
 
   :global(.card__profile) {

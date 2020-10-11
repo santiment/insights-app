@@ -122,7 +122,12 @@ mixin rawHtml(variables)
   }
 
   :global(.PulseCard__comments) {
-    margin-left: 22px;
+    margin-left: 10px;
+    border: 1px solid var(--porcelain);
+    border-radius: 100px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
   }
 
   :global(.PulseCard__profile) {
