@@ -110,6 +110,8 @@ mixin rawHtml(variables)
   }
 
   .stats {
+    display: flex;
+    align-items: center;
     white-space: nowrap;
     margin-right: 20px;
   }

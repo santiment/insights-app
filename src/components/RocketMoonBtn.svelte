@@ -11,31 +11,13 @@
   export let id, likes, liked
 
   let wasLiked = liked
+  let showMoon = false
+  let scaleMoon = false
+  let moonTimeout = null
+  let votingInterval = null
+  let currentVoting = 0
 
-  likes -= liked
-  $: _likes = likes + liked
-  $: showMoon = false
-  $: scaleMoon = false
-  $: moonTimeout = null
-  $: currentVoting = 0
-  $: votingInterval = null
-
-  const [mutateLikes] = debounce(() => {
-    if (wasLiked === liked) {
-      return
-    }
-    wasLiked = liked
-
-    toggleInsightLike(id, liked).catch(() => {
-      wasLiked = !wasLiked
-      liked = wasLiked
-    })
-  }, 200)
-
-  function toggleLike() {
-    liked = !liked
-    mutateLikes()
-  }
+  $: _likes = likes + currentVoting
 
   function startVote () {
     if (moonTimeout) {
@@ -57,6 +39,7 @@
   function repeatVote () {
     makeFire()
     scaleMoon = true
+    showMoon = true
     currentVoting += 1
   }
 
@@ -92,7 +75,7 @@
 <template lang="pug">
 include /ui/mixins
 
-button(on:click='{toggleLike}', on:mouseenter='{startShakeRocket}', on:mouseleave='{stopShakeRocket}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:liked)
+button(on:mouseenter='{startShakeRocket}', on:mouseleave='{stopShakeRocket}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:voted='{!!currentVoting || wasLiked}')
   div(class='moonWrapper', class:showMoon, class:scaleMoon, on:animationend='{stopScaleMoon}')
     img(src="moon.svg", alt="moon").moon
     span + {currentVoting}
@@ -109,7 +92,7 @@ button(on:click='{toggleLike}', on:mouseenter='{startShakeRocket}', on:mouseleav
             animateTransform(attributeName='transform', type='translate', values='0 0; -2 2; 0 0', keyTimes='0; 0.55; 1', dur='1s', begin='smokeOpacity.begin', repeatCount='1')
           path(d='M7.5 19.93a.5.5 0 111 0v1.22a.5.5 0 01-1 0v-1.22z')
             animateTransform(attributeName='transform', type='translate', values='0 0; 0 2; 0 0', keyTimes='0; 0.55; 1', dur='1s', begin='smokeOpacity.begin', repeatCount='1')
-  span(class='text', style='--digits-number: {likes.toString().length}') {_likes}
+  span(class='text', style='--digits-number: {_likes.toString().length}') {_likes}
 </template>
 
 <style lang="scss">
@@ -128,10 +111,10 @@ button(on:click='{toggleLike}', on:mouseenter='{startShakeRocket}', on:mouseleav
     line-height: 20px;
     border: 1px solid var(--porcelain);
     border-radius: 100px;
-    padding: 4px 8px 4px 6px;
+    padding: 4px 8px 4px 7px;
     color: var(--waterloo);
     fill: var(--waterloo);
-    transition: color, fill, box-shadow 0.15s ease-in-out;
+    transition: color, fill, box-shadow, background-color 0.15s ease-in-out;
 
     @include responsive('laptop', 'desktop') {
       &:hover {
@@ -140,6 +123,13 @@ button(on:click='{toggleLike}', on:mouseenter='{startShakeRocket}', on:mouseleav
         border-color: var(--mystic);
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
       }
+    }
+
+    &.voted {
+      background-color: var(--jungle-green-light);
+      border-color: var(--jungle-green);
+      color: var(--jungle-green-hover);
+      fill: var(--jungle-green-hover);
     }
 
   }
