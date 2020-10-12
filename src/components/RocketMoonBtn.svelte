@@ -1,10 +1,12 @@
 <script>
-  import { getContext } from 'svelte'
+  import { getContext, onMount } from 'svelte'
   import { debounce } from '@/utils/func'
   import { user$ } from '@/stores/user'
 
   const toggleInsightLike = getContext('toggleInsightLike')
   const currentUser = user$()
+
+  const LAPTOP_MIN_WIDTH = 992
 
   let klass = ''
   let moonClass = ''
@@ -20,6 +22,8 @@
   let votingInterval = null
   let currentVoting = 0
 
+  let innerWidth
+
   $: _likes = likes + currentVoting
 
   function startVote () {
@@ -34,6 +38,9 @@
     currentVoting += 1
     showMoon = true
     makeFire()
+    if (innerWidth < LAPTOP_MIN_WIDTH) {
+      startShakeRocket()
+    }
 
     const newVotingInterval = setInterval(repeatVote, 400)
     votingInterval = newVotingInterval
@@ -51,7 +58,13 @@
       clearInterval(votingInterval)
     }
 
-    const newMoonTimeout = setTimeout(() => { showMoon = false }, 1000)
+    const newMoonTimeout = setTimeout(() => { 
+      showMoon = false
+
+      if (innerWidth < LAPTOP_MIN_WIDTH) {
+        stopShakeRocket()
+      }
+    }, 1000)
     moonTimeout = newMoonTimeout
   }
 
@@ -65,20 +78,19 @@
     scaleMoon = false
   }
 
+  function onMouseEnter() {
+    if (innerWidth >= LAPTOP_MIN_WIDTH) {
+      startShakeRocket()
+    }
+  }
+
+  function onMouseLeave() {
+    if (innerWidth >= LAPTOP_MIN_WIDTH) {
+      stopShakeRocket()
+    }
+  }
+
   function startShakeRocket() {
-    if (!rocket) {
-      return
-    }
-
-    if (rocket && !rocketShape && !fireShape) {
-      const rocketGroup = rocket.firstChild
-      const [rocketShapeAnimate, _, fireGroup]  = rocketGroup.childNodes
-      const fireShapeAnimate = fireGroup.firstChild
-
-      rocketShape = rocketShapeAnimate
-      fireShape = fireShapeAnimate
-    }
-
     if (rocketShape) {
       rocketShape.beginElement()
     }
@@ -89,12 +101,25 @@
       rocketShape.endElement()
     }
   }
+
+  onMount(() => {
+    if (rocket && !rocketShape) {
+      const rocketGroup = rocket.firstChild
+      const [rocketShapeAnimate, _, fireGroup]  = rocketGroup.childNodes
+      const fireShapeAnimate = fireGroup.firstChild
+
+      rocketShape = rocketShapeAnimate
+      fireShape = fireShapeAnimate
+    }
+  })
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
-button(on:mouseenter='{startShakeRocket}', on:mouseleave='{stopShakeRocket}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:voted='{!!currentVoting || wasLiked}')
+svelte:window(bind:innerWidth)
+
+button(on:mouseenter='{onMouseEnter}', on:mouseleave='{onMouseLeave}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:voted='{!!currentVoting || wasLiked}')
   div(class='moonWrapper', class:showMoon, class:scaleMoon, on:animationend='{stopScaleMoon}', class='{moonClass}')
     img(src="moon.svg", alt="moon").moon
     span + {currentVoting}
