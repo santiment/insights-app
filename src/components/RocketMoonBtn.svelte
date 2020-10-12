@@ -119,7 +119,7 @@ include /ui/mixins
 
 svelte:window(bind:innerWidth)
 
-button(on:mouseenter='{onMouseEnter}', on:mouseleave='{onMouseLeave}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:voted='{!!currentVoting || wasLiked}')
+button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave='{onMouseLeave}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:voted='{!!currentVoting || wasLiked}')
   div(class='moonWrapper', class:showMoon, class:scaleMoon, on:animationend='{stopScaleMoon}', class='{moonClass}')
     img(src="moon.svg", alt="moon").moon
     span + {currentVoting}
@@ -173,6 +173,14 @@ button(on:mouseenter='{onMouseEnter}', on:mouseleave='{onMouseLeave}', on:moused
       border-color: var(--jungle-green);
       color: var(--jungle-green-hover);
       fill: var(--jungle-green-hover);
+    }
+
+
+    &[disabled] {
+      pointer-events: none;
+      fill: var(--mystic);
+      color: var(--mystic);
+      cursor: not-allowed;
     }
 
   }
