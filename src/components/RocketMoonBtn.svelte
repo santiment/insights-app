@@ -167,13 +167,12 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
     padding: 4px 8px 4px 7px;
     color: var(--waterloo);
     fill: var(--waterloo);
-    transition: color, fill, box-shadow, background-color 0.15s ease-in-out;
+    transition: color, fill, box-shadow, background-color, border-color 0.15s ease-in-out;
 
     @include responsive('laptop', 'desktop') {
       &:hover {
         color: var(--rhino);
         fill: var(--rhino);
-        border-color: var(--mystic);
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
       }
     }

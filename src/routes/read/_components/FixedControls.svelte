@@ -64,12 +64,11 @@ include /ui/mixins
     padding: 8px 12px;
     border: 1px solid var(--porcelain);
     border-radius: 100px;
-    transition: fill, box-shadow, background-color 0.15s ease-in-out;
+    transition: fill, box-shadow 0.15s ease-in-out;
 
     @include responsive('laptop', 'desktop') {
       &:hover {
         fill: var(--rhino);
-        border-color: var(--mystic);
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
       }
     }
