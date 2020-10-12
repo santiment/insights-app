@@ -18,7 +18,7 @@ include /ui/mixins
 
 .wrapper(class:hidden)
   +if('readyState !== "draft"')
-    RocketMoonBtn({id}, bind:liked, likes='{votes.totalVotes}', moonClass='moonClass')
+    RocketMoonBtn({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}' moonClass='moonClass')
     CommentCounter.FixedControls__comments({commentsCount})
     ShareBtn.FixedControls__share(link='{shareLink}')
   +if('isAuthor')

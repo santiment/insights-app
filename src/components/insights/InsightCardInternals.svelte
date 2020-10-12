@@ -48,7 +48,7 @@ include /ui/mixins
 
 .bottom
   .stats
-    RocketMoonBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+    RocketMoonBtn({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}')
     CommentCounter.Card__comments({link}, {commentsCount}, isSSRLink)
 
   div.tags

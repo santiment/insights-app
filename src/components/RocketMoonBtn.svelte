@@ -12,9 +12,9 @@
   let moonClass = ''
   export { klass as class }
   export { moonClass }
-  export let id, likes, liked
+  export let id, votes, userVotes
 
-  let wasLiked = liked
+  let innerWidth
   let rocket, rocketShape, fireShape
   let showMoon = false
   let scaleMoon = false
@@ -22,9 +22,7 @@
   let votingInterval = null
   let currentVoting = 0
 
-  let innerWidth
-
-  $: _likes = likes + currentVoting
+  $: _votes = votes + currentVoting
 
   function addVote() {
     addInsightVote(id)
@@ -124,10 +122,10 @@ include /ui/mixins
 
 svelte:window(bind:innerWidth)
 
-button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave='{onMouseLeave}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:voted='{!!currentVoting || wasLiked}')
+button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave='{onMouseLeave}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:voted='{!!(currentVoting || userVotes)}')
   div(class='moonWrapper', class:showMoon, class:scaleMoon, on:animationend='{stopScaleMoon}', class='{moonClass}')
     img(src="moon.svg", alt="moon").moon
-    span + {currentVoting}
+    span + {currentVoting + userVotes}
   svg(xmlns='http://www.w3.org/2000/svg', width='20', height='22', viewBox='0 0 15 22', preserveAspectRatio='xMidYMid', class='rocket', bind:this='{rocket}')
     g
       animateTransform(transform='translate(0 0)', begin='indefinite', attributeName='transform', type='translate', values='0 -0.2; -0.1 -0.1; 0.2 0; -0.4 0.1; 0.4 -0.1; -0.4 0; 0.4 0; -0.4 0; 0.2 -0.2; -0.1 -0.2; 0 -0.3', keyTimes='0; 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.8; 0.9; 1', keySplines='0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97', calcMode='spline', dur='1s', repeatCount='indefinite')
@@ -140,7 +138,7 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
           animateTransform(attributeName='transform', type='translate', values='0 0; -2 2; 0 0', keyTimes='0; 0.55; 1', dur='1s', begin='fireOpacity.begin', repeatCount='1')
         path(d='M7.5 19.93a.5.5 0 111 0v1.22a.5.5 0 01-1 0v-1.22z')
           animateTransform(attributeName='transform', type='translate', values='0 0; 0 2; 0 0', keyTimes='0; 0.55; 1', dur='1s', begin='fireOpacity.begin', repeatCount='1')
-  span(class='text', style='--digits-number: {_likes.toString().length}') {_likes}
+  span(class='text', style='--digits-number: {_votes.toString().length}') {_votes}
 </template>
 
 <style lang="scss">

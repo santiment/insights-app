@@ -54,7 +54,7 @@ mixin rawHtml(variables)
 
   .bottom
     .stats
-      RocketMoonBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+      RocketMoonBtn({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}')
       CommentCounter.PulseCard__comments({link}, {commentsCount}, isSSRLink)
 
     div.tags

@@ -17,7 +17,7 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
 
 .actions
   +if('readyState !== "draft"')
-    RocketMoonBtn.Thanks__action({id}, bind:liked, likes='{votes.totalVotes}')
+    RocketMoonBtn.Thanks__action({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}')
     CommentCounter.Thanks__action({commentsCount})
     ShareBtn.Thanks__action({link})
 
