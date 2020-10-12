@@ -7,6 +7,7 @@
   const currentUser = user$()
 
   const LAPTOP_MIN_WIDTH = 992
+  const MAX_VOTES_PER_USER = 20
 
   let klass = ''
   let moonClass = ''
@@ -37,8 +38,11 @@
       scaleMoon = true
     }
 
-    currentVoting += 1
-    addVote()
+    if (userVotes + currentVoting + 1 <= MAX_VOTES_PER_USER) {
+      currentVoting += 1
+      addVote()
+    }
+
     showMoon = true
     makeFire()
     if (innerWidth < LAPTOP_MIN_WIDTH) {
@@ -53,7 +57,11 @@
     makeFire()
     scaleMoon = true
     showMoon = true
-    currentVoting += 1
+
+    if (userVotes + currentVoting + 1 <= MAX_VOTES_PER_USER) {
+      currentVoting += 1
+      addVote()
+    }
   }
 
   function stopVote () {
