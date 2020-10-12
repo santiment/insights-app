@@ -52,10 +52,22 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
   }
 
   .edit {
-    fill: var(--casper);
+    fill: var(--waterloo);
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding: 8px 12px;
+    border: 1px solid var(--porcelain);
+    cursor: pointer;
+    border-radius: 100px;
+    transition: fill, box-shadow, background-color 0.15s ease-in-out;
 
-    &:hover {
-      fill: var(--jungle-green);
+    @include responsive('laptop', 'desktop') {
+      &:hover {
+        fill: var(--rhino);
+        border-color: var(--mystic);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      }
     }
 
     &__icon {

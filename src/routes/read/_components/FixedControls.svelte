@@ -55,15 +55,27 @@ include /ui/mixins
   }
 
   .edit {
-    margin: 20px 0 0;
+    margin: 8px 0 0;
+    cursor: pointer;
+    fill: var(--waterloo);
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding: 8px 12px;
+    border: 1px solid var(--porcelain);
+    border-radius: 100px;
+    transition: fill, box-shadow, background-color 0.15s ease-in-out;
+
+    @include responsive('laptop', 'desktop') {
+      &:hover {
+        fill: var(--rhino);
+        border-color: var(--mystic);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      }
+    }
   }
 
   .edit__icon {
     @include size(16px);
-    cursor: pointer;
-
-    &:hover {
-      fill: var(--jungle-green);
-    }
   }
 </style>
