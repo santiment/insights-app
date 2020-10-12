@@ -2,126 +2,85 @@
   import { getContext, onMount } from 'svelte'
   import { debounce } from '@/utils/func'
   import { user$ } from '@/stores/user'
+  import { checkIsMobile } from '@/utils/responsive'
+
+  const MAX_VOTES_PER_USER = 20
 
   const addInsightVote = getContext('addInsightVote')
   const currentUser = user$()
-
-  const LAPTOP_MIN_WIDTH = 992
-  const MAX_VOTES_PER_USER = 20
+  const isMobile = checkIsMobile()
+  const isDesktop = !isMobile
 
   let klass = ''
   let moonClass = ''
   export { klass as class }
   export { moonClass }
-  export let id, votes, userVotes, currentVoting = 0
+  export let id,
+    votes,
+    userVotes,
+    currentVoting = 0
 
   let innerWidth
-  let rocket, rocketShape, fireShape
+  let rocketShape, fireShape
+  let moonTimeout, votingInterval
   let showMoon = false
   let scaleMoon = false
-  let moonTimeout = null
-  let votingInterval = null
+
+  const rocket = {
+    ignite: () => fireShape.beginElement(),
+    startShake: () => rocketShape.beginElement(),
+    stopShake: () => rocketShape.endElement(),
+  }
 
   $: _votes = votes + currentVoting
 
+  $: onMouseEnter = isDesktop && rocket.startShake
+  $: onMouseLeave = isDesktop && rocket.stopShake
+  $: digitsAmount = _votes.toString().length
+
   function addVote() {
-    addInsightVote(id)
+    if (userVotes + currentVoting + 1 <= MAX_VOTES_PER_USER) {
+      currentVoting += 1
+      addInsightVote(id)
+    }
   }
 
-  function startVote () {
-    if (moonTimeout) {
-      clearTimeout(moonTimeout)
-    }
+  function startVote() {
+    clearTimeout(moonTimeout)
 
     if (showMoon) {
       scaleMoon = true
     }
 
-    if (userVotes + currentVoting + 1 <= MAX_VOTES_PER_USER) {
-      currentVoting += 1
-      addVote()
-    }
+    addVote()
+    rocket.ignite()
+    rocket.startShake()
 
     showMoon = true
-    makeFire()
-    if (innerWidth < LAPTOP_MIN_WIDTH) {
-      startShakeRocket()
-    }
-
-    const newVotingInterval = setInterval(repeatVote, 400)
-    votingInterval = newVotingInterval
+    votingInterval = setInterval(repeatVote, 400)
+    window.addEventListener('mouseup', stopVote, { once: true })
   }
 
-  function repeatVote () {
-    makeFire()
+  function repeatVote() {
     scaleMoon = true
     showMoon = true
 
-    if (userVotes + currentVoting + 1 <= MAX_VOTES_PER_USER) {
-      currentVoting += 1
-      addVote()
-    }
+    rocket.ignite()
+    addVote()
   }
 
-  function stopVote () {
-    if (votingInterval) {
-      clearInterval(votingInterval)
-    }
+  function stopVote() {
+    clearInterval(votingInterval)
 
-    const newMoonTimeout = setTimeout(() => { 
+    moonTimeout = setTimeout(() => {
       showMoon = false
-
-      if (innerWidth < LAPTOP_MIN_WIDTH) {
-        stopShakeRocket()
-      }
+      rocket.stopShake()
     }, 1000)
-    moonTimeout = newMoonTimeout
   }
 
-  function makeFire () {
-    if (fireShape) {
-      fireShape.beginElement()
-    }
-  }
-
-  function stopScaleMoon () {
+  function stopMoonScale() {
     scaleMoon = false
   }
-
-  function onMouseEnter() {
-    if (innerWidth >= LAPTOP_MIN_WIDTH) {
-      startShakeRocket()
-    }
-  }
-
-  function onMouseLeave() {
-    if (innerWidth >= LAPTOP_MIN_WIDTH) {
-      stopShakeRocket()
-    }
-  }
-
-  function startShakeRocket() {
-    if (rocketShape) {
-      rocketShape.beginElement()
-    }
-  }
-
-  function stopShakeRocket() {
-    if (rocketShape) {
-      rocketShape.endElement()
-    }
-  }
-
-  onMount(() => {
-    if (rocket && !rocketShape) {
-      const rocketGroup = rocket.firstChild
-      const [rocketShapeAnimate, _, fireGroup]  = rocketGroup.childNodes
-      const fireShapeAnimate = fireGroup.firstChild
-
-      rocketShape = rocketShapeAnimate
-      fireShape = fireShapeAnimate
-    }
-  })
 </script>
 
 <template lang="pug">
@@ -129,23 +88,23 @@ include /ui/mixins
 
 svelte:window(bind:innerWidth)
 
-button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave='{onMouseLeave}', on:mousedown='{startVote}', on:mouseup='{stopVote}', aria-label='Like', class='{klass}', class:voted='{!!(currentVoting || userVotes)}')
-  div(class='moonWrapper', class:showMoon, class:scaleMoon, on:animationend='{stopScaleMoon}', class='{moonClass}')
+button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave='{onMouseLeave}', on:mousedown='{startVote}', aria-label='Like', class='{klass}', class:voted='{!!(currentVoting || userVotes)}')
+  .moonWrapper(class:showMoon, class:scaleMoon, on:animationend='{stopMoonScale}', class='{moonClass}')
     img(src="moon.svg", alt="moon").moon
-    span + {currentVoting + userVotes}
-  svg(xmlns='http://www.w3.org/2000/svg', width='20', height='22', viewBox='0 0 15 22', preserveAspectRatio='xMidYMid', class='rocket', bind:this='{rocket}')
+    | + {currentVoting + userVotes}
+  svg(xmlns='http://www.w3.org/2000/svg', width='20', height='22', viewBox='0 0 15 22', preserveAspectRatio='xMidYMid', class='rocket')
     g
-      animateTransform(transform='translate(0 0)', begin='indefinite', attributeName='transform', type='translate', values='0 -0.2; -0.1 -0.1; 0.2 0; -0.4 0.1; 0.4 -0.1; -0.4 0; 0.4 0; -0.4 0; 0.2 -0.2; -0.1 -0.2; 0 -0.3', keyTimes='0; 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.8; 0.9; 1', keySplines='0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97', calcMode='spline', dur='1s', repeatCount='indefinite')
+      animateTransform(bind:this='{rocketShape}', transform='translate(0 0)', begin='indefinite', attributeName='transform', type='translate', values='0 -0.2; -0.1 -0.1; 0.2 0; -0.4 0.1; 0.4 -0.1; -0.4 0; 0.4 0; -0.4 0; 0.2 -0.2; -0.1 -0.2; 0 -0.3', keyTimes='0; 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.8; 0.9; 1', keySplines='0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97; 0.36 0.07 0.19 0.97', calcMode='spline', dur='1s', repeatCount='indefinite')
       path(fill-rule='evenodd', d='M12.13 11.2l.05-.4c.14-.86.18-1.75.06-2.65a9.4 9.4 0 00-1.52-3.94L8.7 1.25a1.72 1.72 0 00-2.88.01L3.98 4.07a9 9 0 00-1.24 6.61l.14.68-1.53 1.08c-.27.22-.45.56-.44.96l.1 4.26c.01.4.4.68.8.55l2.46-.78a2.2 2.2 0 001.85 1.05l3.08-.01c.8 0 1.48-.44 1.84-1.09l2.69.83c.37.12.77-.16.76-.56l-.1-4.29c-.01-.37-.2-.74-.52-.95l-1.74-1.2v-.01zM2 17.1l2.7-.85.41.66c.22.35.6.57 1 .57l3.06-.01c.44 0 .8-.23.99-.58l.38-.7 2.93.9-.08-3.73a.2.2 0 00-.08-.13l-2.25-1.56.13-1.03c.13-.8.16-1.6.06-2.38a8.38 8.38 0 00-1.35-3.5L7.87 1.8a.72.72 0 00-1.21 0L4.81 4.64a8.02 8.02 0 00-1.26 3.9v.01c-.04.63.03 1.31.16 1.96L4 11.8l-2.02 1.44a.19.19 0 00-.06.16L2 17.1zm6.51-9.2c0 .51-.41.95-.97.95a1 1 0 01-1-.96c0-.52.42-.96.97-.96a1 1 0 011 .97zm1 0a1.92 1.92 0 01-1.95 1.95 2 2 0 01-1.87-2.72 1.92 1.92 0 011.81-1.2c1.1.01 2 .89 2.01 1.97z', clip-rule='evenodd')
       g(opacity='0')
-        animate(id='fireOpacity', attributeName='opacity', begin='indefinite', values='1; 0; 0', keyTimes='0; 0.5; 1', dur='1s', repeatCount='1')
+        animate(bind:this='{fireShape}', id='fireOpacity', attributeName='opacity', begin='indefinite', values='1; 0; 0', keyTimes='0; 0.5; 1', dur='1s', repeatCount='1')
         path(d='M10.49 20.14a.5.5 0 01.86-.5l.62 1.04a.5.5 0 01-.86.52l-.62-1.06z')
           animateTransform(attributeName='transform', type='translate', values='0 0; 2 2; 0 0', keyTimes='0; 0.55; 1', dur='1s', begin='fireOpacity.begin', repeatCount='1')
         path(d='M5.37 20.14a.5.5 0 10-.86-.5l-.63 1.04a.5.5 0 10.86.52l.63-1.06z')
           animateTransform(attributeName='transform', type='translate', values='0 0; -2 2; 0 0', keyTimes='0; 0.55; 1', dur='1s', begin='fireOpacity.begin', repeatCount='1')
         path(d='M7.5 19.93a.5.5 0 111 0v1.22a.5.5 0 01-1 0v-1.22z')
           animateTransform(attributeName='transform', type='translate', values='0 0; 0 2; 0 0', keyTimes='0; 0.55; 1', dur='1s', begin='fireOpacity.begin', repeatCount='1')
-  span(class='text', style='--digits-number: {_votes.toString().length}') {_votes}
+  span(class='text', style='--digits-amount: {digitsAmount}') {_votes}
 </template>
 
 <style lang="scss">
@@ -155,7 +114,6 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
     user-select: none;
     cursor: pointer;
     background: none;
-    border: none;
     outline: none;
     position: relative;
     -webkit-tap-highlight-color: transparent;
@@ -167,14 +125,14 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
     padding: 4px 8px 4px 7px;
     color: var(--waterloo);
     fill: var(--waterloo);
-    transition: color, fill, box-shadow, background-color, border-color 0.15s ease-in-out;
+    transition: box-shadow, background-color 0.15s ease-in-out;
+    touch-action: manipulation;
 
-    @include responsive('laptop', 'desktop') {
-      &:hover {
-        color: var(--rhino);
-        fill: var(--rhino);
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-      }
+    &:hover {
+      border-color: var(--mystic);
+      color: var(--rhino);
+      fill: var(--rhino);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     }
 
     &.voted {
@@ -184,14 +142,12 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
       fill: var(--jungle-green-hover);
     }
 
-
     &[disabled] {
       pointer-events: none;
       fill: var(--mystic);
       color: var(--mystic);
       cursor: not-allowed;
     }
-
   }
 
   .rocket {
@@ -214,6 +170,7 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
     color: var(--rhino);
     transform: translateY(-12px);
     transition: transform 0.4s ease-out, opacity 0.35s ease-out;
+    pointer-events: none;
 
     @include text('caption', 'm');
   }
@@ -223,7 +180,7 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
   }
 
   .text {
-    width: calc((var(--digits-number) + 1) * 7px);
+    width: calc(var(--digits-amount) * 1ch);
     text-align: left;
     @include text('body-3', 'm');
   }
@@ -249,5 +206,4 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
       transform: scale(1.05);
     }
   }
-
 </style>
