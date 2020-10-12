@@ -8,8 +8,7 @@
 
   const addInsightVote = getContext('addInsightVote')
   const currentUser = user$()
-  const isMobile = checkIsMobile()
-  const isDesktop = !isMobile
+  const isDesktop = !checkIsMobile()
 
   let klass = ''
   let moonClass = ''
