@@ -3,7 +3,7 @@
   import { debounce } from '@/utils/func'
   import { user$ } from '@/stores/user'
 
-  const toggleInsightLike = getContext('toggleInsightLike')
+  const addInsightVote = getContext('addInsightVote')
   const currentUser = user$()
 
   const LAPTOP_MIN_WIDTH = 992
@@ -26,6 +26,10 @@
 
   $: _likes = likes + currentVoting
 
+  function addVote() {
+    addInsightVote(id)
+  }
+
   function startVote () {
     if (moonTimeout) {
       clearTimeout(moonTimeout)
@@ -36,6 +40,7 @@
     }
 
     currentVoting += 1
+    addVote()
     showMoon = true
     makeFire()
     if (innerWidth < LAPTOP_MIN_WIDTH) {
