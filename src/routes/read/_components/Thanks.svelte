@@ -4,7 +4,7 @@
   import CommentCounter from '@/components/comments/Counter'
   import { getShareLink } from '@/logic/share'
 
-  export let id, readyState, isAuthor, votes, liked, commentsCount
+  export let id, readyState, isAuthor, votes, currentVoting, commentsCount
 
   $: link = getShareLink(id)
 </script>
@@ -17,7 +17,7 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
 
 .actions
   +if('readyState !== "draft"')
-    RocketMoonBtn.Thanks__action({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}')
+    RocketMoonBtn.Thanks__action({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}' bind:currentVoting)
     CommentCounter.Thanks__action({commentsCount})
     ShareBtn.Thanks__action({link})
 

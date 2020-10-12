@@ -13,7 +13,7 @@
   let moonClass = ''
   export { klass as class }
   export { moonClass }
-  export let id, votes, userVotes
+  export let id, votes, userVotes, currentVoting = 0
 
   let innerWidth
   let rocket, rocketShape, fireShape
@@ -21,7 +21,6 @@
   let scaleMoon = false
   let moonTimeout = null
   let votingInterval = null
-  let currentVoting = 0
 
   $: _votes = votes + currentVoting
 

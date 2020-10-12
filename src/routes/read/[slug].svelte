@@ -169,6 +169,7 @@
   let open = false
   let clientHeight
   let hidden = true
+  let currentVoting = 0
   $: shareLink = getShareLink(id)
 
   $: isMobile = $session.isMobile
@@ -248,7 +249,7 @@ svelte:head
         .info
           Author({user}, {publishedAt}, {isAuthor})
           ViewportObserver({options}, on:intersect='{hideSidebar}', on:leaving='{showSidebar}', top)
-            Thanks({id}, {votes}, {readyState}, {commentsCount}, {isAuthor}, bind:liked)
+            Thanks({id}, {votes}, {readyState}, {commentsCount}, {isAuthor}, bind:currentVoting)
           Banner({user}, {isAuthor})
 
   +if('assets.length && !isMobile')
@@ -256,7 +257,7 @@ svelte:head
       FeaturedAssets({assets}, {publishedAt}, insightId='{id}')
 
   +if('!isMobile')
-    FixedControls({id}, {readyState}, {commentsCount}, {shareLink}, {votes}, {hidden}, {isAuthor}, bind:liked)
+    FixedControls({id}, {readyState}, {commentsCount}, {shareLink}, {votes}, {hidden}, {isAuthor}, bind:currentVoting)
 
 +if('!hasPaywall')
   ViewportObserver(id='comments', options='{commentsOptions}', on:intersect='{showComments}', top)

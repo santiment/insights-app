@@ -5,8 +5,8 @@
 
   export let id,
     readyState,
-    liked,
     votes,
+    currentVoting,
     shareLink,
     commentsCount,
     hidden,
@@ -18,7 +18,7 @@ include /ui/mixins
 
 .wrapper(class:hidden)
   +if('readyState !== "draft"')
-    RocketMoonBtn({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}' moonClass='moonClass')
+    RocketMoonBtn({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}' moonClass='moonClass', bind:currentVoting)
     CommentCounter.FixedControls__comments({commentsCount})
     ShareBtn.FixedControls__share(link='{shareLink}')
   +if('isAuthor')
