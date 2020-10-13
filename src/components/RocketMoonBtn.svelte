@@ -87,7 +87,7 @@ include /ui/mixins
 
 svelte:window(bind:innerWidth)
 
-button(disabled='{!currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave='{onMouseLeave}', on:mousedown|preventDefault='{startVote}', on:touchstart|preventDefault='{startVote}', aria-label='Like', class='{klass}', class:voted='{!!(currentVoting || userVotes)}')
+button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave='{onMouseLeave}', on:mousedown|preventDefault='{startVote}', on:touchstart|preventDefault='{startVote}', aria-label='Like', class='{klass}', class:voted='{!!(currentVoting || userVotes)}')
   .moonWrapper(class:showMoon, class:scaleMoon, on:animationend='{stopMoonScale}', class='{moonClass}')
     img(src="moon.svg", alt="moon").moon
     | + {currentVoting + userVotes}
