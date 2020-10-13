@@ -9,7 +9,6 @@
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
 
   export let insight,
-    size = 'xl',
     transformLink = (link) => link
 
   let {
@@ -42,7 +41,7 @@
 include /ui/mixins
 
 .top
-  a.title(href="{link}", class='{size}')
+  a.title(href="{link}")
     MultilineText(maxLines='{2}') {title}
   ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{status}",
   withPic, classes="{{wrapper: 'card__profile'}}")
@@ -69,32 +68,24 @@ include /ui/mixins
     flex-direction: column;
     justify-content: space-between;
     border-bottom: 1px solid var(--porcelain);
-    padding-bottom: 16px;
-    margin-bottom: 16px;
+    padding: 18px 16px 16px 24px;
   }
 
   .title {
-    @include text('h4');
+    @include text('body-1');
     display: block;
     word-break: break-word;
     margin-bottom: 14px;
 
-    &.m {
-      @include text('body-1');
-    }
-
     &:hover {
       color: var(--jungle-green);
-    }
-
-    @include responsive('phone', 'phone-xs') {
-      @include text('body-1');
     }
   }
 
   .bottom {
     display: flex;
     align-items: center;
+    padding: 12px 16px 12px 24px;
   }
 
   .stats {

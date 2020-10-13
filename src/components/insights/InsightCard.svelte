@@ -11,20 +11,15 @@
 <template lang="pug">
 include /ui/mixins
 
-+panel.wrapper(variant='box', class="{klass} {size}")
-  InsightCardInternals({insight}, {size}, {transformLink})
++panel.wrapper(class="{klass}")
+  InsightCardInternals({insight}, {transformLink})
 </template>
 
 <style lang="scss">
   .wrapper {
-    padding: 20px;
     min-width: 320px;
-    min-height: 190px;
     display: flex;
     flex-direction: column;
   }
 
-  .m {
-    padding: 20px 24px 18px;
-  }
 </style>

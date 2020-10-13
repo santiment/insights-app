@@ -39,7 +39,7 @@
 include /ui/mixins
 
 ViewportObserver(top, {options}, on:intersect='{onIntersect}', {observeWhile})
-  +panel.wrapper(variant='box', class="{klass}", bind:this="{graph}")
+  +panel.wrapper(class="{klass}", bind:this="{graph}")
     .left
       InsightCardInternals({insight}, {transformLink})
     +if('data')
@@ -51,12 +51,11 @@ ViewportObserver(top, {options}, on:intersect='{onIntersect}', {observeWhile})
   .wrapper {
     display: flex;
     min-width: 320px;
-    min-height: 190px;
   }
 
   .left {
     flex: 1;
-    padding: 24px 24px 28px;
+    padding: 0;
     display: flex;
     flex-direction: column;
   }
