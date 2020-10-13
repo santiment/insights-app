@@ -36,14 +36,14 @@ a.comments(href='{href}#comments', class='{klass}')
     display: flex;
     align-items: center;
     border: 1px solid var(--porcelain);
-    transition: color, fill, box-shadow 0.15s ease-in-out;
+    transition: color, fill, border-color 0.15s ease-in-out;
 
     @include text('body-3', 'm');
 
     &:hover {
       fill: var(--rhino);
       color: var(--rhino);
-      box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1);
+      border-color: var(--mystic);
     }
 
     &__icon {

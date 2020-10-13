@@ -115,6 +115,7 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
     outline: none;
     position: relative;
     -webkit-tap-highlight-color: transparent;
+    box-shadow: none;
     display: inline-flex;
     align-items: center;
     line-height: 20px;
@@ -123,14 +124,13 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
     padding: 4px 8px 4px 7px;
     color: var(--waterloo);
     fill: var(--waterloo);
-    transition: box-shadow, background-color 0.15s ease-in-out;
+    transition: background-color, color, fill, border-color 0.15s ease-in-out;
     touch-action: manipulation;
 
     &:hover {
       border-color: var(--mystic);
       color: var(--rhino);
       fill: var(--rhino);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     }
 
     &.voted {

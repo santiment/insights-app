@@ -60,12 +60,12 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
     border: 1px solid var(--porcelain);
     cursor: pointer;
     border-radius: 100px;
-    transition: fill, box-shadow 0.15s ease-in-out;
+    transition: fill, border-color 0.15s ease-in-out;
 
     @include responsive('laptop', 'desktop') {
       &:hover {
         fill: var(--rhino);
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        border-color: var(--mystic)
       }
     }
 
