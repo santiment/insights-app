@@ -30,13 +30,13 @@
               .then(({ data: { insights } }) => data.insights.concat(insights))
           : data.insights,
       )
-      .then(insights =>
+      .then((insights) =>
         insights
           .slice()
           .sort(publishDateSorter)
           .slice(0, 10)
-          .filter(insight => insight.id !== insightId)
-          .map(insight => ({ ...insight, tags: [] })),
+          .filter((insight) => insight.id !== insightId)
+          .map((insight) => ({ ...insight, tags: [] })),
       )
       .catch(console.warn)
   }
@@ -96,7 +96,7 @@ include /ui/mixins
   .visible {
     width: 100%;
     overflow: hidden;
-    height: 191px;
+    height: 203px;
   }
 
   :global(.isMobile) .visible {
