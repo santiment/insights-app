@@ -56,10 +56,7 @@
 
     showMoon = true
     votingInterval = setInterval(repeatVote, 400)
-
-    if (isDesktop) {
-      window.addEventListener('mouseup', stopVote, { once: true })
-    }
+    window.addEventListener('mouseup', stopVote, { once: true })
   }
 
   function repeatVote() {
