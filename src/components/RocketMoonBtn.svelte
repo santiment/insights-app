@@ -72,7 +72,10 @@
 
     moonTimeout = setTimeout(() => {
       showMoon = false
-      rocket.stopShake()
+      
+      if (!isDesktop) {
+        rocket.stopShake()
+      }
     }, 1000)
   }
 
