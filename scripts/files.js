@@ -21,21 +21,25 @@ function copyFiles(pathFrom, pathTo, filter = noSvgFilter, maxRec) {
   )
 }
 
-function moveUi() {
-  const PATH_FROM = joinPaths(SRC, 'ui')
-  const PATH_TO = joinPaths(LIB, 'ui')
+const copyFolder = (arrayPath, filter, maxRec) =>
+  copyFiles(
+    joinPaths(...arrayPath),
+    joinPaths(LIB, ...arrayPath),
+    filter,
+    maxRec,
+  )
 
-  copyFiles(PATH_FROM, PATH_TO)
+const copyFile = (arrayPath) =>
+  fs.copyFileSync(joinPaths(...arrayPath), joinPaths(LIB, ...arrayPath))
+
+function moveUi() {
+  copyFolder([SRC, 'ui'])
   console.log('UI was moved to lib folder!')
 }
 
 function moveStaticIcons() {
-  const PATH_FROM = joinPaths(ROOT, 'static')
-  const PATH_TO = joinPaths(LIB, 'static')
-
-  copyFiles(
-    PATH_FROM,
-    PATH_TO,
+  copyFolder(
+    [ROOT, 'static'],
     (files) => files.filter((file) => file.includes('.svg')),
     0,
   )
@@ -43,50 +47,25 @@ function moveStaticIcons() {
 }
 
 function moveComponents() {
-  const comments = ['components', 'comments']
-  const PATH_FROM = joinPaths(SRC, ...comments)
-  const PATH_TO = joinPaths(LIB, ...comments)
-  copyFiles(PATH_FROM, PATH_TO)
+  copyFolder([SRC, 'components', 'comments'])
+  copyFolder([SRC, 'components', 'insights'])
 
-  const insights = ['components', 'insights']
-  const INS_PATH_FROM = joinPaths(SRC, ...insights)
-  const INS_PATH_TO = joinPaths(LIB, ...insights)
-  copyFiles(INS_PATH_FROM, INS_PATH_TO)
+  copyFile([SRC, 'components', 'ContextMenu.svelte'])
+  copyFile([SRC, 'components', 'ProfileInfo.svelte'])
 
-  const contextMenu = ['components', 'ContextMenu.svelte']
-  fs.copyFileSync(
-    joinPaths(SRC, ...contextMenu),
-    joinPaths(LIB, ...contextMenu),
-  )
-
-  const profileInfo = ['components', 'ProfileInfo.svelte']
-  fs.copyFileSync(
-    joinPaths(SRC, ...profileInfo),
-    joinPaths(LIB, ...profileInfo),
-  )
-
-  const likeBtn = ['components', 'LikeBtn.svelte']
-  fs.copyFileSync(joinPaths(SRC, ...likeBtn), joinPaths(LIB, ...likeBtn))
+  copyFile([SRC, 'components', 'LikeBtn.svelte'])
+  copyFile([SRC, 'components', 'RocketMoonBtn.svelte'])
 
   console.log('Components were moved to lib folder!')
 }
 
 function moveStores() {
-  const stores = ['stores']
-  const PATH_FROM = joinPaths(SRC, ...stores)
-  const PATH_TO = joinPaths(LIB, ...stores)
-
-  copyFiles(PATH_FROM, PATH_TO)
-
+  copyFolder([SRC, 'stores'])
   console.log('Stores were moved to lib folder!')
 }
 
 function moveUtils() {
-  const PATH_FROM = joinPaths(SRC, 'utils')
-  const PATH_TO = joinPaths(LIB, 'utils')
-
-  copyFiles(PATH_FROM, PATH_TO)
-
+  copyFolder([SRC, 'utils'])
   console.log('Utils were moved to lib folder!')
 }
 
