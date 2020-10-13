@@ -1,17 +1,18 @@
 <script>
+  import { getContext } from 'svelte'
   import InsightCardInternals from '@/components/insights/InsightCardInternals'
   import ViewportObserver from '@/components/ViewportObserver'
   import PriceSincePublication from './PriceSincePublication.svelte'
   import { noTrendTagsFilter } from '@/utils/insights'
-  import { getInsightChartProjectData } from '@/logic/projects'
 
   const options = {
     rootMargin: '200px',
   }
+  const getInsightChartProjectData = getContext('getInsightChartProjectData')
 
   let klass = ''
   export { klass as class }
-  export let insight
+  export let insight, transformLink
 
   let graph = {}
   let data
@@ -40,7 +41,7 @@ include /ui/mixins
 ViewportObserver(top, {options}, on:intersect='{onIntersect}', {observeWhile})
   +panel.wrapper(variant='box', class="{klass}", bind:this="{graph}")
     .left
-      InsightCardInternals({insight})
+      InsightCardInternals({insight}, {transformLink})
     +if('data')
       .right
         PriceSincePublication({ticker}, {publishDate}, {...data})

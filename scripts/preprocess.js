@@ -3,18 +3,11 @@ const autoPreprocess = require('svelte-preprocess')
 const { scss, postcss: sveltePostcss } = require('svelte-preprocess')
 const fs = require('fs')
 const cssModules = require('postcss-modules')
-const {
-  recursiveList,
-  getPath,
-  joinPaths,
-  getFilesAndDirs,
-} = require('./utils')
+const { recursiveList, getPath, joinPaths } = require('./utils')
 
 const ROOT = getPath('..')
 const LIB = joinPaths(ROOT, 'lib')
 const SRC = joinPaths(ROOT, 'src')
-
-const COMMETS_PATH = joinPaths(LIB, 'components', 'comments')
 
 const { style } = scss()
 
@@ -209,7 +202,12 @@ function makeStaticIconsImported() {
               source = source.replace(match, `"${staticsPath}/${staticFile}"`)
             } else {
               const match = source.slice(startIndex, startIndex + length)
-              source = source.replace(match, importName + imports.length)
+              const prevToken = source[startIndex - 1]
+              const newImportName = importName + imports.length
+              source = source.replace(
+                match,
+                prevToken === '=' ? `"{${newImportName}}"` : newImportName,
+              )
               imports.push(match.slice(1, -1))
             }
             wasModified = true
