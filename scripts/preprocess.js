@@ -3,18 +3,11 @@ const autoPreprocess = require('svelte-preprocess')
 const { scss, postcss: sveltePostcss } = require('svelte-preprocess')
 const fs = require('fs')
 const cssModules = require('postcss-modules')
-const {
-  recursiveList,
-  getPath,
-  joinPaths,
-  getFilesAndDirs,
-} = require('./utils')
+const { recursiveList, getPath, joinPaths } = require('./utils')
 
 const ROOT = getPath('..')
 const LIB = joinPaths(ROOT, 'lib')
 const SRC = joinPaths(ROOT, 'src')
-
-const COMMETS_PATH = joinPaths(LIB, 'components', 'comments')
 
 const { style } = scss()
 

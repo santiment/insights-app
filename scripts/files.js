@@ -8,6 +8,44 @@ const ROOT = getPath('..')
 const LIB = joinPaths(ROOT, 'lib')
 const SRC = joinPaths(ROOT, 'src')
 
+const openFile = (dir, filename) =>
+  fs.readFileSync(joinPaths(dir, filename), 'utf8')
+
+function copyFilesWithCustomImports(from, to) {
+  recursiveList(
+    from,
+    to,
+    (files, _, newPath) => {
+      files.forEach((filename) => {
+        const anchor = "from '@/"
+        let source = openFile(from, filename)
+        let startIndex = 0
+
+        while (true) {
+          startIndex = source.indexOf(anchor, startIndex)
+          if (startIndex === -1) break
+
+          startIndex += anchor.length - 2
+          const moduleEndIndex = source.indexOf("'", startIndex)
+          const module = source.slice(startIndex, moduleEndIndex)
+
+          if (module === '@/apollo') {
+            startIndex = moduleEndIndex + 1
+          } else {
+            const modulePath = LIB + module.slice(1)
+            source = source.replace(module, modulePath)
+            startIndex += modulePath.length + 1
+          }
+        }
+
+        fs.writeFileSync(joinPaths(newPath, filename), source, 'utf8')
+      })
+    },
+
+    (_, newTo) => mkdirp.sync(newTo),
+  )
+}
+
 function copyFiles(pathFrom, pathTo, filter = noSvgFilter, maxRec) {
   recursiveList(
     pathFrom,
@@ -68,14 +106,26 @@ function moveStores() {
 }
 
 function moveUtils() {
-  copyFolderFromSrc(['utils'])
+  copyFilesWithCustomImports(joinPaths(SRC, 'utils'), joinPaths(LIB, 'utils'))
   console.log('Utils were moved to lib folder!')
+}
+
+function moveLogic() {
+  copyFilesWithCustomImports(joinPaths(SRC, 'logic'), joinPaths(LIB, 'logic'))
+  console.log('Logic files was moved to lib folder!')
+}
+
+function moveGql() {
+  copyFilesWithCustomImports(joinPaths(SRC, 'gql'), joinPaths(LIB, 'gql'))
+  console.log('Gql files were moved to lib folder!')
 }
 
 function moveJs() {
   moveComponents()
   moveUtils()
   moveStores()
+  moveLogic()
+  moveGql()
 }
 
 function moveUiLib() {
