@@ -66,8 +66,7 @@ mixin rawHtml(variables)
   @import '@/mixins';
 
   .wrapper {
-    padding: 14px 16px 12px 56px;
-    background: url('/pulse-icon.svg') no-repeat 16px 16px;
+    padding: 0;
     word-break: break-word;
   }
 
@@ -75,6 +74,7 @@ mixin rawHtml(variables)
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 18px 16px 16px 24px;
   }
 
   .title {
@@ -105,8 +105,7 @@ mixin rawHtml(variables)
     display: flex;
     align-items: center;
     border-top: 1px solid var(--porcelain);
-    padding-top: 16px;
-    margin-top: 16px;
+    padding: 12px 16px 12px 24px;
   }
 
   .stats {
