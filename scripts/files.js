@@ -21,25 +21,27 @@ function copyFiles(pathFrom, pathTo, filter = noSvgFilter, maxRec) {
   )
 }
 
-const copyFolder = (arrayPath, filter, maxRec) =>
+const copyFolder = (base) => (arrayPath, filter, maxRec) =>
   copyFiles(
-    joinPaths(...arrayPath),
+    joinPaths(base, ...arrayPath),
     joinPaths(LIB, ...arrayPath),
     filter,
     maxRec,
   )
 
+const copyFolderFromSrc = copyFolder(SRC)
+const copyFolderFromRoot = copyFolder(ROOT)
 const copyFile = (arrayPath) =>
-  fs.copyFileSync(joinPaths(...arrayPath), joinPaths(LIB, ...arrayPath))
+  fs.copyFileSync(joinPaths(SRC, ...arrayPath), joinPaths(LIB, ...arrayPath))
 
 function moveUi() {
-  copyFolder([SRC, 'ui'])
+  copyFolderFromSrc(['ui'])
   console.log('UI was moved to lib folder!')
 }
 
 function moveStaticIcons() {
-  copyFolder(
-    [ROOT, 'static'],
+  copyFolderFromRoot(
+    ['static'],
     (files) => files.filter((file) => file.includes('.svg')),
     0,
   )
@@ -47,25 +49,25 @@ function moveStaticIcons() {
 }
 
 function moveComponents() {
-  copyFolder([SRC, 'components', 'comments'])
-  copyFolder([SRC, 'components', 'insights'])
+  copyFolderFromSrc(['components', 'comments'])
+  copyFolderFromSrc(['components', 'insights'])
 
-  copyFile([SRC, 'components', 'ContextMenu.svelte'])
-  copyFile([SRC, 'components', 'ProfileInfo.svelte'])
+  copyFile(['components', 'ContextMenu.svelte'])
+  copyFile(['components', 'ProfileInfo.svelte'])
 
-  copyFile([SRC, 'components', 'LikeBtn.svelte'])
-  copyFile([SRC, 'components', 'RocketMoonBtn.svelte'])
+  copyFile(['components', 'LikeBtn.svelte'])
+  copyFile(['components', 'RocketMoonBtn.svelte'])
 
   console.log('Components were moved to lib folder!')
 }
 
 function moveStores() {
-  copyFolder([SRC, 'stores'])
+  copyFolderFromSrc(['stores'])
   console.log('Stores were moved to lib folder!')
 }
 
 function moveUtils() {
-  copyFolder([SRC, 'utils'])
+  copyFolderFromSrc(['utils'])
   console.log('Utils were moved to lib folder!')
 }
 
