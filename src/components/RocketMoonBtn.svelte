@@ -115,6 +115,7 @@ button(disabled='{!currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave=
     background: none;
     outline: none;
     position: relative;
+    -webkit-touch-callout: none;
     -webkit-tap-highlight-color: transparent;
     box-shadow: none;
     display: inline-flex;
