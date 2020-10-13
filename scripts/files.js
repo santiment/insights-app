@@ -96,6 +96,8 @@ function moveComponents() {
   copyFile(['components', 'LikeBtn.svelte'])
   copyFile(['components', 'RocketMoonBtn.svelte'])
   copyFile(['components', 'MultilineText.svelte'])
+  copyFile(['components', 'ValueChange.svelte'])
+  copyFile(['components', 'ViewportObserver.svelte'])
 
   console.log('Components were moved to lib folder!')
 }
