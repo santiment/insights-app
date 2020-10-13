@@ -52,7 +52,10 @@
 
     addVote()
     rocket.ignite()
-    rocket.startShake()
+
+    if (!isDesktop) {
+      rocket.startShake()
+    }
 
     showMoon = true
     votingInterval = setInterval(repeatVote, 400)
