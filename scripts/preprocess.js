@@ -209,7 +209,12 @@ function makeStaticIconsImported() {
               source = source.replace(match, `"${staticsPath}/${staticFile}"`)
             } else {
               const match = source.slice(startIndex, startIndex + length)
-              source = source.replace(match, importName + imports.length)
+              const prevToken = source[startIndex - 1]
+              const newImportName = importName + imports.length
+              source = source.replace(
+                match,
+                prevToken === '=' ? `"{${newImportName}}"` : newImportName,
+              )
               imports.push(match.slice(1, -1))
             }
             wasModified = true
