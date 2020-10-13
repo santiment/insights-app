@@ -1,12 +1,12 @@
 <script>
-  import LikeBtn from '@/components/LikeBtn'
+  import RocketMoonBtn from '@/components/RocketMoonBtn'
   import ShareBtn from '@/components/sharing/ShareBtn'
   import CommentCounter from '@/components/comments/Counter'
 
   export let id,
     readyState,
-    liked,
     votes,
+    currentVoting,
     shareLink,
     commentsCount,
     hidden,
@@ -18,7 +18,7 @@ include /ui/mixins
 
 .wrapper(class:hidden)
   +if('readyState !== "draft"')
-    LikeBtn({id}, bind:liked, likes='{votes.totalVotes}')
+    RocketMoonBtn({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}' moonClass='moonClass', bind:currentVoting)
     CommentCounter.FixedControls__comments({commentsCount})
     ShareBtn.FixedControls__share(link='{shareLink}')
   +if('isAuthor')
@@ -46,24 +46,35 @@ include /ui/mixins
   }
 
   :global(.FixedControls__comments) {
-    margin: 16px 0;
+    margin: 8px 0;
   }
 
-  :global(.FixedControls__share) {
-    fill: var(--casper);
-    margin-top: 3px;
+  :global(.moonClass) {
+    box-shadow: none !important;
+    border: none !important;
   }
 
   .edit {
-    margin: 20px 0 0;
+    margin: 8px 0 0;
+    cursor: pointer;
+    fill: var(--waterloo);
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding: 8px 12px;
+    border: 1px solid var(--porcelain);
+    border-radius: 100px;
+    transition: fill, box-shadow 0.15s ease-in-out;
+
+    @include responsive('laptop', 'desktop') {
+      &:hover {
+        fill: var(--rhino);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      }
+    }
   }
 
   .edit__icon {
     @include size(16px);
-    cursor: pointer;
-
-    &:hover {
-      fill: var(--jungle-green);
-    }
   }
 </style>

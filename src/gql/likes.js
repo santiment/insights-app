@@ -12,6 +12,10 @@ export const LIKE_INSIGHT_MUTATION = gql`
   mutation vote($id: Int!) {
     vote(insightId: $id) {
       votedAt
+      votes {
+        currentUserVotes
+        totalVotes
+      }
     }
   }
 `

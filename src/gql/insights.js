@@ -16,6 +16,7 @@ export const insightCommon = gql`
     votedAt
     votes {
       totalVotes
+      currentUserVotes
     }
     user {
       id
@@ -109,6 +110,7 @@ export const FEATURED_INSIGHTS_QUERY = gql`
       commentsCount
       votes {
         totalVotes
+        currentUserVotes
       }
       user {
         id

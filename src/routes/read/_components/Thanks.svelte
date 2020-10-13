@@ -1,10 +1,10 @@
 <script>
-  import LikeBtn from '@/components/LikeBtn'
+  import RocketMoonBtn from '@/components/RocketMoonBtn'
   import ShareBtn from '@/components/sharing/ShareBtn'
   import CommentCounter from '@/components/comments/Counter'
   import { getShareLink } from '@/logic/share'
 
-  export let id, readyState, isAuthor, votes, liked, commentsCount
+  export let id, readyState, isAuthor, votes, currentVoting, commentsCount
 
   $: link = getShareLink(id)
 </script>
@@ -17,9 +17,9 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
 
 .actions
   +if('readyState !== "draft"')
-    LikeBtn.Thanks__action.Thanks__like({id}, bind:liked, likes='{votes.totalVotes}')
+    RocketMoonBtn.Thanks__action({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}' bind:currentVoting)
     CommentCounter.Thanks__action({commentsCount})
-    ShareBtn.Thanks__action.Thanks__share({link})
+    ShareBtn.Thanks__action({link})
 
   +if('isAuthor')
     a.Thanks__action.edit(href='/edit/{id}')
@@ -52,10 +52,21 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
   }
 
   .edit {
-    fill: var(--casper);
+    fill: var(--waterloo);
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding: 8px 12px;
+    border: 1px solid var(--porcelain);
+    cursor: pointer;
+    border-radius: 100px;
+    transition: fill, box-shadow 0.15s ease-in-out;
 
-    &:hover {
-      fill: var(--jungle-green);
+    @include responsive('laptop', 'desktop') {
+      &:hover {
+        fill: var(--rhino);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      }
     }
 
     &__icon {
@@ -64,22 +75,10 @@ p If you enjoyed this insight please leave a like, join discussion in the commen
   }
 
   :global(.Thanks__action) {
-    padding: 9px 16px !important;
-    height: 40px !important;
-    border: 1px solid var(--mystic) !important;
-    border-radius: 4px;
-    margin-right: 8px;
+    margin-right: 10px;
 
     &:last-child {
       margin: 0;
     }
-  }
-
-  :global(.Thanks__like.liked) {
-    border-color: var(--persimmon) !important;
-  }
-
-  :global(.Thanks__share) {
-    fill: var(--casper);
   }
 </style>

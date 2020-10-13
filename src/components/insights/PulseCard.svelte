@@ -1,6 +1,6 @@
 <script>
   import ProfileInfo from '@/components/ProfileInfo'
-  import LikeBtn from '@/components/LikeBtn'
+  import RocketMoonBtn from '@/components/RocketMoonBtn'
   import CommentCounter from '@/components/comments/Counter'
   import Tag from '@/components/insights/Tag'
   import Tags from './Tags.svelte'
@@ -54,7 +54,7 @@ mixin rawHtml(variables)
 
   .bottom
     .stats
-      LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+      RocketMoonBtn({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}')
       CommentCounter.PulseCard__comments({link}, {commentsCount}, isSSRLink)
 
     div.tags
@@ -110,6 +110,8 @@ mixin rawHtml(variables)
   }
 
   .stats {
+    display: flex;
+    align-items: center;
     white-space: nowrap;
     margin-right: 20px;
   }
@@ -120,7 +122,12 @@ mixin rawHtml(variables)
   }
 
   :global(.PulseCard__comments) {
-    margin-left: 22px;
+    margin-left: 10px;
+    border: 1px solid var(--porcelain);
+    border-radius: 100px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
   }
 
   :global(.PulseCard__profile) {

@@ -35,7 +35,7 @@
   import Promotion from '@/components/Promotion'
   import Tags from './_Tags.svelte'
   import { user$ } from '@/stores/user'
-  import { toggleInsightLike } from '@/logic/likes'
+  import { addInsightVote } from '@/logic/likes'
   import { lookupSavedComment } from '@/utils/comments'
   import { getMobileComponent } from '@/utils/responsive'
 
@@ -59,7 +59,7 @@
     lookupSavedComment()
   }
 
-  setContext('toggleInsightLike', toggleInsightLike)
+  setContext('addInsightVote', addInsightVote)
 </script>
 
 <template lang="pug">

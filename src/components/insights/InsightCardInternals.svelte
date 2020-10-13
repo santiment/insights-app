@@ -1,6 +1,6 @@
 <script>
   import ProfileInfo from '@/components/ProfileInfo'
-  import LikeBtn from '@/components/LikeBtn'
+  import RocketMoonBtn from '@/components/RocketMoonBtn'
   import CommentCounter from '@/components/comments/Counter'
   import MultilineText from '@/components/MultilineText'
   import Tag from '@/components/insights/Tag'
@@ -48,7 +48,7 @@ include /ui/mixins
 
 .bottom
   .stats
-    LikeBtn({id}, liked='{!!votedAt}', likes='{votes.totalVotes}')
+    RocketMoonBtn({id}, votes='{votes.totalVotes}', userVotes='{votes.currentUserVotes}')
     CommentCounter.Card__comments({link}, {commentsCount}, isSSRLink)
 
   div.tags
@@ -97,6 +97,8 @@ include /ui/mixins
   }
 
   .stats {
+    display: flex;
+    align-items: center;
     white-space: nowrap;
     margin-right: 20px;
   }
@@ -113,7 +115,7 @@ include /ui/mixins
   }
 
   :global(.Card__comments) {
-    margin-left: 22px;
+    margin-left: 10px;
   }
 
   :global(.card__profile) {
