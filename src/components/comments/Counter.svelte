@@ -48,7 +48,8 @@ a.comments(href='{href}#comments', class='{klass}')
 
     &__icon {
       @include size(16px, 14px);
-      margin-right: 7px;
+      margin-right: 8px;
+      margin-bottom: -1px;
     }
   }
 </style>

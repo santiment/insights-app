@@ -123,7 +123,7 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
     line-height: 20px;
     border: 1px solid var(--porcelain);
     border-radius: 100px;
-    padding: 4px 8px 4px 7px;
+    padding: 4px 8px 4px 6px;
     color: var(--waterloo);
     fill: var(--waterloo);
     transition: background-color, color, fill, border-color 0.15s ease-in-out;
