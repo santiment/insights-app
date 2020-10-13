@@ -32,7 +32,6 @@
   }
 
   $: _votes = votes + currentVoting
-
   $: onMouseEnter = isDesktop && rocket.startShake
   $: onMouseLeave = isDesktop && rocket.stopShake
   $: digitsAmount = _votes.toString().length
@@ -57,7 +56,10 @@
 
     showMoon = true
     votingInterval = setInterval(repeatVote, 400)
-    window.addEventListener('mouseup', stopVote, { once: true })
+
+    if (isDesktop) {
+      window.addEventListener('mouseup', stopVote, { once: true })
+    }
   }
 
   function repeatVote() {
@@ -163,7 +165,7 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
     padding: 8px;
     display: flex;
     align-items: center;
-    flex-wrap: nowrap;
+    white-space: nowrap;
     opacity: 0;
     background-color: var(--white);
     color: var(--rhino);
