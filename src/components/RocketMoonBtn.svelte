@@ -1,12 +1,11 @@
 <script>
-  import { getContext, onMount } from 'svelte'
-  import { debounce } from '@/utils/func'
+  import { getContext } from 'svelte'
   import { user$ } from '@/stores/user'
   import { checkIsMobile } from '@/utils/responsive'
 
   const MAX_VOTES_PER_USER = 20
 
-  const addInsightVote = getContext('addInsightVote')
+  const likeInsight = getContext('likeInsight')
   const currentUser = user$()
   const isDesktop = !checkIsMobile()
 
@@ -40,7 +39,7 @@
   function addVote() {
     if (userVotes + currentVoting + 1 <= MAX_VOTES_PER_USER) {
       currentVoting += 1
-      addInsightVote(id)
+      likeInsight(id)
     }
   }
 

@@ -10,7 +10,7 @@ export function toggleInsightLike(insightId, likeState) {
   })
 }
 
-export function addInsightVote(insightId) {
+export function likeInsight(insightId) {
   return client.mutate({
     mutation: LIKE_INSIGHT_MUTATION,
     variables: {

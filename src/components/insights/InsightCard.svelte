@@ -1,18 +1,18 @@
 <script>
   import InsightCardInternals from '@/components/insights/InsightCardInternals'
-  import { dateDifferenceInWords } from '@/utils/dates'
 
   let klass = ''
   export { klass as class }
   export let insight,
-    size = 'xl'
+    size = 'xl',
+    transformLink
 </script>
 
 <template lang="pug">
 include /ui/mixins
 
 +panel.wrapper(variant='box', class="{klass} {size}")
-  InsightCardInternals({insight}, {size})
+  InsightCardInternals({insight}, {size}, {transformLink})
 </template>
 
 <style lang="scss">
