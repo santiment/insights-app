@@ -9,7 +9,8 @@
   import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
 
   export let insight,
-    size = 'xl'
+    size = 'xl',
+    transformLink = (link) => link
 
   let {
     id,
@@ -34,7 +35,7 @@
       ? 'Awaiting approval'
       : `${MMM} ${DD}, ${YYYY}`
 
-  const link = `/read/${seoLink}`
+  const link = transformLink(`/read/${seoLink}`)
 </script>
 
 <template lang="pug">

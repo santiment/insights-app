@@ -35,7 +35,8 @@
   import Promotion from '@/components/Promotion'
   import Tags from './_Tags.svelte'
   import { user$ } from '@/stores/user'
-  import { addInsightVote } from '@/logic/likes'
+  import { likeInsight } from '@/logic/likes'
+  import { getInsightChartProjectData } from '@/logic/projects'
   import { lookupSavedComment } from '@/utils/comments'
   import { getMobileComponent } from '@/utils/responsive'
 
@@ -59,7 +60,8 @@
     lookupSavedComment()
   }
 
-  setContext('addInsightVote', addInsightVote)
+  setContext('likeInsight', likeInsight)
+  setContext('getInsightChartProjectData', getInsightChartProjectData)
 </script>
 
 <template lang="pug">
