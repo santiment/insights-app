@@ -4,7 +4,6 @@
   let klass = ''
   export { klass as class }
   export let insight,
-    size = 'xl',
     transformLink
 </script>
 

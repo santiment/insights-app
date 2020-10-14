@@ -56,7 +56,7 @@ include /ui/mixins
               +panel(variant='box').mobile-card
                 InsightSmallCard({insight})
               +else()
-                InsightCard.SuggestedInsights__item({insight}, size='m')
+                InsightCard.SuggestedInsights__item({insight})
 
 </template>
 
