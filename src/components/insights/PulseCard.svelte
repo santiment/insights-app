@@ -170,16 +170,36 @@ mixin rawHtml(variables)
     }
 
     :global(a) {
-      text-decoration: underline;
+      text-decoration: none !important;
+      cursor: pointer;
       color: var(--jungle-green);
+      position: relative;
+      transition: color 0.4s ease, background-size 0.4s ease;
+      background-position: 100% 100%;
+      background-repeat: no-repeat;
+      background-size: 0% 1px;
+      background-image: linear-gradient(var(--jungle-green-light-3), var(--jungle-green-light-3));
 
-      &:hover {
+      &:hover,
+      &:focus,
+      &:active {
         color: var(--jungle-green-hover);
+        background-size: 100% 1px;
+        background-position: 0% 100%;
       }
     }
 
     :global(u) {
-      text-decoration: underline;
+      text-decoration: none;
+      background-position: 100% 100%;
+      background-repeat: no-repeat;
+      background-size: 100% 1px;
+      background-image: linear-gradient(var(--rhino), var(--rhino));
+    }
+
+    :global(u a) {
+      background-size: 100% 1px;
+      background-image: linear-gradient(var(--jungle-green-light-3), var(--jungle-green-light-3));
     }
 
     :global(ul) {
