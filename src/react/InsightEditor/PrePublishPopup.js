@@ -33,7 +33,7 @@ const PrePublishPopup = ({
     >
       <Panel padding className={styles.wrapper}>
         <p className={styles.paragraph}>
-          Add chart project and tags to catch more attention.
+          Add chart project and tags to catch more attention
         </p>
 
         <div className={styles.label}>

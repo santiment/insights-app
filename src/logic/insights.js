@@ -51,6 +51,17 @@ function substituteTicker(ticker) {
   }
 }
 
+export const getPriceData = (slug, from, to, apollo = client) =>
+  apollo.query({
+    query: HISTORY_PRICE_QUERY,
+    variables: {
+      slug: slug,
+      interval: '6h',
+      from,
+      to,
+    },
+  })
+
 export function getPriceDataSincePublication(ticker, from, to) {
   const arg = substituteTicker(ticker)
 

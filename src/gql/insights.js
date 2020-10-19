@@ -127,23 +127,14 @@ export const INSIGHT_BY_ID_QUERY = gql`
       ...insightCommon
       text
       isPulse
-    }
-  }
-
-  ${insightCommon}
-`
-
-export const DRAFT_BY_ID_QUERY = gql`
-  query insightById($id: Int!) {
-    insight(id: $id) {
-      ...insightCommon
-      text
-      isPulse
       priceChartProject {
         id
         name
         ticker
+        slug
         logoUrl
+        percentChange7d
+        priceUsd
       }
     }
   }
