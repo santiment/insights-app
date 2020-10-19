@@ -1,6 +1,6 @@
 <script context="module">
   import { client } from '@/apollo'
-  import { INSIGHT_BY_ID_QUERY } from '@/gql/insights'
+  import { DRAFT_BY_ID_QUERY } from '@/gql/insights'
 
   export async function preload(page, session, { apollo = client }) {
     if (typeof session.currentUser !== 'object') {
@@ -15,7 +15,7 @@
     const { id } = page.params
 
     const { data } = await apollo.query({
-      query: INSIGHT_BY_ID_QUERY,
+      query: DRAFT_BY_ID_QUERY,
       variables: {
         id: +id,
       },

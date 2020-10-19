@@ -46,51 +46,42 @@
 
   function updateDraft(payload) {
     isUpdating = true
-    const { tags, ...rest } = payload
+    const { tags, chartProject, ...rest } = payload
     const tagsSet = new Set(tags.map(({ name }) => name.toUpperCase()))
     const normalizedTags = [...tagsSet]
-    let chartProjectTicker = normalizedTags[0]
-    let chartProjectPromise = Promise.resolve()
+    const priceChartProjectId = chartProject ? +chartProject.id : undefined
 
-    if (chartProjectTicker) {
-      chartProjectPromise = getProjectByTicker(chartProjectTicker)
-        .then(({ id }) => +id)
-        .catch(console.warn)
-    }
+    client
+      .mutate({
+        mutation: payload.id
+          ? UPDATE_INSIGHT_DRAFT_MUTATION
+          : CREATE_INSIGHT_DRAFT_MUTATION,
+        variables: {
+          tags: normalizedTags,
+          priceChartProjectId,
+          ...rest,
+        },
+      })
+      .then(setUpdateTime)
+      .then(() => {
+        if (draft.readyState !== 'published') return
 
-    chartProjectPromise.then((priceChartProjectId) =>
-      client
-        .mutate({
-          mutation: payload.id
-            ? UPDATE_INSIGHT_DRAFT_MUTATION
-            : CREATE_INSIGHT_DRAFT_MUTATION,
-          variables: {
-            tags: normalizedTags,
-            priceChartProjectId,
-            ...rest,
-          },
-        })
-        .then(setUpdateTime)
-        .then(() => {
-          if (draft.readyState !== 'published') return
-
-          client
-            .query({
-              query: INSIGHT_BY_ID_QUERY,
-              variables: {
-                id: +draft.id,
-              },
-              fetchPolicy: 'network-only',
-            })
-            .then(() => goto(`/read/${draft.id}`))
-
-          notifications.add({
-            type: 'success',
-            title: 'Your insight was successfully updated',
+        client
+          .query({
+            query: INSIGHT_BY_ID_QUERY,
+            variables: {
+              id: +draft.id,
+            },
+            fetchPolicy: 'network-only',
           })
+          .then(() => goto(`/read/${draft.id}`))
+
+        notifications.add({
+          type: 'success',
+          title: 'Your insight was successfully updated',
         })
-        .catch(console.warn),
-    )
+      })
+      .catch(console.warn)
   }
 
   function setUpdateTime({ data: { updatedDraft } }) {

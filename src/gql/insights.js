@@ -133,6 +133,24 @@ export const INSIGHT_BY_ID_QUERY = gql`
   ${insightCommon}
 `
 
+export const DRAFT_BY_ID_QUERY = gql`
+  query insightById($id: Int!) {
+    insight(id: $id) {
+      ...insightCommon
+      text
+      isPulse
+      priceChartProject {
+        id
+        name
+        ticker
+        logoUrl
+      }
+    }
+  }
+
+  ${insightCommon}
+`
+
 export const DELETE_INSIGHT_MUTATION = gql`
   mutation deleteInsight($id: ID!) {
     deleteInsight(id: $id) {
