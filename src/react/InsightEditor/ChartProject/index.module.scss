@@ -1,0 +1,24 @@
+.project {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--athens);
+    color: var(--jungle-green);
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  max-width: 16px;
+  margin-right: 8px;
+}
+
+.ticker {
+  margin-left: 4px;
+  color: var(--waterloo);
+}

@@ -2,10 +2,10 @@
   import { client } from '@/apollo'
   import { getInsightIdFromSEOLink, noTrendTagsFilter } from '@/utils/insights'
   import { INSIGHT_BY_ID_QUERY } from '@/gql/insights'
-  import { HISTORY_PRICE_QUERY } from '@/gql/metrics'
   import { getTimeIntervalFromToday, DAY } from '@/utils/dates'
   import { getComments } from '@/logic/comments'
   import { getProjectByTicker } from '@/logic/projects'
+  import { getPriceData } from '@/logic/insights'
   const loadComments = () => import('@/components/insights/Comments')
 
   // TODO: Think of a better way to do a ssr loadable component [@vanguard | Jan 17, 2020]
@@ -56,28 +56,35 @@
     const isoFrom = from.toISOString()
     const isoTo = to.toISOString()
 
-    const assets = await Promise.all(
-      data.insight.tags.filter(noTrendTagsFilter).map(({ name: ticker }) =>
+    const projectPriceExtractor = (project) => ({ data }) => ({
+      ...project,
+      historyPrice: data.historyPrice,
+    })
+    const getAssetPriceData = (project) =>
+      getPriceData(project.slug, isoFrom, isoTo, apollo).then(
+        projectPriceExtractor(project),
+      )
+
+    let assetTickers = data.insight.tags.filter(noTrendTagsFilter)
+    const { priceChartProject } = data.insight
+    let chartProjectPriceData
+
+    if (priceChartProject && assetTickers.length) {
+      const ticker = priceChartProject.ticker.toLowerCase()
+      chartProjectPriceData = getAssetPriceData(priceChartProject)
+      assetTickers = assetTickers.filter(
+        ({ name }) => name.toLowerCase() !== ticker,
+      )
+    }
+
+    const assets = await Promise.all([
+      chartProjectPriceData,
+      ...assetTickers.map(({ name: ticker }) =>
         getProjectByTicker(ticker, apollo)
-          .then((project) =>
-            apollo
-              .query({
-                query: HISTORY_PRICE_QUERY,
-                variables: {
-                  slug: project.slug,
-                  from: isoFrom,
-                  to: isoTo,
-                  interval: '6h',
-                },
-              })
-              .then(({ data: { historyPrice } }) => ({
-                ...project,
-                historyPrice,
-              })),
-          )
+          .then(getAssetPriceData)
           .catch(() => {}),
       ),
-    )
+    ])
 
     return {
       ...data.insight,

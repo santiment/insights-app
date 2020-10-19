@@ -59,6 +59,7 @@ class InsightEditor extends Component {
     textEditorState: createEditorState(this.defaultEditorContent),
     tags: this.props.tags,
     defaultTags: this.props.tags,
+    chartProject: this.props.priceChartProject,
     isEditing: false,
     isPaywallRequired: this.props.isPaywallRequired,
     isPulse: this.props.isPulse,
@@ -134,6 +135,16 @@ class InsightEditor extends Component {
     )
   }
 
+  onChartProjectChange = (chartProject) => {
+    this.setState(
+      {
+        chartProject,
+        isEditing: this.isDraft,
+      },
+      this.isDraft ? this.updateDraft : undefined,
+    )
+  }
+
   isTitleAndTextOk() {
     const { title, textEditorState, isPulse } = this.state
 
@@ -153,7 +164,13 @@ class InsightEditor extends Component {
   // NOTE(vanguard): Maybe should be placed in the InsightsEditorPage?
   updateDraft = debounce(
     (currentContent = this.state.textEditorState.getCurrentContent()) => {
-      const { title, tags, isPaywallRequired, isPulse } = this.state
+      const {
+        title,
+        tags,
+        chartProject,
+        isPaywallRequired,
+        isPulse,
+      } = this.state
 
       const hasMetRequirements = this.isTitleAndTextOk()
       if (!hasMetRequirements.title || !hasMetRequirements.text) {
@@ -168,6 +185,7 @@ class InsightEditor extends Component {
         title,
         text: sanitizeMediumDraftHtml(currentHtml),
         tags: this.trendTag ? [...tags, this.trendTag] : tags,
+        chartProject,
         isPaywallRequired,
         isPulse,
       })
@@ -193,6 +211,7 @@ class InsightEditor extends Component {
       isTagsModified,
       isPaywallRequired,
       isPulse,
+      chartProject,
     } = this.state
     const tags = isTagsModified ? this.state.tags : defaultTags
 
@@ -214,6 +233,7 @@ class InsightEditor extends Component {
             />
           </div>
           <InsightEditorBottom
+            chartProject={chartProject}
             defaultTags={tags}
             updatedAt={updatedAt}
             onTagsChange={this.onTagsChange}
@@ -228,6 +248,7 @@ class InsightEditor extends Component {
             isPro={isPro}
             isPulse={isPulse}
             toggleIsPulse={this.toggleIsPulse}
+            onChartProjectChange={this.onChartProjectChange}
           />
         </div>
       </ApolloProvider>

@@ -127,6 +127,15 @@ export const INSIGHT_BY_ID_QUERY = gql`
       ...insightCommon
       text
       isPulse
+      priceChartProject {
+        id
+        name
+        ticker
+        slug
+        logoUrl
+        percentChange7d
+        priceUsd
+      }
     }
   }
 
