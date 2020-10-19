@@ -65,16 +65,16 @@
         projectPriceExtractor(project),
       )
 
-    const assetTickers = data.insight.tags.filter(noTrendTagsFilter)
+    let assetTickers = data.insight.tags.filter(noTrendTagsFilter)
     const { priceChartProject } = data.insight
     let chartProjectPriceData
 
-    if (
-      priceChartProject &&
-      assetTickers.length &&
-      priceChartProject.ticker !== assetTickers[0].name
-    ) {
+    if (priceChartProject && assetTickers.length) {
+      const ticker = priceChartProject.ticker.toLowerCase()
       chartProjectPriceData = getAssetPriceData(priceChartProject)
+      assetTickers = assetTickers.filter(
+        ({ name }) => name.toLowerCase() !== ticker,
+      )
     }
 
     const assets = await Promise.all([
