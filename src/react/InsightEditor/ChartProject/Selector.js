@@ -27,7 +27,7 @@ const Selector = ({ value, options, onChange }) => {
     <Select
       searchable
       topDropdown
-      placeholder='Select a chart project'
+      placeholder='Select coin'
       value={value}
       options={options}
       valueKey='name'

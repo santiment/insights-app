@@ -33,14 +33,12 @@ const PrePublishPopup = ({
     >
       <Panel padding className={styles.wrapper}>
         <p className={styles.paragraph}>
-          Select which project will be displayed on the minichart and add tags
-          to catch more attention
+          Select a coin for the price minichart and add tags to attract more
+          readers
         </p>
 
         <div className={styles.label}>
-          <span className={styles.bold}>
-            Minichart will display the price of
-          </span>
+          <span className={styles.bold}>Price minichart to show</span>
         </div>
         <ChartProject project={chartProject} onChange={onChartProjectChange} />
 
