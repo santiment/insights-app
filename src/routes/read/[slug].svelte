@@ -77,14 +77,19 @@
       )
     }
 
-    const assets = await Promise.all([
-      chartProjectPriceData,
-      ...assetTickers.map(({ name: ticker }) =>
-        getProjectByTicker(ticker, apollo)
-          .then(getAssetPriceData)
-          .catch(() => {}),
-      ),
-    ])
+    let assets = []
+    try {
+      assets = await Promise.all([
+        chartProjectPriceData,
+        ...assetTickers.map(({ name: ticker }) =>
+          getProjectByTicker(ticker, apollo)
+            .then(getAssetPriceData)
+            .catch(() => {}),
+        ),
+      ])
+    } catch (e) {
+      console.log(e)
+    }
 
     return {
       ...data.insight,

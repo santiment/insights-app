@@ -16,7 +16,7 @@ function getServerContext(req) {
     apollo: new ApolloClient({
       ssrMode: true,
       link: createHttpLink({
-        uri: process.env.BACKEND_URL + '/graphql',
+        uri: process.env.GQL_SERVER_URL,
         headers: {
           cookie: req.headers.cookie,
         },

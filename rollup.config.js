@@ -172,6 +172,9 @@ export default {
           dev ? 'development' : 'production',
         ),
         'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
+        'process.env.GQL_SERVER_URL': JSON.stringify(
+          process.env.GQL_SERVER_URL || process.env.BACKEND_URL + '/graphql',
+        ),
       }),
       babel({
         extensions: ['.js'],
