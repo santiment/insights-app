@@ -8,7 +8,9 @@
       session.loadingUser = apollo.query({ query: CURRENT_USER_QUERY })
       const {
         data: { currentUser },
-      } = await session.loadingUser
+      } = await session.loadingUser.catch(() => ({
+        data: { currentUser: null },
+      }))
 
       session.currentUser = currentUser
       session.loadingUser = null

@@ -9,7 +9,12 @@
   import { checkGDPR } from '@/logic/gdpr'
 
   export async function preload(page, session, { apollo = client }) {
-    await session.loadingUser
+    try {
+      await session.loadingUser
+    } catch (e) {
+      console.log(e)
+    }
+
     if (checkGDPR(session.currentUser, this)) {
       return
     }
@@ -22,10 +27,9 @@
       resFeat,
       popularAuthors
 
-    const insightsPromise = getAllInsights(
-      { page: 1, tags, isOnlyPro },
-      apollo,
-    ).then((insights) => (resAll = insights))
+    const insightsPromise = getAllInsights({ page: 1, tags, isOnlyPro }, apollo)
+      .then((insights) => (resAll = insights))
+      .catch(console.log)
 
     const featuredInsightsPromise = apollo
       .query({
@@ -40,11 +44,15 @@
           .then((authors) => (popularAuthors = authors))
           .catch(console.log)
 
-    await Promise.all([
-      insightsPromise,
-      featuredInsightsPromise,
-      popularAuthorsPromise,
-    ]).catch(console.log)
+    try {
+      await Promise.all([
+        insightsPromise,
+        featuredInsightsPromise,
+        popularAuthorsPromise,
+      ])
+    } catch (e) {
+      console.log(e)
+    }
 
     return {
       tags,
