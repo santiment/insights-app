@@ -19,8 +19,8 @@ function getServerContext(req) {
         uri: process.env.GQL_SERVER_URL,
         headers: {
           cookie: req.headers.cookie,
-          origin: 'santiment.net',
-          Origin: 'santiment.net',
+          origin: 'https://santiment.net',
+          Origin: 'https://santiment.net',
         },
         fetch,
         credentials: 'include',
