@@ -87,7 +87,7 @@ export function getPriceDataSincePublication(ticker, from, to) {
 const popularAuthorsSorter = ({ insightsCount: a }, { insightsCount: b }) =>
   b.totalCount - a.totalCount
 
-export const getPopularAuthors = (variables, apollo = client) =>
+export const getPopularAuthors = (apollo = client) =>
   apollo
     .query({
       query: POPULAR_AUTHORS_QUERY,

@@ -18,20 +18,42 @@
     const isOnlyPro = onlyPro !== undefined || undefined
     const tags = extractURLTags(qTags)
 
-    const [resAll, resFeat, popularAuthors] = await Promise.all([
-      getAllInsights({ page: 1, tags, isOnlyPro }, apollo),
-      apollo.query({
+    let resAll = [],
+      resFeat,
+      popularAuthors
+
+    const insightsPromise = getAllInsights(
+      { page: 1, tags, isOnlyPro },
+      apollo,
+    ).then((insights) => (resAll = insights))
+
+    const featuredInsightsPromise = apollo
+      .query({
         query: FEATURED_INSIGHTS_SMALL_QUERY,
-      }),
-      session.isMobile ? undefined : getPopularAuthors(),
-    ])
+      })
+      .then((features) => (resFeat = features))
+      .catch(console.log)
+
+    const popularAuthorsPromise = session.isMobile
+      ? undefined
+      : getPopularAuthors(apollo)
+          .then((authors) => (popularAuthors = authors))
+          .catch(console.log)
+
+    await Promise.all([
+      insightsPromise,
+      featuredInsightsPromise,
+      popularAuthorsPromise,
+    ]).catch(console.log)
 
     return {
       tags,
       isOnlyPro,
       popularAuthors,
       insights: resAll,
-      featured: resFeat.data.insights.sort(publishDateSorter).slice(0, 5),
+      featured: resFeat
+        ? resFeat.data.insights.sort(publishDateSorter).slice(0, 5)
+        : [],
     }
   }
 </script>
