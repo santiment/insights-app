@@ -25,7 +25,7 @@
 
     let resAll = [],
       resFeat,
-      popularAuthors
+      popularAuthors = []
 
     const insightsPromise = getAllInsights({ page: 1, tags, isOnlyPro }, apollo)
       .then((insights) => (resAll = insights))
@@ -98,7 +98,7 @@
   export let tags = undefined
   export let insights = []
   export let featured = []
-  export let popularAuthors = undefined
+  export let popularAuthors = []
 
   $: insights = [...insights].sort(publishDateSorter)
   $: reset(tags, isOnlyPro)
