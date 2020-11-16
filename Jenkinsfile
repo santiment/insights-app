@@ -27,12 +27,12 @@ slaveTemplates.dockerTemplate { label ->
             // We are building two docker images - for stage and prod respectively. The app requires an env var BACKEND_URL set at build time.
             def awsRegistry = "${env.aws_account_id}.dkr.ecr.eu-central-1.amazonaws.com"
             docker.withRegistry("https://${awsRegistry}", "ecr:eu-central-1:ecr-credentials") {
-              sh "docker build --build-arg GQL_SERVER_URL=http://sanbase.default.svc.cluster.local/graphql --build-arg BACKEND_URL=https://api-stage.santiment.net --build-arg GIT_HEAD=${gitHead} -t ${awsRegistry}/insights-app-stage:${env.BRANCH_NAME} -t ${awsRegistry}/insights-app-stage:${scmVars.GIT_COMMIT} ."
+              sh "docker build --build-arg BACKEND_URL=https://api-stage.santiment.net --build-arg GIT_HEAD=${gitHead} -t ${awsRegistry}/insights-app-stage:${env.BRANCH_NAME} -t ${awsRegistry}/insights-app-stage:${scmVars.GIT_COMMIT} ."
               sh "docker push ${awsRegistry}/insights-app-stage:${env.BRANCH_NAME}"
               sh "docker push ${awsRegistry}/insights-app-stage:${scmVars.GIT_COMMIT}"
             }
             docker.withRegistry("https://${awsRegistry}", "ecr:eu-central-1:ecr-credentials") {
-              sh "docker build --build-arg GQL_SERVER_URL=http://sanbase.default.svc.cluster.local/graphql --build-arg BACKEND_URL=https://api.santiment.net --build-arg GIT_HEAD=${gitHead} -t ${awsRegistry}/insights-app-prod:${env.BRANCH_NAME} -t ${awsRegistry}/insights-app-prod:${scmVars.GIT_COMMIT} ."
+              sh "docker build --build-arg BACKEND_URL=https://api.santiment.net --build-arg GIT_HEAD=${gitHead} -t ${awsRegistry}/insights-app-prod:${env.BRANCH_NAME} -t ${awsRegistry}/insights-app-prod:${scmVars.GIT_COMMIT} ."
               sh "docker push ${awsRegistry}/insights-app-prod:${env.BRANCH_NAME}"
               sh "docker push ${awsRegistry}/insights-app-prod:${scmVars.GIT_COMMIT}"
             }
