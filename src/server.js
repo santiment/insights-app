@@ -8,7 +8,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { createHttpLink } from 'apollo-link-http'
 import fetch from 'isomorphic-fetch'
 
-const { PORT, NODE_ENV } = process.env
+const { PORT, NODE_ENV, BACKEND_URL } = process.env
 const dev = NODE_ENV === 'development'
 
 function getServerContext(req) {
@@ -16,8 +16,9 @@ function getServerContext(req) {
     apollo: new ApolloClient({
       ssrMode: true,
       link: createHttpLink({
-        uri: process.env.BACKEND_URL + '/graphql',
+        uri: BACKEND_URL + '/graphql',
         headers: {
+          origin: 'https://app.santiment.net',
           cookie: req.headers.cookie,
         },
         fetch,
