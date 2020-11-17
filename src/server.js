@@ -18,7 +18,6 @@ function getServerContext(req) {
       link: createHttpLink({
         uri: BACKEND_URL + '/graphql',
         headers: {
-          origin: 'https://app.santiment.net',
           cookie: req.headers.cookie,
         },
         fetch,
