@@ -1,7 +1,5 @@
 <script context="module">
-  import { client } from '@/apollo'
-
-  export async function preload(page, session, { apollo = client }) {
+  export async function preload(page, session) {
     if (typeof session.currentUser !== 'object') {
       await session.loadingUser
     }

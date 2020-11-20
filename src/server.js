@@ -8,8 +8,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { createHttpLink } from 'apollo-link-http'
 import fetch from 'isomorphic-fetch'
 
-const { PORT, NODE_ENV } = process.env
-const dev = NODE_ENV === 'development'
+const dev = process.env.NODE_ENV === 'development'
 
 function getServerContext(req) {
   return {
@@ -44,6 +43,6 @@ polka() // You can also use Express
       },
     }),
   )
-  .listen(PORT, (err) => {
+  .listen(process.env.PORT, (err) => {
     if (err) console.log('error', err)
   })
