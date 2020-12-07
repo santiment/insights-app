@@ -78,11 +78,9 @@ mixin rawHtml(variables)
   }
 
   .title {
-    @include text('body-1');
+    @include text('h4');
     display: flex;
     color: var(--rhino);
-    font-size: 24px;
-    line-height: 32px;
     justify-content: space-between;
 
     &:hover {
@@ -98,10 +96,8 @@ mixin rawHtml(variables)
   }
 
   .text {
-    @include text('caption');
+    @include text('body-2');
     margin: 10px 0 12px;
-    font-size: 16px;
-    font-weight: 400;
   }
 
   .bottom {
