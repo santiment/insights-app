@@ -78,7 +78,7 @@ mixin rawHtml(variables)
   }
 
   .title {
-    @include text('body-1');
+    @include text('h4');
     display: flex;
     color: var(--rhino);
     justify-content: space-between;
@@ -96,8 +96,7 @@ mixin rawHtml(variables)
   }
 
   .text {
-    @include text('caption');
-    color: var(--waterloo);
+    @include text('body-2');
     margin: 10px 0 12px;
   }
 
