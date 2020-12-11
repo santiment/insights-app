@@ -178,7 +178,7 @@ svelte:head
       h2.authors Popular Authors
       .featured
         +each('popularAuthors as author')
-          ProfileInfo(name="{author.username}", id="{author.id}", avatarUrl="{author.avatarUrl}", status='{author.insightsCount.totalCount} insights', classes='{PopularAuthorsClasses}', withPic)
+          ProfileInfo(name="{author.username}", id="{author.id}", avatarUrl="{author.avatarUrl}", classes='{PopularAuthorsClasses}', withPic)
 
 
 </template>
