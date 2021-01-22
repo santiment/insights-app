@@ -126,6 +126,7 @@
     removePostponedPayment,
   } from '@/logic/insights'
   import { getRawText, grabFirstImageLink } from '@/utils/insights'
+  import { checkIsPro } from '@/utils/plans'
   import { user$ } from '@/stores/user'
   import { subscription$ } from '@/stores/user/subscription'
   const loadSuggestedInsights = () =>
@@ -191,7 +192,7 @@
   $: liked = !!votedAt
 
   $: isAuthor = $currentUser && user.id === $currentUser.id
-  $: isPro = $userSubscription && $userSubscription.plan.name === 'PRO'
+  $: isPro = checkIsPro($userSubscription)
   $: hasPaywall = isPaywallRequired && !(isAuthor || isPro)
 
   $: if (hasPaywall) {

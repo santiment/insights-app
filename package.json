@@ -69,7 +69,8 @@
     "sanitize-html": "^1.20.1",
     "set-value": "^3.0.1",
     "sirv": "^0.4.0",
-    "svelte-preprocess-css-global": "^0.0.1"
+    "svelte-preprocess-css-global": "^0.0.1",
+    "web3": "0.20"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

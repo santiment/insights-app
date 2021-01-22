@@ -100,6 +100,7 @@ export default {
         dedupe,
       }),
       commonjs({
+        ignore: ['crypto', 'http', 'https', 'os', 'url'],
         namedExports: {
           'node_modules/draft-js/lib/Draft.js': [
             'convertToRaw',

@@ -62,7 +62,7 @@ export const getAlternativeBillingPlan = (plans, oldPlan) => {
 
 const NEXT_DATE_GET_SET_MONTH = ['setMonth', 'getMonth']
 const NEXT_DATE_GET_SET_YEAR = ['setFullYear', 'getFullYear']
-export const getNextPaymentDate = (billing) => {
+export function getNextPaymentDate(billing) {
   const [setter, getter] =
     billing === 'year' ? NEXT_DATE_GET_SET_YEAR : NEXT_DATE_GET_SET_MONTH
 
@@ -72,4 +72,11 @@ export const getNextPaymentDate = (billing) => {
   const { DD, MM, YY } = getDateFormats(date)
 
   return `${DD}/${MM}/${YY}`
+}
+
+export function checkIsPro(subscription) {
+  if (!subscription) return false
+
+  const { name } = subscription.plan
+  return name === 'PRO' || name === 'PRO_PLUS'
 }

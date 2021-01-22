@@ -1,10 +1,12 @@
+import Web3 from 'web3'
+
 export const getWeb3 = () => {
   if (process.browser) {
     if (window.ethereum) {
-      return new window.Web3(window.ethereum)
+      return new Web3(window.ethereum)
     }
     if (window.web3) {
-      return new window.Web3(window.web3.currentProvider)
+      return new Web3(window.web3.currentProvider)
     }
   }
   return false
