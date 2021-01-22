@@ -1,4 +1,4 @@
-FROM node:12-alpine AS builder
+FROM node:13 AS builder
 
 ARG BACKEND_URL
 ARG GQL_SERVER_URL
@@ -13,7 +13,7 @@ RUN npm install -g yarn --force
 RUN yarn install
 RUN yarn build
 
-FROM node:12-alpine
+FROM node:13
 
 WORKDIR /app
 
