@@ -68,7 +68,7 @@
     "rollup-plugin-alias": "^1.5.1",
     "sanitize-html": "^1.20.1",
     "set-value": "^3.0.1",
-    "sirv": "^0.4.0",
+    "sirv": "^1.0.10",
     "svelte-preprocess-css-global": "^0.0.1",
     "web3": "0.20"
   },
