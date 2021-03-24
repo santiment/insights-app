@@ -3,21 +3,24 @@ import { ONE_DAY_IN_MS, getDateFormats } from './dates'
 const sanbaseProductId = '2'
 
 export const findSanbasePlans = ({ id }) => id === sanbaseProductId
+const checkIsSanbaseSubscription = ({ plan: { product } }) =>
+  findSanbasePlans(product)
+const checkIsActiveSubscription = ({ status }) =>
+  status === 'ACTIVE' || status === 'TRIALING'
+
+export const getSanbaseSubscription = (subscriptions) =>
+  subscriptions.find(
+    (subscription) =>
+      checkIsSanbaseSubscription(subscription) &&
+      checkIsActiveSubscription(subscription),
+  )
 
 export function getCurrentSanbaseSubscription(user) {
   if (!user) return
   const { subscriptions: subs } = user
+  if (!subs) return
 
-  return (
-    subs &&
-    subs.find(
-      ({
-        plan: {
-          product: { id },
-        },
-      }) => id === sanbaseProductId,
-    )
-  )
+  return getSanbaseSubscription(subs)
 }
 
 export function getTrialDaysLeft(subscription) {
