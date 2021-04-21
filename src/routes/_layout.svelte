@@ -38,6 +38,7 @@
   import Intercom from '@/components/Intercom'
   import Stripe from '@/components/Stripe'
   import Promotion from '@/components/Promotion'
+ import BackToTop from '@/components/BackToTop'
   import Tags from './_Tags.svelte'
   import { user$ } from '@/stores/user'
   import { likeInsight } from '@/logic/likes'
@@ -88,6 +89,8 @@ Stripe
       +if('!isMobile')
         Promotion
       .tabs
+        +if('!isMobile')
+          BackToTop 
         a.tab(href="/", class:active="{!segment}", prefetch) Insights
         a.tab(href="/pulse", class:active="{segment === 'pulse'}", prefetch) Pulse Insight
       Tags(base!='{segment || ""}')
