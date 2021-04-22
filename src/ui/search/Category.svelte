@@ -1,47 +1,38 @@
 <script>
-  export let id,
-    title,
-    component,
-    items,
-    itemKey,
-    onSuggestionSelect,
-    cursoredSuggestion
+ import { getSEOLinkFromIdAndTitle } from '@/utils/insights'
+
+ export let items, cursoredSuggestion
+
+ function onClick({currentTarget}) {
+     currentTarget.click()
+ }
 </script>
 
-<template lang="pug">
-include /ui/mixins
-
-h3.category {title}
-+each('items as suggestion (suggestion[itemKey])')
-  +button.suggestion(variant='ghost', fluid,
-  class:cursored='{suggestion === cursoredSuggestion}',
-  on:mousedown!='{() => onSuggestionSelect({category: id, item: suggestion})}')
-    svelte:component(this='{component}', {suggestion})
-
-</template>
+{#each items as item (item.id)}
+    <a on:mousedown="{onClick}" href="/read/{getSEOLinkFromIdAndTitle(item.id, item.title)}" class:cursored={cursoredSuggestion===item}>{item.title}</a>
+{/each}
 
 <style lang="scss">
-  @import '@/mixins';
+ a {
+     display: flex;
+     width: 100%;
+     padding: 6px 8px;
+     color: var(--rhino);
+     height: auto;
+     min-height: 32px;
+     border-radius: 4px;
 
-  .category {
-    @include text('caption');
-    color: var(--waterloo);
-    margin: 0 8px 8px;
-  }
+     &:hover {
+         background: var(--athens);
+     }
 
-  .suggestion {
-    padding: 6px 8px;
-    color: var(--waterloo);
-    height: auto;
-    min-height: 32px;
+     &:hover,
+     &:focus {
+         color: var(--jungle-green);
+     }
+ }
 
-    &:hover,
-    &:focus {
-      color: var(--jungle-green);
-    }
-  }
-
-  .cursored {
-    background: var(--porcelain);
-  }
+ .cursored {
+     background: var(--porcelain);
+ }
 </style>

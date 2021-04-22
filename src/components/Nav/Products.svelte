@@ -26,6 +26,7 @@
       desc: 'Bespoke market intelligence for digital assets',
       href: '/',
       logo: 'sandata',
+        onClick: () => window.Intercom && window.Intercom('showNewMessage', 'Talk with expert about Data Science as a Service.')
     },
   ]
 
@@ -39,7 +40,7 @@
     {
       title: 'Insights',
       desc: 'Market analysis from the San team and community members',
-      href: 'https://insights.santiment.net/',
+      href: '/',
       logo: 'insights',
         active: true,
         note: 'SAN chain support soon'
@@ -52,14 +53,14 @@
   Insights
 </a>
 
-<Tooltip activeClass="$style.opened" position="bottom" align="start" class="Products-tooltip">
+<Tooltip activeClass="Trigger-products-active" position="bottom" align="start" class="Products-tooltip">
   <div slot="trigger" class="toggle" />
 
   <div slot="content" class="dropdown row">
     <div class="column mrg-xl mrg--r">
       <h3>SAN Business</h3>
-      {#each business as { title, href, desc, logo }}
-        <a {href} class="product">
+      {#each business as { title, href, desc, logo, onClick }}
+          <a {href} class="product" on:click="{onClick }">
           <div class="icon" style="--logo: url(/products/{logo}.svg)" />
           <h2 class="body-2 txt-m">{title}</h2>
           <p>{desc}</p>
@@ -125,7 +126,7 @@
     border-radius: 4px;
     transition: transform 0.2s ease-in-out;
   }
-  .opened {
+ :global(.Trigger-products-active) {
     background-color: var(--athens) !important;
     transform: rotate(90deg);
   }

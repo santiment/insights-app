@@ -5,6 +5,7 @@
   import NavAccountDropdown from '@/components/Nav/AccountDropdown'
   import NavProductsDropdown from '@/components/Nav/ProductsDropdown'
   import Products from './Nav/Products.svelte'
+ import Search from './Nav/Search.svelte'
   import PlanInfo from '@/components/Nav/PlanInfo'
   import { EMPTY_USER_INSIGHTS } from '@/gql/insights'
 
@@ -53,15 +54,15 @@ header
     nav.nav
       Products 
 
-      .divider
-
-      +button(href=appPath, border)
-        +icon('arrow-down').icon-arrow-left
-        |Back to Sanbase
     .right
       +if('$session.currentUser && hasNoInsights')
         +button(href='/new', border, accent='jungle-green') Be an Author
         .divider
+
+      Search 
+
+      .divider
+
       PlanInfo
       +button(href=appPath+'/account', variant="flat", on:mouseenter="{onTriggerEnter}",
       id="account-trigger", aria-label="Profile menu", data-active-class='account_opened', style!='background-image: url({avatar})').right__btn.account

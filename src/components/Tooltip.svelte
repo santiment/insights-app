@@ -9,6 +9,7 @@
   export let closeTimeout = 150
   export let offsetY = 5
   export let offsetX = 5
+ export let activeClass =''
 
   let anc
   let trigger
@@ -16,6 +17,10 @@
   let shown = false
   let closeTimer
   let style
+
+ $: if(activeClass && trigger) {
+     trigger.classList.toggle(activeClass, shown)
+ }
 
   function startCloseTimer() {
     closeTimer = setTimeout(() => (shown = false), closeTimeout)

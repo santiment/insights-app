@@ -2,69 +2,31 @@
   import SearchCategory from './Category.svelte'
   import { debounce } from '@/utils/func'
 
-  export let categories
-  export let categoryItems
+  export let items
   let klass
   export { klass as class }
-  export let onSuggestionSelect
   export let emptySuggestions
+ export let onSearch
 
   let searchTerm = ''
   let isFocused = false
   let cursor = 0
   let cursoredSuggestion
-  let suggestions = []
   let isSearching = false
-  let showedSuggestions = []
+ let suggestions
 
-  $: if (searchTerm) {
+  $: {
     isSearching = true
     filterData(searchTerm)
   }
 
-  $: cursoredSuggestion = getCursoredSuggestion(cursor, suggestions)
+  $: cursoredSuggestion = getCursoredSuggestion(cursor, items)
 
-  const [filterData] = debounce(() => {
-    const resultCategories = []
-    const result = []
-    for (let i = 0; i < categoryItems.length; i++) {
-      const {
-        title,
-        id = title,
-        predicate,
-        sorter,
-        maxSuggestions = 5,
-        component,
-        itemKey,
-      } = categories[i]
-
-      const resultItems = categoryItems[i]
-        .filter(predicate(searchTerm))
-        .sort(sorter)
-        .slice(0, maxSuggestions)
-
-      if (resultItems.length) {
-        resultCategories.push({
-          id,
-          title,
-          component,
-          itemKey,
-          items: resultItems,
-        })
-
-        result.push(
-          ...resultItems.map(item => ({
-            category: id,
-            item,
-          })),
-        )
-      }
-    }
-
-    showedSuggestions = resultCategories
-    suggestions = result
-    cursor = 0
-    isSearching = false
+ const [filterData] = debounce((searchTerm) => {
+     onSearch(searchTerm).then(() => {
+         cursor = 0
+         isSearching = false
+     })
   }, 300)
 
   function onFocus() {
@@ -73,6 +35,11 @@
   function onBlur() {
     isFocused = false
   }
+
+ function onSuggestionSelect() {
+     const cursored= suggestions.querySelector('.cursored')
+     cursored.click()
+ }
 
   function onKeyDown(e) {
     const { key, currentTarget } = e
@@ -90,19 +57,18 @@
         break
       case 'Enter':
         currentTarget.blur()
-        onSuggestionSelect(suggestions[cursor])
+        onSuggestionSelect(items[cursor])
       default:
         return
     }
 
-    const maxCursor = suggestions.length
+    const maxCursor = items.length
     newCursor = newCursor % maxCursor
     cursor = newCursor < 0 ? maxCursor - 1 : newCursor
   }
 
   function getCursoredSuggestion(index, items) {
-    const suggestion = items[index]
-    return suggestion && suggestion.item
+      return items[index]
   }
 </script>
 
@@ -110,18 +76,18 @@
 include /ui/mixins
 
 .wrapper(class='{klass}')
-  +input(type="text", placeholder="Search for assets...", aria-label="Search an asset", bind:value="{searchTerm}", on:focus="{onFocus}", on:blur="{onBlur}", on:keydown="{onKeyDown}")
+  +input(type="text", placeholder="Search for insights...", aria-label="Search an insight", bind:value="{searchTerm}", on:focus="{onFocus}", on:blur="{onBlur}", on:keydown="{onKeyDown}")
   +icon('search').icon-search
-  +if('isFocused && searchTerm')
-    +panel.suggestions(variant='context')
-      +each('showedSuggestions as category')
-        SearchCategory({...category}, {cursoredSuggestion}, {onSuggestionSelect})
+  +if('isFocused')
+    +panel.suggestions(variant='context', bind:this='{suggestions}')
+      +if('isSearching')
+        .noresults Searching...
         +else()
-          .noresults
-            +if('isSearching')
-              | Searching...
-              +else()
-                | No results found
+          +if('items.length')
+            SearchCategory({items}, {cursoredSuggestion})
+            +else()
+              .noresults No results found
+
   +if('searchTerm')
     +icon('close-small').icon-close(on:click!='{() => searchTerm = ""}')
       
@@ -131,7 +97,7 @@ include /ui/mixins
   @import '@/mixins';
 
   .icon-search {
-    @include size(16px);
+    @include size(12px);
     fill: var(--casper);
     position: absolute;
     height: 100%;
@@ -157,7 +123,7 @@ include /ui/mixins
 
   input {
     height: 32px;
-    width: 260px;
+    width: 200px;
     padding-left: 40px;
     transition: width 0.2s ease-out;
 
@@ -165,12 +131,9 @@ include /ui/mixins
       width: 340px;
     }
 
-    &:hover + .icon-search {
-      fill: var(--jungle-green);
-    }
-
-    &:focus + .icon-search {
-      fill: var(--mirage);
+      &:hover + .icon-search,
+      &:focus + .icon-search  {
+        fill: var(--jungle-green-light-3);
     }
   }
 

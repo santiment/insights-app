@@ -1,72 +1,42 @@
 <script>
-  import { onMount } from 'svelte'
-  import { client } from '@/apollo'
-  import { ALL_PROJECTS_SEARCH_QUERY } from '@/gql/projects'
-  import ProjectsSearch from '@/ui/search/index.svelte'
-  import ProjectSuggestion from './ProjectSuggestion.svelte'
+ import { onMount } from 'svelte'
+ import { client } from '@/apollo'
+ import { INSIGHTS_QUERY , INSIGHTS_BY_SEARCH_TERM_QUERY } from '@/gql/insights'
+ import ProjectsSearch from '@/ui/search/index.svelte'
 
-  let klass = ''
-  export { klass as class }
+ let klass = ''
+ export { klass as class }
 
-  let categoryItems = []
+ let items = []
 
-  const ASSETS_CATEGORY = 'Assets'
+ const insightsAccessor = ({ data: { insights } }) => insights.slice(0, 5)
+ function getSuggestions(query, variables) {
+     return client
+         .query({ query, variables})
+         .then(insightsAccessor )
+         .then(insights => (items = insights))
+ }
 
-  const categories = [
-    {
-      title: ASSETS_CATEGORY,
-      predicate,
-      sorter,
-      component: ProjectSuggestion,
-      itemKey: 'id',
-    },
-  ]
+ function onSearch(searchTerm) {
+     return getSuggestions(searchTerm ?INSIGHTS_BY_SEARCH_TERM_QUERY : INSIGHTS_QUERY   ,
+                           searchTerm  ? {searchTerm} : undefined
+     )
+ }
 
-  function sorter({ rank: a }, { rank: b }) {
-    return (a || Infinity) - (b || Infinity)
-  }
 
-  function predicate(searchTerm) {
-    const upperCaseSearchTerm = searchTerm.toUpperCase()
-    return ({ ticker, name }) =>
-      name.toUpperCase().includes(upperCaseSearchTerm) ||
-      ticker.toUpperCase().includes(upperCaseSearchTerm)
-  }
 
-  function onSuggestionSelect({ category, item }) {
-    switch (category) {
-      case ASSETS_CATEGORY:
-        window.location.href = `https://app.santiment.net/projects/${item.slug}`
-    }
-  }
-
-  onMount(() => {
-    client
-      .query({ query: ALL_PROJECTS_SEARCH_QUERY })
-      .then(({ data: { allProjects } }) => (categoryItems = [allProjects]))
-  })
+ onMount(() => {
+     getSuggestions(INSIGHTS_QUERY )
+ })
 </script>
 
-<template lang="pug">
-include /ui/mixins
 
-ProjectsSearch.NavSearch__wrapper({categories}, {categoryItems}, {onSuggestionSelect})
-</template>
+<ProjectsSearch class="NavSearch__wrapper" {items}  {onSearch}/> 
 
 <style lang="scss">
-  @import '@/mixins';
+ @import '@/mixins';
 
-  :global(.NavSearch__wrapper) {
-    margin-right: 41px;
-
-    &::after {
-      content: '';
-      position: absolute;
-      right: -25px;
-      top: 0;
-      height: 32px;
-      width: 1px;
-      background: var(--porcelain);
-    }
-  }
+ :global(.NavSearch__wrapper) {
+     margin-right: 0;
+ }
 </style>
