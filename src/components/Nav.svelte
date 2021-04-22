@@ -4,6 +4,7 @@
   import SmoothDropdown from '@/components/SmoothDropdown'
   import NavAccountDropdown from '@/components/Nav/AccountDropdown'
   import NavProductsDropdown from '@/components/Nav/ProductsDropdown'
+  import Products from './Nav/Products.svelte'
   import PlanInfo from '@/components/Nav/PlanInfo'
   import { EMPTY_USER_INSIGHTS } from '@/gql/insights'
 
@@ -50,12 +51,10 @@ include /ui/mixins
 header
   .container
     nav.nav
-      .product(on:mouseenter="{onTriggerEnter}", id="products-trigger", data-centered='window', data-active-class='active')
-        a(href='/')
-          img(src='/san-logo.svg', alt='Santiment logo')
-        +button.product__arrow(variant="flat",  aria-label='Products dropdown')
-          +icon('arrow-down').icon-arrow-down
+      Products 
+
       .divider
+
       +button(href=appPath, border)
         +icon('arrow-down').icon-arrow-left
         |Back to Sanbase
@@ -128,7 +127,6 @@ header
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    position: relative;
   }
 
   img {
