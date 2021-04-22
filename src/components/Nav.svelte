@@ -5,7 +5,7 @@
   import NavAccountDropdown from '@/components/Nav/AccountDropdown'
   import NavProductsDropdown from '@/components/Nav/ProductsDropdown'
   import Products from './Nav/Products.svelte'
- import Search from './Nav/Search.svelte'
+  import Search from './Nav/Search.svelte'
   import PlanInfo from '@/components/Nav/PlanInfo'
   import { EMPTY_USER_INSIGHTS } from '@/gql/insights'
 
