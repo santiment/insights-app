@@ -34,6 +34,9 @@ export const CURRENT_USER_QUERY = gql`
   query currentUser {
     currentUser {
       ...userFragment
+      insightsCount {
+        totalCount
+      }
     }
   }
   ${userFragment}

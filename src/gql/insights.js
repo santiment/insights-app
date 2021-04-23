@@ -264,6 +264,8 @@ export const INSIGHTS_BY_SEARCH_TERM_QUERY = gql`
     insights: allInsightsBySearchTerm(searchTerm: $searchTerm) {
       id
       title
+      publishedAt
+      updatedAt
     }
   }
 `

@@ -7,7 +7,6 @@
   import Products from './Nav/Products.svelte'
   import Search from './Nav/Search.svelte'
   import PlanInfo from '@/components/Nav/PlanInfo'
-  import { EMPTY_USER_INSIGHTS } from '@/gql/insights'
 
   const { session } = stores()
 
@@ -20,24 +19,7 @@
     { id: 'account-trigger', component: NavAccountDropdown },
   ]
 
-  let hasNoInsights = false
   $: avatar = $session.currentUser ? $session.currentUser.avatarUrl || '' : ''
-
-  $: if (process.browser && !hasNoInsights && $session.currentUser) {
-    client
-      .query({
-        query: EMPTY_USER_INSIGHTS,
-      })
-      .then(
-        ({
-          data: {
-            currentUser: { insights },
-          },
-        }) => {
-          hasNoInsights = insights.length === 0
-        },
-      )
-  }
 
   let activeTrigger
   function onTriggerEnter({ currentTarget }) {
@@ -55,10 +37,6 @@ header
       Products 
 
     .right
-      +if('$session.currentUser && hasNoInsights')
-        +button(href='/new', border, accent='jungle-green') Be an Author
-        .divider
-
       Search 
 
       .divider

@@ -170,6 +170,9 @@ svelte:head
             
   +if('!$session.isMobile')
     .insights__featured
+      +if('$session.currentUser && $session.currentUser.insightsCount.totalCount === 0')
+        +button.become-author(href='/new', border, accent='jungle-green') Become an Author
+
       h2 Handpicked Takes
       .featured
         +each('featured as insight')
@@ -234,6 +237,12 @@ svelte:head
     }
   }
 
+  .become-author {
+    margin-bottom: 32px;
+    padding: 8px;
+    justify-content: center;
+  }
+
   .insights {
     display: flex;
 
@@ -250,7 +259,7 @@ svelte:head
       position: -webkit-sticky;
       position: sticky;
       top: 30px;
-      margin: 30px 0 0 30px;
+      margin: 0 0 0 30px;
       display: flex;
       flex-direction: column;
     }

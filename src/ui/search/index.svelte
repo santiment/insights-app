@@ -6,14 +6,14 @@
   let klass
   export { klass as class }
   export let emptySuggestions
- export let onSearch
+  export let onSearch
 
   let searchTerm = ''
   let isFocused = false
   let cursor = 0
   let cursoredSuggestion
   let isSearching = false
- let suggestions
+  let suggestions
 
   $: {
     isSearching = true
@@ -22,11 +22,11 @@
 
   $: cursoredSuggestion = getCursoredSuggestion(cursor, items)
 
- const [filterData] = debounce((searchTerm) => {
-     onSearch(searchTerm).then(() => {
-         cursor = 0
-         isSearching = false
-     })
+  const [filterData] = debounce((searchTerm) => {
+    onSearch(searchTerm).then(() => {
+      cursor = 0
+      isSearching = false
+    })
   }, 300)
 
   function onFocus() {
@@ -36,10 +36,10 @@
     isFocused = false
   }
 
- function onSuggestionSelect() {
-     const cursored= suggestions.querySelector('.cursored')
-     cursored.click()
- }
+  function onSuggestionSelect() {
+    const cursored = suggestions.querySelector('.cursored')
+    cursored.click()
+  }
 
   function onKeyDown(e) {
     const { key, currentTarget } = e
@@ -68,7 +68,7 @@
   }
 
   function getCursoredSuggestion(index, items) {
-      return items[index]
+    return items[index]
   }
 </script>
 
@@ -106,14 +106,15 @@ include /ui/mixins
   }
 
   .icon-close {
-    @include size(8px, 100%);
+    @include size(7px, 100%);
     position: absolute;
     padding: 0 12px 0 10px;
     cursor: pointer;
     right: 0;
+    fill: var(--waterloo);
 
     &:hover {
-      fill: var(--jungle-green);
+      fill: var(--rhino);
     }
   }
 
@@ -131,9 +132,9 @@ include /ui/mixins
       width: 340px;
     }
 
-      &:hover + .icon-search,
-      &:focus + .icon-search  {
-        fill: var(--jungle-green-light-3);
+    &:hover + .icon-search,
+    &:focus + .icon-search {
+      fill: var(--jungle-green-light-3);
     }
   }
 
