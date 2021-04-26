@@ -22,7 +22,7 @@
       logo: 'sanapi',
     },
     {
-      title: 'Data Sciences as a Service',
+      title: 'Data Science as a Service',
       desc: 'Bespoke market intelligence for digital assets',
       href: '/',
       logo: 'sandata',
