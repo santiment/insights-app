@@ -38,6 +38,12 @@
       logo: 'sanr',
     },
     {
+        title: 'Sanhunters',
+        desc: 'Get rewarded for market research and your crypto know-how',
+        href: '/',
+        logo: 'sanhunters',
+    },
+    {
       title: 'Insights',
       desc: 'Market analysis from the San team and community members',
       href: '/',
