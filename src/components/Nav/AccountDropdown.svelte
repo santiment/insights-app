@@ -28,7 +28,7 @@ include /ui/mixins
 .wrapper
   +if('currentUser')
     .user
-      ProfileInfo(name="{username}", id="{id}" status="SANBase: {plan} plan", classes="{{wrapper: 'account-dd__profile'}}")
+      ProfileInfo(name="{username}", id="{id}" status="Sanbase: {plan} plan", classes="{{wrapper: 'account-dd__profile'}}")
       UpgradeBtn.AccountDropdown__upgrade
   +if('currentUser')
     hr.divider

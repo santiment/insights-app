@@ -6,7 +6,7 @@
   "orientation": "portrait",
   "display": "standalone",
   "start_url": "/",
-  "description" : "SANBase allows you to see the crypto projects through the linse of insights",
+  "description" : "Sanbase allows you to see the crypto projects through the linse of insights",
   "icons": [
     {
       "src": "android-icon-192x192.png",
