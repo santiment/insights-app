@@ -64,7 +64,7 @@
 
   <div slot="content" class="dropdown row">
     <div class="column mrg-xl mrg--r">
-      <h3>SAN Business</h3>
+      <h3>SAN business</h3>
       {#each business as { title, href, desc, logo, onClick }}
           <a {href} class="product" on:click="{onClick }">
           <div class="icon" style="--logo: url(/products/{logo}.svg)" />
@@ -75,7 +75,7 @@
     </div>
 
     <div class="column chain">
-      <h3>SAN Chain</h3>
+      <h3>SAN chain</h3>
       {#each chain as { title, href, desc, logo, active , note}}
         <a {href} class="product">
           <div
@@ -153,7 +153,7 @@
   }
 
   h3 {
-    margin: 0 0 20px;
+    margin: 0 0 20px 16px;
   }
   h2 {
     color: var(--black);
@@ -167,11 +167,13 @@
   .icon {
     width: 40px;
     height: 40px;
-    background: var(--logo) no-repeat 50%, var(--athens);
+    background: var(--logo) no-repeat 50%;
+    background-color: var(--athens);
     position: absolute;
     left: 16px;
     top: 12px;
     border-radius: 4px;
+    transition: background 0.2s;
   }
 
   .product {
