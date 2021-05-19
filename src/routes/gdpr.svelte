@@ -22,11 +22,11 @@ svelte:head
 
 .page
   +panel.wrapper(variant='box')
-    h2 Last step to get your SANBase experience.
-    p Please, accept our updated Privacy Policy by May, 2018 to continue using SANBase
+    h2 Last step to get your Sanbase experience.
+    p Please, accept our updated Privacy Policy by May, 2018 to continue using Sanbase
     div
       Checkbox(bind:active)
-      |  I have read and accept the 
+      |  I have read and accept the
       a(href='https://app.santiment.net/privacy-policy') Santiment Privacy Policy
     .btn
       +button(variant='fill', accent='jungle-green', class:disabled='{!active}', class:loading, on:click='{onClick}') I Agree
