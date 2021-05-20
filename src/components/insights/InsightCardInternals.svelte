@@ -3,6 +3,7 @@
   import RocketMoonBtn from '@/components/RocketMoonBtn'
   import CommentCounter from '@/components/comments/Counter'
   import MultilineText from '@/components/MultilineText'
+  import Badge from '@/components/Badge'
   import Tag from '@/components/insights/Tag'
   import Tags from './Tags.svelte'
   import { getDateFormats } from '@/utils/dates'
@@ -43,8 +44,10 @@ include /ui/mixins
 .top
   a.title(href="{link}")
     MultilineText(maxLines='{2}') {title}
-  ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{status}",
-  withPic, classes="{{wrapper: 'card__profile'}}")
+  .authorInfo
+    ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{status}",
+    withPic, classes="{{wrapper: 'card__profile'}}")
+    Badge(id="{user.id}")
 
 .bottom
   .stats
@@ -80,6 +83,12 @@ include /ui/mixins
     &:hover {
       color: var(--jungle-green);
     }
+  }
+
+  .authorInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .bottom {

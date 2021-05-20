@@ -1,0 +1,30 @@
+<script>
+  import Icon from '@/ui/Icon.svelte'
+
+  export let id
+
+  const santimentEditorialIds = [286, 139]
+  const isSantimentEditor = santimentEditorialIds.includes(+id)
+</script>
+
+{#if isSantimentEditor}
+  <div class="wrapper">
+    <Icon id="editorial" w="99" h="28" />
+  </div>
+{/if}
+
+
+<style lang="scss">
+  @import '@/mixins';
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--jungle-green-light);
+    border-radius: 12px;
+    width: 118px;
+    height: 40px;
+  }
+
+</style>

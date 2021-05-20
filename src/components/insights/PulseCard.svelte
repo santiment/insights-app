@@ -2,6 +2,7 @@
   import ProfileInfo from '@/components/ProfileInfo'
   import RocketMoonBtn from '@/components/RocketMoonBtn'
   import CommentCounter from '@/components/comments/Counter'
+  import Badge from '@/components/Badge'
   import Tag from '@/components/insights/Tag'
   import Tags from './Tags.svelte'
   import { getTimeFormats, getDateFormats } from '@/utils/dates'
@@ -50,7 +51,9 @@ mixin rawHtml(variables)
       .time {publishTime}
     .text.PulseCard__text
       +rawHtml('text')
-    ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", withPic, classes="{{wrapper: 'PulseCard__profile'}}")
+    .authorInfo
+      ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", withPic, classes="{{wrapper: 'PulseCard__profile'}}")
+      Badge(id="{user.id}")
 
   .bottom
     .stats
@@ -100,6 +103,12 @@ mixin rawHtml(variables)
     margin: 10px 0 12px;
   }
 
+  .authorInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .bottom {
     display: flex;
     align-items: center;
@@ -130,6 +139,7 @@ mixin rawHtml(variables)
 
   :global(.PulseCard__profile) {
     max-width: 400px;
+    flex: 1;
     @include text('caption');
 
     :global(.icon) {
