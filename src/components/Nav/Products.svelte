@@ -98,6 +98,8 @@
 </Tooltip>
 
 <style lang="scss">
+  @import '@/variables';
+  @import '@/mixins';
 
  .san {
      display: flex;
@@ -156,7 +158,8 @@
     margin: 0 0 20px 16px;
   }
   h2 {
-    color: var(--black);
+    @include text('body-2');
+    color: var(--rhino);
   }
 
   h3,

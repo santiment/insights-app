@@ -26,6 +26,7 @@
   .wrapper {
     display: flex;
     align-items: center;
+    width: calc(100% - 124px);
   }
 
   .icon {
