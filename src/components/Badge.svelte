@@ -3,7 +3,7 @@
 
   export let id
 
-  const santimentEditorialIds = [286, 139]
+  const santimentEditorialIds = [6, 7, 1269, 3031, 4522]
   const isSantimentEditor = santimentEditorialIds.includes(+id)
 </script>
 
