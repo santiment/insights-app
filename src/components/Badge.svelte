@@ -15,13 +15,13 @@
 
 
 <style lang="scss">
-  @import '@/mixins';
+  @import '@/variables';
 
   .wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--jungle-green-light);
+    background-color: $jungle-green-light;
     border-radius: 12px;
     width: 118px;
     height: 40px;
