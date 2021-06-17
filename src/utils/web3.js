@@ -39,7 +39,7 @@ export const getAccount = () => {
 }
 
 export const signMessage = (account) => {
-  const message = `Login into Santiment with address ${account}`
+  const message = `Login in Santiment with address ${account}`
   const localWeb3 = getWeb3()
   const messageHash = localWeb3.sha3(
     '\x19Ethereum Signed Message:\n' + message.length + message,
