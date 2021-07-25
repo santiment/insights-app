@@ -19,6 +19,8 @@ function getServerContext(req) {
         headers: {
           origin: 'https://app.santiment.net',
           cookie: req.headers.cookie,
+          'x-forwarded-for':
+            req.headers['x-forwarded-for'] || req.connection.remoteAddress,
         },
         fetch,
         credentials: 'include',

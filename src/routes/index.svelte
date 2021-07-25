@@ -78,6 +78,7 @@
   import PulseCard from '@/components/insights/PulseCard'
   import { publishDateSorter } from '@/utils/insights'
   import { getMobileComponent } from '@/utils/responsive'
+  import Conversations from '@/components/Conversations/index.svelte'
 
   const { page, session } = stores()
 
@@ -174,15 +175,13 @@ svelte:head
         +button.become-author(href='/new', border, accent='jungle-green') Become an Author
 
       h2 Handpicked Takes
-      .featured
+      .featured.handpicked
         +each('featured as insight')
           .featured__item
             InsightSmallCard({insight})
-      h2.authors Popular Authors
-      .featured
-        +each('popularAuthors as author')
-          ProfileInfo(name="{author.username}", id="{author.id}", avatarUrl="{author.avatarUrl}", classes='{PopularAuthorsClasses}', withPic)
 
+      h2.authors Conversations
+      Conversations 
 
 </template>
 
@@ -190,6 +189,10 @@ svelte:head
   @import '@/mixins';
 
   $mob-card-height: 139;
+
+  .handpicked {
+    min-height: 277px;
+  }
 
   .mobile-featured {
     display: flex;

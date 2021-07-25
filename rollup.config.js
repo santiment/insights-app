@@ -24,6 +24,7 @@ const dedupe = (importee) =>
   importee === 'svelte' || importee.startsWith('svelte/')
 
 const ALIASES = {
+  webkit: path.resolve(__dirname, 'node_modules/san-webkit/lib'),
   '@': path.resolve(__dirname, 'src/'),
   resolve: ['.svelte', '.js'],
 }
@@ -74,6 +75,9 @@ export default {
         ),
         'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
         'process.env.GIT_HEAD': JSON.stringify(process.env.GIT_HEAD),
+        'process.env.GQL_SERVER_URL': JSON.stringify(
+          process.env.BACKEND_URL + '/graphql',
+        ),
       }),
       rollPostcss({
         extensions: ['.scss'],
@@ -213,6 +217,9 @@ export default {
         ),
         'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
         'process.env.GIT_HEAD': JSON.stringify(process.env.GIT_HEAD),
+        'process.env.GQL_SERVER_URL': JSON.stringify(
+          process.env.BACKEND_URL + '/graphql',
+        ),
       }),
       commonjs(),
       !dev && terser(),
