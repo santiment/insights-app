@@ -8,11 +8,10 @@
 </script>
 
 {#if isSantimentEditor}
-  <div class="wrapper">
-    <Icon id="editorial" w="99" h="28" />
-  </div>
+<div class="wrapper">
+  <Icon id="editorial" w="99" h="28" />
+</div>
 {/if}
-
 
 <style lang="scss">
   @import '@/variables';
@@ -26,5 +25,4 @@
     width: 118px;
     height: 40px;
   }
-
 </style>
