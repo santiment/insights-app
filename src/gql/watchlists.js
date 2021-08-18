@@ -16,6 +16,7 @@ export const ALL_USER_WATCHLISTS_WITH_ITEMS = gql`
       id
       name
       isPublic
+      isScreener
       listItems {
         project {
           id

@@ -37,8 +37,10 @@
             query: ALL_USER_WATCHLISTS_WITH_ITEMS,
           })
           .then(({ data }) => {
+            const userWatchlists = data.watchlists.filter(({isScreener}) => !isScreener)
+
             const sel = new Set(
-              data.watchlists.filter(({ listItems }) =>
+  						userWatchlists.filter(({ listItems }) =>
                 listItems.some(({ project }) => projectId === project.id),
               ),
             )
@@ -46,7 +48,7 @@
             initialSelectedWatchlists = new Set(sel)
             initialHash = getSelectedWatchlistHash([...sel])
             selected = sel
-            watchlists = data.watchlists
+            watchlists = userWatchlists               
           })
   }
 
