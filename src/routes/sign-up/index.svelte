@@ -34,11 +34,8 @@ include /ui/mixins
         Confirmation({email})
 
       +else()
-        Carousel(children='{2}')
-          MobileCard
-            SignUp(on:success='{onSuccess}')
-          MobileCard
-            Reasons 
+        MobileCard
+          SignUp(on:success='{onSuccess}')
 
   +else()
     .wrapper
@@ -50,8 +47,6 @@ include /ui/mixins
             +else
               .left
                 SignUp(on:success='{onSuccess}')
-              .right
-                Reasons 
 
 </template>
 
@@ -91,7 +86,7 @@ include /ui/mixins
   }
 
   .left {
-    max-width: 285px;
+    width: 100%;
     text-align: center;
   }
 

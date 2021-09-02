@@ -3,7 +3,6 @@
   import MetamaskBtn from '@/components/login/MetamaskBtn'
   import { checkIsMobile } from '@/utils/responsive'
   import WelcomeInsights from './_components/WelcomeInsights.svelte'
-  import TrialCTA from './_components/TrialCTA.svelte'
   import MobileCard from './_components/MobileCard.svelte'
 
   const isMobile = checkIsMobile()
@@ -14,19 +13,13 @@ include /ui/mixins
 
 +if('isMobile')
   .mobile-wrapper
-    Carousel(children='{2}')
-      MobileCard(centered='')
-        WelcomeInsights 
-
-      MobileCard
-        TrialCTA 
+    MobileCard(centered='')
+      WelcomeInsights 
 
   +else()
     .wrapper
       .left
         WelcomeInsights 
-      .right
-        TrialCTA 
 
 </template>
 

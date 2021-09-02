@@ -5,8 +5,7 @@
 <template lang="pug">
 include /ui/mixins
 
-h2 Sign up now to start your free trial
-p Get 14 days free of Sanbase Pro!
+h2 Sign up now
 
 +button.btn(border, href!='{process.env.BACKEND_URL}/auth/google', fluid)
   img(src='google.svg').icon-google
@@ -25,12 +24,7 @@ EmailForm(on:success)
 
   h2 {
     @include text('h3');
-  }
-
-  p {
-    @include text('body-2');
-    color: var(--waterloo);
-    margin: 10px 0 34px;
+    margin: 0 0 34px;
   }
 
   .link {
