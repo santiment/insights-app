@@ -180,9 +180,6 @@ svelte:head
           .featured__item
             InsightSmallCard({insight})
 
-      h2.authors Conversations
-      Conversations 
-
 </template>
 
 <style lang="scss">
