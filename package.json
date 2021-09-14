@@ -3,7 +3,7 @@
   "description": "Santiment Insights",
   "version": "0.0.1",
   "scripts": {
-    "dev": "GIT_HEAD=$GIT_HEAD BACKEND_URL=https://api.santiment.net sapper dev",
+    "dev": "GIT_HEAD=$GIT_HEAD BACKEND_URL=https://api-stage.santiment.net sapper dev",
     "build": "GIT_HEAD=$GIT_HEAD NODE_ENV=production sapper build",
     "export": "sapper export --legacy",
     "start": "node __sapper__/build",

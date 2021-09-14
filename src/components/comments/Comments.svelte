@@ -5,6 +5,7 @@
   import Comment from '@/components/comments/Comment'
   import CommentForm from '@/components/comments/Form'
   import CommentAuthor from '@/components/comments/Author'
+ import { notifications } from '@/stores/notifications'
 
   const { page, session } = stores()
   const noop = () => {}
@@ -106,7 +107,13 @@
           ]
         },
       )
-      .catch(console.warn)
+      .catch((e) => {
+          loading = false
+          notifications.add({
+              type: 'error',
+              title: e.message.slice('GraphQL error: '.length)
+          })
+      })
   }
 
   function onlyRootCommentsFilter({ parentId }) {
