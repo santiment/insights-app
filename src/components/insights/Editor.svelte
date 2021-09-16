@@ -81,7 +81,13 @@
           title: 'Your insight was successfully updated',
         })
       })
-      .catch(console.warn)
+      .catch((e) => {
+          console.warn(e)
+          notifications.add({
+              type: 'error',
+              title: e.message.slice('GraphQL error: '.length)
+          })
+      })
   }
 
   function setUpdateTime({ data: { updatedDraft } }) {
