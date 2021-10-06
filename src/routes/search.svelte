@@ -4,18 +4,24 @@
   import { client } from '@/apollo'
   import { INSIGHTS_SEARCH_QUERY } from '@/gql/insights'
   import { getMobileComponent } from '@/utils/responsive'
+  import ViewportObserver from '@/components/ViewportObserver'
+  import BackToTop from '@/components/BackToTop'
   import InsightCardDesktop from '@/components/insights/InsightCardWithMarketcap'
   import InsightCardMobile from '@/components/insights/InsightCard'
 
   const { page } = stores()
   const InsightCard = getMobileComponent(InsightCardMobile, InsightCardDesktop)
+  const options = {
+    rootMargin: '650px',
+  }
 
   let insights = []
+  let hasMore = false
+  let offset = 20
   let searchTerm = $page.query.t || ''
+  let loading = true
 
-  $: insights.forEach((insight) => {
-    insight.tags = insight.tags.filter(Boolean)
-  })
+  $: filteredInsights = insights.slice(0, offset)
 
   $: process.browser && searchTerm && getInsights(searchTerm)
 
@@ -23,39 +29,64 @@
     { publishedAt: _a, updatedAt: a = _a },
     { publishedAt: _b, updatedAt: b = _b },
   ) => new Date(b) - new Date(a)
-  const insightsAccessor = ({ data: { insights } }) => insights.sort(sorter)
+  const insightsAccessor = ({ data: { insights } }) =>
+    insights.sort(sorter).map((insight) => {
+      insight.tags = insight.tags.filter(Boolean)
+      return insight
+    })
 
   let timer
-  function getInsights(searchTerm) {
+  function getInsights(search) {
     clearTimeout(timer)
     timer = setTimeout(() => {
-      console.log('fetching')
-      history.replaceState(null, '', '/search?t=' + searchTerm)
+      hasMore = false
+      loading = true
+      history.replaceState(null, '', '/search?t=' + search)
 
       client
         .query({
           query: INSIGHTS_SEARCH_QUERY,
           variables: {
-            searchTerm,
+            searchTerm: search,
           },
           errorPolicy: 'all',
         })
         .then(insightsAccessor)
-        .then((items) => (insights = items))
+        .then((items) => {
+          if (search !== searchTerm) return
+          insights = items
+          offset = 20
+          hasMore = true
+          loading = false
+        })
     }, 300)
   }
+
+  function onIntersect() {
+    offset += 20
+    hasMore = insights.length > offset
+  }
 </script>
+
+<BackToTop />
 
 <h2>
   Search results for:
   <input class="SAN-input" type="text" bind:value="{searchTerm}" />
 </h2>
 
-{#each insights as insight (insight.id)}
-<div class="item">
-  <InsightCard {insight} />
-</div>
-{/each}
+<ViewportObserver
+  {options}
+  on:intersect="{onIntersect}"
+  observeWhile="{hasMore}"
+>
+  {#if loading} Loading... {:else} {#each filteredInsights as insight
+  (insight.id)}
+  <div class="item">
+    <InsightCard {insight} />
+  </div>
+  {/each} {/if}
+</ViewportObserver>
 
 <style lang="scss">
   @import '@/mixins.scss';
