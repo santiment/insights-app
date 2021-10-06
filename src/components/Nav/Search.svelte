@@ -13,13 +13,23 @@
     { publishedAt: _a, updatedAt: a = _a },
     { publishedAt: _b, updatedAt: b = _b },
   ) => new Date(b) - new Date(a)
-  const insightsAccessor = ({ data: { insights } }) =>
-    insights.sort(sorter).slice(0, 5)
+
+  const insightsAccessor = ({ data: { insights } }) => insights.sort(sorter)
+
   function getSuggestions(query, variables) {
     return client
       .query({ query, variables })
       .then(insightsAccessor)
-      .then((insights) => (items = insights))
+      .then((insights) => {
+        const isBigList = variables && insights.length > 4
+        items = insights.slice(0, isBigList ? 4 : 5)
+        if (isBigList) {
+          items.push({
+            title: 'Show more results',
+            link: '/search?f=1&t=' + variables.searchTerm,
+          })
+        }
+      })
   }
 
   function onSearch(searchTerm) {

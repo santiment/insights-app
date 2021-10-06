@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte'
+  import { onDestroy } from 'svelte'
   import { stores } from '@sapper/app'
   import { client } from '@/apollo'
   import { INSIGHTS_SEARCH_QUERY } from '@/gql/insights'
@@ -19,7 +19,7 @@
   let hasMore = false
   let offset = 20
   let searchTerm = $page.query.t || ''
-  let loading = true
+  let loading = !!searchTerm
 
   $: filteredInsights = insights.slice(0, offset)
 
@@ -66,6 +66,12 @@
     offset += 20
     hasMore = insights.length > offset
   }
+
+  onDestroy(
+    page.subscribe(({ query }) => {
+      if (query.f) searchTerm = query.t
+    }),
+  )
 </script>
 
 <BackToTop />
@@ -88,11 +94,8 @@
   {/each} {/if}
 </ViewportObserver>
 
-<style lang="scss">
-  @import '@/mixins.scss';
-
+<style>
   h2 {
-    /* @include text('h4'); */
     margin-bottom: 16px;
   }
 

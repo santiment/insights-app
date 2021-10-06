@@ -6,11 +6,16 @@
  function onClick({currentTarget}) {
      currentTarget.click()
  }
+
+ function getLink(item) {
+     return item.link || `/read/${getSEOLinkFromIdAndTitle(item.id, item.title)}`
+ }
 </script>
 
 {#each items as item (item.id)}
-    <a on:mousedown="{onClick}" href="/read/{getSEOLinkFromIdAndTitle(item.id, item.title)}" class:cursored={cursoredSuggestion===item}>{item.title}</a>
+    <a on:mousedown="{onClick}" href="{getLink(item)}" class:cursored={cursoredSuggestion===item}>{item.title}</a>
 {/each}
+
 
 <style lang="scss">
  a {
