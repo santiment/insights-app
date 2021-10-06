@@ -18,16 +18,9 @@
     {
       title: 'SanAPI',
       desc: 'The most comprehensive crypto API on the market',
-      href: 'https://neuro.santiment.net',
+      href: 'https://api.santiment.net',
       logo: 'sanapi',
-    },
-    {
-      title: 'Data Science as a Service',
-      desc: 'Bespoke market intelligence for digital assets',
-      href: '/',
-      logo: 'sandata',
-        onClick: () => window.Intercom && window.Intercom('showNewMessage', 'Talk with expert about Data Science as a Service.')
-    },
+    }
   ]
 
   const chain = [
@@ -55,7 +48,7 @@
 </script>
 
 <a href="/" class="san">
-  <img  alt="Santiment" src="/san-logo.svg" />
+  <img alt="Santiment" src="/san-logo.svg" />
   Insights
 </a>
 
@@ -90,10 +83,6 @@
         </a>
       {/each}
     </div>
-
-    <a class="santiment" href="https://santiment.net/">
-      <Icon id="santiment" w="104" h="20" />
-    </a>
   </div>
 </Tooltip>
 
@@ -197,16 +186,6 @@
 
   .active {
     background-color: var(--jungle-green-light) !important;
-  }
-
-  .santiment {
-    position: absolute;
-    bottom: 43px;
-    right: 72px;
-
-    &:hover {
-      fill: var(--waterloo);
-    }
   }
 
  .note {
