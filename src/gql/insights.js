@@ -269,3 +269,28 @@ export const INSIGHTS_BY_SEARCH_TERM_QUERY = gql`
     }
   }
 `
+
+export const INSIGHTS_SEARCH_QUERY = gql`
+  query allInsightsBySearchTerm($searchTerm: String!) {
+    insights: allInsightsBySearchTerm(searchTerm: $searchTerm) {
+      id
+      title
+      publishedAt
+      updatedAt
+      tags {
+        name
+      }
+      commentsCount
+      votedAt
+      votes {
+        totalVotes
+        currentUserVotes
+      }
+      user {
+        id
+        username
+        avatarUrl
+      }
+    }
+  }
+`

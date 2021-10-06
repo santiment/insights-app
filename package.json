@@ -34,7 +34,7 @@
     "arrowParens": "always"
   },
   "dependencies": {
-    "san-webkit": "https://github.com/santiment/san-webkit.git#6ff9cf5",
+    "san-webkit": "https://github.com/santiment/san-webkit.git#45b0180",
     "@santiment-network/ui": "^0.5.177",
     "apollo-boost": "^0.4.0",
     "apollo-client": "^2.6.10",
