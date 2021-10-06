@@ -74,6 +74,13 @@
   )
 </script>
 
+<svelte:head>
+  <title>Insights</title>
+  <meta property="og:title" content="Insights" />
+  <meta name="description" content="Community Insights" />
+  <meta property="og:description" content="Community Insights" />
+</svelte:head>
+
 <BackToTop />
 
 <h2>
