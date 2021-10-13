@@ -295,110 +295,17 @@ index 3a31b31..1f5daa8 100644
        return BASE_BLOCK_CLASS + ' ' + BASE_BLOCK_CLASS + '-image';
      case _constants.Block.BLOCKQUOTE_CAPTION:
 diff --git a/node_modules/medium-draft/lib/util/constants.js b/node_modules/medium-draft/lib/util/constants.js
-index 51e3381..d27e757 100644
+index 51e3381..98c5de0 100644
 --- a/node_modules/medium-draft/lib/util/constants.js
 +++ b/node_modules/medium-draft/lib/util/constants.js
-@@ -1,14 +1,14 @@
--'use strict';
-+'use strict'
- 
--Object.defineProperty(exports, "__esModule", {
--  value: true
--});
-+Object.defineProperty(exports, '__esModule', {
-+  value: true,
-+})
- /*
- Some of the constants which are used throughout this project instead of
- directly using string.
- */
- 
--var Block = exports.Block = {
-+var Block = (exports.Block = {
-   UNSTYLED: 'unstyled',
-   PARAGRAPH: 'unstyled',
-   OL: 'ordered-list-item',
-@@ -26,52 +26,55 @@ var Block = exports.Block = {
+@@ -26,6 +26,7 @@ var Block = exports.Block = {
    BLOCKQUOTE_CAPTION: 'block-quote-caption',
    CAPTION: 'caption',
    TODO: 'todo',
 +  IFRAME: 'atomic:iframe',
    IMAGE: 'atomic:image',
--  BREAK: 'atomic:break'
--};
-+  BREAK: 'atomic:break',
-+})
- 
--var Inline = exports.Inline = {
-+var Inline = (exports.Inline = {
-   BOLD: 'BOLD',
-   CODE: 'CODE',
-   ITALIC: 'ITALIC',
-   STRIKETHROUGH: 'STRIKETHROUGH',
-   UNDERLINE: 'UNDERLINE',
--  HIGHLIGHT: 'HIGHLIGHT'
--};
-+  HIGHLIGHT: 'HIGHLIGHT',
-+})
- 
--var Entity = exports.Entity = {
--  LINK: 'LINK'
--};
-+var Entity = (exports.Entity = {
-+  LINK: 'LINK',
-+})
- 
--var HYPERLINK = exports.HYPERLINK = 'hyperlink';
--var HANDLED = exports.HANDLED = 'handled';
--var NOT_HANDLED = exports.NOT_HANDLED = 'not_handled';
-+var HYPERLINK = (exports.HYPERLINK = 'hyperlink')
-+var HANDLED = (exports.HANDLED = 'handled')
-+var NOT_HANDLED = (exports.NOT_HANDLED = 'not_handled')
- 
--var KEY_COMMANDS = exports.KEY_COMMANDS = {
-+var KEY_COMMANDS = (exports.KEY_COMMANDS = {
-   addNewBlock: function addNewBlock() {
--    return 'add-new-block';
-+    return 'add-new-block'
-   },
-   changeType: function changeType() {
--    var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
--    return 'changetype:' + type;
-+    var type =
-+      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ''
-+    return 'changetype:' + type
-   },
-   showLinkInput: function showLinkInput() {
--    return 'showlinkinput';
-+    return 'showlinkinput'
-   },
-   unlink: function unlink() {
--    return 'unlink';
-+    return 'unlink'
-   },
-   toggleInline: function toggleInline() {
--    var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
--    return 'toggleinline:' + type;
-+    var type =
-+      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ''
-+    return 'toggleinline:' + type
-   },
-   deleteBlock: function deleteBlock() {
--    return 'delete-block';
--  }
--};
-+    return 'delete-block'
-+  },
-+})
- 
- exports.default = {
-   Block: Block,
-   Inline: Inline,
--  Entity: Entity
--};
-\ No newline at end of file
-+  Entity: Entity,
-+}
+   BREAK: 'atomic:break'
+ };
 diff --git a/node_modules/medium-draft/lib/util/rendermap.js b/node_modules/medium-draft/lib/util/rendermap.js
 index 11b17a8..3882a6c 100644
 --- a/node_modules/medium-draft/lib/util/rendermap.js
