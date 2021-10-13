@@ -195,21 +195,10 @@ index 0000000..c948f5d
 +}
 +exports.default = IframeBlock
 diff --git a/node_modules/medium-draft/lib/components/customrenderer.js b/node_modules/medium-draft/lib/components/customrenderer.js
-index a0fe47d..9c4dd5c 100644
+index a0fe47d..d7be888 100644
 --- a/node_modules/medium-draft/lib/components/customrenderer.js
 +++ b/node_modules/medium-draft/lib/components/customrenderer.js
-@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
-   value: true
- });
- 
-+var _react = require('react');
-+
-+var _react2 = _interopRequireDefault(_react);
-+
- var _blockquotecaption = require('./blocks/blockquotecaption');
- 
- var _blockquotecaption2 = _interopRequireDefault(_blockquotecaption);
-@@ -24,6 +28,9 @@ var _image = require('./blocks/image');
+@@ -24,6 +24,9 @@ var _image = require('./blocks/image');
  
  var _image2 = _interopRequireDefault(_image);
  
@@ -219,7 +208,7 @@ index a0fe47d..9c4dd5c 100644
  var _break = require('./blocks/break');
  
  var _break2 = _interopRequireDefault(_break);
-@@ -75,6 +82,15 @@ exports.default = function (setEditorState, getEditorState, extraProps) {
+@@ -75,6 +78,15 @@ exports.default = function (setEditorState, getEditorState, extraProps) {
            component: _break2.default,
            editable: false
          };
