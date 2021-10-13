@@ -38,6 +38,17 @@ const ChartIframe = ({ close, setEditorState, getEditorState }) => {
     }
   }
 
+  function onPaste(e) {
+    const paste = (e.clipboardData || window.clipboardData).getData('text')
+
+    let start = paste.indexOf('src="')
+    if (start < 0) return
+    start += 'src="'.length
+
+    e.preventDefault()
+    e.currentTarget.value = paste.slice(start, paste.indexOf('"', start))
+  }
+
   return (
     <div className={cx('md-sd-button', styles.button)}>
       <label className={styles.label} onClick={onClick}>
@@ -53,6 +64,7 @@ const ChartIframe = ({ close, setEditorState, getEditorState }) => {
           placeholder='Press ENTER or ESC'
           pattern={PATTERN}
           onKeyDown={onKeyDown}
+          onPaste={onPaste}
         />
       )}
     </div>
