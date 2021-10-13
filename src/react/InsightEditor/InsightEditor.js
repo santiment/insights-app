@@ -31,8 +31,10 @@ const sanitizeMediumDraftHtml = (html) =>
       ],
       allowedAttributes: {
         ...sanitizeHtml.defaults.allowedAttributes,
+        iframe: ['src'],
         '*': ['class', 'id'],
       },
+      allowedIframeHostnames: ['embed.santiment.net'],
     }),
   )
 

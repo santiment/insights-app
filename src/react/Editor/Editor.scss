@@ -48,7 +48,7 @@
 
     .md-block-image-caption--empty {
       &::before {
-        content: 'Add image caption...';
+        content: 'Add caption...';
         color: var(--casper);
         position: absolute;
         left: 0;
@@ -256,7 +256,10 @@
     background-position: 100% 100%;
     background-repeat: no-repeat;
     background-size: 0% 1px;
-    background-image: linear-gradient(var(--jungle-green-light-3), var(--jungle-green-light-3));
+    background-image: linear-gradient(
+      var(--jungle-green-light-3),
+      var(--jungle-green-light-3)
+    );
 
     &:hover,
     &:focus,
@@ -339,8 +342,12 @@
   }
 
   .md-block-image {
-    font-size: 13px;
     width: fit-content;
+  }
+
+  .md-block-image,
+  .md-block-iframe {
+    font-size: 13px;
     margin: 20px auto;
 
     .md-block-image-inner-container {
@@ -364,6 +371,12 @@
         display: block;
       }
     }
+  }
+
+  .md-block-iframe iframe {
+    border: 0;
+    width: 100%;
+    height: 300px;
   }
 
   #nprogress {
