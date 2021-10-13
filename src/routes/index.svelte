@@ -171,7 +171,7 @@ svelte:head
             
   +if('!$session.isMobile')
     .insights__featured
-      +if('$session.currentUser && $session.currentUser.insightsCount.totalCount === 0')
+      +if('$session.currentUser && $session.currentUser.insightsCount && $session.currentUser.insightsCount.totalCount === 0')
         +button.become-author(href='/new', border, accent='jungle-green') Become an Author
 
       h2 Handpicked Takes

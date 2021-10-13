@@ -15,6 +15,7 @@ import {
   createEditorState,
 } from 'medium-draft'
 import CustomImageSideButton from './CustomImageSideButton'
+import ChartIframe from './ChartIframe'
 import './Editor.scss'
 
 INLINE_BUTTONS[0].label = React.cloneElement(IconTextBold)
@@ -54,11 +55,11 @@ class SanEditor extends React.Component {
     editorState: createEditorState(this.props.defaultEditorContent),
   }
 
-  onChange = editorState => {
+  onChange = (editorState) => {
     this.setState({ editorState }, () => this.props.onChange(editorState))
   }
 
-  onImgLoad = state => {
+  onImgLoad = (state) => {
     switch (state) {
       case 'start':
       /* return nprogress.start() */
@@ -84,6 +85,10 @@ class SanEditor extends React.Component {
             props: {
               onImgLoad: this.onImgLoad,
             },
+          },
+          {
+            title: 'Chart',
+            component: ChartIframe,
           },
         ]}
         toolbarConfig={{
