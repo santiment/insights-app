@@ -50,7 +50,14 @@ Modal(bind:open='{enlargedImgSrc}')
       font-weight: 500;
     }
 
-    :global(.md-block-image) {
+    :global(.md-block-iframe iframe) {
+      border: 0;
+      width: 100%;
+      height: 300px;
+    }
+
+    :global(.md-block-image),
+    :global(.md-block-iframe) {
       text-align: center;
       margin: 16px 0 32px;
     }
@@ -81,7 +88,10 @@ Modal(bind:open='{enlargedImgSrc}')
       background-position: 100% 100%;
       background-repeat: no-repeat;
       background-size: 0% 1px;
-      background-image: linear-gradient(var(--jungle-green-light-3), var(--jungle-green-light-3));
+      background-image: linear-gradient(
+        var(--jungle-green-light-3),
+        var(--jungle-green-light-3)
+      );
 
       &:hover,
       &:focus,
@@ -102,7 +112,10 @@ Modal(bind:open='{enlargedImgSrc}')
 
     :global(.md-inline-underline .md-inline-link) {
       background-size: 100% 1px;
-      background-image: linear-gradient(var(--jungle-green-light-3), var(--jungle-green-light-3));
+      background-image: linear-gradient(
+        var(--jungle-green-light-3),
+        var(--jungle-green-light-3)
+      );
     }
 
     :global(.md-block-unordered-list-item) {
