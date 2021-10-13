@@ -187,7 +187,10 @@ mixin rawHtml(variables)
       background-position: 100% 100%;
       background-repeat: no-repeat;
       background-size: 0% 1px;
-      background-image: linear-gradient(var(--jungle-green-light-3), var(--jungle-green-light-3));
+      background-image: linear-gradient(
+        var(--jungle-green-light-3),
+        var(--jungle-green-light-3)
+      );
 
       &:hover,
       &:focus,
@@ -208,7 +211,10 @@ mixin rawHtml(variables)
 
     :global(u a) {
       background-size: 100% 1px;
-      background-image: linear-gradient(var(--jungle-green-light-3), var(--jungle-green-light-3));
+      background-image: linear-gradient(
+        var(--jungle-green-light-3),
+        var(--jungle-green-light-3)
+      );
     }
 
     :global(ul) {
@@ -247,6 +253,24 @@ mixin rawHtml(variables)
 
     :global(h2) {
       font-size: 14px;
+    }
+
+    :global(.md-block-image-caption) {
+      font-size: 14px;
+      line-height: 20px;
+      font-style: italic;
+      color: var(--waterloo);
+    }
+
+    :global(.md-block-iframe) {
+      max-width: 100%;
+      margin-top: 10px;
+    }
+
+    :global(.md-block-iframe iframe) {
+      border: 0;
+      width: 100%;
+      height: 300px;
     }
   }
 </style>
