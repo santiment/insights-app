@@ -24,7 +24,7 @@
 
     let data
     try {
-      result = await apollo.query({
+      const result = await apollo.query({
         query: INSIGHT_BY_ID_QUERY,
         variables: {
           id,
