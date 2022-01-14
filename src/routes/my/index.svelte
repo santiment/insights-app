@@ -13,14 +13,20 @@
       return this.redirect(302, '/experience')
     }
 
-    const {
-      data: {
-        currentUser: { insights },
-      },
-    } = await apollo.query({
-      query: ALL_USER_INSIGHTS,
-      fetchPolicy: 'network-only',
-    })
+    let insights
+    try {
+      const {
+        data: { currentUser },
+      } = await apollo.query({
+        query: ALL_USER_INSIGHTS,
+        fetchPolicy: 'network-only',
+      })
+      insights = currentUser.insights
+    } catch (e) {
+      console.log('Error during ALL_USER_INSIGHTS fetch')
+      this.redirect(500, '/experience')
+      return {}
+    }
 
     currentUser.insights = insights
 

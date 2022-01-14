@@ -22,21 +22,20 @@
 
     let comments
 
-    if (page.query._wc) {
-      await Promise.all[
-        (getComments(id, undefined, apollo).then(
-          ({ data }) => (comments = data.comments),
-        ),
-        PreloadedComments)
-      ]
+    let data
+    try {
+      result = await apollo.query({
+        query: INSIGHT_BY_ID_QUERY,
+        variables: {
+          id,
+        },
+      })
+      data = result.data
+    } catch (e) {
+      console.log('Insight ID not found')
+      this.redirect(500, '/')
+      return {}
     }
-
-    const { data } = await apollo.query({
-      query: INSIGHT_BY_ID_QUERY,
-      variables: {
-        id,
-      },
-    })
 
     if (data.insight.readyState === 'draft') {
       if (session.currentUser === undefined) await session.loadingUser
@@ -44,6 +43,7 @@
       const { currentUser } = session
       if (!currentUser || currentUser.id !== data.insight.user.id) {
         this.redirect(302, '/')
+        return {}
       }
     }
 
@@ -88,7 +88,7 @@
         ),
       ])
     } catch (e) {
-      console.log(e)
+      console.log(e, 'Assets fetch reject')
     }
 
     return {

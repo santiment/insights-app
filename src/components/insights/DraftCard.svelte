@@ -79,7 +79,8 @@ include /ui/mixins
 
   h4,
   h3 {
-    @include text('body-3') color: var(--waterloo);
+    @include text('body-3');
+    color: var(--waterloo);
   }
 
   h4 {

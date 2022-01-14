@@ -12,7 +12,7 @@
         const { data } = await session.loadingUser
         currentUser = data.currentUser
       } catch (e) {
-        console.log(e)
+        console.log(e, 'currentUser error')
       }
 
       session.currentUser = currentUser

@@ -14,16 +14,26 @@
 
     const { id } = page.params
 
-    const { data } = await apollo.query({
-      query: INSIGHT_BY_ID_QUERY,
-      variables: {
-        id: +id,
-      },
-      fetchPolicy: 'network-only',
-    })
+    let data
+
+    try {
+      const result = await apollo.query({
+        query: INSIGHT_BY_ID_QUERY,
+        variables: {
+          id: +id,
+        },
+        fetchPolicy: 'network-only',
+      })
+      data = result.data
+    } catch (e) {
+      console.log('INSIGHT_BY_ID_QUERY error')
+      this.redirect(500, '/')
+      return {}
+    }
 
     if (currentUser.id !== data.insight.user.id) {
       this.redirect(302, '/')
+      return {}
     }
 
     return {
