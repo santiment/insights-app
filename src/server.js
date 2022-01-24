@@ -15,20 +15,20 @@ function getServerContext(req) {
     apollo: new ApolloClient({
       ssrMode: true,
       link: createHttpLink({
-        uri: process.env.BACKEND_URL + '/graphql',
+        uri: process.env.GQL_SERVER_URL,
         headers: {
           origin: 'https://app.santiment.net',
           cookie: req.headers.cookie,
           'x-forwarded-for':
-            req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+            req.headers['x-forwarded-for'] || req.connection.remoteAddress
         },
         fetch,
-        credentials: 'include',
+        credentials: 'include'
       }),
       cache: new InMemoryCache({
         //addTypename: false,
-      }),
-    }),
+      })
+    })
   }
 }
 
@@ -40,10 +40,10 @@ polka() // You can also use Express
       serverContext: getServerContext,
       session: (req) => {
         return {
-          isMobile: new MobileDetect(req.headers['user-agent']).mobile(),
+          isMobile: new MobileDetect(req.headers['user-agent']).mobile()
         }
-      },
-    }),
+      }
+    })
   )
   .listen(process.env.PORT, (err) => {
     if (err) console.log('error', err)

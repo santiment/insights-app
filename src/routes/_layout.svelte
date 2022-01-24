@@ -5,7 +5,9 @@
   export async function preload(page, session, { apollo }) {
     if (typeof session.currentUser !== 'object') {
       // loadingUser is needed for synchronizing with '/login' for redirect
-      session.loadingUser = apollo.query({ query: CURRENT_USER_QUERY }).catch(() => ({data: {currentUser: null}}))
+      session.loadingUser = apollo
+        .query({ query: CURRENT_USER_QUERY })
+        .catch(() => ({ data: { currentUser: null } }))
       let currentUser = null
 
       try {
