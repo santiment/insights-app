@@ -26,7 +26,7 @@
       })
       data = result.data
     } catch (e) {
-      console.log('INSIGHT_BY_ID_QUERY error')
+      console.log('INSIGHT_BY_ID_QUERY error', e)
       this.redirect(500, '/')
       return {}
     }

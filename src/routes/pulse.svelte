@@ -10,9 +10,15 @@
     }
 
     const tags = extractURLTags(page.query.tags)
+    const insights = await getPulseInsights({ page: 1, tags }, apollo).catch(
+      (e) => {
+        console.log('getPulseInsights error', e)
+        return []
+      },
+    )
 
     return {
-      insights: await getPulseInsights({ page: 1, tags }, apollo),
+      insights,
       tags,
     }
   }

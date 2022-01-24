@@ -23,7 +23,7 @@
       })
       insights = currentUser.insights
     } catch (e) {
-      console.log('Error during ALL_USER_INSIGHTS fetch')
+      console.log('Error during ALL_USER_INSIGHTS fetch', e)
       this.redirect(500, '/experience')
       return {}
     }

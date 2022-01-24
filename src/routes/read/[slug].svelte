@@ -32,7 +32,7 @@
       })
       data = result.data
     } catch (e) {
-      console.log('Insight ID not found')
+      console.log('Insight ID not found', e)
       this.redirect(500, '/')
       return {}
     }

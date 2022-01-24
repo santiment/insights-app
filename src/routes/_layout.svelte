@@ -7,7 +7,10 @@
       // loadingUser is needed for synchronizing with '/login' for redirect
       session.loadingUser = apollo
         .query({ query: CURRENT_USER_QUERY })
-        .catch(() => ({ data: { currentUser: null } }))
+        .catch(() => {
+          console.log('CURRENT_USER_QUERY error')
+          return { data: { currentUser: null } }
+        })
       let currentUser = null
 
       try {

@@ -16,7 +16,7 @@
         fetchPolicy: 'network-only',
       })
     } catch (e) {
-      console.error(e)
+      console.error('INSIGHTS_BY_USERID_QUERY error', e)
       return {}
     }
 

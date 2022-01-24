@@ -13,14 +13,22 @@
       return this.redirect(302, '/experience')
     }
 
-    const {
-      data: {
-        currentUser: { insights },
-      },
-    } = await apollo.query({
-      query: ALL_USER_INSIGHTS,
-      fetchPolicy: 'network-only',
-    })
+    let insights = []
+
+    try {
+      const {
+        data: { currentUser },
+      } = await apollo.query({
+        query: ALL_USER_INSIGHTS,
+        fetchPolicy: 'network-only',
+      })
+
+      insights= currentUser.insights
+
+    }catch(e) {
+      console.log('User drafts error', e)
+      return this.redirect(500, '/')
+    }
 
     currentUser.insights = insights
 
