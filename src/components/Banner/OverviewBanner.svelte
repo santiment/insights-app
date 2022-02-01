@@ -64,7 +64,7 @@ include /ui/mixins
 
   input {
     flex: 1;
-    color: var(--mirage);
+    color: var(--black);
     margin-right: 16px;
   }
 

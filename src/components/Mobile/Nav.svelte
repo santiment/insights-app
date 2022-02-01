@@ -70,7 +70,7 @@ nav
   }
 
   nav {
-    --icon-primary: var(--mirage);
+    --icon-primary: var(--black);
     --icon-secondary: var(--porcelain);
 
     box-shadow: 0 0 20px rgba(24, 27, 43, 0.05);

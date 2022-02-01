@@ -5,6 +5,9 @@
     classes = {},
     avatarUrl = '',
     withPic = false
+  export let user
+
+  $: isUsername = user && user.username
 </script>
 
 <template lang="pug">
@@ -14,7 +17,7 @@
       img(src="{avatarUrl || 'profile-fallback.svg'}", alt="Profile picture")
 
   .info(class="{classes.info || ''}")
-    a.name(class="{classes.name || ''}", href="https://app.santiment.net/profile/{id}") {name}
+    a.name(class="{classes.name || ''}", href="https://app.santiment.net/profile/{id}") {isUsername ? '@' : ''}{name}
     +if('status')
       .status(class="{classes.status || ''}") {status}
 

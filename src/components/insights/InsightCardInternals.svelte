@@ -46,7 +46,7 @@ include /ui/mixins
     MultilineText(maxLines='{2}') {title}
   .authorInfo
     ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{status}",
-    withPic, classes="{{wrapper: 'card__profile'}}")
+    withPic, classes="{{wrapper: 'card__profile'}}", user='{user}')
     Badge(id="{user.id}")
 
 .bottom

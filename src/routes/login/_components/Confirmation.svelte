@@ -29,7 +29,7 @@ p We just sent an email to
   }
 
   span {
-    color: var(--mirage);
+    color: var(--black);
   }
 
   .link {

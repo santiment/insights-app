@@ -128,7 +128,7 @@ section
   h2 Conversations ({commentsCount})
 
   +if('$session.currentUser')
-    CommentAuthor({avatarUrl}, {username}, id='{userId}', insightAuthorId='{authorId}')
+    CommentAuthor({avatarUrl}, {username}, id='{userId}', insightAuthorId='{authorId}', isUsername)
 
   CommentForm(on:submit='{postComment}', {commentsCount}, {classes}, value='{defaultComment}')
     +button.submit(slot='after', variant='fill', accent='jungle-green', type='submit', class:loading)

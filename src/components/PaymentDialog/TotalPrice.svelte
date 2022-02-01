@@ -48,7 +48,7 @@ include /ui/mixins
   .holder {
     position: relative;
     border-radius: 4px;
-    color: var(--mirage);
+    color: var(--black);
     padding: 12px 16px 10px 40px;
     background: #ecfaf6;
     margin-bottom: 44px;
@@ -68,7 +68,7 @@ include /ui/mixins
     position: absolute;
     left: 17px;
     top: 15px;
-    fill: var(--mirage);
+    fill: var(--black);
   }
 
   .row {
@@ -87,7 +87,7 @@ include /ui/mixins
     padding-top: 25px;
     margin: 24px 0 0;
     border-top: 1px solid var(--porcelain);
-    color: var(--mirage);
+    color: var(--black);
   }
 
   .result {

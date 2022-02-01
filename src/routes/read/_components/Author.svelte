@@ -20,7 +20,7 @@
 <template lang="pug">
 
 .wrapper
-  ProfileInfo(withPic, {classes}, name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{insightDate}")
+  ProfileInfo(withPic, {classes}, name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", status="{insightDate}", user='{user}')
 
   +if('!isAuthor')
     Loadable.Author__follow(load="{loadFollowBtn}", targetId='{user.id}')

@@ -132,7 +132,7 @@ Modal(bind:open='{enlargedImgSrc}')
       padding: 23px 32px;
       background: var(--athens);
       border-radius: 4px;
-      color: var(--mirage);
+      color: var(--black);
       position: relative;
       margin: 20px 0 30px;
 

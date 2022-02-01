@@ -72,7 +72,7 @@ a.product(href='{link}', class!='{classes.wrapper || ""}')
 
     &:hover {
       background: var(--athens);
-      color: var(--mirage);
+      color: var(--black);
 
       .fading-up {
         transform: translate3d(0px, 0, 0px);

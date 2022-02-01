@@ -90,7 +90,7 @@ include /ui/mixins
   .plan {
     @include text('body-1');
     font-weight: bold;
-    color: var(--mirage);
+    color: var(--black);
     text-transform: lowercase;
     position: relative;
     cursor: pointer;

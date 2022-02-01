@@ -120,7 +120,7 @@ form(on:submit|preventDefault='{onSubmit}')
   }
 
   span {
-    color: var(--mirage);
+    color: var(--black);
   }
 
   .error-msg {

@@ -1,5 +1,6 @@
 <script>
   export let avatarUrl, username, id, insightAuthorId
+  export let isUsername
 </script>
 
 <template lang="pug">
@@ -9,7 +10,7 @@ a.profile(href='https://app.santiment.net/profile/{id}')
   .pic
     img(src!='{avatarUrl || "profile-fallback.svg"}', alt="Profile pic")
   .right
-    h4 {username}
+    h4.body-2 {isUsername ? '@':''}{username}
     +if('id === insightAuthorId')
       h5 Author
 
@@ -22,7 +23,7 @@ a.profile(href='https://app.santiment.net/profile/{id}')
     display: flex;
     align-items: center;
     max-width: 71%;
-    color: var(--mirage);
+    color: var(--black);
 
     &:hover {
       color: var(--green);
@@ -52,7 +53,6 @@ a.profile(href='https://app.santiment.net/profile/{id}')
   }
 
   h4 {
-    @include text('body-2');
     max-width: 100%;
     text-overflow: ellipsis;
     overflow-x: hidden;

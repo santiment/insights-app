@@ -111,7 +111,7 @@ include /ui/mixins
       @include size(15px, 14px);
       fill: var(--casper);
       &:hover {
-        fill: var(--mirage);
+        fill: var(--black);
       }
     }
   }

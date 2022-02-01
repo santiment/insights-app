@@ -134,7 +134,7 @@ ViewportObserver({options}, on:intersect='{hideBanner}', on:leaving='{showBanner
     right: 8px;
 
     &:hover {
-      fill: var(--mirage);
+      fill: var(--black);
     }
   }
 </style>

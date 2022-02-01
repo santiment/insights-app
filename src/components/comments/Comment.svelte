@@ -48,7 +48,7 @@ include /ui/mixins
 
 .comment(style='--level: {level}')
   .author
-    CommentAuthor({avatarUrl}, username='{username || email}', id='{userId}', {insightAuthorId})
+    CommentAuthor({avatarUrl}, username='{username || email}', id='{userId}', {insightAuthorId}, isUsername='{username}')
     | {datePrefix}{dateDiff}
   .body
     // .rating

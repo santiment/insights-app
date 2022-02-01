@@ -52,7 +52,7 @@ mixin rawHtml(variables)
     .text.PulseCard__text
       +rawHtml('text')
     .authorInfo
-      ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", withPic, classes="{{wrapper: 'PulseCard__profile'}}")
+      ProfileInfo(name="{user.username}", id="{user.id}", avatarUrl="{user.avatarUrl}", withPic, classes="{{wrapper: 'PulseCard__profile'}}", user='{user}')
       Badge(id="{user.id}")
 
   .bottom
@@ -230,7 +230,7 @@ mixin rawHtml(variables)
       padding: 12px 20px;
       background: var(--athens);
       border-radius: 4px;
-      color: var(--mirage);
+      color: var(--black);
       position: relative;
       margin: 12px 0 16px;
 
