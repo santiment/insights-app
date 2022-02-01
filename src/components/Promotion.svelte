@@ -70,7 +70,7 @@ include /ui/mixins
   h3 {
     @include text('body-2', 'm');
     margin: 0 0 4px;
-    color: var(--dodger-blue);
+    color: var(--blue);
   }
 
   h4 {

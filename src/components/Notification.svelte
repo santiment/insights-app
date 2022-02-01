@@ -108,7 +108,7 @@ include /ui/mixins
     fill: var(--red);
   }
   .info {
-    fill: var(--dodger-blue);
+    fill: var(--blue);
   }
   .success {
     fill: var(--lima);

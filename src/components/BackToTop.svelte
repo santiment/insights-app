@@ -10,7 +10,11 @@
   const onLeaving = () => (hidden = false)
 </script>
 
-<ViewportObserver {options} on:intersect={onIntersect} on:leaving={onLeaving}>
+<ViewportObserver
+  {options}
+  on:intersect="{onIntersect}"
+  on:leaving="{onLeaving}"
+>
   <div class:hidden on:click={() => window.scrollTo(0, 0)} />
 </ViewportObserver>
 

@@ -4,7 +4,7 @@
   export let width = 64,
     height = 29
 
-  const changeColor = `--change: var(--${change > 0 ? 'lima' : 'persimmon'})`
+  const changeColor = `--change: var(--${change > 0 ? 'lima' : 'red'})`
   const dataLength = data.length
 
   let min = data[0].priceUsd

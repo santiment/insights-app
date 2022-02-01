@@ -123,7 +123,7 @@ Dialog(bind:open, title='Share insight')
 
   input {
     border: none;
-    color: var(--dodger-blue);
+    color: var(--blue);
     flex: 1;
   }
 

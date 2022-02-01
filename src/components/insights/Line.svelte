@@ -17,7 +17,7 @@
   }
 
   let changeColor
-  $: changeColor = `--change: var(--${change > 0 ? 'lima' : 'persimmon'})`
+  $: changeColor = `--change: var(--${change > 0 ? 'lima' : 'red'})`
 
   $: if (data) {
     let min = data[0].priceUsd
