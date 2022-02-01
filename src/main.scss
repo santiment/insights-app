@@ -7,4 +7,11 @@
   --accent: var(--green);
   --accent-hover: var(--green-hover);
   --accent-light-3: var(--green-light-3);
+
+  // Supporting legacy for now
+  --jungle-green: var(--green);
+  --jungle-green-hover: var(--green-hover);
+  --persimmon: var(--red);
+  --rhino: var(--black);
+  --mirage: var(--black);
 }

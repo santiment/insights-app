@@ -17,7 +17,7 @@ a.title(href="{link}")
   MultilineText(maxLines='{3}') {title}
 
 .bottom
-  a.user(href='/user/{user.id}') {user.username}
+  a.user(href='/user/{user.id}') {user.username ? '@':''}{user.username}
   +if('isPaywallRequired')
     +icon('crown').paywalled
 

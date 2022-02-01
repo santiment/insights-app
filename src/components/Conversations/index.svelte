@@ -78,7 +78,7 @@
               />
             </div>
 
-            {user.username || user.email}
+            {user.username ? '@' : ''}{user.username || user.email}
           </a>
 
           <div class="insigts">Insights</div>
