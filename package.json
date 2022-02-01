@@ -99,7 +99,7 @@
     "postcss": "^7.0.16",
     "postcss-modules": "^1.4.1",
     "prettier": "^2.0.5",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "rollup": "^1.21.2",
     "rollup-plugin-babel": "^4.0.2",
     "rollup-plugin-commonjs": "^10.1.0",
