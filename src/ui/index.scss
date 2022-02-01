@@ -5,36 +5,3 @@
 @import './tabs/index';
 @import './dialog/index';
 @import './setting/index';
-
-.loading {
-  position: relative;
-  color: transparent !important;
-  fill: transparent !important;
-  pointer-events: none;
-
-  &::after {
-    --dot-color: var(--loading-dot-color, #181b2b);
-    font-size: var(--loading-dot-size, 5px);
-    position: absolute;
-    content: '';
-    left: 50%;
-    top: calc(50% - 2em);
-    width: 1em;
-    transform: translate(-50%, -50%);
-    height: 1em;
-    border-radius: 50%;
-    animation: SAN-load ease 0.8s infinite;
-  }
-}
-
-@keyframes SAN-load {
-  0% {
-    box-shadow: -2em 2em 0 -10px var(--dot-color), -2em 2em var(--dot-color),
-      0 2em var(--dot-color), 2em 2em var(--dot-color);
-  }
-
-  100% {
-    box-shadow: -2em 2em 0 0 var(--dot-color), 0 2em var(--dot-color),
-      2em 2em var(--dot-color), 2em 2em 0 -5px var(--dot-color);
-  }
-}

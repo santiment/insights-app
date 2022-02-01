@@ -1,12 +1,12 @@
 diff --git a/node_modules/svelte/internal/index.mjs b/node_modules/svelte/internal/index.mjs
-index 5b27bcb..005d215 100644
+index 828cbc4..590e730 100644
 --- a/node_modules/svelte/internal/index.mjs
 +++ b/node_modules/svelte/internal/index.mjs
-@@ -1313,6 +1313,7 @@ function debug(file, line, column, values) {
+@@ -1728,6 +1728,7 @@ function debug(file, line, column, values) {
  let on_destroy;
  function create_ssr_component(fn) {
-     function $$render(result, props, bindings, slots) {
-+    		props.$$slots = slots
+     function $$render(result, props, bindings, slots, context) {
++        props.$$slots = slots
          const parent_component = current_component;
          const $$ = {
              on_destroy,

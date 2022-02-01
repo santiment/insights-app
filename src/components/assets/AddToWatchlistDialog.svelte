@@ -37,10 +37,12 @@
             query: ALL_USER_WATCHLISTS_WITH_ITEMS,
           })
           .then(({ data }) => {
-            const userWatchlists = data.watchlists.filter(({isScreener}) => !isScreener)
+            const userWatchlists = data.watchlists.filter(
+              ({ isScreener }) => !isScreener,
+            )
 
             const sel = new Set(
-  						userWatchlists.filter(({ listItems }) =>
+              userWatchlists.filter(({ listItems }) =>
                 listItems.some(({ project }) => projectId === project.id),
               ),
             )
@@ -48,7 +50,7 @@
             initialSelectedWatchlists = new Set(sel)
             initialHash = getSelectedWatchlistHash([...sel])
             selected = sel
-            watchlists = userWatchlists               
+            watchlists = userWatchlists
           })
   }
 
@@ -134,24 +136,25 @@ include /ui/mixins
   |Add to watchlist
 
 Dialog(bind:open, title='Add to watchlist')
-  +dialogScrollContent(slot='content')
-    .items
-      +await('getWatchlists()')
-        .loading.process
-        +then('_')
-          +each('watchlists as watchlist (watchlist.id)')
-            +button.item(fluid, on:click!='{()=>toggleWatchlist(watchlist)}')
-              span.item__left
-                Checkbox.AddToWatchlistDialog__checkbox(active='{selected.has(watchlist)}')
-                |{watchlist.name}
-              +icon('{watchlist.isPublic ? "eye-small" : "lock-small"}').icon_is-public
-            +else()
-              |You don't have any watchlists
+  svelte:fragment(slot='content')
+    +dialogScrollContent()
+      .items
+        +await('getWatchlists()')
+          .loading.process
+          +then('_')
+            +each('watchlists as watchlist (watchlist.id)')
+              +button.item(fluid, on:click!='{()=>toggleWatchlist(watchlist)}')
+                span.item__left
+                  Checkbox.AddToWatchlistDialog__checkbox(active='{selected.has(watchlist)}')
+                  |{watchlist.name}
+                +icon('{watchlist.isPublic ? "eye-small" : "lock-small"}').icon_is-public
+              +else()
+                |You don't have any watchlists
 
-    NewWatchlistDialog(bind:watchlists)
-  +dialogActions(slot='content')
-    +button()(border, on:click='{closeDialog}') Cancel
-    +button.apply(variant='fill', accent='jungle-green',
+      NewWatchlistDialog(bind:watchlists)
+    +dialogActions()
+      +button()(border, on:click='{closeDialog}') Cancel
+      +button.apply(variant='fill', accent='jungle-green',
 class:disabled!='{initialHash === undefined || hasNotUpdated}',
 class:loading, on:click='{applyChanges}') Apply
 

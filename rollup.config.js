@@ -85,9 +85,11 @@ export default {
       }),
       svelte({
         preprocess,
-        dev,
-        hydratable: true,
         emitCss: true,
+        compilerOptions: {
+          dev,
+          hydratable: true,
+        },
       }),
       babel({
         extensions: ['.js'],
@@ -194,7 +196,13 @@ export default {
       rollPostcss({
         extensions: ['.scss'],
       }),
-      svelte({ generate: 'ssr', dev, preprocess }),
+      svelte({
+        compilerOptions: {
+          generate: 'ssr',
+          dev,
+        },
+        preprocess,
+      }),
       resolve({
         dedupe,
       }),
