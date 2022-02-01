@@ -87,7 +87,7 @@ mixin rawHtml(variables)
     justify-content: space-between;
 
     &:hover {
-      color: var(--jungle-green);
+      color: var(--green);
     }
   }
 
@@ -152,7 +152,7 @@ mixin rawHtml(variables)
       color: var(--waterloo);
 
       &:hover {
-        color: var(--jungle-green);
+        color: var(--green);
       }
     }
   }
@@ -181,21 +181,21 @@ mixin rawHtml(variables)
     :global(a) {
       text-decoration: none !important;
       cursor: pointer;
-      color: var(--jungle-green);
+      color: var(--green);
       position: relative;
       transition: color 0.4s ease, background-size 0.4s ease;
       background-position: 100% 100%;
       background-repeat: no-repeat;
       background-size: 0% 1px;
       background-image: linear-gradient(
-        var(--jungle-green-light-3),
-        var(--jungle-green-light-3)
+        var(--green-light-3),
+        var(--green-light-3)
       );
 
       &:hover,
       &:focus,
       &:active {
-        color: var(--jungle-green-hover);
+        color: var(--green-hover);
         background-size: 100% 1px;
         background-position: 0% 100%;
       }
@@ -212,8 +212,8 @@ mixin rawHtml(variables)
     :global(u a) {
       background-size: 100% 1px;
       background-image: linear-gradient(
-        var(--jungle-green-light-3),
-        var(--jungle-green-light-3)
+        var(--green-light-3),
+        var(--green-light-3)
       );
     }
 

@@ -1,6 +1,6 @@
 .SAN-btn {
   --btn-accent-color: var(--accent-color, var(--mirage));
-  --btn-accent-color-hover: var(--accent-color-hover, var(--jungle-green));
+  --btn-accent-color-hover: var(--accent-color-hover, var(--green));
 
   display: inline-flex;
   align-items: center;
@@ -39,8 +39,8 @@
 
   &_flat {
     &:hover {
-      color: var(--jungle-green);
-      fill: var(--jungle-green);
+      color: var(--green);
+      fill: var(--green);
     }
   }
 
@@ -61,14 +61,14 @@
 
   &.active {
     &.SAN-btn_ghost {
-      color: var(--jungle-green);
-      fill: var(--jungle-green);
+      color: var(--green);
+      fill: var(--green);
     }
 
     &.SAN-btn_flat {
-      color: var(--jungle-green);
-      fill: var(--jungle-green);
-      background: var(--jungle-green-light);
+      color: var(--green);
+      fill: var(--green);
+      background: var(--green-light-1);
     }
   }
 

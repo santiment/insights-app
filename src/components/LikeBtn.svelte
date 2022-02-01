@@ -56,7 +56,7 @@ button(disabled='{!$currentUser}', on:click='{toggleLike}', aria-label='Like', c
     fill: transparent;
 
     &:hover {
-      stroke: var(--persimmon);
+      stroke: var(--red);
     }
 
     &[disabled] {
@@ -73,8 +73,8 @@ button(disabled='{!$currentUser}', on:click='{toggleLike}', aria-label='Like', c
   }
 
   .liked {
-    color: var(--persimmon);
-    stroke: var(--persimmon);
-    fill: var(--persimmon);
+    color: var(--red);
+    stroke: var(--red);
+    fill: var(--red);
   }
 </style>

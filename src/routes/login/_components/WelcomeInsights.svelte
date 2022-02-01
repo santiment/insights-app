@@ -69,8 +69,8 @@ h2 Welcome to Insights
     borde-color: var(--porcelain);
 
     &:hover {
-      color: var(--jungle-green);
-      fill: var(--jungle-green);
+      color: var(--green);
+      fill: var(--green);
     }
 
     &_google {
@@ -84,9 +84,9 @@ h2 Welcome to Insights
   }
 
   .create {
-    color: var(--jungle-green);
+    color: var(--green);
     &:hover {
-      color: var(--jungle-green-hover);
+      color: var(--green-hover);
     }
   }
 

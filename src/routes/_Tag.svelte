@@ -28,7 +28,7 @@ include /ui/mixins
   }
 
   .active {
-    background: var(--jungle-green-light);
-    color: var(--jungle-green);
+    background: var(--green-light-1);
+    color: var(--green);
   }
 </style>

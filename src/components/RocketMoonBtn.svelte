@@ -141,10 +141,10 @@ button(disabled='{!$currentUser}', on:mouseenter='{onMouseEnter}', on:mouseleave
     }
 
     &.voted {
-      background-color: var(--jungle-green-light);
-      border-color: var(--jungle-green);
-      color: var(--jungle-green-hover);
-      fill: var(--jungle-green-hover);
+      background-color: var(--green-light-1);
+      border-color: var(--green);
+      color: var(--green-hover);
+      fill: var(--green-hover);
     }
 
     &[disabled] {

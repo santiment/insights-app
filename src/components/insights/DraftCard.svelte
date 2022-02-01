@@ -26,7 +26,7 @@
     client
       .mutate({ mutation: DELETE_INSIGHT_MUTATION, variables: { id: +id } })
       .then(() => {
-        session.update(ses => {
+        session.update((ses) => {
           ses.currentUser.insights = ses.currentUser.insights.filter(
             ({ id: _id }) => _id !== id,
           )
@@ -104,7 +104,7 @@ include /ui/mixins
     fill: var(--casper);
 
     &:hover {
-      fill: var(--jungle-green);
+      fill: var(--green);
     }
   }
 

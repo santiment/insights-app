@@ -82,8 +82,8 @@ header
   }
 
   :global(.product.active .product__arrow) {
-    background: var(--jungle-green-light);
-    fill: var(--jungle-green);
+    background: var(--green-light-1);
+    fill: var(--green);
     transform: rotate(180deg);
   }
 
@@ -127,7 +127,7 @@ header
       padding: 8px;
 
       &:hover {
-        fill: var(--jungle-green);
+        fill: var(--green);
       }
     }
   }
@@ -141,13 +141,13 @@ header
     @include size(32px);
     background: #edf8f5;
     border-radius: 50%;
-    fill: var(--jungle-green);
+    fill: var(--green);
     justify-content: center;
     background-size: cover;
 
     :global(&.account_opened),
     &:hover {
-      box-shadow: inset 0px 0px 0px 1px var(--jungle-green);
+      box-shadow: inset 0px 0px 0px 1px var(--green);
     }
   }
 

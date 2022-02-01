@@ -81,7 +81,7 @@ include /ui/mixins
     margin-bottom: 14px;
 
     &:hover {
-      color: var(--jungle-green);
+      color: var(--green);
     }
   }
 
@@ -111,7 +111,7 @@ include /ui/mixins
 
   .paywalled {
     @include size(12px, 9px);
-    fill: var(--texas-rose);
+    fill: var(--orange);
     margin-left: 20px;
   }
 

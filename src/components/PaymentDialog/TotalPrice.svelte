@@ -55,11 +55,11 @@ include /ui/mixins
   }
 
   a {
-    color: var(--jungle-green);
+    color: var(--green);
     text-decoration: underline;
 
     &:hover {
-      color: var(--jungle-green-hover);
+      color: var(--green-hover);
     }
   }
 
@@ -80,7 +80,7 @@ include /ui/mixins
   }
 
   .discount {
-    color: var(--jungle-green);
+    color: var(--green);
   }
 
   .total {

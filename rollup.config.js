@@ -78,6 +78,9 @@ export default {
         'process.env.GQL_SERVER_URL': JSON.stringify(
           process.env.BACKEND_URL + '/graphql',
         ),
+
+        'process.env.MEDIA_PATH': JSON.stringify('webkit'),
+        'process.env.ICONS_PATH': JSON.stringify('webkit/icons'),
       }),
       rollPostcss({
         extensions: ['.scss'],
@@ -182,6 +185,9 @@ export default {
         'process.env.GQL_SERVER_URL': JSON.stringify(
           process.env.GQL_SERVER_URL || process.env.BACKEND_URL + '/graphql',
         ),
+
+        'process.env.MEDIA_PATH': JSON.stringify('webkit'),
+        'process.env.ICONS_PATH': JSON.stringify('webkit/icons'),
       }),
       babel({
         extensions: ['.js'],

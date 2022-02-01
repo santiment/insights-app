@@ -57,8 +57,7 @@ include /ui/mixins
 
   .wrapper {
     padding: 16px 20px 16px 64px;
-    background: url('/metamask.svg') no-repeat 22px 19px,
-      var(--texas-rose-light);
+    background: url('/metamask.svg') no-repeat 22px 19px, var(--orange-light-1);
     border: none;
     text-align: left;
   }
@@ -80,10 +79,10 @@ include /ui/mixins
   }
 
   a {
-    color: var(--jungle-green);
+    color: var(--green);
 
     &:hover {
-      color: var(--jungle-green-hover);
+      color: var(--green-hover);
     }
   }
 </style>

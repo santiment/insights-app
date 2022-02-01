@@ -121,7 +121,7 @@ slot(name='trigger')
     margin-left: 16px;
 
     &:hover {
-      fill: var(--jungle-green);
+      fill: var(--green);
     }
   }
 

@@ -45,6 +45,6 @@ include /ui/mixins
   }
 
   a:hover {
-    color: var(--jungle-green) !important;
+    color: var(--green) !important;
   }
 </style>

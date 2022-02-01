@@ -70,7 +70,7 @@ CommentDialogForm(title='Replying', label='Submit reply', on:submit='{onSubmit}'
     color: var(--waterloo);
 
     &:hover {
-      color: var(--jungle-green-hover);
+      color: var(--green-hover);
     }
   }
 </style>

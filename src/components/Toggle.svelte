@@ -36,7 +36,7 @@
     }
 
     &.active {
-      background: var(--jungle-green);
+      background: var(--green);
 
       &::before {
         transform: translateX(calc(100% + 2px));

@@ -5,7 +5,7 @@
   import Comment from '@/components/comments/Comment'
   import CommentForm from '@/components/comments/Form'
   import CommentAuthor from '@/components/comments/Author'
- import { notifications } from '@/stores/notifications'
+  import { notifications } from '@/stores/notifications'
 
   const { page, session } = stores()
   const noop = () => {}
@@ -108,11 +108,11 @@
         },
       )
       .catch((e) => {
-          loading = false
-          notifications.add({
-              type: 'error',
-              title: e.message.slice('GraphQL error: '.length)
-          })
+        loading = false
+        notifications.add({
+          type: 'error',
+          title: e.message.slice('GraphQL error: '.length),
+        })
       })
   }
 
@@ -206,7 +206,7 @@ section
     color: var(--waterloo);
 
     &:hover {
-      color: var(--jungle-green-hover);
+      color: var(--green-hover);
     }
   }
 </style>

@@ -59,7 +59,7 @@ include /ui/mixins
   }
 
   a {
-    color: var(--jungle-green);
+    color: var(--green);
   }
 
   @include responsive('phone', 'phone-xs') {

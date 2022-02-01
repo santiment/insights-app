@@ -34,7 +34,7 @@
 
   .loader {
     height: 100%;
-    background: var(--jungle-green);
+    background: var(--green);
     width: 100%;
     transform: translateX(-100%);
     transition: transform 3s cubic-bezier(0.4, 1, 1, 1);

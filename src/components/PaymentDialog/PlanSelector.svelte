@@ -101,13 +101,13 @@ include /ui/mixins
     }
 
     &:hover {
-      fill: var(--jungle-green);
+      fill: var(--green);
     }
   }
 
   .cta {
     @include text('caption');
-    color: var(--jungle-green);
+    color: var(--green);
   }
 
   .icon {
@@ -167,7 +167,7 @@ include /ui/mixins
       left: 8px;
       width: 3px;
       height: 3px;
-      background: var(--jungle-green);
+      background: var(--green);
       border-radius: 50%;
     }
   }
@@ -179,6 +179,6 @@ include /ui/mixins
   .save {
     @include text('caption', 'm');
     margin-left: 24px;
-    color: var(--jungle-green);
+    color: var(--green);
   }
 </style>

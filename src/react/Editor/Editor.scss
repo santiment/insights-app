@@ -8,7 +8,7 @@
     position: relative;
 
     & span::selection {
-      background: var(--jungle-green-light-2);
+      background: var(--green-light-2);
     }
 
     @include text('body-1', 't');
@@ -100,11 +100,11 @@
     }
 
     button:hover {
-      color: var(--jungle-green-hover);
+      color: var(--green-hover);
     }
 
     a {
-      color: var(--jungle-green);
+      color: var(--green);
       text-decoration: none;
     }
   }
@@ -134,7 +134,7 @@
   }
 
   .md-RichEditor-activeButton {
-    fill: var(--jungle-green);
+    fill: var(--green);
   }
 
   [class*='hint--'] {
@@ -250,21 +250,21 @@
   .md-link {
     text-decoration: none !important;
     cursor: pointer;
-    color: var(--jungle-green);
+    color: var(--green);
     position: relative;
     transition: color 0.4s ease, background-size 0.4s ease;
     background-position: 100% 100%;
     background-repeat: no-repeat;
     background-size: 0% 1px;
     background-image: linear-gradient(
-      var(--jungle-green-light-3),
-      var(--jungle-green-light-3)
+      var(--green-light-3),
+      var(--green-light-3)
     );
 
     &:hover,
     &:focus,
     &:active {
-      color: var(--jungle-green-hover);
+      color: var(--green-hover);
       background-size: 100% 1px;
       background-position: 0% 100%;
     }
@@ -382,12 +382,11 @@
   #nprogress {
     .bar {
       height: 3px;
-      background: var(--jungle-green);
+      background: var(--green);
     }
 
     .peg {
-      box-shadow: 0 0 10px var(--jungle-green-light-2),
-        0 0 5px var(--jungle-green-light-2);
+      box-shadow: 0 0 10px var(--green-light-2), 0 0 5px var(--green-light-2);
     }
   }
 }

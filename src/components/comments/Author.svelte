@@ -25,7 +25,7 @@ a.profile(href='https://app.santiment.net/profile/{id}')
     color: var(--mirage);
 
     &:hover {
-      color: var(--jungle-green);
+      color: var(--green);
     }
   }
 
@@ -62,9 +62,9 @@ a.profile(href='https://app.santiment.net/profile/{id}')
     display: inline-block;
     font-size: 10px;
     line-height: 12px;
-    color: var(--texas-rose);
+    color: var(--orange);
     padding: 3px 4px;
     border-radius: 4px;
-    background: var(--texas-rose-light);
+    background: var(--orange-light-1);
   }
 </style>

@@ -40,12 +40,12 @@ a.product(href='{link}', class!='{classes.wrapper || ""}')
   }
 
   .link {
-    color: var(--jungle-green);
-    fill: var(--jungle-green);
+    color: var(--green);
+    fill: var(--green);
 
     &:hover {
-      color: var(--jungle-green-hover);
-      fill: var(--jungle-green-hover);
+      color: var(--green-hover);
+      fill: var(--green-hover);
     }
   }
 

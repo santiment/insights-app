@@ -43,11 +43,11 @@
   }
 
   :global(.Tags__pro) {
-    border-color: var(--texas-rose);
-    color: var(--texas-rose) !important;
+    border-color: var(--orange);
+    color: var(--orange) !important;
 
     &.active {
-      background: var(--texas-rose-light);
+      background: var(--orange-light-1);
     }
   }
 </style>

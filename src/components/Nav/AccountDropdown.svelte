@@ -97,12 +97,12 @@ include /ui/mixins
     }
 
     &_logout {
-      color: var(--persimmon);
-      fill: var(--persimmon);
+      color: var(--red);
+      fill: var(--red);
 
       &:hover {
-        color: var(--persimmon-hover);
-        fill: var(--persimmon-hover);
+        color: var(--red-hover);
+        fill: var(--red-hover);
       }
     }
   }

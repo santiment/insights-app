@@ -6,9 +6,9 @@
 
   let loading = false
 
-  const [checkCoupon] = debounce(input => {
+  const [checkCoupon] = debounce((input) => {
     getCoupon(input)
-      .then(result => {
+      .then((result) => {
         loading = false
         coupon = result
       })
@@ -61,7 +61,7 @@ label Discount code
     position: absolute;
     top: 32px;
     right: 16px;
-    fill: var(--jungle-green);
+    fill: var(--green);
   }
 
   .spinner {

@@ -105,7 +105,7 @@ include /ui/mixins
   }
 
   .error {
-    fill: var(--persimmon);
+    fill: var(--red);
   }
   .info {
     fill: var(--dodger-blue);
@@ -114,7 +114,7 @@ include /ui/mixins
     fill: var(--lima);
   }
   .warning {
-    fill: var(--texas-rose);
+    fill: var(--orange);
   }
 
   .actions {

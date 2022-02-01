@@ -103,9 +103,9 @@ nav
   }
 
   .active {
-    color: var(--jungle-green);
-    --icon-primary: var(--jungle-green);
-    --icon-secondary: var(--jungle-green-light-2);
+    color: var(--green);
+    --icon-primary: var(--green);
+    --icon-secondary: var(--green-light-2);
   }
 
   svg {

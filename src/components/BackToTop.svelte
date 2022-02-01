@@ -10,17 +10,13 @@
   const onLeaving = () => (hidden = false)
 </script>
 
-<ViewportObserver
-  {options}
-  on:intersect="{onIntersect}"
-  on:leaving="{onLeaving}"
->
+<ViewportObserver {options} on:intersect={onIntersect} on:leaving={onLeaving}>
   <div class:hidden on:click={() => window.scrollTo(0, 0)} />
 </ViewportObserver>
 
 <style>
   div {
-    background: url(/back-to-top.svg) no-repeat 50%, var(--jungle-green);
+    background: url(/back-to-top.svg) no-repeat 50%, var(--green);
     border-radius: 50%;
     position: fixed;
     width: 48px;
@@ -35,6 +31,6 @@
   }
 
   div:hover {
-    background-color: var(--jungle-green-hover);
+    background-color: var(--green-hover);
   }
 </style>

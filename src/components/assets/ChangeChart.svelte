@@ -39,7 +39,7 @@
 svg(viewBox='0 0 {width} {height}', style='{changeColor};height:{height}px')
   defs
     linearGradient#negative-change(x1="0", x2="0", y1="0", y2="2")
-      stop(offset='0%', stop-color='var(--persimmon)', stop-opacity='0.3')
+      stop(offset='0%', stop-color='var(--red)', stop-opacity='0.3')
       stop(offset='60%', stop-color='var(--white)', stop-opacity='0')
     linearGradient#positive-change(x1="0", x2="0", y1="0", y2="2")
       stop(offset='0%', stop-color='var(--lima)', stop-opacity='0.3')

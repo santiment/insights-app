@@ -29,8 +29,8 @@ span.change(class='{klass} {res}')
   }
 
   .change {
-    color: var(--texas-rose);
-    fill: var(--texas-rose);
+    color: var(--orange);
+    fill: var(--orange);
   }
 
   .up {
@@ -39,8 +39,8 @@ span.change(class='{klass} {res}')
   }
 
   .down {
-    color: var(--persimmon);
-    fill: var(--persimmon);
+    color: var(--red);
+    fill: var(--red);
 
     .triangle {
       transform: rotate(180deg);

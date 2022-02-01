@@ -150,7 +150,7 @@ include /ui/mixins
     fill: var(--waterloo);
 
     &:hover {
-      fill: var(--jungle-green-hover);
+      fill: var(--green-hover);
     }
   }
 
@@ -159,7 +159,7 @@ include /ui/mixins
   }
 
   :global(.Comment__more) {
-    background: var(--jungle-green-light) !important;
-    fill: var(--jungle-green) !important;
+    background: var(--green-light-1) !important;
+    fill: var(--green) !important;
   }
 </style>

@@ -90,7 +90,7 @@ include /ui/mixins
 
   +if('searchTerm')
     +icon('close-small').icon-close(on:click!='{() => searchTerm = ""}')
-      
+
 </template>
 
 <style lang="scss">
@@ -134,7 +134,7 @@ include /ui/mixins
 
     &:hover + .icon-search,
     &:focus + .icon-search {
-      fill: var(--jungle-green-light-3);
+      fill: var(--green-light-3);
     }
   }
 

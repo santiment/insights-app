@@ -37,25 +37,31 @@
           name: value,
         },
       })
-      .then(({ data: { createWatchlist: { id } } }) => {
-        watchlists = [
-          ...watchlists,
-          { id, isPublic, name: value, __typename: 'UserList' },
-        ]
+      .then(
+        ({
+          data: {
+            createWatchlist: { id },
+          },
+        }) => {
+          watchlists = [
+            ...watchlists,
+            { id, isPublic, name: value, __typename: 'UserList' },
+          ]
 
-        const data = client.readQuery({
-          query: ALL_USER_WATCHLISTS,
-        })
-        data.watchlists = watchlists
-        client.writeQuery({
-          query: ALL_USER_WATCHLISTS,
-          data,
-        })
+          const data = client.readQuery({
+            query: ALL_USER_WATCHLISTS,
+          })
+          data.watchlists = watchlists
+          client.writeQuery({
+            query: ALL_USER_WATCHLISTS,
+            data,
+          })
 
-        value = ''
-        loading = false
-        open = false
-      })
+          value = ''
+          loading = false
+          open = false
+        },
+      )
   }
 </script>
 
@@ -118,7 +124,7 @@ form(on:submit|preventDefault='{onSubmit}')
   }
 
   .error-msg {
-    color: var(--persimmon);
+    color: var(--red);
     position: absolute;
     top: 100%;
   }

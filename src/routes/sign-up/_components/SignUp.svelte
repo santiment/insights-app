@@ -34,9 +34,9 @@ EmailForm(on:success)
   }
 
   a {
-    color: var(--jungle-green);
+    color: var(--green);
     &:hover {
-      color: var(--jungle-green-hover);
+      color: var(--green-hover);
     }
   }
 
@@ -48,8 +48,8 @@ EmailForm(on:success)
     borde-color: var(--porcelain);
 
     &:hover {
-      color: var(--jungle-green);
-      fill: var(--jungle-green);
+      color: var(--green);
+      fill: var(--green);
     }
   }
 

@@ -63,7 +63,7 @@ include /ui/mixins
     +panel.dropdown(variant='context', style='min-width: {selectorWidth}px', class='dropdown_{align}')
       +each('options as option, index')
         +button.option(variant='ghost', fluid, class:active='{option === selected}', class:cursored='{index === cursor}', on:mousedown!='{() => selected = option}') {option}
-    
+
 </template>
 
 <style lang="scss">
@@ -86,7 +86,7 @@ include /ui/mixins
 
     &:hover,
     &:focus {
-      border-color: var(--jungle-green);
+      border-color: var(--green);
     }
 
     &:focus .arrow {

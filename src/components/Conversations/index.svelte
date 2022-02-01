@@ -60,44 +60,38 @@
   }
 </script>
 
-<div class="conversations" bind:this="{conversationsNode}">
-  <ViewportObserver
-    {options}
-    on:intersect="{onIntersect}"
-    observeWhile="{hasMore}"
-  >
-    {#each conversations as {id, user, content, insight} (id)}
-    <div
-      class="conversation"
-      on:click="{onItemClick}"
-      data-id="{insight.id}"
-      data-title="{insight.title}"
-    >
-      <div class="row">
-        <a class="row" href="https://app.santiment.net/profile/{user.id}">
-          <div class="icon">
-            <img
-              alt="Profile"
-              src="{user.avatarUrl || 'profile-fallback.svg'}"
-            />
-          </div>
+<div class="conversations" bind:this={conversationsNode}>
+  <ViewportObserver {options} on:intersect={onIntersect} observeWhile={hasMore}>
+    {#each conversations as { id, user, content, insight } (id)}
+      <div
+        class="conversation"
+        on:click={onItemClick}
+        data-id={insight.id}
+        data-title={insight.title}
+      >
+        <div class="row">
+          <a class="row" href="https://app.santiment.net/profile/{user.id}">
+            <div class="icon">
+              <img
+                alt="Profile"
+                src={user.avatarUrl || 'profile-fallback.svg'}
+              />
+            </div>
 
-          {user.username || user.email}
-        </a>
+            {user.username || user.email}
+          </a>
 
-        <div class="insigts">
-          Insights
+          <div class="insigts">Insights</div>
+        </div>
+
+        <div class="comment">
+          {normalizeComment(content)}
+        </div>
+
+        <div class="source">
+          {insight.title}
         </div>
       </div>
-
-      <div class="comment">
-        {normalizeComment (content)}
-      </div>
-
-      <div class="source">
-        {insight.title}
-      </div>
-    </div>
     {/each}
   </ViewportObserver>
 </div>
@@ -135,7 +129,7 @@
     font-weight: 500;
     padding: 4px 8px;
     margin-left: auto;
-    background: var(--texas-rose-light);
+    background: var(--orange-light-1);
   }
   .icon {
     width: 24px;

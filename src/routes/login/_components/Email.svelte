@@ -34,10 +34,10 @@ EmailForm(on:success)
   }
 
   a {
-    color: var(--jungle-green);
+    color: var(--green);
 
     &:hover {
-      color: var(--jungle-green-hover);
+      color: var(--green-hover);
     }
   }
 </style>

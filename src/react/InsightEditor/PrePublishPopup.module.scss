@@ -102,10 +102,10 @@
 }
 
 .active {
-  background: var(--texas-rose);
+  background: var(--orange);
   justify-content: flex-end;
 
   &:hover {
-    background: var(--texas-rose-hover);
+    background: var(--orange-hover);
   }
 }

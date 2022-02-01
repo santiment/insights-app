@@ -39,7 +39,7 @@ include /ui/mixins
   }
 
   a:hover {
-    color: var(--jungle-green);
+    color: var(--green);
   }
 
   .upgrade {
@@ -52,11 +52,11 @@ include /ui/mixins
 
     &,
     &:active {
-      color: var(--texas-rose);
+      color: var(--orange);
     }
 
     &:hover {
-      color: var(--texas-rose-hover);
+      color: var(--orange-hover);
     }
   }
 
@@ -78,17 +78,17 @@ include /ui/mixins
     border-radius: 4px;
     height: 26px;
     padding: 4px 12px;
-    background: var(--texas-rose-light);
+    background: var(--orange-light-1);
 
     &,
     &:focus {
-      color: var(--texas-rose);
-      fill: var(--texas-rose);
+      color: var(--orange);
+      fill: var(--orange);
     }
 
     &:hover {
-      color: var(--texas-rose-hover);
-      fill: var(--texas-rose-hover);
+      color: var(--orange-hover);
+      fill: var(--orange-hover);
     }
   }
 

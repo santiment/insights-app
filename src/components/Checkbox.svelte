@@ -23,17 +23,17 @@ button(class:active, on:click='{onClick}', class='{klass}')
     background: var(--white);
 
     &:hover {
-      border-color: var(--jungle-green);
+      border-color: var(--green);
     }
 
     &.active {
-      border-color: var(--jungle-green);
+      border-color: var(--green);
       background: url('/checkmark.svg') no-repeat 50%;
-      background-color: var(--jungle-green);
+      background-color: var(--green);
 
       &:hover {
-        border-color: var(--jungle-green-hover);
-        background-color: var(--jungle-green-hover);
+        border-color: var(--green-hover);
+        background-color: var(--green-hover);
       }
     }
   }

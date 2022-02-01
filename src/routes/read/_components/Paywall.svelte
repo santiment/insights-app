@@ -163,11 +163,11 @@ include /ui/mixins
   }
 
   .contact {
-    color: var(--jungle-green);
+    color: var(--green);
     text-decoration: underline;
 
     &:hover {
-      color: var(--jungle-green-hover);
+      color: var(--green-hover);
     }
   }
 
@@ -248,7 +248,7 @@ include /ui/mixins
   }
 
   .link {
-    color: var(--jungle-green);
+    color: var(--green);
 
     &:hover {
       text-decoration: underline;
@@ -277,6 +277,4 @@ include /ui/mixins
     justify-content: center;
     margin: 0 auto 40px;
   }
-
 </style>
-

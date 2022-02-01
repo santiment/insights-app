@@ -82,21 +82,21 @@ Modal(bind:open='{enlargedImgSrc}')
     :global(.md-inline-link) {
       text-decoration: none !important;
       cursor: pointer;
-      color: var(--jungle-green);
+      color: var(--green);
       position: relative;
       transition: color 0.4s ease, background-size 0.4s ease;
       background-position: 100% 100%;
       background-repeat: no-repeat;
       background-size: 0% 1px;
       background-image: linear-gradient(
-        var(--jungle-green-light-3),
-        var(--jungle-green-light-3)
+        var(--green-light-3),
+        var(--green-light-3)
       );
 
       &:hover,
       &:focus,
       &:active {
-        color: var(--jungle-green-hover);
+        color: var(--green-hover);
         background-size: 100% 1px;
         background-position: 0% 100%;
       }
@@ -113,8 +113,8 @@ Modal(bind:open='{enlargedImgSrc}')
     :global(.md-inline-underline .md-inline-link) {
       background-size: 100% 1px;
       background-image: linear-gradient(
-        var(--jungle-green-light-3),
-        var(--jungle-green-light-3)
+        var(--green-light-3),
+        var(--green-light-3)
       );
     }
 
@@ -168,7 +168,7 @@ Modal(bind:open='{enlargedImgSrc}')
       cursor: pointer;
 
       &:hover {
-        fill: var(--jungle-green);
+        fill: var(--green);
       }
     }
 

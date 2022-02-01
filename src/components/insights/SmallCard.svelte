@@ -35,7 +35,7 @@ a.title(href="{link}")
     overflow-x: hidden;
 
     &:hover {
-      color: var(--jungle-green);
+      color: var(--green);
     }
   }
 
@@ -46,7 +46,7 @@ a.title(href="{link}")
     word-break: break-word;
 
     &:hover {
-      color: var(--jungle-green);
+      color: var(--green);
     }
   }
 
@@ -58,7 +58,7 @@ a.title(href="{link}")
 
   .paywalled {
     @include size(12px, 9px);
-    fill: var(--texas-rose);
+    fill: var(--orange);
     margin-left: auto;
   }
 </style>
