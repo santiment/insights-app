@@ -6,11 +6,12 @@
   --accent-light-3: var(--green-light-3);
 }
 
-/* 
 .section {
   margin: 0 auto;
-  max-width: 1152px;
+  max-width: 1140px;
 }
+
+/* 
 .tablet .section,
 .phone .section,
 .phone-xs .section {

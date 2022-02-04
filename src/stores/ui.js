@@ -1,43 +1,22 @@
 import { writable } from 'svelte/store'
+import { getSavedJson, saveJson } from 'webkit/utils/localStorage'
 
-let uiDefault = {
-  darkMode: false,
-  betaMode: false,
-}
+let store = { nightMode: false }
 
 if (process.browser) {
-  uiDefault = JSON.parse(localStorage.getItem('ui')) || {}
+  store = getSavedJson('ui', store)
 
-  if (uiDefault.darkMode) {
+  if (store.nightMode) {
     document.body.classList.add('night-mode')
   }
 }
 
-function saveToLS(state) {
-  localStorage.setItem('ui', JSON.stringify(state))
+const { subscribe, set } = writable(store)
+export const ui = {
+  subscribe,
+  toggleNightMode() {
+    store.nightMode = document.body.classList.toggle('night-mode')
+    saveJson('ui', store)
+    set(store)
+  },
 }
-
-function createUIStore() {
-  const { subscribe, update } = writable(uiDefault)
-
-  return {
-    subscribe,
-    toggleDarkMode() {
-      const res = document.body.classList.toggle('night-mode')
-      update((str) => {
-        str.darkMode = res
-        saveToLS(str)
-        return str
-      })
-    },
-    toggleBetaMode() {
-      update((str) => {
-        str.betaMode = !str.betaMode
-        saveToLS(str)
-        return str
-      })
-    },
-  }
-}
-
-export const ui = createUIStore()

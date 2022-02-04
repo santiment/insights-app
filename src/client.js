@@ -1,7 +1,13 @@
 import * as sapper from '@sapper/app'
+import { startResponsiveController } from 'webkit/responsive'
+import { bootIntercom } from 'webkit/analytics/intercom'
 
-window.require = (_) => _
+startResponsiveController()
 
 sapper.start({
-  target: document.querySelector('body'),
+  target: document.querySelector('#sapper'),
 })
+
+if (process.env.IS_DEV_MODE === false) {
+  bootIntercom('cyjjko9u')
+}

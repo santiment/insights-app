@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "author": "DmitriVanGuard <dimavanguard@gmail.com>",
   "scripts": {
-    "dev": "BACKEND_URL=https://api.santiment.net sapper dev",
+    "dev": "BACKEND_URL=https://api-stage.santiment.net sapper dev",
     "build": "npm run webkit && npm run build",
     "webkit": "node scripts/webkit",
     "postinstall": "patch-package && npm run webkit"
@@ -28,8 +28,8 @@
     "node-fetch": "^2.6.1",
     "node-sass": "^6.0.1",
     "patch-package": "^6.2.2",
-    "prettier": "^2.4.1",
-    "prettier-plugin-svelte": "^2.4.0",
+    "prettier": "^2.5.1",
+    "prettier-plugin-svelte": "^2.6.0",
     "sapper": "^0.29.3",
     "sass-loader": "^12.2.0",
     "style-loader": "^2.0.0",
