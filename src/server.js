@@ -3,7 +3,7 @@ import polka from 'polka'
 import compression from 'compression'
 import MobileDetect from 'mobile-detect'
 import * as sapper from '@sapper/server'
-// import { queryCurrentUserSSR } from '@/api/user'
+import { queryCurrentUserSSR } from '@/api/user'
 
 const { PORT, NODE_ENV } = process.env
 const dev = NODE_ENV === 'development'
@@ -16,15 +16,12 @@ polka()
     sirv('static', { dev }),
     sapper.middleware({
       session: async (req) => {
-        /*
         const { currentUser } = await queryCurrentUserSSR({
           req,
         }).catch((e) => {
           console.log(e)
           return { currentUser: null }
         })
-        */
-        const currentUser = null
 
         const session = {
           currentUser,
