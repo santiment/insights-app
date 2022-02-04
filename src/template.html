@@ -10,19 +10,22 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <link rel="manifest" href="manifest.json" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="apple-touch-icon-180x180.png"
-    />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180x180.png" />
+
+    %sapper.scripts%
+
+    <!-- Sapper generates a <style> tag containing critical CSS
+	     for the current page. CSS for the rest of the app is
+	     lazily loaded when it precaches secondary pages -->
     %sapper.styles%
-    <!-- -->
+
+    <!-- This contains the contents of the <svelte:head> component, if
+	     the current page has one -->
     %sapper.head%
+
     <meta name="og:image" content="/preview.jpg" />
   </head>
-  <body>
-    %sapper.html%
-    <!-- -->
-    %sapper.scripts%
+  <body class="%sapper.theme%">
+    <div id="sapper">%sapper.html%</div>
   </body>
 </html>

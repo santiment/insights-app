@@ -1,0 +1,19 @@
+@import './webkit/styles/main.css';
+
+:root {
+  --accent: var(--green);
+  --accent-hover: var(--green-hover);
+  --accent-light-3: var(--green-light-3);
+}
+
+/* 
+.section {
+  margin: 0 auto;
+  max-width: 1152px;
+}
+.tablet .section,
+.phone .section,
+.phone-xs .section {
+  padding: 0 16px;
+}
+ */
