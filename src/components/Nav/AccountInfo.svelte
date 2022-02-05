@@ -1,0 +1,65 @@
+<script>
+  import Svg from 'webkit/ui/Svg/svelte'
+  import {
+    ProductNameById,
+    calculateTrialDaysLeft,
+    checkIsActiveSubscription,
+  } from 'webkit/utils/subscription'
+  import { capitalize } from 'webkit/utils/formatting'
+
+  export let user
+
+  const { id, username, email } = user
+  const subscriptions = user.subscriptions.filter(checkIsActiveSubscription).map((subscription) => {
+    const { plan, trialEnd } = subscription
+    const product = ProductNameById[plan.product.id]
+    const name = capitalize(plan.name.toLowerCase())
+    return `${product}: ${name} plan` + getTrialInfo(trialEnd)
+  })
+
+  function getTrialInfo(trialEnd) {
+    if (!trialEnd) return ''
+
+    const daysLeft = calculateTrialDaysLeft(trialEnd)
+    return ' (trial - ' + (daysLeft === 1 ? 'last day)' : `${daysLeft} days left)`)
+  }
+</script>
+
+<section>
+  <a class="row" href="https://app.santiment.net/profile/{id}">
+    <span>{username || email}</span>
+  </a>
+
+  <div class="caption c-waterloo">
+    {#each subscriptions as subscription}
+      <div class="mrg-xs mrg--t">{subscription}</div>
+    {:else}
+      <div class="mrg-xs mrg--t">Sanbase: Free plan</div>
+      <a
+        class="upgrade btn-2 btn-1 btn--orange btn--s mrg-s mrg--t v-center body-3"
+        href="https://app.santiment.net/pricing">
+        <Svg id="crown" w="13" h="10" class="mrg-s mrg--r" />
+        Upgrade
+      </a>
+    {/each}
+  </div>
+</section>
+
+<style>
+  section {
+    padding: 13px 20px 16px 16px;
+  }
+
+  a {
+    white-space: nowrap;
+  }
+
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .upgrade {
+    display: inline-flex;
+  }
+</style>
