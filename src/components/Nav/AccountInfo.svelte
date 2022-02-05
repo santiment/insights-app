@@ -2,8 +2,8 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import {
     ProductNameById,
-    calculateTrialDaysLeft,
     checkIsActiveSubscription,
+    getTrialDaysLeft,
   } from 'webkit/utils/subscription'
   import { capitalize } from 'webkit/utils/formatting'
 
@@ -11,17 +11,15 @@
 
   const { id, username, email } = user
   const subscriptions = user.subscriptions.filter(checkIsActiveSubscription).map((subscription) => {
-    const { plan, trialEnd } = subscription
+    const { plan } = subscription
     const product = ProductNameById[plan.product.id]
     const name = capitalize(plan.name.toLowerCase())
-    return `${product}: ${name} plan` + getTrialInfo(trialEnd)
+    return `${product}: ${name} plan` + getTrialInfo(subscription)
   })
 
-  function getTrialInfo(trialEnd) {
-    if (!trialEnd) return ''
-
-    const daysLeft = calculateTrialDaysLeft(trialEnd)
-    return ' (trial - ' + (daysLeft === 1 ? 'last day)' : `${daysLeft} days left)`)
+  function getTrialInfo(subscription) {
+    const daysLeft = getTrialDaysLeft(subscription)
+    return daysLeft ? ` (trial - ${daysLeft})` : ''
   }
 </script>
 

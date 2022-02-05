@@ -6,15 +6,18 @@
   import { ui } from '@/stores/ui'
   import { currentUser } from '@/stores/user'
   import AccountInfo from './AccountInfo.svelte'
+  import { startLogoutFlow } from '@/flow/logout'
+  import AccountStatus from './AccountStatus.svelte'
 
   function onLogout() {
     // startLogoutFlow(session).then(() => (isOpened = false))
+    startLogoutFlow()
   }
 </script>
 
-<a href="/login" class="caption c-waterloo">Sign in</a>
+<AccountStatus />
 
-<Tooltip activeClass="$style.active" align="center" isOpened closeTimeout={99999999}>
+<Tooltip activeClass="$style.active" align="center">
   <svelte:fragment slot="trigger">
     <Pic class="btn mrg-m mrg--l $style.pic" />
   </svelte:fragment>
