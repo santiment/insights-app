@@ -1,5 +1,6 @@
 <script context="module">
   import { queryAllInsightsSSR } from '@/api/insights'
+  import { queryFeaturedInsightsSSR } from '@/api/insights/featured'
 
   const parseTags = (tags) => tags && tags.toUpperCase().split(',')
   const parseOnlyPro = (onlyPro) => onlyPro !== undefined
@@ -10,11 +11,13 @@
     const tags = parseTags(query.tags)
     const onlyPro = parseOnlyPro(query.onlyPro)
     const insights = await queryAllInsightsSSR(1, tags, onlyPro, this)
+    const featured = await queryFeaturedInsightsSSR(this)
 
     return {
       insights,
       onlyPro,
       tags,
+      featured,
     }
   }
 </script>
@@ -24,8 +27,11 @@
   import BackToTop from 'webkit/ui/BackToTop.svelte'
   import TagFilters from '@cmp/TagFilters.svelte'
   import InsightsFeed from '@cmp/InsightsFeed.svelte'
+  import HandpickedTakes from '@cmp/HandpickedTakes.svelte'
+  import Conversations from '@cmp/Conversations.svelte'
 
   export let insights = []
+  export let featured = []
   export let tags
   export let onlyPro
 </script>
@@ -49,7 +55,15 @@
 
   <TagFilters />
 
-  <InsightsFeed {insights} {tags} {onlyPro} />
+  <div class="row">
+    <div class="fluid">
+      <InsightsFeed {insights} {tags} {onlyPro} />
+    </div>
+    <aside>
+      <HandpickedTakes insights={featured} />
+      <Conversations />
+    </aside>
+  </div>
 </main>
 
 <style>
@@ -64,5 +78,14 @@
 
   .active {
     color: var(--black);
+  }
+
+  aside {
+    width: 353px;
+    min-width: 353px;
+    height: calc(100vh - 60px);
+    position: sticky;
+    top: 30px;
+    margin: 0 0 0 30px;
   }
 </style>

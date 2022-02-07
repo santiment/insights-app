@@ -6,14 +6,16 @@
   export { className as class }
   export let insight
 
+  let node
+
   $: ({ id, title } = insight)
   $: href = '/read/' + getSEOLinkFromIdAndTitle(id, title)
 </script>
 
-<div class="border row {className}">
+<div class="border row {className}" bind:this={node}>
   <div class="column fluid">
     <div class="top">
-      <slot {href} />
+      <slot {href} {node} />
     </div>
     <Bottom {insight} />
   </div>

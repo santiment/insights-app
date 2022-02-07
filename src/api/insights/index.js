@@ -3,7 +3,7 @@ import { query, newSSRQuery } from 'webkit/api'
 export const INSIGHT_FRAGMENT = `
   id
   title
-  isPaywallRequired
+  isPro:isPaywallRequired
   publishedAt
   tags {
     name
@@ -27,7 +27,9 @@ const ALL_INSIGHTS = (page = 1, tags, isOnlyPro = false) => {
 
   return `
   {
-    insights: allInsights(page:${page},isPaywallRequired:${isOnlyPro},pageSize:10${tags}) {
+    insights: allInsights(page:${page}${
+    isOnlyPro ? ',isPaywallRequired:true' : ''
+  },pageSize:10${tags}) {
       ${INSIGHT_FRAGMENT}
       isPulse
     }

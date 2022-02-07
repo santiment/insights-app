@@ -7,8 +7,9 @@
   let className = ''
   export { className as class }
   export let insight
+  export let isWithPrice = process.browser
 
-  $: ({ title, user, publishedAt } = insight)
+  $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
 
   function formatDate(date) {
@@ -17,7 +18,7 @@
   }
 </script>
 
-<Card {insight} class={className} let:href>
+<Card {insight} class={className} let:node let:href>
   <a {href} class="title body-2 mrg-m mrg--b">{title}</a>
 
   <Profile {user}>
@@ -25,9 +26,7 @@
   </Profile>
 
   <svelte:fragment slot="right">
-    {#if process.browser}
-      <Price {insight} />
-    {/if}
+    {#if isWithPrice && node && tags.length}<Price {node} {insight} />{/if}
   </svelte:fragment>
 </Card>
 

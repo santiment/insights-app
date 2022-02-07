@@ -3,8 +3,6 @@ import { ONE_DAY_IN_MS } from 'webkit/utils/dates'
 
 const PRICE_QUERY = (slug, from, to, interval = '1d') => `{
   getMetric(metric:"price_usd") {
-    firstPrice:aggregatedTimeseriesData(slug:"${slug}",from:"${from}",to:"${to}",aggregation:FIRST)
-
     data:timeseriesData(slug:"${slug}",from:"${from}",to:"${to}",interval:"${interval}") {
       d: datetime,
       v: value
@@ -26,28 +24,21 @@ function normalizeInterval(from) {
   return '7d'
 }
 
-function precacher(data) {
-  const items = data.getMetric.data
-  for (let i = items.length - 1; i > -1; i--) {
-    const item = items[i]
-    item.d = +new Date(item.d)
-  }
-  return data
-}
-const options = { precacher: () => precacher }
-const accessor = ({ getMetric }) => getMetric
+const accessor = ({ getMetric }) => getMetric.data
 export function queryPriceData(slug, from, to = 'utc_now') {
-  return query(PRICE_QUERY(slug, from, to, normalizeInterval(from)), options).then(accessor)
+  return query(PRICE_QUERY(slug, from, to, normalizeInterval(from))).then(accessor)
 }
 
-const INSIGHT_PROJECT = (id) => `{
+const INSIGHT_PROJECT = (id, from, to) => `{
   insight(id:${id}) {
     project: priceChartProject {
       slug
       ticker
       priceUsd
+      publicationPrice:aggregatedTimeseriesData(metric:"price_usd",from:"${from}",to:"${to}",aggregation:FIRST)
     }
   }
 }`
 const projectAccessor = ({ insight }) => insight.project
-export const queryInsightProject = (id) => query(INSIGHT_PROJECT(id)).then(projectAccessor)
+export const queryInsightProject = (id, from, to = 'utc_now') =>
+  query(INSIGHT_PROJECT(id, from, to)).then(projectAccessor)

@@ -5,7 +5,7 @@
 
   export let insight
 
-  $: ({ votes, tags } = insight)
+  $: ({ votes, tags, isPro } = insight)
 </script>
 
 <div class="bottom row v-center c-waterloo">
@@ -19,6 +19,10 @@
   <div class="c-waterloo mrg-a mrg--l caption">
     <Tags {tags} />
   </div>
+
+  {#if isPro}
+    <Svg id="crown" w="12" h="9" class="$style.crown" />
+  {/if}
 </div>
 
 <style>
@@ -31,5 +35,10 @@
     padding: 5px 12px;
     border-radius: 20px;
     fill: var(--waterloo);
+  }
+
+  .crown {
+    fill: var(--orange);
+    margin-left: 20px;
   }
 </style>

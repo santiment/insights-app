@@ -1,80 +1,55 @@
 <script>
-  import Chart from './Chart.svelte'
+  import Change, { percentChange } from 'webkit/ui/Change.svelte'
+  import Chart from 'webkit/ui/MiniChart/svelte'
+  import ChartPointRef from 'webkit/ui/MiniChart/PointRef.svelte'
   import { queryPriceData, queryInsightProject } from '@/api/insights/project'
-  import Change, { perceChange } from './Change.svelte'
-  import { compare } from 'webpack/lib/Dependency'
+  import { onDestroy } from 'svelte'
 
+  export let node
   export let insight
-  const publicationTimestamp = +new Date(insight.publishedAt)
+  const { publishedAt } = insight
+  const publicationTimestamp = +new Date(publishedAt)
 
-  let data
-  let points
-
-  let clientHeight
-  let project
-  let publicationPrice = 0
-  let cx = 0
-  let cy = 0
-
-  const map = (value, valueMin, valueMax, targetMin, targetMax) =>
-    targetMin + ((value - valueMin) * (targetMax - targetMin)) / (valueMax - valueMin)
+  let observer = observeIntersection()
+  let data, project, clientHeight
 
   $: project && loadPrice()
-  $: change = publicationPrice && perceChange(publicationPrice, project.priceUsd)
-  $: if (points && points.length > 2) {
-    const { length } = data
-    const first = data[0].d
-    const last = data[length - 1].d
+  $: change = project && percentChange(project.publicationPrice, project.priceUsd)
 
-    const index = Math.round(map(publicationTimestamp, first, last, 0, length))
-    const point = points[index]
-    if (point) {
-      console.log(point)
-      const [x, y] = point.split(',')
-      cx = x
-      cy = y
-    }
+  function observeIntersection() {
+    const dispatcher = ([{ isIntersecting }]) => isIntersecting && loadProject()
+    const observer = new IntersectionObserver(dispatcher, { rootMargin: '200px' })
+    observer.observe(node)
+    return observer
   }
 
-  queryInsightProject(insight.id).then((data) => (project = data))
+  function loadProject() {
+    observer.unobserve(node)
+    observer = null
+    queryInsightProject(insight.id, publishedAt).then((data) => (project = data))
+  }
+
   function loadPrice() {
     const diff = Date.now() - publicationTimestamp
     const from = new Date(publicationTimestamp - diff * 0.3)
-
-    queryPriceData(project.slug, from.toISOString()).then((result) => {
-      publicationPrice = result.firstPrice
-      data = result.data
-    })
+    queryPriceData(project.slug, from.toISOString()).then((result) => (data = result))
   }
 
-  const defaultCompare = (a, b) => a - b
-  function binSearch(items, target, compare = defaultCompare) {
-    let start = 0
-    let stop = items.length - 1
-    let value
-    let mid
-
-    while (start > 0 && start < stop) {
-      mid = Math.floor((start + stop) / 2)
-      value = items[mid]
-      const dir = compare(value, taget)
-
-      if (dir === 0) break
-
-      if (dir < 0) stop = mid - 1
-      else start = mid + 1
-    }
-
-    return { value, mid }
-  }
+  onDestroy(() => {
+    if (observer) observer.unobserve(node)
+  })
 </script>
 
 {#if project}
-  <div class="price c-waterloo column justify">
+  <div class="price c-waterloo column justify" bind:this={node}>
     {project.ticker} price since publication
     <div class="chart fluid mrg-m mrg--t" bind:clientHeight>
-      <Chart {data} width={220} height={clientHeight} valueKey="v" bind:points>
-        <circle {cx} {cy} r="3.5" />
+      <Chart {data} width={220} height={clientHeight} valueKey="v" let:points>
+        <ChartPointRef
+          {data}
+          {points}
+          stroke="var(--{change < 0 ? 'red' : 'lima'})"
+          target={publicationTimestamp} />
       </Chart>
     </div>
     <Change {change} class="$style.change" />
@@ -96,11 +71,5 @@
 
   .change {
     justify-content: flex-end;
-  }
-
-  circle {
-    fill: var(--white);
-    stroke: var(--green);
-    stroke-width: 1.5px;
   }
 </style>
