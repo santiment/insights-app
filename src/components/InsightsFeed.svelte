@@ -3,6 +3,7 @@
   import { queryAllInsights } from '@/api/insights'
   import Feed from './Feed.svelte'
   import InsightCard from './InsightCard/index.svelte'
+  import PulseCard from './InsightCard/Pulse.svelte'
 
   export let insights, tags, onlyPro
 
@@ -33,7 +34,11 @@
 </script>
 
 <Feed items={insights} let:item>
-  <InsightCard insight={item} class="mrg-xl mrg--b" />
+  {#if item.isPulse}
+    <PulseCard insight={item} class="mrg-xl mrg--b" />
+  {:else}
+    <InsightCard insight={item} class="mrg-xl mrg--b" />
+  {/if}
 </Feed>
 
 {#if hasMore}
