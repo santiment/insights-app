@@ -9,15 +9,17 @@
   import { startLogoutFlow } from '@/flow/logout'
   import AccountStatus from './AccountStatus.svelte'
 
+  let isOpened = false
+
   function onLogout() {
-    // startLogoutFlow(session).then(() => (isOpened = false))
+    isOpened = false
     startLogoutFlow()
   }
 </script>
 
 <AccountStatus />
 
-<Tooltip activeClass="$style.active" align="center">
+<Tooltip activeClass="$style.active" align="center" bind:isOpened>
   <svelte:fragment slot="trigger">
     <Pic class="btn mrg-m mrg--l $style.pic" />
   </svelte:fragment>
@@ -28,31 +30,31 @@
       <hr />
 
       <section>
-        <a class="btn btn--ghost" href="https://app.santiment.net/sonar/my-signals"> My signals </a>
-        <a class="btn btn--ghost" href="https://app.santiment.net/watchlists"> My watchlists </a>
-        <a class="btn btn--ghost" href="/my"> My insights </a>
+        <a class="btn-ghost" href="https://app.santiment.net/sonar/my-signals"> My signals </a>
+        <a class="btn-ghost" href="https://app.santiment.net/watchlists"> My watchlists </a>
+        <a class="btn-ghost" href="/my"> My insights </a>
         <a href="/new" class="write btn-1 btn--s">Write insight</a>
       </section>
       <hr />
     {/if}
 
     <section>
-      <div class="btn btn--ghost" on:click={ui.toggleNightMode}>
+      <div class="btn-ghost" on:click={ui.toggleNightMode}>
         Night mode
         <Toggle isActive={$ui.nightMode} />
       </div>
 
       {#if $currentUser}
-        <a href="https://app.santiment.net/labs" class="btn btn--ghost">Labs</a>
-        <a href="https://app.santiment.net/account" class="btn btn--ghost">Account Settings</a>
-        <div class="btn btn--ghost" on:click={() => window.Intercom && window.Intercom('show')}>
+        <a href="https://app.santiment.net/labs" class="btn-ghost">Labs</a>
+        <a href="https://app.santiment.net/account" class="btn-ghost">Account Settings</a>
+        <div class="btn-ghost" on:click={() => window.Intercom && window.Intercom('show')}>
           Contact us
         </div>
-        <div class="btn btn--ghost logout" on:click={onLogout}>
+        <div class="btn-ghost logout" on:click={onLogout}>
           <Svg id="logout" w="16" class="mrg-s mrg--r" /> Logout
         </div>
       {:else}
-        <a href="/login" class="btn btn--ghost">Login</a>
+        <a href="/login" class="btn-ghost">Login</a>
       {/if}
     </section>
   </div>
@@ -79,7 +81,7 @@
     margin: 6px 0 0 8px;
   }
 
-  .btn--ghost {
+  .btn-ghost {
     display: flex;
     align-items: center;
     justify-content: space-between;

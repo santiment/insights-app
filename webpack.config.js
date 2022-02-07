@@ -53,6 +53,18 @@ const ENVS = {
   'process.env.ICONS_PATH': JSON.stringify('webkit/icons'),
 }
 
+const URL_LOADER = {
+  test: /\.(svg)$/i,
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        limit: 1000,
+      },
+    },
+  ],
+}
+
 module.exports = {
   client: {
     entry: config.client.entry(),
@@ -60,6 +72,7 @@ module.exports = {
     resolve: { alias, extensions, mainFields },
     module: {
       rules: [
+        URL_LOADER,
         {
           test: /\.(svelte|html)$/,
           use: {
@@ -99,6 +112,7 @@ module.exports = {
     externals: Object.keys(pkg.dependencies).concat('encoding'),
     module: {
       rules: [
+        URL_LOADER,
         {
           test: /\.(svelte|html)$/,
           use: {
