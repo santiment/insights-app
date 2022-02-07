@@ -15,7 +15,7 @@
   $: active = onlyPro !== undefined ? 'pro' : (tags || '').toLowerCase()
 </script>
 
-<div class="row c-waterloo mrg-xl mrg--t">
+<div class="row c-waterloo mrg-xl mrg--t mrg--b">
   {#each TAGS as [link, label]}
     {@const href = link ? `?tags=${link}` : ''}
     <a {href} class="btn-2" class:active={active === link}>{label}</a>
