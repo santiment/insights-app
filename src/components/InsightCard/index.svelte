@@ -2,6 +2,7 @@
   import { getDateFormats } from 'webkit/utils/dates'
   import Profile from 'webkit/ui/Profile/index.svelte'
   import Card from './Card.svelte'
+  import Price from './Price.svelte'
 
   let className = ''
   export { className as class }
@@ -22,6 +23,12 @@
   <Profile {user}>
     <div class="caption c-waterloo">{date}</div>
   </Profile>
+
+  <svelte:fragment slot="right">
+    {#if process.browser}
+      <Price {insight} />
+    {/if}
+  </svelte:fragment>
 </Card>
 
 <style>

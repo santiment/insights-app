@@ -37,8 +37,11 @@
   <meta property="og:description" content="All Commmunity Insights" />
 </svelte:head>
 
-<BackToTop />
 <Nav />
+
+{#if process.browser}
+  <BackToTop />
+{/if}
 
 <main class="section">
   <a href="/" class="h4 txt-m active">Insights</a>

@@ -10,13 +10,14 @@
   $: href = '/read/' + getSEOLinkFromIdAndTitle(id, title)
 </script>
 
-<div class="border {className}">
-  <div class="column">
+<div class="border row {className}">
+  <div class="column fluid">
     <div class="top">
       <slot {href} />
     </div>
     <Bottom {insight} />
   </div>
+  <slot name="right" />
 </div>
 
 <style>

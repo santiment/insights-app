@@ -30,9 +30,14 @@
 </Card>
 
 <style>
+  a {
+    word-break: break-all;
+  }
+
   span {
     align-self: flex-start;
     margin: 4px 0 0 16px;
+    white-space: nowrap;
   }
 
   .profile {
