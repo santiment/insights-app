@@ -1,158 +1,33 @@
-<script context="module">
-  import { CURRENT_USER_QUERY } from '@/gql/user'
-  import { checkGDPR } from '@/logic/gdpr'
-
-  export async function preload(page, session, { apollo }) {
-    if (typeof session.currentUser !== 'object') {
-      // loadingUser is needed for synchronizing with '/login' for redirect
-      session.loadingUser = apollo
-        .query({ query: CURRENT_USER_QUERY })
-        .catch(() => {
-          console.log('CURRENT_USER_QUERY error')
-          return { data: { currentUser: null } }
-        })
-      let currentUser = null
-
-      try {
-        const { data } = await session.loadingUser
-        currentUser = data.currentUser
-      } catch (e) {
-        console.log(e, 'currentUser error')
-      }
-
-      session.currentUser = currentUser
-      session.loadingUser = null
-    }
-
-    if (page.path !== '/gdpr') {
-      checkGDPR(session.currentUser, this)
-    }
-  }
-</script>
-
 <script>
-  import { setContext } from 'svelte'
-  import { stores } from '@sapper/app'
-  import Notifications from '@/components/Notifications'
-  import LoadProgress from '@/components/LoadProgress'
-  import NavDesktop from '@/components/Nav'
-  import NavMobile from '@/components/Mobile/Nav'
-  import CookiePopup from '@/components/CookiePopup'
-  import Analytics from '@/components/Analytics'
-  import FirstPromoter from '@/components/FirstPromoter'
-  import Intercom from '@/components/Intercom'
-  import Stripe from '@/components/Stripe'
-  import Promotion from '@/components/Promotion'
-  import BackToTop from '@/components/BackToTop'
-  import Tags from './_Tags.svelte'
-  import { user$ } from '@/stores/user'
-  import { likeInsight } from '@/logic/likes'
-  import { getInsightChartProjectData } from '@/logic/projects'
-  import { lookupSavedComment } from '@/utils/comments'
-  import { getMobileComponent } from '@/utils/responsive'
-
-  export let segment
-
-  const Nav = getMobileComponent(NavMobile, NavDesktop)
-  const isMobile = Nav === NavMobile
-
-  const currentUser = user$()
-
-  const ROUTES_WITH_TABS = new Set([
-    undefined, // index page
-    'pulse',
-    'tags',
-  ])
-
-  let wasNotified = false
-
-  $: if (process.browser && !wasNotified && $currentUser) {
-    wasNotified = true
-    lookupSavedComment()
-  }
-
-  setContext('likeInsight', likeInsight)
-  setContext('getInsightChartProjectData', getInsightChartProjectData)
+  import Nav from '@/_components/Nav/index.svelte'
+  import BackToTop from 'webkit/ui/BackToTop.svelte'
+  import { session } from '@/stores/session'
 </script>
 
-<template lang="pug">
-include /ui/mixins
+<svelte:head>
+  <title>Insights</title>
+  <meta property="og:title" content="Insights" />
+  <meta name="description" content="All Community Insights" />
+  <meta property="og:description" content="All Commmunity Insights" />
+</svelte:head>
 
-+if('process.env.BACKEND_URL !== "https://api-stage.santiment.net"')
-  Analytics
-  FirstPromoter 
+{#if $session.isMobile === false}
+  <Nav />
+{/if}
 
-LoadProgress
+{#if process.browser && $session.isMobile === false}
+  <BackToTop />
+{/if}
 
-CookiePopup
+<main class="section">
+  <slot />
+</main>
 
-Stripe 
-  Nav
-
-  main(class:isMobile)
-    +if("ROUTES_WITH_TABS.has(segment)")
-      +if('!isMobile')
-        Promotion
-      .tabs
-        +if('!isMobile')
-          BackToTop 
-        a.tab(href="/", class:active="{!segment}", prefetch) Insights
-        a.tab(href="/pulse", class:active="{segment === 'pulse'}", prefetch) Pulse Insight
-      Tags(base!='{segment || ""}')
-
-    slot
-
-Notifications
-
-+if('process.env.BACKEND_URL !== "https://api-stage.santiment.net" && !isMobile')
-  Intercom 
-
-</template>
-
-<style lang="scss">
-  @import '@/mixins';
-  @import '@/variables';
-
+<style>
   main {
-    max-width: $desktop-container-width;
-    margin: 0 auto;
-    height: 100%;
-    padding: 95px 15px 25px;
-
-    @include responsive('desktop') {
-      padding: 95px 0 25px;
-    }
+    padding: 32px 0;
   }
-
-  .isMobile {
+  :global(.isMobile) main {
     padding: 16px;
-
-    :global(.bot-scroll) {
-      padding-bottom: 76px;
-    }
-  }
-
-  .tabs {
-    margin-bottom: 32px;
-
-    &_mobile {
-      width: auto;
-      margin: 0 -16px 20px;
-      padding: 0 16px;
-    }
-  }
-
-  .tab {
-    @include text('h4', 'm');
-    margin-right: 32px;
-    color: var(--casper);
-
-    &:last-child {
-      margin: 0;
-    }
-
-    &.active {
-      color: var(--rhino);
-    }
   }
 </style>

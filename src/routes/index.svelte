@@ -23,9 +23,8 @@
 </script>
 
 <script>
-  import Nav from '@/_components/Nav/index.svelte'
-  import BackToTop from 'webkit/ui/BackToTop.svelte'
   import { session } from '@/stores/session'
+  import TopLinks from './_TopLinks.svelte'
   import TagFilters from '@cmp/TagFilters.svelte'
   import InsightsFeed from '@cmp/InsightsFeed.svelte'
   import HandpickedTakes from '@cmp/HandpickedTakes.svelte'
@@ -45,52 +44,23 @@
   <meta property="og:description" content="All Commmunity Insights" />
 </svelte:head>
 
-{#if $session.isMobile === false}
-  <Nav />
-{/if}
+<TopLinks />
 
-{#if process.browser}
-  <BackToTop />
-{/if}
-
-<main class="section">
-  <a href="/" class="h4 txt-m active" sapper:prefetch>Insights</a>
-  <a href="/pulse" class="h4 txt-m" sapper:prefetch>Pulse Insights</a>
-
-  <TagFilters />
-
-  <div class="row">
-    <div class="fluid">
-      <InsightsFeed {insights} {tags} {onlyPro} />
-    </div>
-
-    {#if $session.isMobile === false}
-      <aside class="column">
-        {#if $session.isMobile === false}<BecomeAnAuthor />{/if}
-        <HandpickedTakes insights={featured} />
-        <Conversations />
-      </aside>
-    {/if}
+<div class="row">
+  <div class="fluid">
+    <InsightsFeed {insights} {tags} {onlyPro} />
   </div>
-</main>
+
+  {#if $session.isMobile === false}
+    <aside class="column">
+      {#if $session.isMobile === false}<BecomeAnAuthor />{/if}
+      <HandpickedTakes insights={featured} />
+      <Conversations />
+    </aside>
+  {/if}
+</div>
 
 <style>
-  main {
-    padding: 32px 0;
-  }
-  :global(.isMobile) main {
-    padding: 16px;
-  }
-
-  a {
-    margin-right: 32px;
-    color: var(--casper);
-  }
-
-  .active {
-    color: var(--black);
-  }
-
   aside {
     width: 353px;
     min-width: 353px;

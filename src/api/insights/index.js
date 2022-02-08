@@ -42,3 +42,16 @@ export const queryAllInsights = (page, tags, isOnlyPro, reqOptions) =>
   query(ALL_INSIGHTS(page, tags, isOnlyPro), undefined, reqOptions).then(accessor)
 
 export const queryAllInsightsSSR = newSSRQuery(queryAllInsights)
+
+const INSIGHT_QUERY = (id) => `{
+  insight(id:${id}) {
+    ${INSIGHT_FRAGMENT}
+    text
+  }
+}`
+
+const insightAccessor = ({ insight }) => insight
+export const queryInsight = (id, reqOptions) =>
+  query(INSIGHT_QUERY(id), undefined, reqOptions).then(insightAccessor)
+
+export const queryInsightSSR = newSSRQuery(queryInsight)
