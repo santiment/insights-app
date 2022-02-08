@@ -3,6 +3,7 @@
   import Profile from 'webkit/ui/Profile/index.svelte'
   import Card from './Card.svelte'
   import Price from './Price.svelte'
+  import Editorial from './Editorial.svelte'
 
   let className = ''
   export { className as class }
@@ -21,9 +22,13 @@
 <Card {insight} class={className} let:node let:href>
   <a {href} class="title body-2 mrg-m mrg--b">{title}</a>
 
-  <Profile {user}>
-    <div class="caption c-waterloo">{date}</div>
-  </Profile>
+  <div class="row v-center">
+    <Profile {user}>
+      <div class="caption c-waterloo">{date}</div>
+    </Profile>
+
+    <Editorial {user} />
+  </div>
 
   <svelte:fragment slot="right">
     {#if isWithPrice && node && tags.length}<Price {node} {insight} />{/if}

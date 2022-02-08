@@ -25,10 +25,12 @@
 <script>
   import Nav from '@/_components/Nav/index.svelte'
   import BackToTop from 'webkit/ui/BackToTop.svelte'
+  import { session } from '@/stores/session'
   import TagFilters from '@cmp/TagFilters.svelte'
   import InsightsFeed from '@cmp/InsightsFeed.svelte'
   import HandpickedTakes from '@cmp/HandpickedTakes.svelte'
   import Conversations from '@cmp/Conversations.svelte'
+  import BecomeAnAuthor from '@cmp/BecomeAnAuthor.svelte'
 
   export let insights = []
   export let featured = []
@@ -59,7 +61,8 @@
     <div class="fluid">
       <InsightsFeed {insights} {tags} {onlyPro} />
     </div>
-    <aside>
+    <aside class="column">
+      {#if $session.isMobile === false}<BecomeAnAuthor />{/if}
       <HandpickedTakes insights={featured} />
       <Conversations />
     </aside>

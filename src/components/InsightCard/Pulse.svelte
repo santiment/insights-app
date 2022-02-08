@@ -2,6 +2,7 @@
   import { getDateFormats } from 'webkit/utils/dates'
   import Profile from 'webkit/ui/Profile/index.svelte'
   import Card from './Card.svelte'
+  import Editorial from './Editorial.svelte'
 
   let className = ''
   export { className as class }
@@ -26,7 +27,10 @@
     {@html text}
   </div>
 
-  <Profile {user} class="$style.profile c-waterloo caption mrg-m mrg--t" />
+  <div class="row v-center">
+    <Profile {user} class="$style.profile c-waterloo caption mrg-m mrg--t" />
+    <Editorial {user} />
+  </div>
 </Card>
 
 <style>

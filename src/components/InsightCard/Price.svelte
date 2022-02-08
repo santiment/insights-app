@@ -31,7 +31,7 @@
 
   function loadPrice() {
     const diff = Date.now() - publicationTimestamp
-    const from = new Date(publicationTimestamp - diff * 0.3)
+    const from = new Date(publicationTimestamp - diff * 0.5)
     queryPriceData(project.slug, from.toISOString()).then((result) => (data = result))
   }
 

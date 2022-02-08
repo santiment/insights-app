@@ -9,6 +9,9 @@ export const CURRENT_USER_FRAGMENT = `
     settings {
       theme
     }
+    insightsCount {
+      totalCount
+    }
     subscriptions {
       status
       trialEnd
