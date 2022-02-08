@@ -13,24 +13,54 @@
 
 <script>
   import { getDateFormats } from 'webkit/utils/dates'
+  import Svg from 'webkit/ui/Svg/svelte'
   import Comments from 'webkit/ui/Comments/svelte'
+  import ViewportObserver from 'webkit/ui/ViewportObserver.svelte'
+  import { currentUser } from '@/stores/user'
   import Tags from '@cmp/Tags.svelte'
   import Author from './_Author.svelte'
   import Epilogue from './_Epilogue.svelte'
-  import { currentUser } from '@/stores/user'
+  import FixedControls from './_FixedControls.svelte'
+  import Assets from './_Assets.svelte'
 
   export let insight
+
+  let hidden = true
+  let metaDescriptionText = ''
+  let previewImgLink = ''
 
   $: ({ title, text, user, publishedAt, tags } = insight)
 
   $: ({ MMM, D, YYYY } = getDateFormats(new Date(publishedAt)))
   $: date = `${MMM} ${D}, ${YYYY}`
+
+  const showSidebar = () => (hidden = false)
+  const hideSidebar = () => (hidden = true)
 </script>
 
+<svelte:head>
+  <title>{title} - Santiment Community Insights</title>
+  <meta name="description" content={metaDescriptionText} />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="{title} - Santiment Community Insights" />
+  <meta property="og:description" content={metaDescriptionText} />
+
+  {#if previewImgLink}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={previewImgLink} />
+    <meta name="og:image" content={previewImgLink} />
+  {/if}
+</svelte:head>
+
 <div class="insight">
+  {#if process.browser}
+    <FixedControls {insight} {hidden} />
+    <Assets {insight} />
+  {/if}
+
   <div class="row v-center">
     <a href="/" class="c-casper">Insights</a>
-
+    <Svg id="arrow-right" w="4.5" h="8" class="mrg-m mrg--l mrg--r" />
     <a href="/read/">{title}</a>
   </div>
 
@@ -38,14 +68,21 @@
 
   <Author {user} {date} />
 
-  <!-- <div class="text mrg-xl mrg--t">{@html text}</div> -->
+  <div class="text mrg-xl mrg--t">{@html text}</div>
 
   <div class="tags c-waterloo mrg-xl mrg--t caption">
     <Tags {tags} />
   </div>
 
   <Author {user} {date} />
-  <Epilogue {insight} />
+
+  <ViewportObserver
+    top
+    options={{ rootMargin: '160px 0px -135px' }}
+    on:intersect={hideSidebar}
+    on:leaving={showSidebar}>
+    <Epilogue {insight} />
+  </ViewportObserver>
 
   <div id="comments">
     <Comments
@@ -60,6 +97,7 @@
   .insight {
     max-width: 720px;
     margin: 0 auto;
+    position: relative;
   }
 
   .tags {

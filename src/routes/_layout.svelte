@@ -4,13 +4,6 @@
   import { session } from '@/stores/session'
 </script>
 
-<svelte:head>
-  <title>Insights</title>
-  <meta property="og:title" content="Insights" />
-  <meta name="description" content="All Community Insights" />
-  <meta property="og:description" content="All Commmunity Insights" />
-</svelte:head>
-
 {#if $session.isMobile === false}
   <Nav />
 {/if}

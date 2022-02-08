@@ -4,7 +4,8 @@
 
   export let insight
 
-  $: ({ user } = insight)
+  $: ({ user, votes, commentsCount } = insight)
+  $: ({ username } = user)
 </script>
 
 <div class="epilogue body-2 c-waterloo mrg-xl mrg--t">
@@ -15,14 +16,14 @@
   </p>
 
   <div class="row h-center body-3">
-    <LikeBtn />
-    <CommentBtn />
+    <LikeBtn totalVotes={votes.totalVotes} userVotes={votes.currentUserVotes} />
+    <CommentBtn count={commentsCount} />
   </div>
 
   <div class="follow column v-center">
-    <h3 class="h4 txt-m mrg-s mrg--b c-black">Never miss a post from Santrends!</h3>
+    <h3 class="h4 txt-m mrg-s mrg--b c-black">Never miss a post from {username}!</h3>
     <p class="mrg-xl mrg--b">Get 'early bird' alerts for new insights from this author</p>
-    <div class="btn-1 btn--s body-3">Follow {user.username}</div>
+    <div class="btn-1 btn--s body-3">Follow {username}</div>
     <img src="/overview_banner.svg" alt="Banner" loading="lazy" />
   </div>
 </div>
