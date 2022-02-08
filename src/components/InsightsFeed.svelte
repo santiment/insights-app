@@ -1,6 +1,7 @@
 <script>
   import ViewportObserver from 'webkit/ui/ViewportObserver.svelte'
   import { queryAllInsights } from '@/api/insights'
+  import { session } from '@/stores/session'
   import Feed from './Feed.svelte'
   import InsightCard from './InsightCard/index.svelte'
   import PulseCard from './InsightCard/Pulse.svelte'
@@ -8,6 +9,7 @@
   export let insights, tags, onlyPro
 
   $: reset(tags, onlyPro)
+  $: isWithPrice = !$session.isMobile
 
   let page = 1
   let loading = false
@@ -37,7 +39,7 @@
   {#if item.isPulse}
     <PulseCard insight={item} class="mrg-xl mrg--b" />
   {:else}
-    <InsightCard insight={item} class="mrg-xl mrg--b" />
+    <InsightCard insight={item} class="mrg-xl mrg--b" {isWithPrice} />
   {/if}
 </Feed>
 

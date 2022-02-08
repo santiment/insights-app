@@ -20,7 +20,7 @@
 </script>
 
 <Card {insight} class={className} let:node let:href>
-  <a {href} class="title body-2 mrg-m mrg--b">{title}</a>
+  <a {href} class="title body-2 mrg-m mrg--b" sapper:prefetch>{title}</a>
 
   <div class="row v-center">
     <Profile {user}>

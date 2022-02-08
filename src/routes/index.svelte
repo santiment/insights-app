@@ -45,15 +45,17 @@
   <meta property="og:description" content="All Commmunity Insights" />
 </svelte:head>
 
-<Nav />
+{#if $session.isMobile === false}
+  <Nav />
+{/if}
 
 {#if process.browser}
   <BackToTop />
 {/if}
 
 <main class="section">
-  <a href="/" class="h4 txt-m active">Insights</a>
-  <a href="/" class="h4 txt-m">Pulse Insights</a>
+  <a href="/" class="h4 txt-m active" sapper:prefetch>Insights</a>
+  <a href="/pulse" class="h4 txt-m" sapper:prefetch>Pulse Insights</a>
 
   <TagFilters />
 
@@ -61,17 +63,23 @@
     <div class="fluid">
       <InsightsFeed {insights} {tags} {onlyPro} />
     </div>
-    <aside class="column">
-      {#if $session.isMobile === false}<BecomeAnAuthor />{/if}
-      <HandpickedTakes insights={featured} />
-      <Conversations />
-    </aside>
+
+    {#if $session.isMobile === false}
+      <aside class="column">
+        {#if $session.isMobile === false}<BecomeAnAuthor />{/if}
+        <HandpickedTakes insights={featured} />
+        <Conversations />
+      </aside>
+    {/if}
   </div>
 </main>
 
 <style>
   main {
     padding: 32px 0;
+  }
+  :global(.isMobile) main {
+    padding: 16px;
   }
 
   a {

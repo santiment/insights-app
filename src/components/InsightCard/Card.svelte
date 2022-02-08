@@ -17,7 +17,7 @@
     <div class="top">
       <slot {href} {node} />
     </div>
-    <Bottom {insight} />
+    <Bottom {insight} {href} />
   </div>
   <slot name="right" />
 </div>

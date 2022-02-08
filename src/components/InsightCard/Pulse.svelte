@@ -1,5 +1,5 @@
 <script>
-  import { getDateFormats } from 'webkit/utils/dates'
+  import { getDateFormats, getTimeFormats } from 'webkit/utils/dates'
   import Profile from 'webkit/ui/Profile/index.svelte'
   import Card from './Card.svelte'
   import Editorial from './Editorial.svelte'
@@ -12,13 +12,15 @@
   $: date = formatDate(publishedAt)
 
   function formatDate(date) {
-    const { MM, D, YY } = getDateFormats(new Date(date))
-    return `${D}-${MM}-${YY}`
+    date = new Date(date)
+    const { MM, D, YY } = getDateFormats(date)
+    const { HH, mm } = getTimeFormats(date)
+    return `${D}-${MM}-${YY}, ${HH}:${mm}`
   }
 </script>
 
 <Card {insight} class={className} let:href>
-  <a {href} class="h4 row justify mrg-m mrg--b"
+  <a {href} class="h4 row justify mrg-m mrg--b" sapper:prefetch
     >{title}
     <span class="c-waterloo caption">{date}</span>
   </a>

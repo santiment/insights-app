@@ -26,6 +26,10 @@
 </div>
 
 <style>
+  div {
+    flex-wrap: wrap;
+  }
+
   a {
     padding: 6px 16px;
     margin: 8px 15px 0 0;
