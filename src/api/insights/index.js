@@ -31,6 +31,7 @@ const ALL_INSIGHTS = (page = 1, tags, isOnlyPro = false) => {
     isOnlyPro ? ',isPaywallRequired:true' : ''
   },pageSize:10${tags}) {
       ${INSIGHT_FRAGMENT}
+      pulseText
       isPulse
     }
   }
@@ -43,15 +44,16 @@ export const queryAllInsights = (page, tags, isOnlyPro, reqOptions) =>
 
 export const queryAllInsightsSSR = newSSRQuery(queryAllInsights)
 
-const INSIGHT_QUERY = (id) => `{
+const INSIGHT_QUERY = (id, data) => `{
   insight(id:${id}) {
     ${INSIGHT_FRAGMENT}
+    ${data}
     text
   }
 }`
 
 const insightAccessor = ({ insight }) => insight
-export const queryInsight = (id, reqOptions) =>
-  query(INSIGHT_QUERY(id), undefined, reqOptions).then(insightAccessor)
+export const queryInsight = (id, queryFragments = '', reqOptions) =>
+  query(INSIGHT_QUERY(id, queryFragments), undefined, reqOptions).then(insightAccessor)
 
 export const queryInsightSSR = newSSRQuery(queryInsight)

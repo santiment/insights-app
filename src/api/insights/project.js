@@ -1,9 +1,19 @@
 import { query, newSSRQuery } from 'webkit/api'
 import { ONE_DAY_IN_MS } from 'webkit/utils/dates'
 
-const PRICE_QUERY = (slug, from, to, interval = '1d') => `{
+function optimizePublicationPriceDate(publishedAt) {
+  const date = new Date(publishedAt)
+  const minutes = date.getMinutes()
+  date.setMinutes(minutes < 30 ? 30 : 59)
+  return date.toISOString()
+}
+
+const PRICE_QUERY = (slug, from, publishedAt, interval = '1d') => `{
   getMetric(metric:"price_usd") {
-    data:timeseriesData(slug:"${slug}",from:"${from}",to:"${to}",interval:"${interval}") {
+    publicationPrice:aggregatedTimeseriesData(slug:"${slug}",from:"${publishedAt}",to:"${optimizePublicationPriceDate(
+  publishedAt,
+)}",aggregation:FIRST)
+    data:timeseriesData(slug:"${slug}",from:"${from}",to:"utc_now",interval:"${interval}") {
       d: datetime,
       v: value
     }
@@ -15,30 +25,66 @@ function normalizeInterval(from) {
   const diff = (Date.now() - fromDate) / ONE_DAY_IN_MS
 
   if (diff < 1) return '30m'
-  if (diff < 30) return '3h'
-  if (diff < 63) return '6h'
+  if (diff < 30) return '4h'
+  if (diff < 63) return '8h'
   if (diff < 100) return '12h'
-  if (diff < 200) return '1d'
-  if (diff < 300) return '2d'
-  if (diff < 370) return '3d'
+  if (diff < 160) return '1d'
+  if (diff < 220) return '2d'
+  if (diff < 290) return '3d'
   return '7d'
 }
 
-const accessor = ({ getMetric }) => getMetric.data
-export function queryPriceData(slug, from, to = 'utc_now') {
-  return query(PRICE_QUERY(slug, from, to, normalizeInterval(from))).then(accessor)
+const accessor = ({ getMetric }) => getMetric
+export function queryPriceData(slug, from, publishedAt) {
+  return query(PRICE_QUERY(slug, from, publishedAt, normalizeInterval(from))).then(accessor)
 }
+export const queryPriceDataSSR = newSSRQuery(queryPriceData)
 
-const INSIGHT_PROJECT = (id, from, to) => `{
+// ----------------------------------------------------
+
+export const PROJECT_FRAGMENT = `
+  project: priceChartProject {
+    slug
+    name
+    ticker
+    priceUsd
+  }
+`
+const INSIGHT_PROJECT = (id) => `{
   insight(id:${id}) {
-    project: priceChartProject {
-      slug
-      ticker
-      priceUsd
-      publicationPrice:aggregatedTimeseriesData(metric:"price_usd",from:"${from}",to:"${to}",aggregation:FIRST)
-    }
+    ${PROJECT_FRAGMENT}
   }
 }`
 const projectAccessor = ({ insight }) => insight.project
-export const queryInsightProject = (id, from, to = 'utc_now') =>
-  query(INSIGHT_PROJECT(id, from, to)).then(projectAccessor)
+export const queryInsightProject = (id) => query(INSIGHT_PROJECT(id)).then(projectAccessor)
+
+// ----------------------------------------------------
+
+const RELATED_PROJECTS_QUERY = (id) => `{
+  insight(id:${id}) {
+    relatedProjects {
+      slug
+      name
+      ticker
+      priceUsd
+      change:percentChange7d
+    }
+  }
+}`
+const relatedProjectsAccessor = ({ insight }) => insight.relatedProjects
+export const queryInsightRelatedProjects = (id) =>
+  query(RELATED_PROJECTS_QUERY(id)).then(relatedProjectsAccessor)
+
+// ----------------------------------------------------
+
+const RELATED_PROJECT_PRICE_QUERY = (slug) => `{
+  getMetric(metric:"price_usd") {
+    data:timeseriesData(slug:"${slug}",from:"utc_now-7d",to:"utc_now",interval:"6h") {
+      d: datetime,
+      v: value
+    }
+  }
+}`
+const relatedProjectPriceAccessor = ({ getMetric }) => getMetric.data
+export const queryInsightRelatedProjectPrice = (slug) =>
+  query(RELATED_PROJECT_PRICE_QUERY(slug)).then(relatedProjectPriceAccessor)

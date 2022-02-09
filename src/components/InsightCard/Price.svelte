@@ -3,28 +3,29 @@
   import Chart from 'webkit/ui/MiniChart/svelte'
   import ChartPointRef from 'webkit/ui/MiniChart/PointRef.svelte'
   import { queryPriceData, queryInsightProject } from '@/api/insights/project'
-  import { onDestroy } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
 
   export let node
   export let insight
   const { publishedAt } = insight
   const publicationTimestamp = +new Date(publishedAt)
 
-  let observer = observeIntersection()
+  let observer
   let data, project, clientHeight
 
   $: project && loadPrice()
   $: change = project && percentChange(project.publicationPrice, project.priceUsd)
 
   function observeIntersection() {
+    if (!node) return loadProject()
+
     const dispatcher = ([{ isIntersecting }]) => isIntersecting && loadProject()
-    const observer = new IntersectionObserver(dispatcher, { rootMargin: '200px' })
+    observer = new IntersectionObserver(dispatcher, { rootMargin: '200px' })
     observer.observe(node)
-    return observer
   }
 
   function loadProject() {
-    observer.unobserve(node)
+    if (observer) observer.unobserve(node)
     observer = null
     queryInsightProject(insight.id, publishedAt).then((data) => (project = data))
   }
@@ -35,13 +36,15 @@
     queryPriceData(project.slug, from.toISOString()).then((result) => (data = result))
   }
 
+  onMount(observeIntersection)
+
   onDestroy(() => {
     if (observer) observer.unobserve(node)
   })
 </script>
 
 {#if project}
-  <div class="price c-waterloo column justify" bind:this={node}>
+  <div class="price c-waterloo column justify">
     {project.ticker} price since publication
     <div class="chart fluid mrg-m mrg--t" bind:clientHeight>
       <Chart {data} width={220} height={clientHeight} valueKey="v" let:points>
