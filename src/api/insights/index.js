@@ -1,13 +1,10 @@
 import { query, newSSRQuery } from 'webkit/api'
 
-export const INSIGHT_FRAGMENT = `
+export const BASIC_INSIGHT_FRAGMENT = `
   id
   title
   isPro:isPaywallRequired
   publishedAt
-  tags {
-    name
-  }
   commentsCount
   votedAt
   votes {
@@ -21,7 +18,14 @@ export const INSIGHT_FRAGMENT = `
   }
 `
 
-// TODO(vanguard): ask to add `pulseText` field
+export const INSIGHT_FRAGMENT =
+  BASIC_INSIGHT_FRAGMENT +
+  `
+  tags {
+    name
+  }
+`
+
 const ALL_INSIGHTS = (page = 1, tags, isOnlyPro = false) => {
   tags = tags ? `,tags:${JSON.stringify(tags)}` : ''
 
@@ -44,7 +48,9 @@ export const queryAllInsights = (page, tags, isOnlyPro, reqOptions) =>
 
 export const queryAllInsightsSSR = newSSRQuery(queryAllInsights)
 
-const INSIGHT_QUERY = (id, data) => `{
+// --------------------------------------
+
+const INSIGHT_QUERY = (id, data = '') => `{
   insight(id:${id}) {
     ${INSIGHT_FRAGMENT}
     ${data}
@@ -57,3 +63,13 @@ export const queryInsight = (id, queryFragments = '', reqOptions) =>
   query(INSIGHT_QUERY(id, queryFragments), undefined, reqOptions).then(insightAccessor)
 
 export const queryInsightSSR = newSSRQuery(queryInsight)
+
+// --------------------------------------
+
+const SUGGESTED_USER_INSIGHTS_QUERY = (id) => `{
+  insights:allInsightsForUser(userId:${id}, pageSize:10){
+    ${BASIC_INSIGHT_FRAGMENT}
+  }
+}`
+export const querySuggestedUserInsights = (userId) =>
+  query(SUGGESTED_USER_INSIGHTS_QUERY(userId)).then(accessor)

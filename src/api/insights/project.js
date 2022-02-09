@@ -45,11 +45,10 @@ export const queryPriceDataSSR = newSSRQuery(queryPriceData)
 export const PROJECT_FRAGMENT = `
   project: priceChartProject {
     slug
-    name
     ticker
     priceUsd
-  }
-`
+  }`
+
 const INSIGHT_PROJECT = (id) => `{
   insight(id:${id}) {
     ${PROJECT_FRAGMENT}
@@ -59,6 +58,12 @@ const projectAccessor = ({ insight }) => insight.project
 export const queryInsightProject = (id) => query(INSIGHT_PROJECT(id)).then(projectAccessor)
 
 // ----------------------------------------------------
+
+export const RELATED_PROJECT_FRAGMENT =
+  PROJECT_FRAGMENT.slice(0, -1) +
+  `name
+  change:percentChange7d
+}`
 
 const RELATED_PROJECTS_QUERY = (id) => `{
   insight(id:${id}) {

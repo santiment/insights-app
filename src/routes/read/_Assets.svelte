@@ -1,5 +1,5 @@
 <script>
-  import { onDestroy, onMount } from 'svelte'
+  import { onDestroy } from 'svelte'
   import Asset from '@cmp/Asset.svelte'
   import PriceSincePublication from '@cmp/PriceSincePublication.svelte'
   import { queryInsightRelatedProjects } from '@/api/insights/project'
@@ -12,19 +12,22 @@
   let observer
   let relatedProjects = []
 
-  $: ({ project } = insight)
+  $: ({ id, project } = insight)
+  $: id && node && setupObserver()
 
   function loadRelatedProjects() {
     observer.unobserve(node)
     observer = null
-    queryInsightRelatedProjects(insight.id).then((data) => (relatedProjects = data))
+    queryInsightRelatedProjects(insight.id).then(
+      (data) => (relatedProjects = [project].concat(data)),
+    )
   }
 
-  onMount(() => {
+  function setupObserver() {
     const dispatcher = ([{ isIntersecting }]) => isIntersecting && loadRelatedProjects()
     observer = new IntersectionObserver(dispatcher, { rootMargin: '10px' })
     observer.observe(node)
-  })
+  }
 
   onDestroy(() => {
     if (observer) observer.unobserve(node)

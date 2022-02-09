@@ -2,16 +2,15 @@
   import { getIdFromSEOLink } from 'webkit/utils/url'
   import { CommentsType } from 'webkit/api/comments'
   import { queryInsightSSR } from '@/api/insights'
-  import { PROJECT_FRAGMENT, queryPriceDataSSR } from '@/api/insights/project'
+  import { RELATED_PROJECT_FRAGMENT, queryPriceDataSSR } from '@/api/insights/project'
   import { queryPriceSincePublication } from '@cmp/PriceSincePublication.svelte'
 
   export async function preload(page, { isMobile }) {
     const id = getIdFromSEOLink(page.params.slug)
-    const insight = await queryInsightSSR(id, isMobile ? undefined : PROJECT_FRAGMENT, this)
+    const insight = await queryInsightSSR(id, isMobile ? undefined : RELATED_PROJECT_FRAGMENT, this)
 
     const { project, publishedAt } = insight
 
-    // TODO: priceQuery adds a lag in response. Better to do it on client?
     const queryPriceData = (...args) => queryPriceDataSSR(...args, this)
     const priceQuery =
       project && queryPriceSincePublication(project.slug, publishedAt, queryPriceData)
@@ -33,6 +32,7 @@
   import Epilogue from './_Epilogue.svelte'
   import FixedControls from './_FixedControls.svelte'
   import Assets from './_Assets.svelte'
+  import SuggestedInsights from './_SuggestedInsights.svelte'
 
   export let insight
   export let projectData
@@ -102,6 +102,10 @@
       titleClass="h4 c-waterloo" />
   </div>
 </div>
+
+{#if process.browser}
+  <SuggestedInsights {insight} {user} />
+{/if}
 
 <style>
   .insight {

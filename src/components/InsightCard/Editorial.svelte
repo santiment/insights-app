@@ -7,5 +7,11 @@
 </script>
 
 {#if SANTIMENT.has(+user.id)}
-  <Svg illus id="editorial" w="118" h="40" class="mrg-a mrg--l" />
+  <Svg illus id="editorial" w="118" h="40" class="mrg-a mrg--l $style.icon" />
 {/if}
+
+<style>
+  .icon {
+    min-width: 118px;
+  }
+</style>

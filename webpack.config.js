@@ -138,6 +138,10 @@ module.exports = {
       new webpack.DefinePlugin({
         'process.browser': false,
         ...ENVS,
+
+        'process.env.GQL_SERVER_URL': JSON.stringify(
+          (process.env.GQL_SERVER_URL || process.env.BACKEND_URL) + '/graphql',
+        ),
       }),
     ],
     performance: {

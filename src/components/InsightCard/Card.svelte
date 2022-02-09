@@ -25,6 +25,6 @@
 <style>
   .top {
     padding: 18px 16px 16px 24px;
-    --name-max-width: 250px;
+    --name-max-width: var(---name-max-width, 250px);
   }
 </style>
