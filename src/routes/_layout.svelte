@@ -1,7 +1,7 @@
 <script>
-  import Nav from '@/_components/Nav/index.svelte'
   import BackToTop from 'webkit/ui/BackToTop.svelte'
   import { session } from '@/stores/session'
+  import Nav from '@cmp/Nav/index.svelte'
 </script>
 
 {#if $session.isMobile === false}

@@ -25,7 +25,7 @@
     <span class="c-waterloo caption">{date}</span>
   </a>
 
-  <div class="text">
+  <div class="text body-2">
     {@html text}
   </div>
 
@@ -48,5 +48,15 @@
 
   .profile {
     --img-size: 24px;
+  }
+
+  .text :global(img) {
+    max-width: 600px;
+  }
+
+  .text :global(figure) {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
   }
 </style>

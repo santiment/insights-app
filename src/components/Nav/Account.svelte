@@ -5,8 +5,8 @@
   import Pic from 'webkit/ui/Profile/Pic.svelte'
   import { ui } from '@/stores/ui'
   import { currentUser } from '@/stores/user'
-  import AccountInfo from './AccountInfo.svelte'
   import { startLogoutFlow } from '@/flow/logout'
+  import AccountInfo from './AccountInfo.svelte'
   import AccountStatus from './AccountStatus.svelte'
 
   let isOpened = false

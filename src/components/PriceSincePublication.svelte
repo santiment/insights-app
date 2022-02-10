@@ -18,6 +18,8 @@
   import Chart from 'webkit/ui/MiniChart/svelte'
   import ChartPointRef from 'webkit/ui/MiniChart/PointRef.svelte'
 
+  let className = ''
+  export { className as class }
   export let width
   export let insight
   export let project = {}
@@ -32,7 +34,7 @@
 </script>
 
 {#if data}
-  <div class="price c-waterloo column justify">
+  <div class="price c-waterloo column justify {className}">
     {ticker} price since publication
     <div class="chart fluid mrg-m mrg--t c-casper" bind:clientHeight>
       <Chart {data} {width} height={clientHeight} valueKey="v" let:points>
