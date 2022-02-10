@@ -10,7 +10,7 @@
 
 <div class="border btn {className}">
   <div class="row">
-    <Profile {user} />
+    <Profile {user} class="mrg-m mrg--r" />
     <div class="caption mrg-a mrg--l">Insights</div>
   </div>
 
@@ -23,7 +23,6 @@
     padding: 12px 16px;
     --bg-hover: var(--athens);
     --img-size: 24px;
-    --name-max-width: 200px;
   }
 
   .caption {

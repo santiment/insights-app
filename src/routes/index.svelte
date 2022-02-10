@@ -25,7 +25,6 @@
 <script>
   import { session } from '@/stores/session'
   import TopLinks from './_TopLinks.svelte'
-  import TagFilters from '@cmp/TagFilters.svelte'
   import InsightsFeed from '@cmp/InsightsFeed.svelte'
   import HandpickedTakes from '@cmp/HandpickedTakes.svelte'
   import Conversations from '@cmp/Conversations.svelte'
@@ -68,5 +67,9 @@
     position: sticky;
     top: 30px;
     margin: 0 0 0 30px;
+  }
+
+  .fluid {
+    min-width: 0;
   }
 </style>

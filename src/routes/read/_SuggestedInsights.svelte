@@ -71,6 +71,5 @@
   .item {
     width: 365px;
     min-width: 365px;
-    ---name-max-width: 150px;
   }
 </style>
