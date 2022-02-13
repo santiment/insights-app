@@ -71,5 +71,6 @@
   .item {
     width: 365px;
     min-width: 365px;
+    --overflow-lines: 1;
   }
 </style>

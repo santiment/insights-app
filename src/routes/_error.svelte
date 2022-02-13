@@ -13,6 +13,6 @@
 
 <style>
   :global(body) {
-    background: url(webkit/illus/404.svg) no-repeat 50% 50% / contain;
+    background: url(webkit/illus/404.svg) no-repeat 50% 50% / 40%;
   }
 </style>

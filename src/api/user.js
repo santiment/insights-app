@@ -1,4 +1,4 @@
-import { query, newSSRQuery } from 'webkit/api'
+import { query, newSSRQuery, mutate } from 'webkit/api'
 
 export const CURRENT_USER_FRAGMENT = `
     id
@@ -35,3 +35,15 @@ export const CURRENT_USER_QUERY = `
 export const queryCurrentUser = (reqOptions) => query(CURRENT_USER_QUERY, undefined, reqOptions)
 
 export const queryCurrentUserSSR = newSSRQuery(queryCurrentUser)
+
+// ---------
+
+const LOGOUT_MUTATION = `
+  mutation {
+    logout {
+      success
+    }
+  }
+`
+
+export const logoutMutation = () => mutate(LOGOUT_MUTATION)

@@ -1,9 +1,9 @@
 import { stores } from '@sapper/app'
 
 function getSession() {
-  if (session.value) return session.value
-  const value = stores().session
-  return (session.value = value)
+  // if (session.value) return session.value
+  return stores().session
+  // return (session.value = value)
 }
 export const session = {
   subscribe(run, invalidate) {

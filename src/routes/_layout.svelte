@@ -19,6 +19,7 @@
 <style>
   main {
     padding: 32px 0;
+    flex: 1;
   }
   :global(.isMobile) main {
     padding: 16px;

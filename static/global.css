@@ -6,6 +6,12 @@
   --accent-light-3: var(--green-light-3);
 }
 
+#sapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .section {
   margin: 0 auto;
   max-width: 1140px;

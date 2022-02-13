@@ -50,6 +50,18 @@
     --img-size: 24px;
   }
 
+  .text {
+    word-break: break-word;
+  }
+
+  .text :global(a) {
+    color: var(--green);
+  }
+
+  .text :global(strong) {
+    font-weight: bold;
+  }
+
   .text :global(img) {
     max-width: 600px;
   }

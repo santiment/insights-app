@@ -22,11 +22,14 @@ polka()
           console.log(e)
           return { currentUser: null }
         })
+        console.log(currentUser)
 
+        const isMobile = !!new MobileDetect(req.headers['user-agent'] || '').mobile()
         const session = {
           currentUser,
+          isMobile,
           theme: checkIsAccountNightMode(currentUser) ? 'night-mode' : '',
-          isMobile: !!new MobileDetect(req.headers['user-agent'] || '').mobile(),
+          isDesktop: !isMobile,
         }
 
         return session
