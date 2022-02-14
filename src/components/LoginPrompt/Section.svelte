@@ -1,4 +1,7 @@
 <script>
+  import Svg from 'webkit/ui/Svg/svelte'
+  import { session } from '@/stores/session'
+
   let className = ''
   export { className as class }
   export let title
@@ -8,8 +11,12 @@
   export let bottomHref
 </script>
 
-<section class="border {className}">
+<section class="border column h-center {className}">
   <h2 class="h3 {titleMargin} mrg--b">{title}</h2>
+
+  {#if $session.isMobile}
+    <a href="/" class="close btn"><Svg id="close" w="16" /></a>
+  {/if}
 
   <slot />
 
@@ -21,13 +28,32 @@
 
 <style>
   section {
-    padding: 39px 99px;
+    padding: 24px;
     text-align: center;
+    position: relative;
+  }
+  :global(.desktop) section {
+    padding: 39px 99px;
     min-width: 540px;
+    display: block;
   }
 
-  .btn {
+  :global(body:not(.desktop)) section {
+    align-self: flex-start;
+    height: 85vh;
+    flex: 1;
+  }
+
+  a {
     --color: var(--green);
     --color-hover: var(--green-hover);
+  }
+
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    --fill: var(--waterloo);
+    --fill-hover: var(--green);
   }
 </style>
