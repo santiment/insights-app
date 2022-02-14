@@ -1,8 +1,29 @@
 <script>
   import InputWithIcon from 'webkit/ui/InputWithIcon.svelte'
+  import { track } from 'webkit/analytics'
+  import { emailLoginMutation } from '@/api/login'
+
+  export let verifiedEmail = ''
+
+  let email = ''
+  let loading = false
+
+  function onSubmit({ currentTarget }) {
+    email = currentTarget.email.value
+    loading = true
+
+    emailLoginMutation(email).then(onSuccess)
+
+    track.event('sign_up', { method: 'email' })
+  }
+
+  function onSuccess({ emailLogin }) {
+    loading = false
+    if (emailLogin.success) verifiedEmail = email
+  }
 </script>
 
-<form action="">
+<form on:submit|preventDefault={onSubmit}>
   <InputWithIcon
     big
     type="email"
@@ -12,5 +33,6 @@
     h="12"
     name="email" />
 
-  <button class="btn-1 btn--l row h-center fluid mrg-l mrg--t" type="submit">Continue</button>
+  <button class="btn-1 btn--l row h-center fluid mrg-l mrg--t" type="submit" class:loading
+    >Continue</button>
 </form>

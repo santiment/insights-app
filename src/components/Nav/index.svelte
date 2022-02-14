@@ -23,6 +23,7 @@
 
 <style>
   nav {
+    background: var(--white);
     border-bottom: 1px solid var(--porcelain);
     padding: 16px 0;
   }

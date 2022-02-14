@@ -1,11 +1,11 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
+  import Section from './Section.svelte'
   import Metamask from './Metamask.svelte'
   import Divider from './Divider.svelte'
   import Option from './Option.svelte'
   import Google from './Google.svelte'
   import Twitter from './Twitter.svelte'
-  import Section from './Section.svelte'
 </script>
 
 <Section

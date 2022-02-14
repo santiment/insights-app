@@ -4,21 +4,24 @@ import { derived } from 'svelte/store'
 export const user$ = () => derived(stores().session, ($session) => $session.currentUser)
 
 function getSession() {
-  // if (currentUser.session) return currentUser.session
   const { session } = stores()
-  return session
-  // return (currentUser.session = session)
+  if (!process.browser) return session
+
+  return store.session || (store.session = session)
 }
-export const currentUser = {
+const store = {
   subscribe(run, invalidate) {
     const session = getSession()
     return session.subscribe((value) => run(value.currentUser), invalidate)
   },
   set(value) {
-    const session = getSession()
-    session.update((session) => {
+    if (!store.session) return
+
+    store.session.update((session) => {
       session.currentUser = value
       return session
     })
   },
 }
+
+export const currentUser = store

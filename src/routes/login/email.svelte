@@ -2,12 +2,4 @@
   import EmailLogin from '@cmp/LoginPrompt/EmailLogin.svelte'
 </script>
 
-<div class="row hv-center">
-  <EmailLogin />
-</div>
-
-<style>
-  .row {
-    height: 100%;
-  }
-</style>
+<EmailLogin />

@@ -4,22 +4,29 @@
   import Google from './Google.svelte'
   import Twitter from './Twitter.svelte'
   import EmailForm from './EmailForm.svelte'
+  import EmailConfirmation from './EmailConfirmation.svelte'
+
+  export let verifiedEmail
 </script>
 
-<Section
-  title="Sign up now"
-  titleMargin="mrg-xxl"
-  bottomLabel="Have an account?"
-  bottomAction="Log in"
-  bottomHref="/login">
-  <Google />
-  <Twitter />
+{#if verifiedEmail}
+  <EmailConfirmation email={verifiedEmail} />
+{:else}
+  <Section
+    title="Sign up now"
+    titleMargin="mrg-xxl"
+    bottomLabel="Have an account?"
+    bottomAction="Log in"
+    bottomHref="/login">
+    <Google />
+    <Twitter />
 
-  <Divider />
+    <Divider />
 
-  <EmailForm />
-  <div class="caption c-waterloo mrg-s mrg--t">No credit card required</div>
-</Section>
+    <EmailForm bind:verifiedEmail />
+    <div class="caption c-waterloo mrg-s mrg--t">No credit card required</div>
+  </Section>
+{/if}
 
 <style>
   .option {

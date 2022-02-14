@@ -1,13 +1,8 @@
 <script>
   import SignUp from '@cmp/LoginPrompt/SignUp.svelte'
+  import Layout from './login/_layout.svelte'
 </script>
 
-<div class="row hv-center">
+<Layout>
   <SignUp />
-</div>
-
-<style>
-  .row {
-    height: 100%;
-  }
-</style>
+</Layout>
