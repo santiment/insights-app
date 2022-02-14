@@ -15,7 +15,8 @@
     "sirv": "^1.0.0",
     "san-webkit": "https://github.com/santiment/san-webkit#dbf466e",
     "mobile-detect": "^1.4.5",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "ethers": "^5.4.4"
   },
   "devDependencies": {
     "copy-webpack-plugin": "5.1.2",

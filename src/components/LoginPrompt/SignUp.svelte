@@ -27,9 +27,3 @@
     <div class="caption c-waterloo mrg-s mrg--t">No credit card required</div>
   </Section>
 {/if}
-
-<style>
-  .option {
-    margin: 0 0 8px;
-  }
-</style>
