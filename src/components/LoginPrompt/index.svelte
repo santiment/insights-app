@@ -2,55 +2,33 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import Metamask from './Metamask.svelte'
   import Divider from './Divider.svelte'
-
-  let className = ''
-  export { className as class }
+  import Option from './Option.svelte'
+  import Google from './Google.svelte'
+  import Twitter from './Twitter.svelte'
+  import Section from './Section.svelte'
 </script>
 
-<section class="border {className}">
-  <h2 class="h3 mrg-xxl mrg--b">Welcome to Insights</h2>
-
+<Section
+  title="Welcome to Insights"
+  titleMargin="mrg-xxl"
+  bottomLabel="New to Santiment?"
+  bottomAction="Create an account"
+  bottomHref="/sign-up">
   <Metamask />
 
   <Divider />
 
-  <div class="btn-2 btn--l">
-    <Svg id="email" w="16" h="12" class="$style.icon" />
+  <Option href="/login/email" prefetch>
+    <Svg id="email" w="16" h="12" class="mrg-s mrg--r $style.icon" />
     Log in with Email
-  </div>
-  <div class="btn-2 btn--l">
-    <img src="/webkit/icons/google.svg" alt="Google" class="$style.icon" /> Sign in with Google
-  </div>
-  <div class="btn-2 btn--l">
-    <img src="/webkit/icons/twitter.svg" alt="Twitter" class="$style.icon" /> Sign in with Twitter
-  </div>
+  </Option>
 
-  <div class="body-2 c-waterloo mrg-xl mrg--t">
-    New to Santiment?
-    <a href="/sign-up" class="btn">Create an account</a>
-  </div>
-</section>
+  <Google />
+  <Twitter />
+</Section>
 
 <style>
-  section {
-    padding: 39px 99px;
-    text-align: center;
-  }
-
-  .btn-2 {
-    margin: 0 0 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  a {
-    --color: var(--green);
-    --color-hover: var(--green-hover);
-  }
-
   .icon {
-    margin-right: 8px;
     fill: var(--casper);
   }
 </style>

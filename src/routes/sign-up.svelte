@@ -1,9 +1,9 @@
 <script>
-  import EmailLogin from '@cmp/LoginPrompt/EmailLogin.svelte'
+  import SignUp from '@cmp/LoginPrompt/SignUp.svelte'
 </script>
 
 <div class="row hv-center">
-  <EmailLogin />
+  <SignUp />
 </div>
 
 <style>

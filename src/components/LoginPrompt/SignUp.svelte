@@ -1,0 +1,28 @@
+<script>
+  import Section from './Section.svelte'
+  import Divider from './Divider.svelte'
+  import Google from './Google.svelte'
+  import Twitter from './Twitter.svelte'
+  import EmailForm from './EmailForm.svelte'
+</script>
+
+<Section
+  title="Sign up now"
+  titleMargin="mrg-xxl"
+  bottomLabel="Have an account?"
+  bottomAction="Log in"
+  bottomHref="/login">
+  <Google />
+  <Twitter />
+
+  <Divider />
+
+  <EmailForm />
+  <div class="caption c-waterloo mrg-s mrg--t">No credit card required</div>
+</Section>
+
+<style>
+  .option {
+    margin: 0 0 8px;
+  }
+</style>
