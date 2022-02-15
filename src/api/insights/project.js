@@ -4,7 +4,7 @@ import { ONE_DAY_IN_MS } from 'webkit/utils/dates'
 function optimizePublicationPriceDate(publishedAt) {
   const date = new Date(publishedAt)
   const minutes = date.getMinutes()
-  date.setMinutes(minutes < 30 ? 30 : 59)
+  date.setMinutes(minutes < 30 ? 30 : 60)
   return date.toISOString()
 }
 

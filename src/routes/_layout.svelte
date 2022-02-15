@@ -2,13 +2,16 @@
   import BackToTop from 'webkit/ui/BackToTop.svelte'
   import { session } from '@/stores/session'
   import Nav from '@cmp/Nav/index.svelte'
+  import NavMobile from '@cmp/Nav/Mobile.svelte'
 </script>
 
-{#if $session.isMobile === false}
+{#if $session.isMobile}
+  <NavMobile />
+{:else}
   <Nav />
 {/if}
 
-{#if process.browser && $session.isMobile === false}
+{#if process.browser && $session.isDesktop}
   <BackToTop />
 {/if}
 

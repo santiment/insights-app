@@ -63,7 +63,7 @@
   }
 
   .text :global(img) {
-    max-width: 600px;
+    max-width: 100%;
   }
 
   .text :global(figure) {
