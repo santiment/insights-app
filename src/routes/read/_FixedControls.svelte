@@ -3,6 +3,7 @@
   import CommentBtn from '@cmp/CommentButton.svelte'
 
   export let insight
+  export let link
   export let hidden = true
 
   $: ({ votes, commentsCount } = insight)
@@ -11,7 +12,7 @@
 <aside>
   <div class:hidden class="fixed column c-waterloo">
     <LikeBtn totalVotes={votes.totalVotes} userVotes={votes.currentUserVotes} />
-    <CommentBtn class="mrg-s mrg--t mrg--b" count={commentsCount} />
+    <CommentBtn href="/read/{link}" class="mrg-s mrg--t mrg--b" count={commentsCount} />
   </div>
 </aside>
 

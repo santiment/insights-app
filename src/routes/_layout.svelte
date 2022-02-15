@@ -1,3 +1,14 @@
+<script context="module">
+  export function preload(page, session) {
+    if (page.path === '/gdpr') return
+
+    const user = session.currentUser
+    if (user && !user.privacyPolicyAccepted) {
+      return this.redirect(302, '/gdpr')
+    }
+  }
+</script>
+
 <script>
   import BackToTop from 'webkit/ui/BackToTop.svelte'
   import { session } from '@/stores/session'

@@ -47,3 +47,18 @@ const LOGOUT_MUTATION = `
 `
 
 export const logoutMutation = () => mutate(LOGOUT_MUTATION)
+
+// -------
+
+const VERIFY_EMAIL_MUTATION = (email, token) => `
+  mutation {
+    verify:emailLoginVerify(email:"${email}", token:"${token}") {
+      user {
+        ${CURRENT_USER_FRAGMENT}
+      }
+    }
+  }
+`
+const verificationAccessor = ({ verify }) => verify.user
+export const verifyEmailMutation = (email, token) =>
+  mutate(VERIFY_EMAIL_MUTATION(email, token)).then(verificationAccessor)

@@ -6,7 +6,8 @@
   import { queryPriceSincePublication } from '@cmp/PriceSincePublication.svelte'
 
   export async function preload(page, { isMobile }) {
-    const id = getIdFromSEOLink(page.params.slug)
+    const { slug } = page.params
+    const id = getIdFromSEOLink(slug)
     const insight = await queryInsightSSR(id, isMobile ? undefined : RELATED_PROJECT_FRAGMENT, this)
 
     const { project, publishedAt } = insight
@@ -17,7 +18,7 @@
 
     const projectData = await priceQuery
 
-    return { insight, projectData }
+    return { insight, projectData, link: slug }
   }
 </script>
 
@@ -39,6 +40,7 @@
 
   export let insight
   export let projectData
+  export let link
 
   let hidden = true
 
@@ -57,13 +59,13 @@
 
 <div class="insight">
   {#if process.browser && $session.isDesktop}
-    <FixedControls {insight} {hidden} />
+    <FixedControls {insight} {link} {hidden} />
     {#if projectData && isPaywalled === false}
       <Assets {insight} {projectData} />
     {/if}
   {/if}
 
-  <Breadcrumbs {title} />
+  <Breadcrumbs {title} {link} />
 
   <h1 class="h2 mrg-xl mrg--b mrg--t">{title}</h1>
 
@@ -85,7 +87,7 @@
       options={{ rootMargin: '160px 0px -135px' }}
       on:intersect={hideSidebar}
       on:leaving={showSidebar}>
-      <Epilogue {insight} />
+      <Epilogue {insight} {link} />
     </ViewportObserver>
 
     <div id="comments">

@@ -20,10 +20,12 @@
 
   <slot />
 
-  <div class="body-2 c-waterloo mrg-xl mrg--t">
-    {bottomLabel}
-    <a href={bottomHref} class="btn" sapper:prefetch>{bottomAction}</a>
-  </div>
+  {#if bottomLabel}
+    <div class="body-2 c-waterloo mrg-xl mrg--t">
+      {bottomLabel}
+      <a href={bottomHref} class="btn" sapper:prefetch>{bottomAction}</a>
+    </div>
+  {/if}
 </section>
 
 <style>

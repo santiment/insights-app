@@ -3,6 +3,7 @@
   import CommentBtn from '@cmp/CommentButton.svelte'
 
   export let insight
+  export let link
 
   $: ({ user, votes, commentsCount } = insight)
   $: ({ username } = user)
@@ -17,7 +18,7 @@
 
   <div class="row h-center body-3">
     <LikeBtn totalVotes={votes.totalVotes} userVotes={votes.currentUserVotes} />
-    <CommentBtn count={commentsCount} />
+    <CommentBtn href="read/{link}" count={commentsCount} />
   </div>
 
   <div class="follow column v-center">
