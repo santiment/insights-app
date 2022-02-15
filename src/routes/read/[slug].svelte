@@ -33,15 +33,18 @@
   import FixedControls from './_FixedControls.svelte'
   import Assets from './_Assets.svelte'
   import SuggestedInsights from './_SuggestedInsights.svelte'
+  import MetaTags from './_MetaTags.svelte'
+  import Paywall from './_Paywall.svelte'
+  import { session } from '@/stores/session'
 
   export let insight
   export let projectData
 
   let hidden = true
-  let metaDescriptionText = ''
-  let previewImgLink = ''
 
-  $: ({ title, text, user, publishedAt, tags } = insight)
+  $: ({ title, text, user, publishedAt, tags, isPro } = insight)
+  $: isPaywalled = isPro
+  $: isPaywalled && (hidden = false)
 
   $: ({ MMM, D, YYYY } = getDateFormats(new Date(publishedAt)))
   $: date = `${MMM} ${D}, ${YYYY}`
@@ -50,24 +53,12 @@
   const hideSidebar = () => (hidden = true)
 </script>
 
-<svelte:head>
-  <title>{title} - Santiment Community Insights</title>
-  <meta name="description" content={metaDescriptionText} />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="{title} - Santiment Community Insights" />
-  <meta property="og:description" content={metaDescriptionText} />
-
-  {#if previewImgLink}
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content={previewImgLink} />
-    <meta name="og:image" content={previewImgLink} />
-  {/if}
-</svelte:head>
+<MetaTags {insight} />
 
 <div class="insight">
-  {#if process.browser}
+  {#if process.browser && $session.isDesktop}
     <FixedControls {insight} {hidden} />
-    {#if projectData}
+    {#if projectData && isPaywalled === false}
       <Assets {insight} {projectData} />
     {/if}
   {/if}
@@ -80,27 +71,31 @@
 
   <!-- <div class="text mrg-xl mrg--t">{@html text}</div> -->
 
-  <div class="tags c-waterloo mrg-xl mrg--t caption">
-    <Tags {tags} />
-  </div>
+  {#if isPaywalled}
+    <Paywall />
+  {:else}
+    <div class="tags c-waterloo mrg-xl mrg--t caption">
+      <Tags {tags} />
+    </div>
 
-  <Author {user} {date} />
+    <Author {user} {date} />
 
-  <ViewportObserver
-    top
-    options={{ rootMargin: '160px 0px -135px' }}
-    on:intersect={hideSidebar}
-    on:leaving={showSidebar}>
-    <Epilogue {insight} />
-  </ViewportObserver>
+    <ViewportObserver
+      top
+      options={{ rootMargin: '160px 0px -135px' }}
+      on:intersect={hideSidebar}
+      on:leaving={showSidebar}>
+      <Epilogue {insight} />
+    </ViewportObserver>
 
-  <div id="comments">
-    <Comments
-      type={CommentsType.Insight}
-      commentsFor={insight}
-      currentUser={$currentUser}
-      titleClass="h4 c-waterloo" />
-  </div>
+    <div id="comments">
+      <Comments
+        type={CommentsType.Insight}
+        commentsFor={insight}
+        currentUser={$currentUser}
+        titleClass="h4 c-waterloo" />
+    </div>
+  {/if}
 </div>
 
 {#if process.browser}

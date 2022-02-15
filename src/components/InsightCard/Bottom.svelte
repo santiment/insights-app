@@ -1,6 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import LikeBtn from 'webkit/ui/LikeButton/svelte'
+  import { currentUser } from '@/stores/user'
   import CommentBtn from '@cmp/CommentButton.svelte'
   import Tags from '@cmp/Tags.svelte'
 
@@ -11,7 +12,10 @@
 </script>
 
 <div class="bottom row v-center c-waterloo">
-  <LikeBtn totalVotes={votes.totalVotes} userVotes={votes.currentUserVotes} />
+  <LikeBtn
+    totalVotes={votes.totalVotes}
+    userVotes={votes.currentUserVotes}
+    disabled={!$currentUser} />
 
   <CommentBtn {href} count={commentsCount} />
 

@@ -15,12 +15,13 @@
   $: ({ id, project } = insight)
   $: id && node && setupObserver()
 
+  const projectFilter = ({ slug }) => project.slug !== slug
   function loadRelatedProjects() {
     observer.unobserve(node)
     observer = null
-    queryInsightRelatedProjects(insight.id).then(
-      (data) => (relatedProjects = [project].concat(data)),
-    )
+    queryInsightRelatedProjects(insight.id).then((data) => {
+      relatedProjects = [project].concat(data.filter(projectFilter))
+    })
   }
 
   function setupObserver() {

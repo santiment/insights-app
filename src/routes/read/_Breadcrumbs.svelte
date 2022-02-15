@@ -13,6 +13,8 @@
 <style>
   div {
     white-space: nowrap;
+    z-index: 2;
+    position: relative;
   }
 
   .title {
