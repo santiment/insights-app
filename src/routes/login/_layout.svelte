@@ -1,3 +1,9 @@
+<script context="module">
+  export function preload(_, session) {
+    if (session.currentUser) return this.redirect(302, '')
+  }
+</script>
+
 <div class="row hv-center">
   <slot />
 </div>

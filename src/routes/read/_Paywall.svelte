@@ -1,3 +1,18 @@
+<script>
+  import { goto } from '@sapper/app'
+  import { track } from 'webkit/analytics'
+  import { currentUser } from '@/stores/user'
+
+  function onUpgradeClick() {
+    track.event('upgrade', { method: `Insight Paywall` })
+
+    if (!$currentUser) {
+      // postponePayment()
+      return goto('/login')
+    }
+  }
+</script>
+
 <section class="top mrg-xxl mrg--t">
   <h2 class="h4 txt-m mrg-s mrg--b">There’s more of this Insight</h2>
   <h3 class="c-waterloo mrg-xxl mrg--b">Choose your subscription plan</h3>
@@ -8,7 +23,8 @@
     <div class="h3 mrg-xl mrg--b">
       $49<span class="c-casper">/mo</span>
     </div>
-    <a href="/" class="upgrade btn-1 btn--orange btn--l">Upgrade to PRO</a>
+    <button on:click={onUpgradeClick} class="upgrade btn-1 btn--orange btn--l"
+      >Upgrade to PRO</button>
   </div>
 </section>
 
@@ -62,7 +78,8 @@
     and templates!
   </p>
 
-  <a href="/" class="upgrade btn-1 btn--orange btn--l body-3">Subscribe to PRO</a>
+  <button on:click={onUpgradeClick} class="upgrade btn-1 btn--orange btn--l body-3"
+    >Subscribe to PRO</button>
 </section>
 
 <style>

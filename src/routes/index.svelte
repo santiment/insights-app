@@ -10,7 +10,7 @@
 
     const tags = parseTags(query.tags)
     const onlyPro = parseOnlyPro(query.onlyPro)
-    const insights = await queryAllInsightsSSR(1, tags, onlyPro, this)
+    const insights = await queryAllInsightsSSR(1, tags, onlyPro, undefined, this)
     const featured = await queryFeaturedInsightsSSR(this)
 
     return {
@@ -50,9 +50,9 @@
     <InsightsFeed {insights} {tags} {onlyPro} />
   </div>
 
-  {#if $session.isMobile === false}
+  {#if $session.isDesktop}
     <aside class="column">
-      {#if $session.isMobile === false}<BecomeAnAuthor />{/if}
+      <BecomeAnAuthor />
       <HandpickedTakes insights={featured} />
       <Conversations />
     </aside>

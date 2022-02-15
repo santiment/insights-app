@@ -26,14 +26,15 @@ export const INSIGHT_FRAGMENT =
   }
 `
 
-const ALL_INSIGHTS = (page = 1, tags, isOnlyPro = false) => {
+const ALL_INSIGHTS = (page = 1, tags, isOnlyPro = false, isOnlyPulse = undefined) => {
   tags = tags ? `,tags:${JSON.stringify(tags)}` : ''
+  isOnlyPulse = isOnlyPulse !== undefined ? `,isPulse:${isOnlyPulse}` : ''
 
   return `
   {
     insights: allInsights(page:${page}${
     isOnlyPro ? ',isPaywallRequired:true' : ''
-  },pageSize:10${tags}) {
+  },pageSize:10${tags}${isOnlyPulse}) {
       ${INSIGHT_FRAGMENT}
       pulseText
       isPulse
@@ -43,8 +44,8 @@ const ALL_INSIGHTS = (page = 1, tags, isOnlyPro = false) => {
 }
 
 const accessor = ({ insights }) => insights
-export const queryAllInsights = (page, tags, isOnlyPro, reqOptions) =>
-  query(ALL_INSIGHTS(page, tags, isOnlyPro), undefined, reqOptions).then(accessor)
+export const queryAllInsights = (page, tags, isOnlyPro, isOnlyPulse, reqOptions) =>
+  query(ALL_INSIGHTS(page, tags, isOnlyPro, isOnlyPulse), undefined, reqOptions).then(accessor)
 
 export const queryAllInsightsSSR = newSSRQuery(queryAllInsights)
 

@@ -1,11 +1,13 @@
 <script>
   import TagFilters from '@cmp/TagFilters.svelte'
+
+  export let isPulse = false
 </script>
 
-<a href="/" class="h4 txt-m active" sapper:prefetch>Insights</a>
-<a href="/pulse" class="h4 txt-m" sapper:prefetch>Pulse Insights</a>
+<a href="/" class="h4 txt-m" class:active={!isPulse} sapper:prefetch>Insights</a>
+<a href="/pulse" class="h4 txt-m" class:active={isPulse} sapper:prefetch>Pulse Insights</a>
 
-<TagFilters />
+<TagFilters base={isPulse ? 'pulse' : ''} />
 
 <style>
   a {

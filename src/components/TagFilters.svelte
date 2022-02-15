@@ -1,6 +1,8 @@
 <script>
   import { stores } from '@sapper/app'
 
+  export let base = ''
+
   const { page } = stores()
   const TAGS = [
     ['', 'All'],
@@ -17,12 +19,14 @@
 
 <div class="row c-waterloo mrg-xl mrg--t mrg--b">
   {#each TAGS as [link, label]}
-    {@const href = link ? `?tags=${link}` : ''}
+    {@const href = link ? `${base}?tags=${link}` : base}
     <a {href} class="btn-2" class:active={active === link}>{label}</a>
   {/each}
 
-  <a href="?onlyPro" class="pro btn-2 btn-1 btn--orange" class:active={active === 'pro'}
-    >Only for PRO</a>
+  {#if !base}
+    <a href="?onlyPro" class="pro btn-2 btn-1 btn--orange" class:active={active === 'pro'}
+      >Only for PRO</a>
+  {/if}
 </div>
 
 <style>

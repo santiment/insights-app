@@ -7,6 +7,7 @@
   import PulseCard from './InsightCard/Pulse.svelte'
 
   export let insights, tags, onlyPro
+  export let isOnlyPulse = undefined
 
   $: reset(tags, onlyPro)
   $: isWithPrice = !$session.isMobile
@@ -21,7 +22,7 @@
 
   function loadInsights() {
     loading = true
-    queryAllInsights(++page, tags, onlyPro).then((data) => {
+    queryAllInsights(++page, tags, onlyPro, isOnlyPulse).then((data) => {
       insights = insights.concat(data)
       hasMore = data.length === 10
       loading = false
