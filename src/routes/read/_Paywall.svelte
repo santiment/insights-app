@@ -55,14 +55,14 @@
   </div>
 </section>
 
-<section class="body-2">
+<section class="gain body-2 mrg-xl mrg--b">
   <h2 class="h4 txt-m">Gain unfair advantage with Sanbase Pro</h2>
   <p class="cta c-waterloo">
     Subscribe to Sanbase Pro for access to exclusive insights, market-beating metrics, strategies
     and templates!
   </p>
 
-  <a href="/" class="upgrade btn-1 btn--orange btn--l body-3 mrg-xxl mrg--t">Subscribe to PRO</a>
+  <a href="/" class="upgrade btn-1 btn--orange btn--l body-3">Subscribe to PRO</a>
 </section>
 
 <style>
@@ -72,7 +72,7 @@
 
   .top {
     position: relative;
-    padding: 95px 0 40px;
+    padding: 95px 0 0;
     background: url('/paywall.svg') no-repeat 50% 0;
   }
   .top::before {
@@ -113,7 +113,7 @@
 
   .benefit {
     max-width: 620px;
-    margin: 64px 0;
+    margin: 64px auto;
     text-align: left;
   }
 
@@ -148,10 +148,22 @@
     max-width: 310px;
     width: 100%;
   }
+  :global(.phone) img,
+  :global(.phone-xs) img {
+    display: none;
+  }
 
   .cta {
     max-width: 440px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  :global(.phone-xs) .cta {
+    padding: 0 16px;
+  }
+
+  .gain {
+    margin: 0 0 64px;
   }
 </style>

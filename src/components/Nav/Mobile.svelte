@@ -2,7 +2,7 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import Menu from './MobileMenu.svelte'
 
-  let isMenuOpened = true
+  let isMenuOpened = false
   const toggleMenu = () => (isMenuOpened = !isMenuOpened)
 </script>
 
