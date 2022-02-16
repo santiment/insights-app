@@ -1,8 +1,7 @@
 <script context="module">
   export function preload(_, session) {
     const user = session.currentUser
-    if (!user) return this.redirect(302, '')
-    if (user.privacyPolicyAccepted) return this.redirect(302, '')
+    if (!user || user.privacyPolicyAccepted) return this.redirect(302, '')
   }
 </script>
 

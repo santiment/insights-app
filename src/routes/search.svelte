@@ -1,19 +1,12 @@
 <script>
   import { onDestroy } from 'svelte'
   import { stores } from '@sapper/app'
-  import { client } from '@/apollo'
-  import { INSIGHTS_SEARCH_QUERY } from '@/gql/insights'
-  import { getMobileComponent } from '@/utils/responsive'
-  import ViewportObserver from '@/components/ViewportObserver'
-  import BackToTop from '@/components/BackToTop'
-  import InsightCardDesktop from '@/components/insights/InsightCardWithMarketcap'
-  import InsightCardMobile from '@/components/insights/InsightCard'
+  import { debounce } from 'webkit/utils/fn'
+  import ViewportObserver from 'webkit/ui/ViewportObserver.svelte'
+  import { querySearchPageInsights } from '@/api/insights/search'
+  import InsightCard from '@cmp/InsightCard/index.svelte'
 
   const { page } = stores()
-  const InsightCard = getMobileComponent(InsightCardMobile, InsightCardDesktop)
-  const options = {
-    rootMargin: '650px',
-  }
 
   let insights = []
   let hasMore = false
@@ -22,56 +15,35 @@
   let loading = !!searchTerm
 
   $: filteredInsights = insights.slice(0, offset)
-
   $: process.browser && searchTerm && getInsights(searchTerm)
 
-  const sorter = (
-    { publishedAt: _a, updatedAt: a = _a },
-    { publishedAt: _b, updatedAt: b = _b },
-  ) => new Date(b) - new Date(a)
-  const insightsAccessor = ({ data: { insights } }) =>
-    insights.sort(sorter).map((insight) => {
-      insight.tags = insight.tags.filter(Boolean)
-      return insight
+  const [getInsights, clearTimer] = debounce(300, () => {
+    const value = searchTerm
+    hasMore = false
+    loading = true
+    history.replaceState(null, '', '/search?t=' + value)
+
+    querySearchPageInsights(searchTerm).then((data) => {
+      if (value !== searchTerm) return
+      insights = data
+      offset = 20
+      hasMore = true
+      loading = false
     })
-
-  let timer
-  function getInsights(search) {
-    clearTimeout(timer)
-    timer = setTimeout(() => {
-      hasMore = false
-      loading = true
-      history.replaceState(null, '', '/search?t=' + search)
-
-      client
-        .query({
-          query: INSIGHTS_SEARCH_QUERY,
-          variables: {
-            searchTerm: search,
-          },
-          errorPolicy: 'all',
-        })
-        .then(insightsAccessor)
-        .then((items) => {
-          if (search !== searchTerm) return
-          insights = items
-          offset = 20
-          hasMore = true
-          loading = false
-        })
-    }, 300)
-  }
+  })
 
   function onIntersect() {
     offset += 20
     hasMore = insights.length > offset
   }
+  const unsubscribe = page.subscribe(({ query }) => {
+    if (query.f) searchTerm = query.t
+  })
 
-  onDestroy(
-    page.subscribe(({ query }) => {
-      if (query.f) searchTerm = query.t
-    }),
-  )
+  onDestroy(() => {
+    unsubscribe()
+    clearTimer()
+  })
 </script>
 
 <svelte:head>
@@ -81,32 +53,25 @@
   <meta property="og:description" content="Community Insights" />
 </svelte:head>
 
-<BackToTop />
-
-<h2>
+<h2 class="row v-center mrg-l mrg--b">
   Search results for:
-  <input class="SAN-input" type="text" bind:value="{searchTerm}" />
+
+  <input
+    class="input mrg-s mrg--l"
+    type="text"
+    placeholder="Search for insights..."
+    bind:value={searchTerm} />
 </h2>
 
 <ViewportObserver
-  {options}
-  on:intersect="{onIntersect}"
-  observeWhile="{hasMore}"
->
-  {#if loading} Loading... {:else} {#each filteredInsights as insight
-  (insight.id)}
-  <div class="item">
-    <InsightCard {insight} />
-  </div>
-  {/each} {/if}
+  options={{ rootMargin: '650px' }}
+  on:intersect={onIntersect}
+  observeWhile={hasMore}>
+  {#if loading}
+    Loading...
+  {:else}
+    {#each filteredInsights as insight (insight.id)}
+      <InsightCard {insight} class="mrg-l mrg--t" />
+    {/each}
+  {/if}
 </ViewportObserver>
-
-<style>
-  h2 {
-    margin-bottom: 16px;
-  }
-
-  .item {
-    margin-bottom: 16px;
-  }
-</style>

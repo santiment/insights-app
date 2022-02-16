@@ -19,7 +19,7 @@
 
 <AccountStatus />
 
-<Tooltip activeClass="$style.active" align="center" bind:isOpened>
+<Tooltip duration={130} activeClass="$style.active" align="center" bind:isOpened>
   <svelte:fragment slot="trigger">
     <Pic class="btn mrg-m mrg--l $style.pic" />
   </svelte:fragment>

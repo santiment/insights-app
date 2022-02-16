@@ -26,7 +26,7 @@
     background: var(--white);
     border-bottom: 1px solid var(--porcelain);
     padding: 16px 0;
-    z-index: 2;
+    z-index: 3;
   }
   :global(.desktop) nav {
     padding: 19px 0;
