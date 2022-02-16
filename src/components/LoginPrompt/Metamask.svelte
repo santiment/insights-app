@@ -1,4 +1,5 @@
 <script>
+  import { goto } from '@sapper/app'
   import { track } from 'webkit/analytics'
   import { startEthLoginFlow } from '@/flow/login'
 

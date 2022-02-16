@@ -1,7 +1,7 @@
 <script>
   import InputWithIcon from 'webkit/ui/InputWithIcon.svelte'
   import { track } from 'webkit/analytics'
-  import { emailLoginMutation } from '@/api/login'
+  import { mutateEmailLogin } from '@/api/login'
 
   export let verifiedEmail = ''
 
@@ -12,7 +12,7 @@
     email = currentTarget.email.value
     loading = true
 
-    emailLoginMutation(email).then(onSuccess)
+    mutateEmailLogin(email).then(onSuccess)
 
     track.event('sign_up', { method: 'email' })
   }

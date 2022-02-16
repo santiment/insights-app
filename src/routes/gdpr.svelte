@@ -7,10 +7,16 @@
 </script>
 
 <script>
+  import { goto } from '@sapper/app'
   import Gdpr from '@cmp/LoginPrompt/Gdpr.svelte'
+  import { currentUser } from '@/stores/user'
   import Layout from './login/_layout.svelte'
 </script>
 
+<svelte:head>
+  <title>GDPR - Santiment Insights</title>
+</svelte:head>
+
 <Layout>
-  <Gdpr />
+  <Gdpr onAccept={() => goto('/')} currentUser={$currentUser} />
 </Layout>

@@ -62,3 +62,14 @@ const VERIFY_EMAIL_MUTATION = (email, token) => `
 const verificationAccessor = ({ verify }) => verify.user
 export const verifyEmailMutation = (email, token) =>
   mutate(VERIFY_EMAIL_MUTATION(email, token)).then(verificationAccessor)
+
+// ---------------
+
+const CHANGE_USERNAME_MUTATION = (username) => `
+  mutation {
+    changeUsername(username:"${username}") {
+      id
+    }
+  }
+`
+export const mutateChangeUsername = (username) => mutate(CHANGE_USERNAME_MUTATION(username))

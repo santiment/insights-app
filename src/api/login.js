@@ -14,7 +14,7 @@ const EMAIL_LOGIN_MUTATION = (email, consent, subscribeToWeeklyNewsletter) => `
   }
 `
 
-export const emailLoginMutation = (email, consent = '', subscribeToWeeklyNewsletter = false) =>
+export const mutateEmailLogin = (email, consent = '', subscribeToWeeklyNewsletter = false) =>
   mutate(EMAIL_LOGIN_MUTATION(email, consent, subscribeToWeeklyNewsletter))
 
 // ---------------
