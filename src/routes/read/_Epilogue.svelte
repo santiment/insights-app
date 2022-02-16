@@ -1,12 +1,22 @@
 <script>
   import LikeBtn from 'webkit/ui/LikeButton/svelte'
   import CommentBtn from '@cmp/CommentButton.svelte'
+  import { startFollowFlow } from '@/flow/follow'
 
   export let insight
   export let link
+  export let isFollowing
 
   $: ({ user, votes, commentsCount } = insight)
   $: ({ username } = user)
+  $: followMsg = `Follow ${username}`
+
+  const delay = () => ({ delay: 500 })
+
+  function onFollow({ currentTarget }) {
+    currentTarget.textContent = isFollowing ? followMsg : 'Unfollow'
+    startFollowFlow(user.id)
+  }
 </script>
 
 <div class="epilogue body-2 c-waterloo mrg-xl mrg--t">
@@ -21,12 +31,14 @@
     <CommentBtn href="read/{link}" count={commentsCount} />
   </div>
 
-  <div class="follow column v-center">
-    <h3 class="h4 txt-m mrg-s mrg--b c-black">Never miss a post from {username}!</h3>
-    <p class="mrg-xl mrg--b">Get 'early bird' alerts for new insights from this author</p>
-    <div class="btn-1 btn--s body-3">Follow {username}</div>
-    <img src="/overview_banner.svg" alt="Banner" loading="lazy" />
-  </div>
+  {#if !isFollowing}
+    <div class="follow column v-center" out:delay>
+      <h3 class="h4 txt-m mrg-s mrg--b c-black">Never miss a post from {username}!</h3>
+      <p class="mrg-xl mrg--b">Get 'early bird' alerts for new insights from this author</p>
+      <button class="btn-1 btn--s body-3" on:click={onFollow}>{followMsg}</button>
+      <img src="/overview_banner.svg" alt="Banner" loading="lazy" />
+    </div>
+  {/if}
 </div>
 
 <style>

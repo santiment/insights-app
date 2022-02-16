@@ -13,6 +13,7 @@
   $: user.id && node && setupObserver()
 
   function loadSuggestions() {
+    if (!observer) return
     observer.unobserve(node)
     observer = null
 

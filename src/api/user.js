@@ -22,6 +22,11 @@ export const CURRENT_USER_FRAGMENT = `
         }
       }
     }
+    following {
+      users {
+        id
+      }
+    }
 `
 
 export const CURRENT_USER_QUERY = `

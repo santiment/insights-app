@@ -27,6 +27,8 @@
   import Comments from 'webkit/ui/Comments/svelte'
   import ViewportObserver from 'webkit/ui/ViewportObserver.svelte'
   import { currentUser } from '@/stores/user'
+  import { session } from '@/stores/session'
+  import { checkIsFollowing } from '@/flow/follow'
   import Tags from '@cmp/Tags.svelte'
   import InsightText from '@cmp/InsightText.svelte'
   import Breadcrumbs from './_Breadcrumbs.svelte'
@@ -37,7 +39,6 @@
   import SuggestedInsights from './_SuggestedInsights.svelte'
   import MetaTags from './_MetaTags.svelte'
   import Paywall from './_Paywall.svelte'
-  import { session } from '@/stores/session'
 
   export let insight
   export let projectData
@@ -51,6 +52,7 @@
 
   $: ({ MMM, D, YYYY } = getDateFormats(new Date(publishedAt)))
   $: date = `${MMM} ${D}, ${YYYY}`
+  $: isFollowing = checkIsFollowing($currentUser, user.id)
 
   const showSidebar = () => (hidden = false)
   const hideSidebar = () => (hidden = true)
@@ -70,7 +72,7 @@
 
   <h1 class="h2 mrg-xl mrg--b mrg--t">{title}</h1>
 
-  <Author {user} {date} />
+  <Author {user} {date} {isFollowing} />
 
   <!-- <div class="text mrg-xl mrg--t">{@html text}</div> -->
   <InsightText {text} class="mrg-xl mrg--t body-1" />
@@ -82,14 +84,14 @@
       <Tags {tags} />
     </div>
 
-    <Author {user} {date} />
+    <Author {user} {date} {isFollowing} />
 
     <ViewportObserver
       top
       options={{ rootMargin: '160px 0px -135px' }}
       on:intersect={hideSidebar}
       on:leaving={showSidebar}>
-      <Epilogue {insight} {link} />
+      <Epilogue {insight} {link} {isFollowing} />
     </ViewportObserver>
 
     <div id="comments">
