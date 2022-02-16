@@ -28,6 +28,7 @@
   import ViewportObserver from 'webkit/ui/ViewportObserver.svelte'
   import { currentUser } from '@/stores/user'
   import Tags from '@cmp/Tags.svelte'
+  import InsightText from '@cmp/InsightText.svelte'
   import Breadcrumbs from './_Breadcrumbs.svelte'
   import Author from './_Author.svelte'
   import Epilogue from './_Epilogue.svelte'
@@ -72,6 +73,7 @@
   <Author {user} {date} />
 
   <!-- <div class="text mrg-xl mrg--t">{@html text}</div> -->
+  <InsightText {text} class="mrg-xl mrg--t body-1" />
 
   {#if isPaywalled}
     <Paywall />

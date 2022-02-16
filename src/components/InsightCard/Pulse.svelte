@@ -1,6 +1,7 @@
 <script>
   import { getDateFormats, getTimeFormats } from 'webkit/utils/dates'
   import Profile from 'webkit/ui/Profile/index.svelte'
+  import InsightText from '@cmp/InsightText.svelte'
   import Card from './Card.svelte'
   import Editorial from './Editorial.svelte'
 
@@ -25,9 +26,7 @@
     <span class="c-waterloo caption">{date}</span>
   </a>
 
-  <div class="text body-2">
-    {@html text}
-  </div>
+  <InsightText {text} class="$style.text body-2" />
 
   <div class="row v-center">
     <Profile {user} class="$style.profile c-waterloo caption mrg-m mrg--t" />
@@ -51,24 +50,16 @@
   }
 
   .text {
-    word-break: break-word;
-  }
+    --text-h1-size: 18px;
+    --text-h2-size: 16px;
 
-  .text :global(a) {
-    color: var(--green);
-  }
+    --text-ul-margin: 10px 0 25px;
 
-  .text :global(strong) {
-    font-weight: bold;
-  }
+    --text-figure-mrg-b: 12px;
 
-  .text :global(img) {
-    max-width: 100%;
-  }
-
-  .text :global(figure) {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
+    --text-quote-size: 16px;
+    --text-quote-padding: 12px 20px;
+    --text-quote-margin: 12px 0 16px;
+    --text-quotes-size: 50px;
   }
 </style>

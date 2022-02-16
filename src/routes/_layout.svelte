@@ -37,6 +37,6 @@
     width: 100%;
   }
   :global(.isMobile) main {
-    padding: 16px;
+    padding: 16px 16px 76px;
   }
 </style>
