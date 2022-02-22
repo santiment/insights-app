@@ -1,7 +1,7 @@
 <script>
   let className = ''
   export { className as class }
-  export let text
+  export let text = ''
 </script>
 
 <div class={className}>
@@ -64,13 +64,18 @@
         color: var(--waterloo);
       }
 
-      ul {
+      ul,
+      ol {
         padding-left: 35px;
         margin: var(--text-ul-margin, 10px 0 40px);
       }
 
-      li {
+      ul li {
         list-style: disc outside;
+      }
+
+      ol li {
+        list-style: decimal outside;
       }
 
       u {

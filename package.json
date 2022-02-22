@@ -11,12 +11,15 @@
   },
   "dependencies": {
     "compression": "^1.7.1",
-    "polka": "next",
-    "sirv": "^1.0.0",
-    "san-webkit": "https://github.com/santiment/san-webkit#dbf466e",
+    "draft-convert": "^2.1.12",
+    "draft-js": "^0.11.7",
+    "ethers": "^5.4.4",
+    "medium-draft": "^0.5.18",
     "mobile-detect": "^1.4.5",
     "node-fetch": "^2.6.1",
-    "ethers": "^5.4.4"
+    "polka": "next",
+    "san-webkit": "https://github.com/santiment/san-webkit#dbf466e",
+    "sirv": "^1.0.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "5.1.2",
