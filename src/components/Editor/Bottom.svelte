@@ -1,11 +1,18 @@
 <script>
   import Toggle from 'webkit/ui/Toggle'
-  import Svg from 'webkit/ui/Svg/svelte'
+  import Publish from './Publish.svelte'
   import SaveInfo from './SaveInfo.svelte'
 
   export let insight
+  export let requirements
   export let isDraft = true
   export let isSaving = false
+  export let update
+
+  function onPulseClick() {
+    insight.isPulse = !insight.isPulse
+    update()
+  }
 </script>
 
 <div class="bottom row v-center">
@@ -17,17 +24,12 @@
     {/if}
   </div>
 
-  <button
-    class="pulse btn row v-center c-waterloo mrg-xl mrg--r mrg--l"
-    on:click={() => (insight.isPulse = !insight.isPulse)}>
+  <button class="pulse btn row v-center c-waterloo mrg-xl mrg--r mrg--l" on:click={onPulseClick}>
     Pulse insight
     <Toggle isActive={insight.isPulse} class="mrg-s mrg--l" />
   </button>
 
-  <div class="btn-2 btn-1 btn--s">
-    Publish insight
-    <Svg id="arrow" w="8" h="5" class="mrg-xs mrg--l" />
-  </div>
+  <Publish {insight} {requirements} />
 </div>
 
 <style lang="scss">
@@ -38,10 +40,6 @@
     background: linear-gradient(270deg, var(--white) 83%, transparent 100%);
     padding: 15px 0;
     padding-left: 80px;
-  }
-
-  .btn-2 {
-    --border: var(--green);
   }
 
   .pulse {

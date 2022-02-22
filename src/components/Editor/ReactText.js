@@ -1,6 +1,7 @@
 import { createElement, useState } from 'react'
 import { convertToRaw } from 'draft-js'
 import { BLOCK_BUTTONS, INLINE_BUTTONS, Editor, createEditorState } from 'medium-draft'
+import sanitizeHtml from 'sanitize-html/dist/sanitize-html'
 import mediumDraftImporter from 'medium-draft/lib/importer'
 import mediumDraftExporter from 'medium-draft/lib/exporter'
 import Svg from 'webkit/ui/Svg/react'
@@ -44,25 +45,62 @@ const CHART_SIDE_BUTTON = {
   component: ChartIframe,
 }
 
+const removeAmpersandRepetitions = (str) =>
+  str.replace(/(?!<a(.*)>(.*))(&amp;)(?=(.*)<\/a>)/gi, '&')
+
+const sanitizeMediumDraftHtml = (html) =>
+  removeAmpersandRepetitions(
+    sanitizeHtml(html, {
+      allowedTags: [
+        ...sanitizeHtml.defaults.allowedTags,
+        'figure',
+        'figcaption',
+        'img',
+        'h1',
+        'h2',
+        'u',
+      ],
+      allowedAttributes: {
+        ...sanitizeHtml.defaults.allowedAttributes,
+        iframe: ['src'],
+        '*': ['class', 'id'],
+      },
+      allowedIframeHostnames: ['embed.santiment.net'],
+    }),
+  )
+
 const getEditorContent = (text) => convertToRaw(mediumDraftImporter(text))
 
-export default ({ text, onImgLoad }) => {
-  const [editorState, setEditorState] = useState(() => createEditorState(getEditorContent(text)))
+export default ({ text, contentRef, onChange: onContentChange }) => {
+  const [editorState, setEditorState] = useState(() => {
+    const state = createEditorState(getEditorContent(text))
+    const content = state.getCurrentContent()
+    contentRef.current = {
+      content,
+      sanitize: () => sanitizeMediumDraftHtml(mediumDraftExporter(content)),
+    }
+    contentRef.checkRequirements()
+    return state
+  })
 
   function onChange(state) {
-    setEditorState(() => state)
+    setEditorState(state)
+    const content = state.getCurrentContent()
+
+    if (editorState.getCurrentContent() === content) return
+
+    onContentChange()
+    contentRef.current = {
+      content,
+      sanitize: () => sanitizeMediumDraftHtml(mediumDraftExporter(content)),
+    }
   }
 
   return createElement(Editor, {
     editorState,
     onChange,
+    placeholder: 'Write something interesting ...',
     toolbarConfig: TOOLBAR,
-    sideButtons: [
-      {
-        ...IMAGE_SIDE_BUTTON,
-        props: { onImgLoad },
-      },
-      CHART_SIDE_BUTTON,
-    ],
+    sideButtons: [IMAGE_SIDE_BUTTON, CHART_SIDE_BUTTON],
   })
 }

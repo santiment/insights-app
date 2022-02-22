@@ -5,6 +5,8 @@
   import InsightText from '@cmp/InsightText.svelte'
 
   export let insight
+  export let onChange
+  export let contentRef
 
   let node
 
@@ -21,7 +23,7 @@
     if (!node) return
 
     const { text } = insight
-    ReactDOM.render(React.createElement(Component, { text }), node.firstChild)
+    ReactDOM.render(React.createElement(Component, { text, contentRef, onChange }), node.firstChild)
   }
 </script>
 
@@ -42,6 +44,15 @@
       cursor: text;
       width: 720px;
       text-align: center;
+    }
+
+    .public-DraftEditorPlaceholder-root {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .public-DraftEditorPlaceholder-inner {
+      color: var(--casper);
     }
 
     .md-editor-toolbar {
@@ -176,7 +187,7 @@
       position: absolute;
       left: -36px;
 
-      body.phone-xs & {
+      :global(body.phone-xs) & {
         left: -8px;
         margin-top: 25px;
       }
