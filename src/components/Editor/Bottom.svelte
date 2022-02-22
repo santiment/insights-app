@@ -35,8 +35,9 @@
     position: fixed;
     bottom: 0;
     right: calc(50% - 570px);
-    background: linear-gradient(270deg, var(--white) 83%, var(--white) 100%);
+    background: linear-gradient(270deg, var(--white) 83%, transparent 100%);
     padding: 15px 0;
+    padding-left: 80px;
   }
 
   .btn-2 {
