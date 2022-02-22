@@ -1,11 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
-  import {
-    ProductNameById,
-    checkIsActiveSubscription,
-    getTrialDaysLeft,
-  } from 'webkit/utils/subscription'
-  import { capitalize } from 'webkit/utils/formatting'
+  import { ProductNameById, PlanName } from 'webkit/utils/plans'
+  import { checkIsActiveSubscription, getTrialDaysLeft } from 'webkit/utils/subscription'
 
   export let user
 
@@ -13,7 +9,7 @@
   const subscriptions = user.subscriptions.filter(checkIsActiveSubscription).map((subscription) => {
     const { plan } = subscription
     const product = ProductNameById[plan.product.id]
-    const name = capitalize(plan.name.toLowerCase())
+    const name = PlanName[plan.name]
     return `${product}: ${name} plan` + getTrialInfo(subscription)
   })
 

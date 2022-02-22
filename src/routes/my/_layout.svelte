@@ -1,56 +1,46 @@
 <script>
-  import { checkIsMobile } from '@/utils/responsive'
-  import WriteInsight from './_WriteInsight.svelte'
-
   export let segment
-
-  const isMobile = checkIsMobile()
 </script>
 
-<template lang="pug">
-include /ui/mixins
+<svelte:head>
+  <title>My Insights</title>
+  <meta property="og:title" content="My Insights" />
+  <meta name="description" property="og:description" content="My Commmunity Insights" />
+</svelte:head>
 
-.top
-  h1 My Insights
-  +if('!isMobile')
-    WriteInsight.My__new
+<h2 class="h4 txt-m mrg-xxl mrg--b">My Insights</h2>
 
-+tabs.tabs(class:tabs_mobile='{isMobile}')
-  +tab(href="/my/drafts", class:active="{segment === 'drafts'}", prefetch) Drafts
-  +tab(href="/my", class:active="{!segment}", prefetch) Published
+<div class="tabs row fluid mrg-xxl mrg--b">
+  <a href="/my/drafts" class="btn" class:active={segment === 'drafts'}>Drafts</a>
+  <a href="/my" class="btn" class:active={!segment}>Published</a>
+</div>
 
-slot
-</template>
+<slot />
 
 <style lang="scss">
-  @import '@/mixins';
-
-  .top {
-    display: flex;
-    align-items: center;
-    margin-bottom: 32px;
-  }
-
-  h1 {
-    @include text('h4', 'm');
-  }
-
-  .plus {
-    @include size(15px);
-    margin-right: 8px;
-  }
-
-  :global(.My__new) {
-    margin-left: auto;
-  }
-
   .tabs {
-    margin-bottom: 40px;
+    border-bottom: 1px solid var(--porcelain);
+  }
 
-    &_mobile {
-      width: auto;
-      margin: 0 -16px 20px;
-      padding: 0 16px;
+  .btn {
+    position: relative;
+    padding: 0 0 16px;
+    margin-right: 32px;
+    --color: var(--waterloo);
+    --color-hover: var(--green);
+  }
+
+  .active {
+    color: var(--green);
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -1px;
+      height: 2px;
+      width: 100%;
+      background: var(--green);
+      border-radius: 1px;
     }
   }
 </style>

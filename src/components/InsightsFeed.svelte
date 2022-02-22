@@ -8,6 +8,7 @@
 
   export let insights, tags, onlyPro
   export let isOnlyPulse = undefined
+  export let query = queryAllInsights
 
   $: reset(tags, onlyPro)
   $: isWithPrice = !$session.isMobile
@@ -22,7 +23,7 @@
 
   function loadInsights() {
     loading = true
-    queryAllInsights(++page, tags, onlyPro, isOnlyPulse).then((data) => {
+    query(++page, tags, onlyPro, isOnlyPulse).then((data) => {
       insights = insights.concat(data)
       hasMore = data.length === 10
       loading = false

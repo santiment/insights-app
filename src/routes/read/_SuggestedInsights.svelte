@@ -1,5 +1,5 @@
 <script>
-  import { querySuggestedUserInsights } from '@/api/insights'
+  import { querySuggestedUserInsights } from '@/api/insights/user'
   import { querySuggestedFeaturedInsights } from '@/api/insights/featured'
   import InsightCard from '@cmp/InsightCard/index.svelte'
   import { onDestroy } from 'svelte'

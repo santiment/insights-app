@@ -10,6 +10,7 @@
 </script>
 
 <script>
+  import { dialogs } from 'webkit/ui/Dialog'
   import BackToTop from 'webkit/ui/BackToTop.svelte'
   import { session } from '@/stores/session'
   import Nav from '@cmp/Nav/index.svelte'
@@ -29,6 +30,12 @@
 <main class="section">
   <slot />
 </main>
+
+<div id="dialogs">
+  {#each $dialogs as { Component, props }, i}
+    <svelte:component this={Component} {...props} {i} />
+  {/each}
+</div>
 
 <style>
   main {

@@ -43,7 +43,7 @@ const ALL_INSIGHTS = (page = 1, tags, isOnlyPro = false, isOnlyPulse = undefined
 `
 }
 
-const accessor = ({ insights }) => insights
+export const accessor = ({ insights }) => insights
 export const queryAllInsights = (page, tags, isOnlyPro, isOnlyPulse, reqOptions) =>
   query(ALL_INSIGHTS(page, tags, isOnlyPro, isOnlyPulse), undefined, reqOptions).then(accessor)
 
@@ -64,13 +64,3 @@ export const queryInsight = (id, queryFragments = '', reqOptions) =>
   query(INSIGHT_QUERY(id, queryFragments), undefined, reqOptions).then(insightAccessor)
 
 export const queryInsightSSR = newSSRQuery(queryInsight)
-
-// --------------------------------------
-
-const SUGGESTED_USER_INSIGHTS_QUERY = (id) => `{
-  insights:allInsightsForUser(userId:${id}, pageSize:10){
-    ${BASIC_INSIGHT_FRAGMENT}
-  }
-}`
-export const querySuggestedUserInsights = (userId) =>
-  query(SUGGESTED_USER_INSIGHTS_QUERY(userId)).then(accessor)

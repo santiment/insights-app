@@ -1,71 +1,43 @@
 <script context="module">
-  import { client } from '@/apollo'
-  import { ALL_USER_INSIGHTS } from '@/gql/insights'
-  import { onlyDraftsFilter } from '@/utils/insights'
+  import { redirectToLoginPage } from '@/flow/redirect'
+  import { queryDraftInsights, queryDraftInsightsSSR } from '@/api/insights/user'
 
-  export async function preload(_, session, { apollo = client }) {
-    if (typeof session.currentUser !== 'object') {
-      await session.loadingUser
-    }
-    const { currentUser } = session
+  const onlyDrafts = ({ readyState }) => readyState === 'draft'
 
-    if (!currentUser) {
-      return this.redirect(302, '/experience')
-    }
+  export async function preload(_, session) {
+    if (redirectToLoginPage(this, session)) return
 
-    let insights = []
+    const insights = await queryDraftInsightsSSR(1, this).catch((e) => {
+      console.log("User's draft insights error", e)
+      return []
+    })
 
-    try {
-      const {
-        data: { currentUser },
-      } = await apollo.query({
-        query: ALL_USER_INSIGHTS,
-        fetchPolicy: 'network-only',
-      })
-
-      insights= currentUser.insights
-
-    }catch(e) {
-      console.log('User drafts error', e)
-      return this.redirect(500, '/')
-    }
-
-    currentUser.insights = insights
-
-    return {
-      insights: insights.filter(onlyDraftsFilter),
-    }
+    return { insights: insights.filter(onlyDrafts) }
   }
 </script>
 
 <script>
-  import DraftCard from '@/components/insights/DraftCard'
-  import Empty from './_Empty.svelte'
+  import ViewportPagination from '@cmp/ViewportPagination.svelte'
+  import Draft from '@cmp/InsightCard/Draft.svelte'
 
   export let insights = []
 
-  const insightsUpdateDateSorter = ({ updatedAt: a }, { updatedAt: b }) =>
-    new Date(b) - new Date(a)
-
-  let sortedInsights
-
-  $: sortedInsights = insights.slice().sort(insightsUpdateDateSorter)
+  const onData = (insights) => insights.filter(onlyDrafts)
+  const query = (page) => queryDraftInsights(page).then(onData)
 </script>
 
-<template lang="pug">
-+if('insights.length === 0')
-  Empty
+<ViewportPagination {query} items={insights} let:items>
+  <div class="insights">
+    {#each items as draft (draft.id)}
+      <Draft {draft} />
+    {/each}
+  </div>
+</ViewportPagination>
 
-.insights.bot-scroll
-  +each('sortedInsights as insight (insight.id)')
-    DraftCard({insight})
-</template>
-
-<style lang="scss">
-  @import '@/mixins';
-
+<style>
   .insights {
-    @include grid-wrap(2);
-    grid-template-columns: minmax(0, 1fr) 1fr;
+    display: grid;
+    grid: auto / 1fr 1fr;
+    gap: 24px;
   }
 </style>
