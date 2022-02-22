@@ -1,6 +1,6 @@
 <script>
   import { onDestroy, onMount } from 'svelte'
-  import { queryPriceData, queryInsightProject } from '@/api/insights/project'
+  import { queryInsightProject } from '@/api/insights/project'
   import PriceSincePublication, {
     queryPriceSincePublication,
   } from '@cmp/PriceSincePublication.svelte'

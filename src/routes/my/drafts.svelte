@@ -24,12 +24,16 @@
 
   const onData = (insights) => insights.filter(onlyDrafts)
   const query = (page) => queryDraftInsights(page).then(onData)
+
+  function onDraftDelete(draft) {
+    insights = insights.filter((item) => item !== draft)
+  }
 </script>
 
 <ViewportPagination {query} items={insights} let:items>
   <div class="insights">
     {#each items as draft (draft.id)}
-      <Draft {draft} />
+      <Draft {draft} onDelete={onDraftDelete} />
     {/each}
   </div>
 </ViewportPagination>

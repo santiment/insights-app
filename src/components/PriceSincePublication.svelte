@@ -9,6 +9,8 @@
     const timestamp = getPublishTimestamp(publishedAt)
     const diff = Date.now() - timestamp
     const from = new Date(timestamp - diff * 0.5)
+    from.setMinutes(0, 0, 0)
+
     return query(slug, from.toISOString(), publishedAt)
   }
 </script>

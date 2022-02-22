@@ -2,11 +2,19 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import { dateDifferenceInWords } from 'webkit/utils/dates'
   import { getRawText } from '@/utils/insights'
+  import { showDraftDeleteDialog } from './DraftDeleteDialog.svelte'
 
   export let draft
+  export let onDelete
 
   $: ({ id, title, pulseText, text = pulseText, updatedAt } = draft)
   $: rawText = getRawText(text).slice(0, 80)
+
+  function onDeleteClick() {
+    showDraftDeleteDialog(id)
+      .then(() => onDelete(draft))
+      .catch(() => {})
+  }
 </script>
 
 <div class="column border c-waterloo">
@@ -15,11 +23,11 @@
   <div class="row v-center mrg-l mrg--t">
     Edited {dateDifferenceInWords(new Date(updatedAt))}
 
-    <div class="btn mrg-a mrg--l">
+    <div class="delete btn mrg-a mrg--l" on:click={onDeleteClick}>
       <Svg id="delete" w="16" />
     </div>
 
-    <a href="/edit/{id}" class="btn mrg-xl mrg--l">
+    <a href="/edit/{id}" class="btn mrg-xl mrg--l" sapper:prefetch>
       <Svg id="pencil" w="16" />
     </a>
   </div>
@@ -40,5 +48,9 @@
 
   .btn {
     --color-hover: var(--green);
+  }
+
+  .delete {
+    --color-hover: var(--red);
   }
 </style>
