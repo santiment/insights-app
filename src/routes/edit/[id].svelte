@@ -6,7 +6,11 @@
     if (redirectToLoginPage(this, session)) return
 
     const { id } = page.params
-    const insight = await queryInsightSSR(id, 'readyState updatedAt isPulse', this)
+    const insight = await queryInsightSSR(
+      id,
+      'readyState updatedAt isPulse project:priceChartProject{id slug name ticker}',
+      this,
+    )
 
     if (redirectNonAuthor(this, session, insight)) return
 

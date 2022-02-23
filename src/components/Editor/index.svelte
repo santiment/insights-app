@@ -52,7 +52,7 @@
   function getTags() {
     if (!process.browser) return {}
 
-    insight.tags = insight.tags.map(({ name }) => name)
+    insight.tags = insight.tags ? insight.tags.map(({ name }) => name) : []
     return {
       trendTag: insight.tags.find(checkIsTrendTag),
       tags: insight.tags.filter((tag) => !checkIsTrendTag(tag)),

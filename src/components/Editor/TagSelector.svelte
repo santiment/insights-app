@@ -22,12 +22,12 @@
 
     tags = Array.from(new Set(tags.concat(item)))
     isOpened = false
-    update()
+    update(tags)
   }
 
   function deleteTag(tag) {
     tags = tags.filter((v) => v !== tag)
-    update()
+    update(tags)
   }
 </script>
 

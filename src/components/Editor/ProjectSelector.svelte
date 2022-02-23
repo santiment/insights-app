@@ -23,7 +23,7 @@
   function selectProject(item) {
     project = item
     isOpened = false
-    update()
+    update(project)
   }
 </script>
 
