@@ -29,7 +29,7 @@
     <Toggle isActive={insight.isPulse} class="mrg-s mrg--l" />
   </button>
 
-  <Publish {insight} {requirements} />
+  <Publish {insight} {update} {requirements} {isSaving} />
 </div>
 
 <style lang="scss">

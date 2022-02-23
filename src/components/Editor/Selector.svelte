@@ -10,10 +10,16 @@
   export let filter
   export let isOpened
   export let placeholder = 'Search tags'
+  export let isEnabled
 </script>
 
 <div class="relative">
-  <Tooltip bind:isOpened on="click" class="$style.tooltip fluid" activeClass="$style.active">
+  <Tooltip
+    bind:isOpened
+    {isEnabled}
+    on="click"
+    class="$style.tooltip fluid"
+    activeClass="$style.active">
     <div slot="trigger" class="btn input row justify v-center {className}">
       <slot />
 

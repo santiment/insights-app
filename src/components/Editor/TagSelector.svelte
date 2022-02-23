@@ -4,10 +4,12 @@
   import Selector from './Selector.svelte'
 
   export let tags = []
+  export let update
 
   let isOpened
-  let isEnabled = tags.length < 5
   let allTags = []
+
+  $: isEnabled = tags.length < 5
 
   if (process.browser) queryTags().then((data) => (allTags = data))
 
@@ -20,10 +22,12 @@
 
     tags = Array.from(new Set(tags.concat(item)))
     isOpened = false
+    update()
   }
 
   function deleteTag(tag) {
     tags = tags.filter((v) => v !== tag)
+    update()
   }
 </script>
 

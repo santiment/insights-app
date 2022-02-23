@@ -5,6 +5,8 @@
 
   export let insight
   export let requirements
+  export let isSaving
+  export let update
 
   $: disabled = !checkRequirements(requirements)
 
@@ -14,7 +16,7 @@
 </script>
 
 <Requirements {disabled} {requirements} isPulse={insight.isPulse}>
-  <PublishSettings>
+  <PublishSettings {insight} {update} isEnabled={!disabled} loading={disabled || isSaving}>
     <div class="btn-2 btn-1 btn--s" class:disabled>
       Publish insight
       <Svg id="arrow" w="8" h="5" class="mrg-xs mrg--l" />

@@ -3,7 +3,13 @@
   import ProjectSelector from './ProjectSelector.svelte'
   import TagSelector from './TagSelector.svelte'
 
+  export let insight
   export let isEnabled
+  export let loading = false
+  export let update
+
+  let project
+  let tags = insight.tags
 </script>
 
 <Tooltip
@@ -11,9 +17,8 @@
   align="end"
   on="click"
   {isEnabled}
-  isOpened
-  closeTimeout={9999999}
-  class="$style.tooltip">
+  class="$style.tooltip"
+  closeTimeout={500}>
   <svelte:fragment slot="trigger">
     <slot />
   </svelte:fragment>
@@ -21,12 +26,12 @@
   <svelte:fragment slot="tooltip">
     <div>Select a coin for the price minichart and add tags to attract more readers</div>
     <div class="label caption">Price minichart to show</div>
-    <ProjectSelector />
+    <ProjectSelector {project} {update} />
 
-    <div class="label caption">Tags (0/5)</div>
-    <TagSelector />
+    <div class="label caption">Tags ({tags.length}/5)</div>
+    <TagSelector bind:tags {update} />
 
-    <button class="btn-1 fluid mrg-xl mrg--t">Publish insight</button>
+    <button class="btn-1 fluid mrg-xl mrg--t" class:loading>Publish insight</button>
   </svelte:fragment>
 </Tooltip>
 

@@ -3,8 +3,10 @@
   import { debounce } from 'webkit/utils/fn'
   import Text from './Text.svelte'
   import Bottom from './Bottom.svelte'
+  import { checkIsTrendTag } from '@/utils/insights'
 
   export let insight = {}
+  const { trendTag, tags } = getTags()
 
   const defaultTitle = insight.title
   const isDraft = insight.readyState === 'draft'
@@ -20,7 +22,7 @@
 
     checkRequirements()
     isSaving = false
-    console.log(insight)
+    console.log('Updating', insight)
   })
 
   function onTitleInput({ currentTarget }) {
@@ -45,6 +47,16 @@
   function update() {
     isSaving = true
     scheduleUpdate()
+  }
+
+  function getTags() {
+    if (!process.browser) return {}
+
+    insight.tags = insight.tags.map(({ name }) => name)
+    return {
+      trendTag: insight.tags.find(checkIsTrendTag),
+      tags: insight.tags.filter((tag) => !checkIsTrendTag(tag)),
+    }
   }
 
   onDestroy(clearTimer)

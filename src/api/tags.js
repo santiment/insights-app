@@ -1,4 +1,5 @@
 import { query } from 'webkit/api'
+import { checkIsTrendTag } from '@/utils/insights'
 
 const TAGS_QUERY = `{
   allTags {
@@ -6,7 +7,7 @@ const TAGS_QUERY = `{
   }
 }`
 
-const noTrendingTags = (tag) => !tag.toLowerCase().includes('trending-words')
+const noTrendingTags = (tag) => !checkIsTrendTag(tag)
 const getTag = ({ name }) => name
 const precacher = ({ allTags }) => allTags.map(getTag).filter(noTrendingTags)
 const options = { precacher: () => precacher }

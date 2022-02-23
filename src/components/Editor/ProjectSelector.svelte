@@ -4,7 +4,9 @@
   import Project from './Project.svelte'
   import Selector from './Selector.svelte'
 
-  let project
+  export let project
+  export let update
+
   let projects = []
   let isOpened
 
@@ -17,13 +19,18 @@
         name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm),
     )
   }
-  const selectProject = (item) => ((project = item), (isOpened = false))
+
+  function selectProject(item) {
+    project = item
+    isOpened = false
+    update()
+  }
 </script>
 
 <Selector bind:isOpened key="slug" {filter} items={projects} placeholder="Search project">
   {#if project}
     <Project {project} class="$style.project mrg-l mrg--r" />
-    <button class="clear btn" on:click|stopPropagation={() => (project = null)}>
+    <button class="clear btn" on:click|stopPropagation={() => selectProject(null)}>
       <Svg id="close" w="8" />
     </button>
   {:else}
