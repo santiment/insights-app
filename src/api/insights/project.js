@@ -44,6 +44,7 @@ export const queryPriceDataSSR = newSSRQuery(queryPriceData)
 
 export const PROJECT_FRAGMENT = `
   project: priceChartProject {
+    id
     slug
     ticker
     priceUsd
@@ -68,6 +69,7 @@ export const RELATED_PROJECT_FRAGMENT =
 const RELATED_PROJECTS_QUERY = (id) => `{
   insight(id:${id}) {
     relatedProjects {
+      id
       slug
       name
       ticker
