@@ -19,10 +19,9 @@ polka()
         const { currentUser } = await queryCurrentUserSSR({
           req,
         }).catch((e) => {
-          console.log(e)
+          console.log('CurrentUser error', e)
           return { currentUser: null }
         })
-        console.log(currentUser)
 
         const isMobile = !!new MobileDetect(req.headers['user-agent'] || '').mobile()
         const session = {

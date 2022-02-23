@@ -1,11 +1,15 @@
 <script>
   import LikeBtn from 'webkit/ui/LikeButton/svelte'
   import CommentBtn from '@cmp/CommentButton.svelte'
+  import ShareBtn from '@cmp/ShareButton.svelte'
+  import EditBtn from '@cmp/EditButton.svelte'
   import { startFollowFlow } from '@/flow/follow'
 
   export let insight
   export let link
+  export let isAuthor
   export let isFollowing
+  export let isDraft
 
   $: ({ user, votes, commentsCount } = insight)
   $: ({ username } = user)
@@ -29,9 +33,11 @@
   <div class="row h-center body-3">
     <LikeBtn totalVotes={votes.totalVotes} userVotes={votes.currentUserVotes} />
     <CommentBtn href="read/{link}" count={commentsCount} />
+    {#if !isDraft}<ShareBtn {insight} />{/if}
+    {#if isAuthor}<EditBtn {insight} />{/if}
   </div>
 
-  {#if !isFollowing}
+  {#if !isAuthor && !isFollowing}
     <div class="follow column v-center" out:delay>
       <h3 class="h4 txt-m mrg-s mrg--b c-black">Never miss a post from {username}!</h3>
       <p class="mrg-xl mrg--b">Get 'early bird' alerts for new insights from this author</p>

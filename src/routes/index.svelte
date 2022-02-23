@@ -10,8 +10,16 @@
 
     const tags = parseTags(query.tags)
     const onlyPro = parseOnlyPro(query.onlyPro)
-    const insights = await queryAllInsightsSSR(1, tags, onlyPro, undefined, this)
-    const featured = await queryFeaturedInsightsSSR(this)
+
+    const insights = await queryAllInsightsSSR(1, tags, onlyPro, undefined, this).catch((e) => {
+      console.log('Insights error', e)
+      return []
+    })
+
+    const featured = await queryFeaturedInsightsSSR(this).catch((e) => {
+      console.log('Featured insights error', e)
+      return []
+    })
 
     return {
       insights,

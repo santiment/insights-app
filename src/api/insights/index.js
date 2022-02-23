@@ -55,6 +55,7 @@ const INSIGHT_QUERY = (id, data = '') => `{
   insight(id:${id}) {
     ${INSIGHT_FRAGMENT}
     ${data}
+    updatedAt
     text
   }
 }`

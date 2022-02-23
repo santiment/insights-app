@@ -43,14 +43,6 @@
 </Selector>
 
 <style>
-  .tooltip {
-    padding: 8px;
-    left: unset !important;
-    top: unset !important;
-    right: 0;
-    bottom: 40px;
-  }
-
   .clear {
     margin: -2px 12px 0 auto;
     --fill-hover: var(--red);

@@ -17,10 +17,11 @@
   max-width: 1140px;
 }
 
-/* 
-.tablet .section,
-.phone .section,
-.phone-xs .section {
-  padding: 0 16px;
+.btn-rounded {
+  height: 32px;
+  border-radius: 20px;
+  padding: 3px 13px;
+  white-space: nowrap;
+  --fill: var(--waterloo);
+  --fill-hover: var(--green);
 }
- */

@@ -3,14 +3,27 @@
   import { CommentsType } from 'webkit/api/comments'
   import { queryInsightSSR } from '@/api/insights'
   import { RELATED_PROJECT_FRAGMENT, queryPriceDataSSR } from '@/api/insights/project'
+  import { redirectNonAuthor } from '@/flow/redirect'
   import { queryPriceSincePublication } from '@cmp/PriceSincePublication.svelte'
 
-  export async function preload(page, { isMobile }) {
+  export async function preload(page, session) {
+    const { currentUser, isMobile } = session
     const { slug } = page.params
     const id = getIdFromSEOLink(slug)
-    const insight = await queryInsightSSR(id, isMobile ? undefined : RELATED_PROJECT_FRAGMENT, this)
+    const insight = await queryInsightSSR(
+      id,
+      (isMobile ? undefined : RELATED_PROJECT_FRAGMENT) + ' readyState',
+      this,
+    )
 
-    const { project, publishedAt } = insight
+    const isDraft = insight.readyState === 'draft'
+    if (isDraft && redirectNonAuthor(this, session, insight)) {
+      return
+    }
+
+    const { user, project, updatedAt } = insight
+    const publishedAt = insight.publishedAt || updatedAt
+    const isAuthor = currentUser && +currentUser.id === +user.id
 
     const queryPriceData = (...args) => queryPriceDataSSR(...args, this)
     const priceQuery =
@@ -18,7 +31,7 @@
 
     const projectData = await priceQuery
 
-    return { insight, projectData, link: slug }
+    return { insight, projectData, link: slug, isAuthor, isDraft }
   }
 </script>
 
@@ -43,14 +56,16 @@
   export let insight
   export let projectData
   export let link
+  export let isAuthor
+  export let isDraft
 
   let hidden = true
 
-  $: ({ title, text, user, publishedAt, tags, isPro } = insight)
+  $: ({ title, text, user, updatedAt, publishedAt, tags, isPro } = insight)
   $: isPaywalled = isPro
   $: isPaywalled && (hidden = false)
 
-  $: ({ MMM, D, YYYY } = getDateFormats(new Date(publishedAt)))
+  $: ({ MMM, D, YYYY } = getDateFormats(new Date(publishedAt || updatedAt)))
   $: date = `${MMM} ${D}, ${YYYY}`
   $: isFollowing = checkIsFollowing($currentUser, user.id)
 
@@ -62,7 +77,7 @@
 
 <div class="insight">
   {#if process.browser && $session.isDesktop}
-    <FixedControls {insight} {link} {hidden} />
+    <FixedControls {insight} {link} {hidden} {isAuthor} {isDraft} />
     {#if projectData && isPaywalled === false}
       <Assets {insight} {projectData} />
     {/if}
@@ -72,9 +87,8 @@
 
   <h1 class="h2 mrg-xl mrg--b mrg--t">{title}</h1>
 
-  <Author {user} {date} {isFollowing} />
+  <Author {user} {date} {isAuthor} {isFollowing} />
 
-  <!-- <div class="text mrg-xl mrg--t">{@html text}</div> -->
   <InsightText {text} class="mrg-xl mrg--t body-1" />
 
   {#if isPaywalled}
@@ -84,14 +98,14 @@
       <Tags {tags} />
     </div>
 
-    <Author {user} {date} {isFollowing} />
+    <Author {user} {date} {isAuthor} {isFollowing} />
 
     <ViewportObserver
       top
       options={{ rootMargin: '160px 0px -135px' }}
       on:intersect={hideSidebar}
       on:leaving={showSidebar}>
-      <Epilogue {insight} {link} {isFollowing} />
+      <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
     </ViewportObserver>
 
     <div id="comments">

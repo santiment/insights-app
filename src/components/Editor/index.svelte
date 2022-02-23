@@ -6,7 +6,7 @@
   import { checkIsTrendTag } from '@/utils/insights'
   import { mutateUpdateDraft, mutateCreateDraft } from '@/api/insights/draft'
 
-  export let insight = {}
+  export let insight = { readyState: 'draft' }
   export let trendTag = getTags()
 
   const defaultTitle = insight.title || ''
