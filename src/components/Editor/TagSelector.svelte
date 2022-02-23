@@ -51,14 +51,6 @@
 </Selector>
 
 <style>
-  .tooltip {
-    padding: 8px;
-    left: unset !important;
-    top: unset !important;
-    right: 0;
-    bottom: 40px;
-  }
-
   .tags {
     margin-top: -3px;
     flex-wrap: wrap;

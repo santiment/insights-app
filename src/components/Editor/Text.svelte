@@ -22,7 +22,7 @@
   function render(Component) {
     if (!node) return
 
-    const { text } = insight
+    const text = insight.text || ''
     ReactDOM.render(React.createElement(Component, { text, contentRef, onChange }), node.firstChild)
   }
 </script>

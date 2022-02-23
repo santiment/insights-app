@@ -5,11 +5,10 @@
   export let insight
   export let isDraft = true
 
-  $: ({ updatedAt } = insight)
-
   let tick = 1
   let interval
 
+  $: ({ updatedAt } = insight)
   $: date = new Date(updatedAt)
   $: time = tick && dateDifferenceInWords(date)
 

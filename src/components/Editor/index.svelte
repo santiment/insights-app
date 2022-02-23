@@ -4,11 +4,12 @@
   import Text from './Text.svelte'
   import Bottom from './Bottom.svelte'
   import { checkIsTrendTag } from '@/utils/insights'
+  import { mutateUpdateDraft, mutateCreateDraft } from '@/api/insights/draft'
 
   export let insight = {}
-  const { trendTag, tags } = getTags()
+  export let trendTag = getTags()
 
-  const defaultTitle = insight.title
+  const defaultTitle = insight.title || ''
   const isDraft = insight.readyState === 'draft'
 
   let title = defaultTitle
@@ -21,8 +22,27 @@
     insight.text = contentRef.current.sanitize()
 
     checkRequirements()
-    isSaving = false
-    console.log('Updating', insight)
+    if (!requirements.title || !requirements.text) return
+
+    const mutate = insight.id ? mutateUpdateDraft : mutateCreateDraft
+
+    mutate({
+      id: +insight.id,
+      title: insight.title,
+      text: insight.text,
+      tags: trendTag ? insight.tags.concat(trendTag) : insight.tags,
+      isPro: insight.isPro,
+      isPulse: insight.isPulse,
+      projectId: insight.project ? +insight.project.id : null,
+    }).then((data) => {
+      if (!insight.id) {
+        insight.id = data.id
+        window.history.replaceState({}, '', '/edit/' + data.id)
+      }
+      insight.updatedAt = data.updatedAt
+
+      isSaving = false
+    })
   })
 
   function onTitleInput({ currentTarget }) {
@@ -52,11 +72,10 @@
   function getTags() {
     if (!process.browser) return {}
 
-    insight.tags = insight.tags ? insight.tags.map(({ name }) => name) : []
-    return {
-      trendTag: insight.tags.find(checkIsTrendTag),
-      tags: insight.tags.filter((tag) => !checkIsTrendTag(tag)),
-    }
+    const tags = insight.tags ? insight.tags.map(({ name }) => name) : []
+    insight.tags = tags.filter((tag) => !checkIsTrendTag(tag))
+
+    return tags.find(checkIsTrendTag)
   }
 
   onDestroy(clearTimer)
@@ -73,8 +92,10 @@
     line-height: 44px;
     font-size: 38px;
     outline: 0;
+    min-height: 44px;
 
     &:empty::before {
+      position: absolute;
       content: 'Name your insight';
       color: var(--casper);
       opacity: 0.7;

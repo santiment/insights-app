@@ -4,6 +4,7 @@
   import SaveInfo from './SaveInfo.svelte'
 
   export let insight
+  export let tags
   export let requirements
   export let isDraft = true
   export let isSaving = false
@@ -16,20 +17,22 @@
 </script>
 
 <div class="bottom row v-center">
-  <div class="c-casper">
-    {#if isSaving}
-      Saving...
-    {:else}
-      <SaveInfo {insight} {isDraft} />
-    {/if}
-  </div>
+  {#if insight.id}
+    <div class="c-casper">
+      {#if isSaving}
+        Saving...
+      {:else}
+        <SaveInfo {insight} {isDraft} />
+      {/if}
+    </div>
+  {/if}
 
   <button class="pulse btn row v-center c-waterloo mrg-xl mrg--r mrg--l" on:click={onPulseClick}>
     Pulse insight
     <Toggle isActive={insight.isPulse} class="mrg-s mrg--l" />
   </button>
 
-  <Publish {insight} {update} {requirements} {isSaving} />
+  <Publish {insight} {tags} {update} {requirements} {isSaving} />
 </div>
 
 <style lang="scss">
