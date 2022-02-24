@@ -140,7 +140,7 @@ module.exports = {
         ...ENVS,
 
         'process.env.GQL_SERVER_URL': JSON.stringify(
-          (process.env.GQL_SERVER_URL || process.env.BACKEND_URL) + '/graphql',
+          process.env.GQL_SERVER_URL || process.env.BACKEND_URL + '/graphql',
         ),
       }),
     ],
