@@ -9,9 +9,8 @@ WORKDIR /app
 
 COPY ./ /app
 
-RUN npm install -g yarn --force
-RUN yarn install
-RUN yarn build
+RUN npm i
+RUN npm run build
 
 FROM node:13
 
