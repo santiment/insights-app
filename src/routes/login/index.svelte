@@ -1,53 +1,13 @@
 <script>
-  import Carousel from '@/components/Carousel/index.svelte'
-  import MetamaskBtn from '@/components/login/MetamaskBtn'
-  import { checkIsMobile } from '@/utils/responsive'
-  import WelcomeInsights from './_components/WelcomeInsights.svelte'
-  import MobileCard from './_components/MobileCard.svelte'
+  // import { goto } from '@sapper/app'
+  import LoginPrompt from 'webkit/ui/LoginPrompt/index.svelte'
+  import { startEthLoginFlow } from '@/flow/login'
 
-  const isMobile = checkIsMobile()
+  function onMetamaskClick() {
+    return startEthLoginFlow().then(() => {
+      // goto(getPostponedPaymentInsight() || '/')
+    })
+  }
 </script>
 
-<template lang="pug">
-include /ui/mixins
-
-+if('isMobile')
-  .mobile-wrapper
-    MobileCard(centered='')
-      WelcomeInsights 
-
-  +else()
-    .wrapper
-      .left
-        WelcomeInsights 
-
-</template>
-
-<style lang="scss">
-  @import '@/mixins.scss';
-
-  .mobile-wrapper {
-    height: 100%;
-    padding: 0 0 44px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .wrapper {
-    display: flex;
-    padding: 20px 30px;
-  }
-
-  .left {
-    max-width: 340px;
-  }
-
-  .right {
-    display: flex;
-    align-items: center;
-    margin-left: 114px;
-    padding-left: 114px;
-    max-width: 435px;
-    border-left: 1px solid var(--porcelain);
-  }
-</style>
+<LoginPrompt {onMetamaskClick} />

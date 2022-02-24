@@ -1,45 +1,25 @@
 <script>
-  import { getDateFormats } from '@/utils/dates'
+  import { getDateFormats } from 'webkit/utils/dates'
 
   export let items
-  export let dateKey
-  export let preIndex = undefined
-  const feedDates = new Map()
 
-  let lastDate
+  $: DateById = getDateIds(items)
 
-  let feed
-  $: feed = feedInsights(items)
-
-  function feedInsights(insights) {
-    feedDates.clear()
-    lastDate = undefined
-    return insights.map((item) => {
-      const { MMM, D } = getDateFormats(new Date(item[dateKey]))
-      const feedDate = `${MMM} ${D}`
-      if (lastDate !== feedDate) {
-        feedDates.set(item, feedDate)
-        lastDate = feedDate
-      }
-      return item
+  function getDateIds(items) {
+    const result = {}
+    let lastDate
+    items.forEach(({ id, publishedAt }) => {
+      const { MMM, D } = getDateFormats(new Date(publishedAt))
+      const date = MMM + ' ' + D
+      if (lastDate === date) return
+      result[id] = lastDate = date
     })
+    return result
   }
 </script>
 
-<template lang="pug">
-+each('feed as item, index (item.id)')
-  +if('index === preIndex')
-    slot(name='preIndex')
-  +if('feedDates.get(item)')
-    h4.date {feedDates.get(item)}
-  slot(name='item', item='{item}')
-</template>
-
-<style>
-  .date {
-    line-height: 22px;
-    font-size: 14px;
-    color: var(--waterloo);
-    margin: 0 0 16px;
-  }
-</style>
+{#each items as item (item.id)}
+  {@const date = DateById[item.id]}
+  {#if date}<h4 class="c-waterloo mrg-l mrg--b">{date}</h4>{/if}
+  <slot {item} />
+{/each}

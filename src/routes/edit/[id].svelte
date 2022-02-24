@@ -1,53 +1,36 @@
 <script context="module">
-  import { client } from '@/apollo'
-  import { INSIGHT_BY_ID_QUERY } from '@/gql/insights'
+  import { redirectToLoginPage, redirectNonAuthor } from '@/flow/redirect'
+  import { queryInsightSSR } from '@/api/insights'
 
-  export async function preload(page, session, { apollo = client }) {
-    if (typeof session.currentUser !== 'object') {
-      await session.loadingUser
-    }
-    const { currentUser } = session
-
-    if (!currentUser) {
-      return this.redirect(302, '/experience')
-    }
+  export async function preload(page, session) {
+    if (redirectToLoginPage(this, session)) return
 
     const { id } = page.params
+    const insight = await queryInsightSSR(
+      id,
+      'isPulse project:priceChartProject{id slug name ticker}',
+      this,
+    )
 
-    let data
+    if (redirectNonAuthor(this, session, insight)) return
 
-    try {
-      const result = await apollo.query({
-        query: INSIGHT_BY_ID_QUERY,
-        variables: {
-          id: +id,
-        },
-        fetchPolicy: 'network-only',
-      })
-      data = result.data
-    } catch (e) {
-      console.log('INSIGHT_BY_ID_QUERY error', e)
-      this.redirect(500, '/')
-      return {}
-    }
-
-    if (currentUser.id !== data.insight.user.id) {
-      this.redirect(302, '/')
-      return {}
-    }
-
-    return {
-      draft: data.insight,
-    }
+    return { insight }
   }
 </script>
 
 <script>
-  import Editor from '@/components/insights/Editor'
+  import Editor from '@cmp/Editor/index.svelte'
 
-  export let draft = {}
+  export let insight
 </script>
 
-<template lang="pug">
-Editor({draft})
-</template>
+<div>
+  <Editor {insight} />
+</div>
+
+<style>
+  div {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+</style>

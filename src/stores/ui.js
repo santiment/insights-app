@@ -1,43 +1,43 @@
 import { writable } from 'svelte/store'
+import { mutate } from 'webkit/api'
+import { getSavedJson, saveJson } from 'webkit/utils/localStorage'
+import { getSessionValue } from './utils'
 
-let uiDefault = {
-  darkMode: false,
-  betaMode: false,
-}
+const TOGGLE_THEME_MUTATION = (isNightMode) => `
+  mutation updateUserSettings {
+    updateUserSettings(settings: { theme: "${isNightMode ? 'nightmode' : ''}" }) {
+      theme
+    }
+  }
+`
+
+let store = { nightMode: false }
 
 if (process.browser) {
-  uiDefault = JSON.parse(localStorage.getItem('ui')) || {}
+  const { currentUser, theme } = getSessionValue()
 
-  if (uiDefault.darkMode) {
-    document.body.classList.add('night-mode')
+  if (currentUser) {
+    store.nightMode = theme === 'night-mode'
+  } else {
+    store = getSavedJson('ui', store)
   }
+
+  document.body.classList.toggle('night-mode', store.nightMode)
 }
 
-function saveToLS(state) {
-  localStorage.setItem('ui', JSON.stringify(state))
+const { subscribe, set } = writable(store)
+export const ui = {
+  subscribe,
+  toggleNightMode() {
+    const { currentUser } = getSessionValue()
+    store.nightMode = document.body.classList.toggle('night-mode')
+
+    if (currentUser) {
+      mutate(TOGGLE_THEME_MUTATION(store.nightMode)).catch(console.error)
+    } else {
+      saveJson('ui', store)
+    }
+
+    set(store)
+  },
 }
-
-function createUIStore() {
-  const { subscribe, update } = writable(uiDefault)
-
-  return {
-    subscribe,
-    toggleDarkMode() {
-      const res = document.body.classList.toggle('night-mode')
-      update((str) => {
-        str.darkMode = res
-        saveToLS(str)
-        return str
-      })
-    },
-    toggleBetaMode() {
-      update((str) => {
-        str.betaMode = !str.betaMode
-        saveToLS(str)
-        return str
-      })
-    },
-  }
-}
-
-export const ui = createUIStore()

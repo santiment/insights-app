@@ -1,55 +1,137 @@
 <script>
-  import { onMount } from 'svelte'
-  import { client } from '@/apollo'
-  import { INSIGHTS_QUERY, INSIGHTS_BY_SEARCH_TERM_QUERY } from '@/gql/insights'
-  import ProjectsSearch from '@/ui/search/index.svelte'
+  import { onDestroy, onMount } from 'svelte'
+  import { debounce } from 'webkit/utils/fn'
+  import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
+  import InputWithIcon from 'webkit/ui/InputWithIcon.svelte'
+  import { querySearchInsights, querySearchTermInsights } from '@/api/insights/search'
 
-  let klass = ''
-  export { klass as class }
+  let suggestionsNode
+  let cursor = 0
+  let isFocused = false
+  let isSearching = false
+  let suggestions = []
+  let value = ''
 
-  let items = []
+  const onFocus = () => (isFocused = true)
+  const onBlur = () => (isFocused = false)
+  const onMouseDown = ({ currentTarget }) => currentTarget.click()
+  const onSuggestionSelect = () =>
+    suggestionsNode && suggestionsNode.querySelector('.cursored').click()
 
-  const sorter = (
-    { publishedAt: _a, updatedAt: a = _a },
-    { publishedAt: _b, updatedAt: b = _b },
-  ) => new Date(b) - new Date(a)
+  const [searchInsights, clearTimer] = debounce(250, (searchTerm) => {
+    value = searchTerm
+    querySearchTermInsights(searchTerm).then(getSuggestions).then(setSuggestions)
+  })
 
-  const insightsAccessor = ({ data: { insights } }) => insights.sort(sorter)
+  function onInput(e) {
+    const value = e.currentTarget.value
+    isSearching = true
 
-  function getSuggestions(query, variables) {
-    return client
-      .query({ query, variables })
-      .then(insightsAccessor)
-      .then((insights) => {
-        const isBigList = variables && insights.length > 4
-        items = insights.slice(0, isBigList ? 4 : 5)
-        if (isBigList) {
-          items.push({
-            title: 'Show more results',
-            link: '/search?f=1&t=' + variables.searchTerm,
-          })
-        }
-      })
+    if (value) searchInsights(value)
+    else querySearchInsights().then(setSuggestions)
   }
 
-  function onSearch(searchTerm) {
-    return getSuggestions(
-      searchTerm ? INSIGHTS_BY_SEARCH_TERM_QUERY : INSIGHTS_QUERY,
-      searchTerm ? { searchTerm } : undefined,
-    )
+  function onKeyDown(e) {
+    const { key, currentTarget } = e
+    let newCursor = cursor
+
+    switch (key) {
+      case 'ArrowUp':
+        e.preventDefault()
+        newCursor = cursor - 1
+        break
+      case 'ArrowDown':
+        e.preventDefault()
+        newCursor = cursor + 1
+        break
+      case 'Enter':
+        currentTarget.blur()
+        onSuggestionSelect()
+      default:
+        return
+    }
+
+    const maxCursor = suggestions.length
+    newCursor = newCursor % maxCursor
+    cursor = newCursor < 0 ? maxCursor - 1 : newCursor
+  }
+
+  function getSuggestions(data) {
+    if (data.length < 5) return data
+    return data.slice(0, 4).concat({
+      id: 'more',
+      title: 'Show more results',
+      link: '/search?f=1&t=' + value,
+    })
+  }
+
+  function setSuggestions(data) {
+    suggestions = data
+    isSearching = false
+  }
+
+  function getLink({ id, title, link }) {
+    return link || `/read/${getSEOLinkFromIdAndTitle(id, title)}`
   }
 
   onMount(() => {
-    getSuggestions(INSIGHTS_QUERY)
+    querySearchInsights().then(setSuggestions)
   })
+  onDestroy(clearTimer)
 </script>
 
-<ProjectsSearch class="NavSearch__wrapper" {items} {onSearch} />
+<InputWithIcon
+  placeholder="Search for insights..."
+  icon="search"
+  w="12"
+  class="$style.input relative mrg-a mrg--l"
+  on:focus={onFocus}
+  on:blur={onBlur}
+  on:input={onInput}
+  on:keydown={onKeyDown}>
+  {#if isFocused}
+    <div class="suggestions column border box" bind:this={suggestionsNode}>
+      {#if isSearching}
+        Searching...
+      {:else}
+        {#each suggestions as item, i (item.id)}
+          <a
+            href={getLink(item)}
+            class="btn-ghost"
+            class:cursored={i === cursor}
+            on:mousedown={onMouseDown}>{item.title}</a>
+        {:else}
+          No results found
+        {/each}
+      {/if}
+    </div>
+  {/if}
+</InputWithIcon>
 
-<style lang="scss">
-  @import '@/mixins';
+<style>
+  .input {
+    width: 240px;
+    transition: width 0.2s ease-out;
+  }
+  .input:focus-within {
+    width: 340px;
+  }
 
-  :global(.NavSearch__wrapper) {
-    margin-right: 0;
+  .suggestions {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 36px;
+    text-align: center;
+    padding: 8px;
+    z-index: 5;
+  }
+
+  a {
+    text-align: left;
+  }
+
+  .cursored {
+    background: var(--porcelain);
   }
 </style>

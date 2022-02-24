@@ -3,48 +3,38 @@ import polka from 'polka'
 import compression from 'compression'
 import MobileDetect from 'mobile-detect'
 import * as sapper from '@sapper/server'
-import ApolloClient from 'apollo-client'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { createHttpLink } from 'apollo-link-http'
-import fetch from 'isomorphic-fetch'
+import { queryCurrentUserSSR } from '@/api/user'
 
-const dev = process.env.NODE_ENV === 'development'
+const { PORT, NODE_ENV } = process.env
+const dev = NODE_ENV === 'development'
 
-function getServerContext(req) {
-  return {
-    apollo: new ApolloClient({
-      ssrMode: true,
-      link: createHttpLink({
-        uri: process.env.GQL_SERVER_URL,
-        headers: {
-          origin: 'https://app.santiment.net',
-          cookie: req.headers.cookie,
-          'x-forwarded-for':
-            req.headers['x-forwarded-for'] || req.connection.remoteAddress
-        },
-        fetch,
-        credentials: 'include'
-      }),
-      cache: new InMemoryCache({
-        //addTypename: false,
-      })
-    })
-  }
-}
+const checkIsAccountNightMode = (user) => (user ? user.settings.theme === 'nightmode' : false)
 
-polka() // You can also use Express
+polka()
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),
     sapper.middleware({
-      serverContext: getServerContext,
-      session: (req) => {
-        return {
-          isMobile: new MobileDetect(req.headers['user-agent']).mobile()
+      session: async (req) => {
+        const { currentUser } = await queryCurrentUserSSR({
+          req,
+        }).catch((e) => {
+          console.log('CurrentUser error', e)
+          return { currentUser: null }
+        })
+
+        const isMobile = !!new MobileDetect(req.headers['user-agent'] || '').mobile()
+        const session = {
+          currentUser,
+          isMobile,
+          theme: checkIsAccountNightMode(currentUser) ? 'night-mode' : '',
+          isDesktop: !isMobile,
         }
-      }
-    })
+
+        return session
+      },
+    }),
   )
-  .listen(process.env.PORT, (err) => {
+  .listen(PORT, (err) => {
     if (err) console.log('error', err)
   })

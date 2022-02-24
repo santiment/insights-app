@@ -1,0 +1,32 @@
+diff --git a/node_modules/sapper/runtime/server.mjs b/node_modules/sapper/runtime/server.mjs
+index 3bafec9..36c0783 100644
+--- a/node_modules/sapper/runtime/server.mjs
++++ b/node_modules/sapper/runtime/server.mjs
+@@ -7,6 +7,7 @@ import http from 'http';
+ import Url from 'url';
+ import https from 'https';
+ import zlib from 'zlib';
++import { get } from 'svelte/store';
+ import App from './internal/App.svelte';
+ 
+ /*! *****************************************************************************
+@@ -4565,6 +4566,7 @@ function get_page_handler(manifest, session_getter) {
+             let redirect;
+             let preload_error;
+             const preload_context = {
++                req,
+                 redirect: (statusCode, location) => {
+                     if (redirect && (redirect.statusCode !== statusCode || redirect.location !== location)) {
+                         throw new Error('Conflicting redirects');
+@@ -4779,6 +4781,11 @@ function get_page_handler(manifest, session_getter) {
+                     .replace('%sapper.html%', () => html)
+                     .replace('%sapper.head%', () => head)
+                     .replace('%sapper.styles%', () => styles)
++                    .replace('%sapper.theme%', () => {
++                        const {theme, isMobile} = get(props.stores.session)
++                        const mobileTheme = isMobile ? 'isMobile' : ''
++                        return `${theme} ${mobileTheme}`
++                    })
+                     .replace(/%sapper\.cspnonce%/g, () => nonce_value);
+                 res.statusCode = status;
+                 res.end(body);

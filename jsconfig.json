@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "webkit/*": ["./node_modules/san-webkit/lib/*"],
+      "@/*": ["./src/*"],
+      "@cmp/*": ["./src/components/*"]
+    }
+  }
+}

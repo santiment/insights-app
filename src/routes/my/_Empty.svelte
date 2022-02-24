@@ -1,37 +1,33 @@
 <script>
-  import InsightCardDesktop from '@/components/insights/InsightCardWithMarketcap'
-  import InsightCardMobile from '@/components/insights/InsightCard'
-  import WriteInsight from './_WriteInsight.svelte'
-  import { getMobileComponent } from '@/utils/responsive'
-  import { updateDateSorter } from '@/utils/insights'
+  import Svg from 'webkit/ui/Svg/svelte'
 </script>
 
-<template lang="pug">
-include /ui/mixins
+<div>
+  Use Insights to journal your ideas, perform research, or share with others. Record your trades or
+  research notes, and learn more about your investing style, track your progress over time. Build
+  your reputation and educate yourself at the same time!
+  <br />
+  <a href="/new" class="btn-1 mrg-xl mrg--t v-center" sapper:prefetch>
+    <Svg id="plus-circle" w="16" class="mrg-s mrg--r" />
+    Write your first insight
+  </a>
+</div>
 
-.empty
-  .text Use Insights to journal your ideas, perform research, or share with others. Record your trades or research notes, and learn more about your investing style, track your progress over time. Build your reputation and educate yourself at the same time! 
-  WriteInsight Write first insight
-
-</template>
-
-<style lang="scss">
-  .empty {
-    $height: 186px;
+<style>
+  div {
+    height: 186px;
     background: url('/empty-page.svg') no-repeat 50% 0;
     width: 480px;
-    height: $height;
-    padding-top: $height;
+    padding-top: 200px;
     margin: auto;
     text-align: center;
     max-width: 100%;
-
-    :global(.night-mode) & {
-      background-image: url('/empty-page_dark.svg');
-    }
+  }
+  :global(.night-mode) div {
+    background-image: url('/empty-page_dark.svg');
   }
 
-  .text {
-    margin: 20px 0;
+  a {
+    display: inline-flex;
   }
 </style>

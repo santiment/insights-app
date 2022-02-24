@@ -1,109 +1,46 @@
 <script context="module">
-  import { client } from '@/apollo'
-  import { checkGDPR } from '@/logic/gdpr'
-  import { getPulseInsights, extractURLTags } from '@/logic/insights'
+  import { queryAllInsightsSSR } from '@/api/insights'
 
-  export async function preload(page, session, { apollo = client }) {
-    await session.loadingUser
-    if (checkGDPR(session.currentUser, this)) {
-      return
-    }
+  const parseTags = (tags) => tags && tags.toUpperCase().split(',')
+  const parseOnlyPro = (onlyPro) => onlyPro !== undefined
 
-    const tags = extractURLTags(page.query.tags)
-    const insights = await getPulseInsights({ page: 1, tags }, apollo).catch(
-      (e) => {
-        console.log('getPulseInsights error', e)
-        return []
-      },
-    )
+  export async function preload(page) {
+    const { query } = page
 
-    return {
-      insights,
-      tags,
-    }
+    const tags = parseTags(query.tags)
+    const onlyPro = parseOnlyPro(query.onlyPro)
+    const insights = await queryAllInsightsSSR(1, tags, onlyPro, true, this)
+
+    return { insights, onlyPro, tags }
   }
 </script>
 
 <script>
-  import Feed from '@/components/Feed'
-  import ViewportObserver from '@/components/ViewportObserver'
-  import PulseCard from '@/components/insights/PulseCard'
-  import { publishDateSorter } from '@/utils/insights'
-
-  const options = {
-    rootMargin: '650px',
-  }
+  import TopLinks from './_TopLinks.svelte'
+  import InsightsFeed from '@cmp/InsightsFeed.svelte'
 
   export let insights = []
-  export let tags = undefined
-
-  $: insights = [...insights].sort(publishDateSorter)
-
-  let page = 1
-  let loading = false
-  let hasMore = true
-
-  function loadInsights() {
-    loading = true
-    page = page + 1
-
-    return getPulseInsights({
-      page,
-      tags,
-    }).then((newInsights) => {
-      if (newInsights.length === 0) {
-        hasMore = false
-      } else {
-        insights = insights.concat(newInsights)
-      }
-
-      loading = false
-    })
-  }
-
-  function onIntersect() {
-    if (hasMore && !loading) {
-      loadInsights()
-    }
-  }
+  export let tags
+  export let onlyPro
 </script>
 
-<template lang="pug">
-include /ui/mixins
+<svelte:head>
+  <title>Insights</title>
+  <meta property="og:title" content="Insights" />
+  <meta name="description" content="All Community Insights" />
+  <meta property="og:description" content="All Commmunity Insights" />
+</svelte:head>
 
-svelte:head
-  title Insights
-  meta(property='og:title', content='Insights')
-  meta(name='description', content='All Community Insights')
-  meta(property='og:description', content='All Commmunity Insights')
+<TopLinks isPulse />
 
-.insights.bot-scroll
-  .insights__all
-    ViewportObserver({options}, on:intersect='{onIntersect}', observeWhile='{hasMore}')
-      Feed(items="{insights}", dateKey="publishedAt", preIndex='{4}')
-        div.insights__item(slot="item", let:item="{insight}")
-          PulseCard({insight})
-        
-</template>
+<div class="row">
+  <div class="fluid">
+    <InsightsFeed {insights} {tags} {onlyPro} isOnlyPulse />
+  </div>
+</div>
 
-<style lang="scss">
-  @import '@/mixins';
-
-  $mob-card-height: 139;
-
-  .insights {
-    display: flex;
-
-    &__all {
-      max-width: 100%;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    &__item {
-      margin-bottom: 24px;
-      width: 100%;
-    }
+<style>
+  .fluid {
+    min-width: 0;
   }
 </style>

@@ -1,45 +1,23 @@
-<script>
-  import { onMount, onDestroy } from 'svelte'
-  import { goto, stores } from '@sapper/app'
-  import { parse } from 'query-string'
-  import { client } from '@/apollo'
-  import { VERIFY_EMAIL_MUTATION } from '@/gql/login'
-  import { getPostponedPaymentInsight } from '@/logic/insights'
-
-  let error, verifiedTimer
-  const { session } = stores()
-
-  function startSuccessTimer({ data: { emailLoginVerify } }) {
-    const currentUser = emailLoginVerify.user
-    session.update((ses) => ({ ...ses, currentUser }))
-
-    verifiedTimer = setTimeout(() => {
-      goto(
-        currentUser.privacyPolicyAccepted
-          ? getPostponedPaymentInsight() || '/'
-          : '/gdpr',
-      )
-    }, 3000)
+<script context="module">
+  export function preload(_, session) {
+    if (session.currentUser) return this.redirect(302, '')
   }
-
-  onMount(() => {
-    client
-      .mutate({
-        mutation: VERIFY_EMAIL_MUTATION,
-        variables: parse(window.location.search),
-      })
-      .then(startSuccessTimer)
-  })
-
-  onDestroy(() => {
-    clearTimeout(verifiedTimer)
-  })
 </script>
 
-<template lang="pug">
-+if('error')
-  | Can't verify this email
-  +elseif('verifiedTimer')
-  | Has been verified!
-  | You will be redirected to the home page in 3 seconds
-</template>
+<script>
+  import { goto } from '@sapper/app'
+  import { parse } from 'webkit/utils/url'
+  // import { getPostponedPaymentInsight } from '@/logic/insights'
+  import { currentUser } from '@/stores/user'
+  import { verifyEmailMutation } from '@/api/user'
+
+  if (process.browser) {
+    const { email, token } = parse(window.location.search)
+    verifyEmailMutation(email, token).then((data) => {
+      currentUser.set(data)
+      goto(data.privacyPolicyAccepted ? '/' : '/gdpr')
+
+      // goto(data.privacyPolicyAccepted ? getPostponedPaymentInsight() || '/' : '/gdpr')
+    })
+  }
+</script>

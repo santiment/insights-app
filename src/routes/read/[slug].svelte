@@ -1,338 +1,161 @@
 <script context="module">
-  import { client } from '@/apollo'
-  import { getInsightIdFromSEOLink, noTrendTagsFilter } from '@/utils/insights'
-  import { INSIGHT_BY_ID_QUERY } from '@/gql/insights'
-  import { getTimeIntervalFromToday, DAY } from '@/utils/dates'
-  import { getComments } from '@/logic/comments'
-  import { getProjectByTicker } from '@/logic/projects'
-  import { getPriceData } from '@/logic/insights'
-  const loadComments = () => import('@/components/insights/Comments')
+  import { getIdFromSEOLink } from 'webkit/utils/url'
+  import { CommentsType } from 'webkit/api/comments'
+  import { queryInsightSSR } from '@/api/insights'
+  import { RELATED_PROJECT_FRAGMENT, queryPriceDataSSR } from '@/api/insights/project'
+  import { redirectNonAuthor } from '@/flow/redirect'
+  import { queryPriceSincePublication } from '@cmp/PriceSincePublication.svelte'
 
-  // TODO: Think of a better way to do a ssr loadable component [@vanguard | Jan 17, 2020]
-  let PreloadedComments = null
-  if (!process.browser) {
-    import('@/components/insights/Comments').then(
-      (res) => (PreloadedComments = res.default),
-    )
-  }
-
-  export async function preload(page, session, { apollo = client }) {
+  export async function preload(page, session) {
+    const { currentUser, isMobile } = session
     const { slug } = page.params
-    const id = getInsightIdFromSEOLink(slug)
 
-    let comments
-
-    let data
-    try {
-      const result = await apollo.query({
-        query: INSIGHT_BY_ID_QUERY,
-        variables: {
-          id,
-        },
-      })
-      data = result.data
-    } catch (e) {
-      console.log('Insight ID not found', e)
-      this.redirect(500, '/')
-      return {}
-    }
-
-    if (data.insight.readyState === 'draft') {
-      if (session.currentUser === undefined) await session.loadingUser
-
-      const { currentUser } = session
-      if (!currentUser || currentUser.id !== data.insight.user.id) {
-        this.redirect(302, '/')
-        return {}
-      }
-    }
-
-    if (session.isMobile) {
-      return { ...data.insight, comments }
-    }
-
-    const { from, to } = getTimeIntervalFromToday(-7, DAY)
-
-    const isoFrom = from.toISOString()
-    const isoTo = to.toISOString()
-
-    const projectPriceExtractor = (project) => ({ data }) => ({
-      ...project,
-      historyPrice: data.historyPrice,
+    const id = getIdFromSEOLink(slug)
+    const DATA = isMobile ? undefined : RELATED_PROJECT_FRAGMENT
+    const insight = await queryInsightSSR(id, DATA, this).catch((e) => {
+      console.log("Insight doesn't exist", e)
     })
-    const getAssetPriceData = (project) =>
-      getPriceData(project.slug, isoFrom, isoTo, apollo).then(
-        projectPriceExtractor(project),
-      )
 
-    let assetTickers = data.insight.tags.filter(noTrendTagsFilter)
-    const { priceChartProject } = data.insight
-    let chartProjectPriceData
-
-    if (priceChartProject && assetTickers.length) {
-      const ticker = priceChartProject.ticker.toLowerCase()
-      chartProjectPriceData = getAssetPriceData(priceChartProject)
-      assetTickers = assetTickers.filter(
-        ({ name }) => name.toLowerCase() !== ticker,
-      )
+    if (!insight) {
+      return this.redirect(302, '/')
     }
 
-    let assets = []
-    try {
-      assets = await Promise.all([
-        chartProjectPriceData,
-        ...assetTickers.map(({ name: ticker }) =>
-          getProjectByTicker(ticker, apollo)
-            .then(getAssetPriceData)
-            .catch(() => {}),
-        ),
-      ])
-    } catch (e) {
-      console.log(e, 'Assets fetch reject')
+    const isDraft = insight.readyState === 'draft'
+    if (isDraft && redirectNonAuthor(this, session, insight)) {
+      return
     }
 
-    return {
-      ...data.insight,
-      assets: assets.filter(Boolean),
-      comments,
-      seoLink: slug,
-    }
+    const { user, project, updatedAt } = insight
+    const publishedAt = insight.publishedAt || updatedAt
+    const isAuthor = currentUser && +currentUser.id === +user.id
+
+    const queryPriceData = (...args) => queryPriceDataSSR(...args, this)
+    const priceQuery =
+      project && queryPriceSincePublication(project.slug, publishedAt, queryPriceData)
+
+    const projectData = await priceQuery
+
+    return { insight, projectData, link: slug, isAuthor, isDraft }
   }
 </script>
 
 <script>
-  import { setContext, onMount } from 'svelte'
-  import { writable } from 'svelte/store'
-  import { stores } from '@sapper/app'
-  import ViewportObserver from '@/components/ViewportObserver'
-  import Tags from '@/components/insights/Tags'
-  import Text from '@/components/insights/Text'
-  import ProfileInfo from '@/components/ProfileInfo'
-  import Loadable from '@/components/Loadable'
-  import Dialog from '@/ui/dialog/index'
-  import SuggestedInsights from '@/components/insights/SuggestedInsights'
-  import FeaturedAssets from '@/components/assets/FeaturedAssets'
-  import PaymentDialog from '@/components/PaymentDialog/index.svelte'
-  import Thanks from './_components/Thanks.svelte'
-  import Author from './_components/Author.svelte'
-  import Banner from './_components/Banner.svelte'
-  import Breadcrumbs from './_components/Breadcrumbs.svelte'
-  import Paywall from './_components/Paywall.svelte'
-  import FixedControls from './_components/FixedControls.svelte'
-  import ReadAnalytics from './_components/ReadAnalytics.svelte'
-  import { getShareLink } from '@/logic/share'
-  import {
-    getPostponedPaymentInsight,
-    removePostponedPayment,
-  } from '@/logic/insights'
-  import { getRawText, grabFirstImageLink } from '@/utils/insights'
-  import { checkIsPro } from '@/utils/plans'
-  import { user$ } from '@/stores/user'
-  import { subscription$ } from '@/stores/user/subscription'
-  const loadSuggestedInsights = () =>
-    import('@/components/insights/SuggestedInsights')
+  import { getDateFormats } from 'webkit/utils/dates'
+  import Comments from 'webkit/ui/Comments/svelte'
+  import ViewportObserver from 'webkit/ui/ViewportObserver.svelte'
+  import { currentUser } from '@/stores/user'
+  import { session } from '@/stores/session'
+  import { checkIsFollowing } from '@/flow/follow'
+  import Tags from '@cmp/Tags.svelte'
+  import InsightText from '@cmp/InsightText.svelte'
+  import Breadcrumbs from './_Breadcrumbs.svelte'
+  import Author from './_Author.svelte'
+  import Epilogue from './_Epilogue.svelte'
+  import FixedControls from './_FixedControls.svelte'
+  import Assets from './_Assets.svelte'
+  import SuggestedInsights from './_SuggestedInsights.svelte'
+  import MetaTags from './_MetaTags.svelte'
+  import Paywall from './_Paywall.svelte'
 
-  export let id,
-    text,
-    title,
-    tags,
-    user,
-    votes,
-    createdAt,
-    publishedAt = createdAt,
-    votedAt,
-    readyState,
-    assets = [],
-    commentsCount,
-    comments,
-    isPaywallRequired,
-    seoLink
+  export let insight
+  export let projectData
+  export let link
+  export let isAuthor
+  export let isDraft
 
-  const commentsCounter = writable(commentsCount)
-  setContext('commentsCount', {
-    subscribe: commentsCounter.subscribe,
-    set: (value) => {
-      commentsCount = value
-      commentsCounter.set(value)
-    },
-  })
-
-  $: {
-    commentsCounter.set(commentsCount)
-  }
-
-  const { session } = stores()
-  const userSubscription = subscription$()
-  const currentUser = user$()
-
-  const classes = { wrapper: 'info__profile' }
-  const previewImgLink = grabFirstImageLink(text)
-  const metaDescriptionText = getRawText(text).slice(0, 140)
-
-  const options = {
-    rootMargin: '160px 0px -135px',
-  }
-  const commentsOptions = {
-    rootMargin: '100% 0px 200px',
-  }
-  const suggestionOptions = {
-    rootMargin: '100% 0px 300px',
-  }
-
-  let open = false
-  let clientHeight
   let hidden = true
-  let currentVoting = 0
-  $: shareLink = getShareLink(id)
 
-  $: isMobile = $session.isMobile
-  $: shouldLoadSuggestions = !id
-  $: shouldLoadComments = !id
+  $: ({ title, text, user, updatedAt, publishedAt, tags, isPro } = insight)
+  $: isPaywalled = isPro
+  $: isPaywalled && (hidden = false)
 
-  $: liked = !!votedAt
+  $: ({ MMM, D, YYYY } = getDateFormats(new Date(publishedAt || updatedAt)))
+  $: date = `${MMM} ${D}, ${YYYY}`
+  $: isFollowing = checkIsFollowing($currentUser, user.id)
 
-  $: isAuthor = $currentUser && user.id === $currentUser.id
-  $: isPro = checkIsPro($userSubscription)
-  $: hasPaywall = isPaywallRequired && !(isAuthor || isPro)
-
-  $: if (hasPaywall) {
-    hidden = false
-  }
-
-  function hideSidebar() {
-    hidden = true
-  }
-
-  function showSidebar() {
-    hidden = false
-  }
-
-  function showSuggestions() {
-    shouldLoadSuggestions = true
-  }
-
-  function showComments() {
-    shouldLoadComments = true
-  }
-
-  function onUpgradeClick() {
-    open = true
-  }
-
-  function onPaymentSuccess() {
-    open = false
-    setTimeout(() => window.location.reload(), 3000)
-  }
-
-  onMount(() => {
-    if ($currentUser && getPostponedPaymentInsight()) {
-      open = true
-      removePostponedPayment()
-    }
-  })
+  const showSidebar = () => (hidden = false)
+  const hideSidebar = () => (hidden = true)
 </script>
 
-<template lang="pug">
-include /ui/mixins
+<MetaTags {insight} />
 
-svelte:head
-  title {title} - Santiment Community Insights
-  meta(name='description', content='{metaDescriptionText}')
-  meta(property='og:type', content='article')
-  meta(property='og:title', content='{title} - Santiment Community Insights')
-  meta(property='og:description', content='{metaDescriptionText}')
-  +if('previewImgLink')
-    meta(name='twitter:card',content='summary_large_image')
-    meta(name='twitter:image', content='{previewImgLink}')
-    meta(name='og:image', content='{previewImgLink}')
+<div class="insight">
+  {#if process.browser && $session.isDesktop}
+    <FixedControls {insight} {link} {hidden} {isAuthor} {isDraft} />
+    {#if projectData && isPaywalled === false}
+      <Assets {insight} {projectData} />
+    {/if}
+  {/if}
 
-.insight(bind:clientHeight)
-  Breadcrumbs({title}, {seoLink})
+  <Breadcrumbs {title} {link} />
 
-  h1.title {title}
-  Author({user}, {publishedAt}, {isAuthor})
-  Text({text})
+  <h1 class="h2 mrg-xl mrg--b mrg--t">{title}</h1>
 
-  +if('hasPaywall')
-    Paywall(on:upgradeClick='{onUpgradeClick}')
+  <Author {user} {date} {isAuthor} {isFollowing} />
 
-    +else()
-      .bottom
-        Tags({tags})
-        .info
-          Author({user}, {publishedAt}, {isAuthor})
-          ViewportObserver({options}, on:intersect='{hideSidebar}', on:leaving='{showSidebar}', top)
-            Thanks({id}, {votes}, {readyState}, {commentsCount}, {isAuthor}, bind:currentVoting)
-          Banner({user}, {isAuthor})
+  <InsightText {text} class="mrg-xl mrg--t body-1" />
 
-  +if('assets.length && !isMobile')
-    .assets
-      FeaturedAssets({assets}, {publishedAt}, insightId='{id}')
+  {#if isPaywalled}
+    <Paywall />
+  {:else}
+    <div class="tags c-waterloo mrg-xl mrg--t caption">
+      <Tags {tags} />
+    </div>
 
-  +if('!isMobile')
-    FixedControls({id}, {readyState}, {commentsCount}, {shareLink}, {votes}, {hidden}, {isAuthor}, bind:currentVoting)
+    <Author {user} {date} {isAuthor} {isFollowing} />
 
-+if('!hasPaywall')
-  ViewportObserver(id='comments', options='{commentsOptions}', on:intersect='{showComments}', top)
-    +if('readyState !== "draft" && (comments || shouldLoadComments)')
-      Loadable(load='{loadComments}', {id}, authorId='{user.id}', {comments}, Component='{PreloadedComments}')
+    <ViewportObserver
+      top
+      options={{ rootMargin: '160px 0px -135px' }}
+      on:intersect={hideSidebar}
+      on:leaving={showSidebar}>
+      <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
+    </ViewportObserver>
 
-ViewportObserver(options='{suggestionOptions}', on:intersect='{showSuggestions}', top)
-  +if('shouldLoadSuggestions')
-    Loadable(load='{loadSuggestedInsights}', {id}, userId='{+user.id}')
+    <div id="comments">
+      <Comments
+        type={CommentsType.Insight}
+        commentsFor={insight}
+        currentUser={$currentUser}
+        titleClass="h4 c-waterloo" />
+    </div>
+  {/if}
+</div>
 
-+if('open')
-  PaymentDialog(bind:open, on:success='{onPaymentSuccess}')
+{#if process.browser}
+  <SuggestedInsights {insight} {user} />
+{/if}
 
-ReadAnalytics({id})
-
-.bot-scroll
-</template>
-
-<style lang="scss">
-  @import '@/mixins';
-
-  .assets {
-    position: absolute;
-    top: 90px;
-    left: calc(100% + 30px);
-
-    @media screen and (min-width: 1320px) {
-      left: calc(100% + 60px);
-    }
-  }
-
+<style>
   .insight {
     max-width: 720px;
     margin: 0 auto;
-
-    @media only screen and (max-width: 1215px) and (min-width: 992px) {
-      max-width: 670px;
-    }
-
-    :global(&__profile) {
-      max-width: 80%;
-    }
+    position: relative;
   }
 
-  .title {
-    @include text('h2', 'm');
-    margin: 0 0 25px;
-    word-break: break-word;
-
-    @include responsive('phone', 'phone-xs') {
-      @include text('h3', 'm');
-    }
+  .tags {
+    padding: 0 0 16px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--porcelain);
   }
 
-  .bottom {
-    margin-top: 30px;
+  #comments {
+    margin-top: 40px;
   }
 
-  .info {
-    margin-top: 16px;
-    border-top: 1px solid var(--porcelain);
-    padding: 20px 0;
-    max-width: 100%;
+  #comments :global(form) {
+    margin-bottom: 30px;
+  }
+
+  #comments :global(form button) {
+    height: 40px;
+    flex: 0 0 92px;
+    white-space: nowrap;
+  }
+
+  #comments :global(form textarea) {
+    resize: vertical;
+    min-height: 40px;
+    padding: 9px 12px;
   }
 </style>

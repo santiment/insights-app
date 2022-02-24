@@ -1,30 +1,33 @@
 <script context="module">
+  import { redirectToLoginPage } from '@/flow/redirect'
+
   export async function preload(page, session) {
-    if (typeof session.currentUser !== 'object') {
-      await session.loadingUser
-    }
-    const { currentUser } = session
+    if (redirectToLoginPage(this, session)) return
 
-    if (!currentUser) {
-      return this.redirect(302, '/experience')
-    }
-
-    return {
-      currentTrends: page.query.currentTrends,
-    }
+    const trendTags = page.query.currentTrends
+    const trendTag = trendTags ? trendTags.split(',')[0] : undefined
+    return { trendTag }
   }
 </script>
 
 <script>
-  import Editor from '@/components/insights/Editor'
+  import Editor from '@cmp/Editor/index.svelte'
 
-  export let currentTrends
+  export let trendTag
 </script>
 
-<template lang="pug">
-svelte:head
-  title Creating New Insight - Santiment Insights
-  meta(property='og:title', content='Creating New Insight - Santiment Insights')
+<svelte:head>
+  <title>Creating New Insight - Santiment Insights</title>
+  <meta property="og:title" content="Creating New Insight - Santiment Insights" />
+</svelte:head>
 
-Editor({currentTrends})
-</template>
+<div>
+  <Editor {trendTag} />
+</div>
+
+<style>
+  div {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+</style>

@@ -1,12 +1,8 @@
 .DS_Store
 node_modules
 yarn-error.log
-undefined.json
-/cypress/screenshots/
 /__sapper__/
 /static/san-icons
-/static/global.css
-/static/global.css.json
 /static/webkit
 /lib/
 .log/
