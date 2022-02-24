@@ -18,8 +18,8 @@
   const loadInsights = (page) => query(page, tags, onlyPro, isOnlyPulse)
 </script>
 
-<ViewportPagination bind:reset items={insights} query={loadInsights}>
-  <Feed items={insights} let:item>
+<ViewportPagination bind:reset items={insights} query={loadInsights} let:items>
+  <Feed {items} let:item>
     {#if item.isPulse}
       <PulseCard insight={item} class="mrg-xl mrg--b" />
     {:else}
