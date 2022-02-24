@@ -13,6 +13,7 @@
   import { setContext } from 'svelte'
   import BackToTop from 'webkit/ui/BackToTop.svelte'
   import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
+  import CookiePopup from 'webkit/ui/CookiesPopup.svelte'
   import { session } from '@/stores/session'
   import Nav from '@cmp/Nav/index.svelte'
   import NavMobile from '@cmp/Nav/Mobile.svelte'
@@ -36,6 +37,7 @@
 </main>
 
 {#if process.browser}
+  <CookiePopup />
   <Dialogs />
   <Notifications />
 {/if}
