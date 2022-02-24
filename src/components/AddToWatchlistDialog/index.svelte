@@ -83,13 +83,6 @@
 
       DialogPromise.resolve(additions.length + removals.length)
       closeDialog()
-
-      /*
-       notifications.add({
-        type: 'success',
-        title: `${updatesAmount} watchlist${updatesAmount > 1 ? 's were' : ' was'} modified`,
-      })
-      */
     })
   }
 </script>

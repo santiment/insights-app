@@ -31,7 +31,7 @@
 <style>
   nav {
     box-shadow: 0 0 20px rgba(24, 27, 43, 0.05);
-    z-index: 5;
+    z-index: 11;
     justify-content: space-evenly;
     position: fixed;
     bottom: 0;

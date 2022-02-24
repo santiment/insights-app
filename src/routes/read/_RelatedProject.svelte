@@ -4,10 +4,8 @@
   import Area from 'webkit/ui/MiniChart/Area.svelte'
   import Asset from '@cmp/Asset.svelte'
   import { queryInsightRelatedProjectPrice } from '@/api/insights/project'
-  import {
-    watchlistsPreloader,
-    showAddToWatchlistDialog,
-  } from '@cmp/AddToWatchlistDialog/index.svelte'
+  import { watchlistsPreloader } from '@cmp/AddToWatchlistDialog/index.svelte'
+  import { startAddToWatchlistFlow } from '@/flow/watchlists'
 
   export let project
 
@@ -41,7 +39,7 @@
 
   <div
     class="btn-2 btn--s"
-    on:click={() => showAddToWatchlistDialog(project)}
+    on:click={() => startAddToWatchlistFlow(project)}
     use:watchlistsPreloader>
     <Svg id="add-list" w="16" h="14" class="$style.icon" />
     Add to watchlist
