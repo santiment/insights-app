@@ -86,6 +86,9 @@
     padding: 5px 10px;
     border-radius: 4px;
     color: var(--blue);
+    flex: 1;
+  }
+  :global(body.desktop) input {
     min-width: 330px;
   }
 

@@ -30,8 +30,8 @@
       <hr />
 
       <section>
-        <a class="btn-ghost" href="https://app.santiment.net/sonar/my-signals"> My signals </a>
-        <a class="btn-ghost" href="https://app.santiment.net/watchlists"> My watchlists </a>
+        <a class="btn-ghost" href="https://app.santiment.net/alerts?tab=1"> My signals </a>
+        <a class="btn-ghost" href="https://app.santiment.net/assets"> My watchlists </a>
         <a class="btn-ghost" href="/my"> My insights </a>
         <a href="/new" class="write btn-1 btn--s">Write insight</a>
       </section>

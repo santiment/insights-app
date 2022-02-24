@@ -1,4 +1,6 @@
 <script>
+  import { goto } from '@sapper/app'
+  import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
   import Profile from 'webkit/ui/Profile/svelte'
 
   let className = ''
@@ -6,9 +8,15 @@
   export let conversation
 
   $: ({ user, content, insight } = conversation)
+
+  function onClick() {
+    console.log(insight)
+    const { id, title } = insight
+    goto('/read/' + getSEOLinkFromIdAndTitle(id, title))
+  }
 </script>
 
-<div class="border btn {className}">
+<div class="border btn {className}" on:click={onClick}>
   <div class="row">
     <Profile {user} class="mrg-m mrg--r" />
     <div class="caption mrg-a mrg--l">Insights</div>

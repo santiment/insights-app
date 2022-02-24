@@ -13,3 +13,13 @@ if (process.env.IS_PROD_MODE) {
   bootIntercom('cyjjko9u')
   // initGA()
 }
+
+window.__onLinkClick = (e) => {
+  const node = e.currentTarget
+  const href = node.getAttribute('href')
+
+  if (href.startsWith('/profile/')) {
+    e.preventDefault()
+    window.location.href = 'https://app.santiment.net' + href
+  }
+}
