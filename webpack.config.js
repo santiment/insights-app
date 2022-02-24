@@ -32,6 +32,7 @@ const cssLoaderRule = {
   ],
 }
 
+const GQL_SERVER_FALLBACK = process.env.BACKEND_URL + '/graphql'
 const IS_STAGE_BACKEND = process.env.BACKEND_URL.includes('-stage')
 const IS_PROD_BACKEND = !IS_STAGE_BACKEND
 
@@ -44,7 +45,7 @@ const ENVS = {
   'process.env.IS_PROD_MODE': JSON.stringify(!dev),
 
   'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
-  'process.env.GQL_SERVER_URL': JSON.stringify(process.env.BACKEND_URL + '/graphql'),
+  'process.env.GQL_SERVER_URL': JSON.stringify(GQL_SERVER_FALLBACK),
 
   'process.env.IS_STAGE_BACKEND': IS_STAGE_BACKEND,
   'process.env.IS_PROD_BACKEND': IS_PROD_BACKEND,
@@ -140,7 +141,7 @@ module.exports = {
         ...ENVS,
 
         'process.env.GQL_SERVER_URL': JSON.stringify(
-          process.env.GQL_SERVER_URL || process.env.BACKEND_URL + '/graphql',
+          process.env.GQL_SERVER_URL || GQL_SERVER_FALLBACK,
         ),
       }),
     ],
