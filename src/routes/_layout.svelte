@@ -10,11 +10,15 @@
 </script>
 
 <script>
-  import { dialogs } from 'webkit/ui/Dialog'
+  import { setContext } from 'svelte'
   import BackToTop from 'webkit/ui/BackToTop.svelte'
+  import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
   import { session } from '@/stores/session'
   import Nav from '@cmp/Nav/index.svelte'
   import NavMobile from '@cmp/Nav/Mobile.svelte'
+  import Notifications from 'webkit/ui/Notifications'
+
+  setContext('isMobile', $session.isMobile)
 </script>
 
 {#if $session.isMobile}
@@ -31,11 +35,10 @@
   <slot />
 </main>
 
-<div id="dialogs">
-  {#each $dialogs as { Component, props }, i}
-    <svelte:component this={Component} {...props} {i} />
-  {/each}
-</div>
+{#if process.browser}
+  <Dialogs />
+  <Notifications />
+{/if}
 
 <style>
   main {
