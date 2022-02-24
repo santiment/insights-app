@@ -1,6 +1,7 @@
 import { createElement } from 'react'
 import { Block, addNewBlock } from 'medium-draft'
 import { upload } from 'webkit/api'
+import { notifications } from 'webkit/ui/Notifications'
 import Svg from 'webkit/ui/Svg/react'
 
 const UPLOAD_IMAGE_MUTATION = `
@@ -23,10 +24,10 @@ const ChartIframe = ({ close, setEditorState, getEditorState }) => {
     if (!file) return
     if (file.type.indexOf('image/') !== 0) return
     if (file.size / 1024 > MAX_IMG_SIZE) {
-      // notifications.add({
-      // type: 'error',
-      // title: 'Image size is too large',
-      // })
+      notifications.show({
+        type: 'error',
+        title: 'Image size is too large',
+      })
       return
     }
 

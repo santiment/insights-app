@@ -1,6 +1,7 @@
 <script>
   import { goto } from '@sapper/app'
   import { track } from 'webkit/analytics'
+  import { showPaymentDialog, dataPreloader } from 'webkit/ui/PaymentDialog/index.svelte'
   import { currentUser } from '@/stores/user'
   // import { showPaymentDialog, dataPreloader } from '@cmp/PaymentDialog/index.svelte'
 
@@ -12,7 +13,7 @@
       return goto('/login')
     }
 
-    // showPaymentDialog()
+    showPaymentDialog()
   }
 </script>
 
@@ -26,7 +27,7 @@
     <div class="h3 mrg-xl mrg--b">
       $49<span class="c-casper">/mo</span>
     </div>
-    <button on:click={onUpgradeClick} class="upgrade btn-1 btn--orange btn--l"
+    <button on:click={onUpgradeClick} class="upgrade btn-1 btn--orange btn--l" use:dataPreloader
       >Upgrade to PRO</button>
   </div>
 </section>
@@ -81,8 +82,10 @@
     and templates!
   </p>
 
-  <button on:click={onUpgradeClick} class="upgrade btn-1 btn--orange btn--l body-3"
-    >Subscribe to PRO</button>
+  <button
+    on:click={onUpgradeClick}
+    class="upgrade btn-1 btn--orange btn--l body-3"
+    use:dataPreloader>Subscribe to PRO</button>
 </section>
 
 <style>

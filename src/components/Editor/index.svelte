@@ -3,6 +3,7 @@
   import { goto } from '@sapper/app'
   import { debounce } from 'webkit/utils/fn'
   import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
+  import { notifications } from 'webkit/ui/Notifications'
   import Text from './Text.svelte'
   import Bottom from './Bottom.svelte'
   import { checkIsTrendTag } from '@/utils/insights'
@@ -45,6 +46,10 @@
       if (isDraft === false) {
         clearQueryInsightCache(insight.id, $session.isMobile)
         goto(`/read/${getSEOLinkFromIdAndTitle(insight.id, insight.title)}`)
+        notifications.show({
+          type: 'success',
+          title: 'Your insight was successfully updated',
+        })
         return
       }
 
@@ -60,22 +65,22 @@
 
   function publishDraft() {
     if (!$currentUser.username) {
-      // notifications.add({
-      // type: 'error',
-      // title: 'Please, add "Name" in the "Account settings" to publish the insight',
-      // dismissAfter: 8000,
-      // })
+      notifications.show({
+        type: 'error',
+        title: 'Please, add "Name" in the "Account settings" to publish the insight',
+        dismissAfter: 8000,
+      })
       return
     }
 
     mutatePublishDraft(insight.id).then(() => {
       clearQueryInsightCache(insight.id, $session.isMobile)
       goto('/my')
-      // notifications.add({
-      // type: 'success',
-      // title: 'Thanks for your thoughts',
-      // description: 'We will check your insight and publish it very soon.',
-      // })
+      notifications.shown({
+        type: 'success',
+        title: 'Thanks for your thoughts',
+        description: 'We will check your insight and publish it very soon.',
+      })
     })
   }
 

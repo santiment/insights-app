@@ -1,4 +1,5 @@
 import { goto } from '@sapper/app'
+import { notifications } from 'webkit/ui/Notifications'
 import { getSessionValue } from '@/stores/utils'
 import { showAddToWatchlistDialog } from '@cmp/AddToWatchlistDialog/index.svelte'
 
@@ -12,7 +13,7 @@ export function startAddToWatchlistFlow(project) {
   return showAddToWatchlistDialog(project).then((amountModified) => {
     if (!(amountModified > 0)) return
 
-    notifications.add({
+    notifications.show({
       type: 'success',
       title: `${amountModified} watchlist${amountModified > 1 ? 's were' : ' was'} modified`,
     })
