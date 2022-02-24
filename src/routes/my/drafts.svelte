@@ -19,6 +19,7 @@
 <script>
   import ViewportPagination from '@cmp/ViewportPagination.svelte'
   import Draft from '@cmp/InsightCard/Draft.svelte'
+  import Empty from './_Empty.svelte'
 
   export let insights = []
 
@@ -30,13 +31,17 @@
   }
 </script>
 
-<ViewportPagination {query} items={insights} let:items>
-  <div class="insights">
-    {#each items as draft (draft.id)}
-      <Draft {draft} onDelete={onDraftDelete} />
-    {/each}
-  </div>
-</ViewportPagination>
+{#if insights.length}
+  <ViewportPagination {query} items={insights} let:items>
+    <div class="insights">
+      {#each items as draft (draft.id)}
+        <Draft {draft} onDelete={onDraftDelete} />
+      {/each}
+    </div>
+  </ViewportPagination>
+{:else}
+  <Empty />
+{/if}
 
 <style>
   .insights {

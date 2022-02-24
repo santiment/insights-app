@@ -18,6 +18,7 @@
 
 <script>
   import InsightsFeed from '@cmp/InsightsFeed.svelte'
+  import Empty from './_Empty.svelte'
 
   export let insights = []
 
@@ -31,4 +32,8 @@
   <meta name="description" property="og:description" content="My Commmunity Insights" />
 </svelte:head>
 
-<InsightsFeed {insights} {query} />
+{#if insights.length}
+  <InsightsFeed {insights} {query} />
+{:else}
+  <Empty />
+{/if}
