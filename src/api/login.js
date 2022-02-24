@@ -1,6 +1,6 @@
 import { mutate } from 'webkit/api'
+import { signMessage } from 'webkit/utils/web3'
 import { CURRENT_USER_FRAGMENT } from './user'
-import { signMessage } from '@/utils/web3/index.js'
 
 const EMAIL_LOGIN_MUTATION = (email, consent, subscribeToWeeklyNewsletter) => `
   mutation {

@@ -1,7 +1,0 @@
-@each $color in green, red, lima, orange, lima, blue {
-  .SAN-accent_#{$color} {
-    --accent-color: var(--#{$color});
-    --accent-color-hover: var(--#{$color}-hover);
-    --accent-color-light: var(--#{$color}-light);
-  }
-}
