@@ -9,7 +9,7 @@ WORKDIR /app
 
 COPY ./ /app
 
-RUN npm i
+RUN npm install --unsafe-perm
 RUN npm run build
 
 FROM node:13
