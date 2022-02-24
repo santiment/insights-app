@@ -9,12 +9,16 @@
   export async function preload(page, session) {
     const { currentUser, isMobile } = session
     const { slug } = page.params
+
     const id = getIdFromSEOLink(slug)
-    const insight = await queryInsightSSR(
-      id,
-      (isMobile ? undefined : RELATED_PROJECT_FRAGMENT) + ' readyState',
-      this,
-    )
+    const DATA = isMobile ? undefined : RELATED_PROJECT_FRAGMENT
+    const insight = await queryInsightSSR(id, DATA, this).catch((e) => {
+      console.log("Insight doesn't exist", e)
+    })
+
+    if (!insight) {
+      return this.redirect(302, '/')
+    }
 
     const isDraft = insight.readyState === 'draft'
     if (isDraft && redirectNonAuthor(this, session, insight)) {

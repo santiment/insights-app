@@ -9,6 +9,7 @@
   export let isDraft = true
   export let isSaving = false
   export let update
+  export let updateInsight, publishDraft
 
   function onPulseClick() {
     insight.isPulse = !insight.isPulse
@@ -32,7 +33,15 @@
     <Toggle isActive={insight.isPulse} class="mrg-s mrg--l" />
   </button>
 
-  <Publish {insight} {tags} {update} {requirements} {isSaving} />
+  <Publish
+    {insight}
+    {tags}
+    {update}
+    {updateInsight}
+    {publishDraft}
+    {requirements}
+    {isDraft}
+    {isSaving} />
 </div>
 
 <style lang="scss">

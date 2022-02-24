@@ -7,9 +7,10 @@
   import ProToggle from './ProToggle.svelte'
 
   export let insight
+  export let isDraft
   export let isEnabled
   export let loading = false
-  export let update
+  export let update, onPublishClick
 
   $: subscription = $currentUser && getSanbaseSubscription($currentUser.subscriptions)
 
@@ -50,7 +51,8 @@
       <ProToggle {insight} {update} />
     {/if}
 
-    <button class="btn-1 fluid mrg-xl mrg--t" class:loading>Publish insight</button>
+    <button class="btn-1 fluid mrg-xl mrg--t" class:loading on:click={onPublishClick}
+      >{isDraft ? 'Publish' : 'Update'} insight</button>
   </svelte:fragment>
 </Tooltip>
 

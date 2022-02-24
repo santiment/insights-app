@@ -8,7 +8,7 @@
     const { id } = page.params
     const insight = await queryInsightSSR(
       id,
-      'readyState isPulse project:priceChartProject{id slug name ticker}',
+      'isPulse project:priceChartProject{id slug name ticker}',
       this,
     )
 

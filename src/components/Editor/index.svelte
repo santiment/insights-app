@@ -1,10 +1,15 @@
 <script>
   import { onDestroy } from 'svelte'
+  import { goto } from '@sapper/app'
   import { debounce } from 'webkit/utils/fn'
+  import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
   import Text from './Text.svelte'
   import Bottom from './Bottom.svelte'
   import { checkIsTrendTag } from '@/utils/insights'
-  import { mutateUpdateDraft, mutateCreateDraft } from '@/api/insights/draft'
+  import { clearQueryInsightCache } from '@/api/insights'
+  import { mutateUpdateDraft, mutateCreateDraft, mutatePublishDraft } from '@/api/insights/draft'
+  import { currentUser } from '@/stores/user'
+  import { session } from '@/stores/session'
 
   export let insight = { readyState: 'draft' }
   export let trendTag = getTags()
@@ -23,7 +28,9 @@
 
     checkRequirements()
     if (!requirements.title || !requirements.text) return
-
+    if (isDraft) updateInsight()
+  })
+  function updateInsight() {
     const mutate = insight.id ? mutateUpdateDraft : mutateCreateDraft
 
     mutate({
@@ -35,6 +42,12 @@
       isPulse: insight.isPulse,
       projectId: insight.project ? +insight.project.id : null,
     }).then((data) => {
+      if (isDraft === false) {
+        clearQueryInsightCache(insight.id, $session.isMobile)
+        goto(`/read/${getSEOLinkFromIdAndTitle(insight.id, insight.title)}`)
+        return
+      }
+
       if (!insight.id) {
         insight.id = data.id
         window.history.replaceState({}, '', '/edit/' + data.id)
@@ -43,7 +56,28 @@
 
       isSaving = false
     })
-  })
+  }
+
+  function publishDraft() {
+    if (!$currentUser.username) {
+      // notifications.add({
+      // type: 'error',
+      // title: 'Please, add "Name" in the "Account settings" to publish the insight',
+      // dismissAfter: 8000,
+      // })
+      return
+    }
+
+    mutatePublishDraft(insight.id).then(() => {
+      clearQueryInsightCache(insight.id, $session.isMobile)
+      goto('/my')
+      // notifications.add({
+      // type: 'success',
+      // title: 'Thanks for your thoughts',
+      // description: 'We will check your insight and publish it very soon.',
+      // })
+    })
+  }
 
   function onTitleInput({ currentTarget }) {
     const value = currentTarget.textContent
@@ -65,7 +99,7 @@
   }
 
   function update() {
-    isSaving = true
+    if (isDraft) isSaving = true
     scheduleUpdate()
   }
 
@@ -85,7 +119,7 @@
 
 <Text {insight} {contentRef} onChange={update} />
 
-<Bottom {insight} {update} {requirements} {isDraft} {isSaving} />
+<Bottom {insight} {update} {updateInsight} {publishDraft} {requirements} {isDraft} {isSaving} />
 
 <style lang="scss">
   h2 {

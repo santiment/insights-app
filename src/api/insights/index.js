@@ -1,4 +1,6 @@
 import { query, newSSRQuery } from 'webkit/api'
+import { Cache } from 'webkit/api/cache'
+import { RELATED_PROJECT_FRAGMENT } from '@/api/insights/project'
 
 export const BASIC_INSIGHT_FRAGMENT = `
   id
@@ -55,6 +57,7 @@ const INSIGHT_QUERY = (id, data = '') => `{
   insight(id:${id}) {
     ${INSIGHT_FRAGMENT}
     ${data}
+    readyState
     updatedAt
     text
   }
@@ -65,3 +68,6 @@ export const queryInsight = (id, queryFragments = '', reqOptions) =>
   query(INSIGHT_QUERY(id, queryFragments), undefined, reqOptions).then(insightAccessor)
 
 export const queryInsightSSR = newSSRQuery(queryInsight)
+
+export const clearQueryInsightCache = (id, isMobile) =>
+  Cache.delete(INSIGHT_QUERY(id, isMobile ? undefined : RELATED_PROJECT_FRAGMENT))

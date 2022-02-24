@@ -11,8 +11,14 @@
   <pre>{error.stack}</pre>
 {/if}
 
+<div class="fluid" />
+
 <style>
-  :global(body) {
+  div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
     background: url(webkit/illus/404.svg) no-repeat 50% 50% / 40%;
   }
 </style>

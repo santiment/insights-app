@@ -1,6 +1,6 @@
 import { mutate } from 'webkit/api'
 
-export const UPDATE_DRAFT_MUTATION = `
+const UPDATE_DRAFT_MUTATION = `
   mutation updateInsight(
     $id: ID!
     $title: String
@@ -31,7 +31,7 @@ export const mutateUpdateDraft = (variables) =>
 
 // -------------------
 
-export const CREATE_DRAFT_MUTATION = `
+const CREATE_DRAFT_MUTATION = `
   mutation createInsight(
     $title: String!
     $text: String
@@ -55,3 +55,14 @@ export const CREATE_DRAFT_MUTATION = `
 `
 export const mutateCreateDraft = (variables) =>
   mutate(CREATE_DRAFT_MUTATION, { variables }).then(accessor)
+
+// -------------------
+
+const PUBLISH_DRAFT_MUTATION = (id) => `
+  mutation {
+    publishInsight(id:${id}) {
+      id
+    }
+  }
+`
+export const mutatePublishDraft = (id) => mutate(PUBLISH_DRAFT_MUTATION(id))
