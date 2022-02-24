@@ -13,7 +13,7 @@
   </a>
 </div>
 
-<style lang="scss">
+<style>
   div {
     height: 186px;
     background: url('/empty-page.svg') no-repeat 50% 0;
@@ -22,14 +22,9 @@
     margin: auto;
     text-align: center;
     max-width: 100%;
-
-    :global(.night-mode) & {
-      background-image: url('/empty-page_dark.svg');
-    }
   }
-
-  .text {
-    margin: 20px 0;
+  :global(.night-mode) div {
+    background-image: url('/empty-page_dark.svg');
   }
 
   a {

@@ -1,11 +1,13 @@
 <script context="module">
+  import { redirectLoggedInUser } from '@/flow/redirect'
+
   export function preload(_, session) {
-    if (session.currentUser) return this.redirect(302, '')
+    redirectLoggedInUser(this, session)
   }
 </script>
 
 <script>
-  import SignUp from '@cmp/LoginPrompt/SignUp.svelte'
+  import SignUp from 'webkit/ui/LoginPrompt/SignUp.svelte'
   import Layout from './login/_layout.svelte'
 </script>
 

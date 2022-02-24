@@ -7,7 +7,7 @@
 
 <script>
   import { goto } from '@sapper/app'
-  import Gdpr from '@cmp/LoginPrompt/Gdpr.svelte'
+  import Gdpr from 'webkit/ui/LoginPrompt/Gdpr.svelte'
   import { currentUser } from '@/stores/user'
   import Layout from './login/_layout.svelte'
 </script>
