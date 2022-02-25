@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte'
-  import Profile from 'webkit/ui/Profile/svelte'
   import ViewportObserver from 'webkit/ui/ViewportObserver.svelte'
   import { queryConversations } from '@/api/insights/conversations'
   import Conversation from './Conversation.svelte'
@@ -30,6 +29,10 @@
       loading = false
       lastDate = newLastDate
       conversations = conversations.concat(data.filter(insightsFilter))
+
+      if (hasMore && conversations.length < 6) {
+        loadConversations()
+      }
     })
   }
 
