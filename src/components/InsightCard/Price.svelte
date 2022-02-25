@@ -39,7 +39,9 @@
   })
 </script>
 
-<PriceSincePublication {insight} {project} {...projectData} width={220} class="$style.price" />
+{#if project}
+  <PriceSincePublication {insight} {project} {...projectData} width={220} class="$style.price" />
+{/if}
 
 <style>
   .price {
