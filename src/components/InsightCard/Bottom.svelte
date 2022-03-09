@@ -1,21 +1,17 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
-  import LikeBtn from 'webkit/ui/LikeButton/svelte'
-  import { currentUser } from '@/stores/user'
   import CommentBtn from '@cmp/CommentButton.svelte'
+  import VoteButton from '@cmp/VoteButton.svelte'
   import Tags from '@cmp/Tags.svelte'
 
   export let insight
   export let href
 
-  $: ({ votes, tags, commentsCount, isPro } = insight)
+  $: ({ tags, commentsCount, isPro } = insight)
 </script>
 
 <div class="bottom row v-center c-waterloo">
-  <LikeBtn
-    totalVotes={votes.totalVotes}
-    userVotes={votes.currentUserVotes}
-    disabled={!$currentUser} />
+  <VoteButton {insight} />
 
   <CommentBtn {href} count={commentsCount} />
 

@@ -1,8 +1,8 @@
 <script>
-  import LikeBtn from 'webkit/ui/LikeButton/svelte'
   import CommentBtn from '@cmp/CommentButton.svelte'
   import ShareBtn from '@cmp/ShareButton.svelte'
   import EditBtn from '@cmp/EditButton.svelte'
+  import VoteButton from '@cmp/VoteButton.svelte'
 
   export let insight
   export let link
@@ -15,7 +15,7 @@
 
 <aside>
   <div class:hidden class="fixed column c-waterloo">
-    <LikeBtn totalVotes={votes.totalVotes} userVotes={votes.currentUserVotes} />
+    <VoteButton {insight} />
     <CommentBtn href="/read/{link}" class="mrg-s mrg--t mrg--b" count={commentsCount} />
     {#if !isDraft}<ShareBtn {insight} class="mrg-s mrg--b" />{/if}
     {#if isAuthor}<EditBtn {insight} class="" />{/if}

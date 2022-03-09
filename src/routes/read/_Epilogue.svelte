@@ -1,5 +1,5 @@
 <script>
-  import LikeBtn from 'webkit/ui/LikeButton/svelte'
+  import VoteButton from '@cmp/VoteButton.svelte'
   import CommentBtn from '@cmp/CommentButton.svelte'
   import ShareBtn from '@cmp/ShareButton.svelte'
   import EditBtn from '@cmp/EditButton.svelte'
@@ -11,7 +11,7 @@
   export let isFollowing
   export let isDraft
 
-  $: ({ user, votes, commentsCount } = insight)
+  $: ({ user, commentsCount } = insight)
   $: ({ username } = user)
   $: followMsg = `Follow ${username}`
 
@@ -31,7 +31,7 @@
   </p>
 
   <div class="row h-center body-3">
-    <LikeBtn totalVotes={votes.totalVotes} userVotes={votes.currentUserVotes} />
+    <VoteButton {insight} />
     <CommentBtn href="read/{link}" count={commentsCount} />
     {#if !isDraft}<ShareBtn {insight} />{/if}
     {#if isAuthor}<EditBtn {insight} />{/if}
