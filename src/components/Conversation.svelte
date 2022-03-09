@@ -2,6 +2,7 @@
   import { goto } from '@sapper/app'
   import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
   import Profile from 'webkit/ui/Profile/svelte'
+  import { markdownToPlainText } from 'webkit/ui/Editor/markdown'
 
   let className = ''
   export { className as class }
@@ -10,7 +11,6 @@
   $: ({ user, content, insight } = conversation)
 
   function onClick() {
-    console.log(insight)
     const { id, title } = insight
     goto('/read/' + getSEOLinkFromIdAndTitle(id, title))
   }
@@ -22,7 +22,7 @@
     <div class="caption mrg-a mrg--l">Insights</div>
   </div>
 
-  <div class="comment mrg-s mrg--t mrg--b">{content}</div>
+  <div class="comment mrg-s mrg--t mrg--b">{markdownToPlainText(content)}</div>
   <div class="title c-waterloo">{insight.title}</div>
 </div>
 
