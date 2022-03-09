@@ -2,12 +2,6 @@
   export let segment
 </script>
 
-<svelte:head>
-  <title>My Insights</title>
-  <meta property="og:title" content="My Insights" />
-  <meta name="description" property="og:description" content="My Commmunity Insights" />
-</svelte:head>
-
 <h2 class="h4 txt-m mrg-xxl mrg--b">My Insights</h2>
 
 <div class="tabs row fluid mrg-xxl mrg--b">

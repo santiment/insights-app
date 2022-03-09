@@ -19,8 +19,11 @@
     "mobile-detect": "^1.4.5",
     "node-fetch": "^2.6.1",
     "polka": "next",
-    "san-webkit": "https://github.com/santiment/san-webkit#b58fd37",
-    "sirv": "^1.0.0"
+    "san-webkit": "https://github.com/santiment/san-webkit#615fb08",
+    "sirv": "^1.0.0",
+    "turndown": "^7.1.1",
+    "medium-editor": "^5.23.3",
+    "marked": "^4.0.12"
   },
   "devDependencies": {
     "copy-webpack-plugin": "5.1.2",

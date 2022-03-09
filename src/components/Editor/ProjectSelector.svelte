@@ -1,6 +1,6 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
-  import { queryProjects } from '@/api/projects'
+  import { queryProjects } from 'webkit/api/projects'
   import Project from './Project.svelte'
   import Selector from './Selector.svelte'
 

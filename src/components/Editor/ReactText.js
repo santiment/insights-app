@@ -9,13 +9,13 @@ import ChartIframe from './ReactChartIframe'
 import Image from './ReactImage'
 
 const Icon = (id, w, h) => createElement(Svg, { id, w, h })
-INLINE_BUTTONS[0].label = Icon('text-bold', 12, 16)
-INLINE_BUTTONS[1].label = Icon('text-italic', 11.6, 16)
-INLINE_BUTTONS[2].label = Icon('text-underline', 16)
-INLINE_BUTTONS[4].label = Icon('text-link', 16)
+INLINE_BUTTONS[0].label = Icon('editor/bold', 12, 16)
+INLINE_BUTTONS[1].label = Icon('editor/italic', 11.6, 16)
+INLINE_BUTTONS[2].label = Icon('editor/underline', 16)
+INLINE_BUTTONS[4].label = Icon('editor/link', 16)
 
-BLOCK_BUTTONS[1].label = Icon('text-quotes', 16)
-BLOCK_BUTTONS[2].label = Icon('text-list', 16)
+BLOCK_BUTTONS[1].label = Icon('editor/quotes', 16)
+BLOCK_BUTTONS[2].label = Icon('editor/list', 16)
 
 BLOCK_BUTTONS.push({
   label: Icon('text-big', 16),

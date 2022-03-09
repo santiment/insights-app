@@ -29,7 +29,7 @@
 <svelte:head>
   <title>My Insights</title>
   <meta property="og:title" content="My Insights" />
-  <meta name="description" property="og:description" content="My Commmunity Insights" />
+  <meta name="description" property="og:description" content="My Insights" />
 </svelte:head>
 
 {#if insights.length}

@@ -153,8 +153,7 @@
     white-space: nowrap;
   }
 
-  #comments :global(form textarea) {
-    resize: vertical;
+  #comments :global(form > div) {
     min-height: 40px;
     padding: 9px 12px;
   }

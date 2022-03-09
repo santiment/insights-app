@@ -31,6 +31,12 @@
   }
 </script>
 
+<svelte:head>
+  <title>My Drafts</title>
+  <meta property="og:title" content="My Drafts" />
+  <meta name="description" property="og:description" content="My Drafts" />
+</svelte:head>
+
 {#if insights.length}
   <ViewportPagination {query} items={insights} let:items>
     <div class="insights">
