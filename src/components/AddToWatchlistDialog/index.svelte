@@ -87,7 +87,7 @@
   }
 </script>
 
-<Dialog {...$$props} title="Add to watchlist" bind:closeDialog>
+<Dialog {...$$props} title="Add {project.ticker} to watchlist" bind:closeDialog>
   <section>
     <Watchlists {watchlists} {loading} bind:selected />
 

@@ -1,7 +1,6 @@
 <script>
   import Product from 'webkit/ui/Product.svelte'
   import Products from 'webkit/ui/Products/svelte'
-  // import MobileMenu from './MobileMenu.svelte'
   import Search from './Search.svelte'
   import Account from './Account.svelte'
 

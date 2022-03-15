@@ -1,15 +1,11 @@
 <script>
-  import Svg from 'webkit/ui/Svg/svelte'
   import Profile from 'webkit/ui/Profile/index.svelte'
-  import { startFollowFlow } from '@/flow/follow'
+  import FollowButton from 'webkit/ui/FollowButton/svelte'
+  import { currentUser } from '@/stores/user'
 
   export let user, date
   export let isAuthor
   export let isFollowing
-
-  function onFollow() {
-    startFollowFlow(user.id)
-  }
 </script>
 
 <div class="row v-center justify">
@@ -18,13 +14,6 @@
   </Profile>
 
   {#if !isAuthor}
-    <div class="btn-1 btn--s" on:click={onFollow}>
-      {#if isFollowing}
-        Following
-      {:else}
-        <Svg id="follow" w="18" h="16" class="mrg-xs mrg--r" />
-        Follow
-      {/if}
-    </div>
+    <FollowButton {isFollowing} {user} currentUser={$currentUser} />
   {/if}
 </div>

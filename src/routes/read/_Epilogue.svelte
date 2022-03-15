@@ -1,9 +1,11 @@
 <script>
+  import { onDestroy, onMount } from 'svelte'
+  import { EVENT, startFollowFlow } from 'webkit/ui/FollowButton/flow'
   import VoteButton from '@cmp/VoteButton.svelte'
   import CommentBtn from '@cmp/CommentButton.svelte'
   import ShareBtn from '@cmp/ShareButton.svelte'
   import EditBtn from '@cmp/EditButton.svelte'
-  import { startFollowFlow } from '@/flow/follow'
+  import { currentUser } from '@/stores/user'
 
   export let insight
   export let link
@@ -19,8 +21,19 @@
 
   function onFollow({ currentTarget }) {
     currentTarget.textContent = isFollowing ? followMsg : 'Unfollow'
-    startFollowFlow(user.id)
+    startFollowFlow($currentUser, user.id)
+    updateUserStore()
   }
+
+  function updateUserStore() {
+    currentUser.set($currentUser)
+  }
+  onMount(() => {
+    window.addEventListener(EVENT, updateUserStore)
+  })
+  onDestroy(() => {
+    if (process.browser) window.removeEventListener(EVENT, updateUserStore)
+  })
 </script>
 
 <div class="epilogue body-2 c-waterloo mrg-xl mrg--t">

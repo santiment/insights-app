@@ -11,13 +11,17 @@
 
 <script>
   import { setContext } from 'svelte'
+  import { stores } from '@sapper/app'
+  import PageLoadProgress from 'webkit/ui/PageLoadProgress.svelte'
   import BackToTop from 'webkit/ui/BackToTop.svelte'
   import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
   import CookiePopup from 'webkit/ui/CookiesPopup.svelte'
+  import Notifications from 'webkit/ui/Notifications'
   import { session } from '@/stores/session'
   import Nav from '@cmp/Nav/index.svelte'
   import NavMobile from '@cmp/Nav/Mobile.svelte'
-  import Notifications from 'webkit/ui/Notifications'
+
+  const { preloading } = stores()
 
   setContext('isMobile', $session.isMobile)
 </script>
@@ -40,6 +44,7 @@
   <CookiePopup />
   <Dialogs />
   <Notifications />
+  <PageLoadProgress {preloading} />
 {/if}
 
 <style>
