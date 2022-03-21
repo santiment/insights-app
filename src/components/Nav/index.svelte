@@ -10,7 +10,7 @@
 <nav class:fixed={isMenuOpened}>
   <div class="section row v-center">
     <Product title="Insights" class="mrg-l mrg--r" />
-    <Products active="insights" />
+    <Products active="insights" isCompact isColumn />
 
     <Search />
 
