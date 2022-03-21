@@ -3,7 +3,7 @@
 
   export let user
 
-  const SANTIMENT = new Set([6, 7, 1269, 3031, 4522])
+  const SANTIMENT = new Set([6, 7, 1269, 3031, 4522, 79570])
 </script>
 
 {#if SANTIMENT.has(+user.id)}
