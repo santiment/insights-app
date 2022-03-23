@@ -57,7 +57,7 @@
     width: 100vw;
     padding: 40px;
   }
-  :global(body:not(.desktop) section) {
+  :global(body:not(.desktop)) section {
     margin: 32px -16px 64px -16px;
     padding: 24px 16px;
   }
