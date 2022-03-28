@@ -18,13 +18,13 @@ BLOCK_BUTTONS[1].label = Icon('editor/quotes', 16)
 BLOCK_BUTTONS[2].label = Icon('editor/list', 16)
 
 BLOCK_BUTTONS.push({
-  label: Icon('text-big', 16),
+  label: Icon('editor/title', 16),
   style: 'header-one',
   icon: 'header',
   description: 'Heading 1',
 })
 BLOCK_BUTTONS.push({
-  label: Icon('text-small', 10),
+  label: Icon('editor/subtitle', 10),
   style: 'header-two',
   icon: 'header',
   description: 'Heading 2',

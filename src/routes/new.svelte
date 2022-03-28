@@ -29,5 +29,6 @@
   div {
     max-width: 720px;
     margin: 0 auto;
+    padding-bottom: 120px;
   }
 </style>
