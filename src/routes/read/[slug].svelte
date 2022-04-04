@@ -35,7 +35,7 @@
 
     const projectData = await priceQuery
 
-    return { insight, projectData, link: slug, isAuthor, isDraft }
+    return { insight, projectData, slug, isAuthor, isDraft }
   }
 </script>
 
@@ -60,7 +60,7 @@
 
   export let insight
   export let projectData
-  export let link
+  export let slug
   export let isAuthor
   export let isDraft
 
@@ -70,6 +70,7 @@
   $: subscription = $currentUser && getSanbaseSubscription($currentUser.subscriptions)
   $: isPaywalled = isPro && !subscription
   $: isPaywalled && (hidden = false)
+  $: link = encodeURIComponent(slug)
 
   $: ({ MMM, D, YYYY } = getDateFormats(new Date(publishedAt || updatedAt)))
   $: date = `${MMM} ${D}, ${YYYY}`
