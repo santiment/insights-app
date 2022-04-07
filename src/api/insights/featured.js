@@ -14,7 +14,9 @@ const FEATURED_INSIGHTS = `{
   }
 }`
 
-const accessor = ({ insights }) => insights.slice(0, 5)
+const sorter = (a, b) => new Date(b.id) - new Date(a.id)
+const accessor = ({ insights }) => insights.sort(sorter).slice(0, 5)
+
 export const queryFeaturedInsights = (reqOptions) =>
   query(FEATURED_INSIGHTS, undefined, reqOptions).then(accessor)
 
