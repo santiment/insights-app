@@ -140,6 +140,7 @@ module.exports = {
         'process.browser': false,
         ...ENVS,
 
+        'process.env.API_FETCH_ORIGIN': JSON.stringify(process.env.API_FETCH_ORIGIN),
         'process.env.GQL_SERVER_URL': JSON.stringify(
           process.env.GQL_SERVER_URL || GQL_SERVER_FALLBACK,
         ),
