@@ -52,6 +52,8 @@ const ENVS = {
 
   'process.env.MEDIA_PATH': JSON.stringify('webkit'),
   'process.env.ICONS_PATH': JSON.stringify('webkit/icons'),
+
+  'process.env.API_FETCH_ORIGIN': JSON.stringify(process.env.API_FETCH_ORIGIN),
 }
 
 const URL_LOADER = {
@@ -140,7 +142,6 @@ module.exports = {
         'process.browser': false,
         ...ENVS,
 
-        // 'process.env.API_FETCH_ORIGIN': JSON.stringify(process.env.API_FETCH_ORIGIN),
         'process.env.GQL_SERVER_URL': JSON.stringify(
           process.env.GQL_SERVER_URL || GQL_SERVER_FALLBACK,
         ),
