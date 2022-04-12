@@ -44,7 +44,8 @@
           {data}
           {points}
           stroke="var(--{change < 0 ? 'red' : 'lima'})"
-          target={publishTimestamp} />
+          target={publishTimestamp}
+        />
       </Chart>
     </div>
     <Change {change} class="$style.change" />

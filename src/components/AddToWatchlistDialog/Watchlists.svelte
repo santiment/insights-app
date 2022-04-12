@@ -26,7 +26,8 @@
         <span
           slot="trigger"
           class="publicity btn row v-centere mrg-a mrg--l"
-          aria-label={isPublic ? 'public' : 'Private'}>
+          aria-label={isPublic ? 'public' : 'Private'}
+        >
           <Svg id="eye{isPublic ? '' : '-crossed'}" w="16" />
         </span>
 

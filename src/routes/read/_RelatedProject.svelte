@@ -29,7 +29,8 @@
       width={64}
       height={29}
       valueKey="v"
-      style="--color:var(--{change < 0 ? 'red' : 'lima'})" />
+      style="--color:var(--{change < 0 ? 'red' : 'lima'})"
+    />
   </div>
 
   <div class="row v-center c-casper mrg-m mrg--b">
@@ -40,7 +41,8 @@
   <div
     class="btn-2 btn--s"
     on:click={() => startAddToWatchlistFlow(project)}
-    use:watchlistsPreloader>
+    use:watchlistsPreloader
+  >
     <Svg id="add-list" w="16" h="14" class="$style.icon" />
     Add to watchlist
   </div>

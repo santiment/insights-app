@@ -10,8 +10,9 @@
 </script>
 
 <div class="column {className}">
-  <a href="/read/{getSEOLinkFromIdAndTitle(id, title)}" class="title body-2 mrg-xs mrg--b"
-    >{title}</a>
+  <a href="/read/{getSEOLinkFromIdAndTitle(id, title)}" class="title body-2 mrg-xs mrg--b">
+    {title}
+  </a>
   <a href="https://app.santiment.net/profile/{user.id}" class="user c-waterloo"
     >@{user.username}
   </a>

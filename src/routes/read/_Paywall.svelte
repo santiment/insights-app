@@ -6,7 +6,7 @@
   // import { showPaymentDialog, dataPreloader } from '@cmp/PaymentDialog/index.svelte'
 
   function onUpgradeClick() {
-    track.event('upgrade', { method: `Insight Paywall` })
+    track.event('upgrade', { method: 'Insight Paywall' })
 
     if (!$currentUser) {
       // postponePayment()
@@ -28,7 +28,8 @@
       $49<span class="c-casper">/mo</span>
     </div>
     <button on:click={onUpgradeClick} class="upgrade btn-1 btn--orange btn--l" use:dataPreloader
-      >Upgrade to PRO</button>
+      >Upgrade to PRO</button
+    >
   </div>
 </section>
 
@@ -48,12 +49,14 @@
 
     <h5 class="mrg-s mrg--t mrg--b">Our previous TOP calls:</h5>
     <div class="column body-3">
-      <a class="btn" href="/read/waves-crowd-sentiment-pattern-124"
-        >WAVES crowd sentiment pattern</a>
+      <a class="btn" href="/read/waves-crowd-sentiment-pattern-124">WAVES crowd sentiment pattern</a
+      >
       <a class="btn" href="/read/matic-charts-a-new-ath%3A-is-the-top-in%3F-2959"
-        >MATIC charts a new ATH: is the top in?</a>
+        >MATIC charts a new ATH: is the top in?</a
+      >
       <a class="btn" href="/read/icx-insanity.-how-far-could-it-go%3F-5611"
-        >ICX insanity. How far could it go?</a>
+        >ICX insanity. How far could it go?</a
+      >
     </div>
   </div>
 
@@ -85,7 +88,8 @@
   <button
     on:click={onUpgradeClick}
     class="upgrade btn-1 btn--orange btn--l body-3"
-    use:dataPreloader>Subscribe to PRO</button>
+    use:dataPreloader>Subscribe to PRO</button
+  >
 </section>
 
 <style>

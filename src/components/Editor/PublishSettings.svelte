@@ -34,7 +34,8 @@
   on="click"
   {isEnabled}
   class="$style.tooltip"
-  closeTimeout={500}>
+  closeTimeout={500}
+>
   <svelte:fragment slot="trigger">
     <slot />
   </svelte:fragment>
@@ -52,7 +53,8 @@
     {/if}
 
     <button class="btn-1 fluid mrg-xl mrg--t" class:loading on:click={onPublishClick}
-      >{isDraft ? 'Publish' : 'Update'} insight</button>
+      >{isDraft ? 'Publish' : 'Update'} insight</button
+    >
   </svelte:fragment>
 </Tooltip>
 

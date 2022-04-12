@@ -7,6 +7,9 @@ module.exports = {
   endOfLine: 'lf',
   printWidth: 100,
 
+  // jsx
+  jsxSingleQuote: true,
+
   // Svelte
   svelteBracketNewLine: false,
 }

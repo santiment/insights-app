@@ -10,8 +10,9 @@
     <a class="link" href="https://app.santiment.net/alerts">Alerts</a>
     <a class="link" href="https://app.santiment.net/labs/trends">Social trends</a>
     <a class="link" href="https://app.santiment.net/account">Account settings</a>
-    <button class="link" on:click={() => window.Intercom && window.Intercom('show')}
-      >Support</button>
+    <button class="link" on:click={() => window.Intercom && window.Intercom('show')}>
+      Support
+    </button>
   </div>
 
   {#if !$currentUser}

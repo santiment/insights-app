@@ -60,13 +60,15 @@
     class="input mrg-s mrg--l"
     type="text"
     placeholder="Search for insights..."
-    bind:value={searchTerm} />
+    bind:value={searchTerm}
+  />
 </h2>
 
 <ViewportObserver
   options={{ rootMargin: '650px' }}
   on:intersect={onIntersect}
-  observeWhile={hasMore}>
+  observeWhile={hasMore}
+>
   {#if loading}
     Loading...
   {:else}

@@ -6,3 +6,4 @@ yarn-error.log
 /static/webkit
 /lib/
 .log/
+.eslintcache

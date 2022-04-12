@@ -1,9 +1,8 @@
 import { query, newSSRQuery } from 'webkit/api'
 import { BASIC_INSIGHT_FRAGMENT } from '.'
 
-// TODO(vanguard): ask backend to add `size`(limit) option and sort by publish
 const FEATURED_INSIGHTS = `{
-  insights:featuredInsights {
+  insights:featuredInsights(pageSize: 5) {
     id
     title
     isPro:isPaywallRequired
@@ -14,8 +13,7 @@ const FEATURED_INSIGHTS = `{
   }
 }`
 
-const sorter = (a, b) => new Date(b.id) - new Date(a.id)
-const accessor = ({ insights }) => insights.sort(sorter).slice(0, 5)
+const accessor = ({ insights }) => insights
 
 export const queryFeaturedInsights = (reqOptions) =>
   query(FEATURED_INSIGHTS, undefined, reqOptions).then(accessor)

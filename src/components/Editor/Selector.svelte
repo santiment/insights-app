@@ -19,7 +19,8 @@
     {isEnabled}
     on="click"
     class="$style.tooltip fluid"
-    activeClass="$style.active">
+    activeClass="$style.active"
+  >
     <div slot="trigger" class="btn input row justify v-center {className}">
       <slot />
 
@@ -36,7 +37,8 @@
         maxHeight={200}
         autofocus
         {filter}
-        let:item>
+        let:item
+      >
         <slot name="item" {item} />
       </List>
     </svelte:fragment>

@@ -14,7 +14,10 @@
     }
   ],
   "rules": {
+    "quotes": ["error", "single"],
     "no-unused-vars": ["error"],
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "jsx-quotes": ["error", "prefer-single"],
+    "no-fallthrough": "off"
   }
 }

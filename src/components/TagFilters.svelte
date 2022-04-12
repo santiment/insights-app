@@ -25,7 +25,8 @@
 
   {#if !base}
     <a href="?onlyPro" class="pro btn-2 btn-1 btn--orange" class:active={active === 'pro'}
-      >Only for PRO</a>
+      >Only for PRO</a
+    >
   {/if}
 </div>
 

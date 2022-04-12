@@ -18,4 +18,5 @@
   {onVote}
   disabled={!$currentUser}
   totalVotes={votes.totalVotes}
-  userVotes={votes.currentUserVotes} />
+  userVotes={votes.currentUserVotes}
+/>

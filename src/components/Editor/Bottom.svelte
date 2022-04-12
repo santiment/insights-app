@@ -41,7 +41,8 @@
     {publishDraft}
     {requirements}
     {isDraft}
-    {isSaving} />
+    {isSaving}
+  />
 </div>
 
 <style lang="scss">

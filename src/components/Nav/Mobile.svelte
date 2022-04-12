@@ -9,19 +9,24 @@
 <nav class="row v-center c-casper caption txt-m">
   <a href="https://app.santiment.net/feed">
     <Svg illus id="nav/feed" w="15" h="17" />
-    Feed</a>
+    Feed
+  </a>
   <a href="https://app.santiment.net/assets">
     <Svg illus id="nav/market" w="18" h="19" />
-    Market</a>
+    Market
+  </a>
   <a href="https://app.santiment.net/watchlists">
     <Svg illus id="nav/watchlists" w="21" h="17" />
-    Watchlists</a>
+    Watchlists
+  </a>
   <a href="/" class:active={!isMenuOpened} on:click={() => (isMenuOpened = false)}>
     <Svg illus id="nav/insights" w="17" h="17" />
-    Insights</a>
+    Insights
+  </a>
   <button class:active={isMenuOpened} on:click={toggleMenu}>
     <Svg illus id="nav/menu" w="17" h="16" />
-    Menu</button>
+    Menu
+  </button>
 </nav>
 
 {#if isMenuOpened}

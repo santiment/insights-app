@@ -88,7 +88,8 @@
   on:focus={onFocus}
   on:blur={onBlur}
   on:input={onInput}
-  on:keydown={onKeyDown}>
+  on:keydown={onKeyDown}
+>
   {#if isFocused}
     <div class="suggestions column border box" bind:this={suggestionsNode}>
       {#if isSearching}
@@ -99,7 +100,10 @@
             href={getLink(item)}
             class="btn-ghost"
             class:cursored={i === cursor}
-            on:mousedown={onMouseDown}>{item.title}</a>
+            on:mousedown={onMouseDown}
+          >
+            {item.title}
+          </a>
         {:else}
           No results found
         {/each}

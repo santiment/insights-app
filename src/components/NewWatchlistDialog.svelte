@@ -8,7 +8,6 @@
 <script>
   import { onDestroy } from 'svelte'
   import Dialog from 'webkit/ui/Dialog'
-  import Svg from 'webkit/ui/Svg/svelte'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import FieldTooltip from 'webkit/ui/FieldTooltip/svelte'
   import { debounce } from 'webkit/utils/fn'
@@ -57,7 +56,8 @@
           minlength="3"
           maxlength="25"
           placeholder="Watchlist's name"
-          on:input={checkValidity} />
+          on:input={checkValidity}
+        />
       </label>
     </FieldTooltip>
 
@@ -67,12 +67,14 @@
         class="input mrg-xs mrg--t"
         placeholder="Watchlist's description"
         name="description"
-        rows="3" />
+        rows="3"
+      />
     </label>
 
     <div class="row v-center justify mrg-xl mrg--t">
       <button type="submit" class="btn-1" class:loading class:disabled={!name || error}
-        >Create</button>
+        >Create</button
+      >
 
       <button type="button" class="btn row v-center" on:click={() => (isPublic = !isPublic)}>
         {isPublic ? 'Public' : 'Private'}

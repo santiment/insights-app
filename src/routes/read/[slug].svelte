@@ -111,7 +111,8 @@
       top
       options={{ rootMargin: '160px 0px -135px' }}
       on:intersect={hideSidebar}
-      on:leaving={showSidebar}>
+      on:leaving={showSidebar}
+    >
       <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
     </ViewportObserver>
 
@@ -120,7 +121,8 @@
         type={CommentsType.Insight}
         commentsFor={insight}
         currentUser={$currentUser}
-        titleClass="h4 c-waterloo" />
+        titleClass="h4 c-waterloo"
+      />
     </div>
   {/if}
 </div>

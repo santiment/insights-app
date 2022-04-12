@@ -28,7 +28,8 @@
     {isDraft}
     {onPublishClick}
     isEnabled={!disabled}
-    loading={disabled || isSaving}>
+    loading={disabled || isSaving}
+  >
     <div class="btn-2 btn-1 btn--s" class:disabled>
       {isDraft ? 'Publish' : 'Update'} insight
       <Svg id="arrow" w="8" h="5" class="mrg-xs mrg--l" />
