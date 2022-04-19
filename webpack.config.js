@@ -66,6 +66,13 @@ const URL_LOADER = {
   ],
 }
 
+const BABEL_PREPROCESS = {
+  assumptions: {
+    noDocumentAll: true,
+  },
+  plugins: ['@babel/plugin-proposal-optional-chaining'],
+}
+
 module.exports = {
   client: {
     entry: config.client.entry(),
@@ -85,7 +92,10 @@ module.exports = {
                 generate: 'dom',
               },
               hotReload: false,
-              preprocess: [cssModules(), sveltePreprocess({ sourceMap: dev })],
+              preprocess: [
+                cssModules(),
+                sveltePreprocess({ sourceMap: dev, babel: BABEL_PREPROCESS }),
+              ],
             },
           },
         },
@@ -125,7 +135,10 @@ module.exports = {
                 hydratable: true,
                 dev,
               },
-              preprocess: [cssModules(), sveltePreprocess({ sourceMap: dev })],
+              preprocess: [
+                cssModules(),
+                sveltePreprocess({ sourceMap: dev, babel: BABEL_PREPROCESS }),
+              ],
             },
           },
         },

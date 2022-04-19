@@ -10,7 +10,7 @@
     ]
   },
   "scripts": {
-    "dev": "BACKEND_URL=https://api-stage.santiment.net sapper dev",
+    "dev": "BACKEND_URL=https://api.santiment.net sapper dev",
     "build": "npm run webkit && NODE_ENV=production sapper build",
     "webkit": "node scripts/webkit",
     "postinstall": "patch-package && npm run webkit",
@@ -26,13 +26,15 @@
     "mobile-detect": "^1.4.5",
     "node-fetch": "^2.6.1",
     "polka": "next",
-    "san-webkit": "https://github.com/santiment/san-webkit#c09fa33",
+    "san-webkit": "https://github.com/santiment/san-webkit#bc41512",
     "sirv": "^1.0.0",
     "turndown": "^7.1.1",
     "medium-editor": "^5.23.3",
     "marked": "^4.0.12"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/plugin-proposal-optional-chaining": "^7.16.7",
     "babel-eslint": "^10.1.0",
     "copy-webpack-plugin": "5.1.2",
     "css-loader": "^5.1.4",

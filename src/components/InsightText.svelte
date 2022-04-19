@@ -1,10 +1,23 @@
 <script>
+  import { enlargeImage } from './EnlargedImage.svelte'
+
   let className = ''
   export { className as class }
   export let text = ''
+
+  let node
+
+  $: node && hookImageEnlarger()
+
+  function hookImageEnlarger() {
+    const images = node.querySelectorAll('img')
+    Array.from(images).forEach((img) => {
+      img.onclick = enlargeImage
+    })
+  }
 </script>
 
-<div class={className}>
+<div class={className} bind:this={node}>
   {@html text}
 </div>
 
