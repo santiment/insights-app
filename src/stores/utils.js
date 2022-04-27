@@ -5,4 +5,4 @@ if (process.browser) {
 }
 
 export const getSessionValue = () => window.__SAPPER__.session
-export const setSessionValue = (value) => Object.assign(getSessionValue, value)
+export const setSessionValue = (value) => Object.assign(getSessionValue(), value)
