@@ -14,7 +14,9 @@
     "build": "npm run webkit && NODE_ENV=production sapper build",
     "webkit": "node scripts/webkit",
     "postinstall": "patch-package && npm run webkit",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lib": "node scripts/lib.js",
+    "install": "npm run lib"
   },
   "dependencies": {
     "compression": "^1.7.1",
@@ -26,7 +28,7 @@
     "mobile-detect": "^1.4.5",
     "node-fetch": "^2.6.1",
     "polka": "next",
-    "san-webkit": "https://github.com/santiment/san-webkit#bc41512",
+    "san-webkit": "https://github.com/santiment/san-webkit#dc162c6",
     "sirv": "^1.0.0",
     "turndown": "^7.1.1",
     "medium-editor": "^5.23.3",
@@ -63,5 +65,8 @@
     "url-loader": "^4.1.1",
     "webpack": "^4.46.0",
     "webpack-modules": "^1.0.0"
+  },
+  "peerDependencies": {
+    "san-webkit": "https://github.com/santiment/san-webkit.git"
   }
 }
