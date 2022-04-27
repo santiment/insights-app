@@ -9,13 +9,7 @@ const ROOT = path.resolve(__dirname, '..')
 const LIB = path.resolve(ROOT, 'lib')
 const SRC = path.resolve(ROOT, 'src')
 
-const BABEL_PREPROCESS = {
-  assumptions: {
-    noDocumentAll: true,
-  },
-  plugins: ['@babel/plugin-proposal-optional-chaining'],
-}
-const preprocess = sveltePreprocess({ babel: BABEL_PREPROCESS })
+const preprocess = sveltePreprocess()
 
 const routesPreprocess = {
   script: ({ content, filename }) => {
