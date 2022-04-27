@@ -3,10 +3,7 @@
   import EnlargedImage from './EnlargedImage.svelte'
 
   export const enlargeImage = (event) =>
-    event &&
-    event.target &&
-    event.target.src &&
-    dialogs.show(EnlargedImage, { src: event.target.src, single: true })
+    event?.target?.src && dialogs.show(EnlargedImage, { src: event.target.src, single: true })
 </script>
 
 <script>

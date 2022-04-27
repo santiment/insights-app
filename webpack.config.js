@@ -92,10 +92,7 @@ module.exports = {
                 generate: 'dom',
               },
               hotReload: false,
-              preprocess: [
-                cssModules(),
-                sveltePreprocess({ sourceMap: dev, babel: BABEL_PREPROCESS }),
-              ],
+              preprocess: [cssModules(), sveltePreprocess({ sourceMap: dev })],
             },
           },
         },

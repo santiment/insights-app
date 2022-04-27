@@ -14,7 +14,7 @@ const TOGGLE_THEME_MUTATION = (isNightMode) => `
 let store = { nightMode: false }
 
 if (process.browser) {
-  const { currentUser, theme } = getSessionValue() || {}
+  const { currentUser, theme } = getSessionValue()
 
   if (currentUser) {
     store.nightMode = theme === 'night-mode'
@@ -34,9 +34,9 @@ export const ui = {
 
     if (currentUser) {
       mutate(TOGGLE_THEME_MUTATION(store.nightMode)).catch(console.error)
-    } else {
-      saveJson('ui', store)
     }
+
+    saveJson('ui', store)
 
     set(store)
   },
