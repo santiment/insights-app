@@ -5,7 +5,7 @@
 
   const { page } = stores()
   const TAGS = [
-    ['/', 'All'],
+    ['', 'All'],
     ['defi', 'DeFi'],
     ['btc', 'BTC'],
     ['eth,erc-20', 'ETH + ERC-20'],

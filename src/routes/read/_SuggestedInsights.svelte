@@ -42,7 +42,7 @@
   <h3 class="body-1 mrg-xl mrg--b">Suggested insights</h3>
 
   <div class="visible">
-    <div class="scroll row">
+    <div class="scroll row no-scrollbar">
       {#each insights as insight}
         <InsightCard {insight} isWithPrice={false} class="$style.item mrg-xl mrg--r" />
       {/each}
@@ -71,10 +71,6 @@
     height: calc(100% + 10px);
     width: 1143px;
     -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .scroll::-webkit-scrollbar {
-    display: none;
   }
 
   :global(body:not(.desktop) .scroll) {
