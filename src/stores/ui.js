@@ -17,12 +17,14 @@ if (process.browser) {
   const { currentUser, theme } = getSessionValue()
 
   if (currentUser) {
-    store.nightMode = theme === 'night-mode'
+    store.nightMode = theme === 'night-mode' || theme === 'nightmode'
   } else {
-    store = getSavedJson('ui', store)
+    const saved = getSavedJson('ui', store)
+    if (typeof saved.nightMode === 'boolean') store = saved
+    else saveJson('ui', store)
   }
 
-  document.body.classList.toggle('night-mode', store.nightMode)
+  document.body.classList.toggle('night-mode', store.nightMode || false)
 }
 
 const { subscribe, set } = writable(store)
