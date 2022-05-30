@@ -40,6 +40,9 @@
 </script>
 
 <script>
+  import { onMount } from 'svelte'
+  import { track } from 'webkit/analytics'
+  import { TwitterTrackActions } from 'webkit/analytics/twitter'
   import { getDateFormats } from 'webkit/utils/dates'
   import { getSanbaseSubscription } from 'webkit/utils/subscription'
   import Comments from 'webkit/ui/Comments/svelte'
@@ -78,6 +81,10 @@
 
   const showSidebar = () => (hidden = false)
   const hideSidebar = () => (hidden = true)
+
+  onMount(() => {
+    track.event(TwitterTrackActions.pageview)
+  })
 </script>
 
 <MetaTags {insight} />

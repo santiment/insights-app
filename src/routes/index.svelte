@@ -31,6 +31,9 @@
 </script>
 
 <script>
+  import { onMount } from 'svelte'
+  import { track } from 'webkit/analytics'
+  import { TwitterTrackActions } from 'webkit/analytics/twitter'
   import { session } from '@/stores/session'
   import TopLinks from './_TopLinks.svelte'
   import InsightsFeed from '@cmp/InsightsFeed.svelte'
@@ -42,6 +45,10 @@
   export let featured = []
   export let tags
   export let onlyPro
+
+  onMount(() => {
+    track.event(TwitterTrackActions.pageview)
+  })
 </script>
 
 <svelte:head>
