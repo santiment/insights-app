@@ -28,7 +28,7 @@
     "mobile-detect": "^1.4.5",
     "node-fetch": "^2.6.1",
     "polka": "next",
-    "san-webkit": "https://github.com/santiment/san-webkit#84fea64",
+    "san-webkit": "https://github.com/santiment/san-webkit#c180cef",
     "sirv": "^1.0.0",
     "turndown": "^7.1.1",
     "medium-editor": "^5.23.3",
