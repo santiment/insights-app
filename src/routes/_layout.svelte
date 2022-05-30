@@ -12,6 +12,7 @@
 <script>
   import { setContext } from 'svelte'
   import { stores } from '@sapper/app'
+  import { track } from 'webkit/analytics'
   import PageLoadProgress from 'webkit/ui/PageLoadProgress.svelte'
   import BackToTop from 'webkit/ui/BackToTop.svelte'
   import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
@@ -21,9 +22,11 @@
   import Nav from '@cmp/Nav/index.svelte'
   import NavMobile from '@cmp/Nav/Mobile.svelte'
 
-  const { preloading } = stores()
+  const { preloading, page } = stores()
 
   setContext('isMobile', $session.isMobile)
+
+  $: process.browser && $page.path && track.pageview('insights')
 </script>
 
 {#if $session.isMobile}
