@@ -49,10 +49,16 @@
   .bottom {
     position: fixed;
     bottom: 0;
-    right: calc(50% - 570px);
+    right: 10%;
     background: linear-gradient(270deg, var(--white) 83%, transparent 100%);
     padding: 15px 0;
     padding-left: 80px;
+  }
+
+  :global(.isMobile) .bottom,
+  :global(.phone) .bottom,
+  :global(.phone-xs) .bottom {
+    bottom: 60px;
   }
 
   .pulse {

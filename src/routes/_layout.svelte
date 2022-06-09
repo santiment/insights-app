@@ -56,7 +56,10 @@
     flex: 1;
     width: 100%;
   }
-  :global(.isMobile) main {
+  :global(.isMobile) main,
+  :global(.tablet) main,
+  :global(.phone) main,
+  :global(.phone-xs) main {
     padding: 16px 16px 76px;
   }
 </style>
