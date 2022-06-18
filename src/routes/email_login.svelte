@@ -9,12 +9,14 @@
   import { parse } from 'webkit/utils/url'
   // import { getPostponedPaymentInsight } from '@/logic/insights'
   import { currentUser } from '@/stores/user'
+  import { customerData$ } from '@/stores/customerData'
   import { verifyEmailMutation } from '@/api/user'
 
   if (process.browser) {
     const { email, token } = parse(window.location.search)
     verifyEmailMutation(email, token).then((data) => {
       currentUser.set(data)
+      customerData$.refetch()
       goto(data.privacyPolicyAccepted ? '/' : '/gdpr')
 
       // goto(data.privacyPolicyAccepted ? getPostponedPaymentInsight() || '/' : '/gdpr')

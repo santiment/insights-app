@@ -1,4 +1,5 @@
 import { query, newSSRQuery, mutate } from 'webkit/api'
+// import { ANNUAL_DISCOUT_FRAGMENT } from 'webkit/stores/user'
 
 export const CURRENT_USER_FRAGMENT = `
     id
@@ -6,13 +7,14 @@ export const CURRENT_USER_FRAGMENT = `
     username
     privacyPolicyAccepted
     avatarUrl
+    isEligibleForTrial:isEligibleForSanbaseTrial
     settings {
       theme
     }
     insightsCount {
       totalCount
     }
-    subscriptions {
+    subscription: primaryUserSanbaseSubscription {
       status
       trialEnd
       plan {

@@ -16,18 +16,23 @@ polka()
     sirv('static', { dev }),
     sapper.middleware({
       session: async (req) => {
-        const { currentUser } = await queryCurrentUserSSR({
+        const { currentUser, annualDiscount } = await queryCurrentUserSSR({
           req,
         }).catch((e) => {
           console.log('CurrentUser error', e)
-          return { currentUser: null }
+          return { currentUser: null, annualDiscount: {} }
         })
+
+        if (currentUser && annualDiscount) {
+          annualDiscount.isEligibleForTrial = currentUser.isEligibleForTrial
+        }
 
         const isMobile = !!new MobileDetect(req.headers['user-agent'] || '').mobile()
         const session = {
           currentUser,
-          isMobile,
+          customerData: annualDiscount || {},
           theme: checkIsAccountNightMode(currentUser) ? 'night-mode' : '',
+          isMobile,
           isDesktop: !isMobile,
         }
 

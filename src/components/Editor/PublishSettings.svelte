@@ -1,6 +1,5 @@
 <script>
   import Tooltip from 'webkit/ui/Tooltip/svelte'
-  import { getSanbaseSubscription } from 'webkit/utils/subscription'
   import { currentUser } from '@/stores/user'
   import ProjectSelector from './ProjectSelector.svelte'
   import TagSelector from './TagSelector.svelte'
@@ -12,7 +11,7 @@
   export let loading = false
   export let update, onPublishClick
 
-  $: subscription = $currentUser && getSanbaseSubscription($currentUser.subscriptions)
+  $: subscription = $currentUser && $currentUser.subscription
 
   let project = insight.project
   let tags = insight.tags

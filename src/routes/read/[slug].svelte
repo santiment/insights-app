@@ -41,7 +41,6 @@
 
 <script>
   import { getDateFormats } from 'webkit/utils/dates'
-  import { getSanbaseSubscription } from 'webkit/utils/subscription'
   import Comments from 'webkit/ui/Comments/svelte'
   import ViewportObserver from 'webkit/ui/ViewportObserver.svelte'
   import { currentUser } from '@/stores/user'
@@ -67,7 +66,7 @@
   let hidden = true
 
   $: ({ title, text, user, updatedAt, publishedAt, tags, isPro } = insight)
-  $: subscription = $currentUser && getSanbaseSubscription($currentUser.subscriptions)
+  $: subscription = $currentUser && $currentUser.subscription
   $: isPaywalled = isPro && !subscription
   $: isPaywalled && (hidden = false)
   $: link = encodeURIComponent(slug)
