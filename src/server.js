@@ -23,14 +23,13 @@ polka()
           return { currentUser: null, annualDiscount: {} }
         })
 
-        if (currentUser && annualDiscount) {
-          annualDiscount.isEligibleForTrial = currentUser.isEligibleForTrial
-        }
-
         const isMobile = !!new MobileDetect(req.headers['user-agent'] || '').mobile()
         const session = {
           currentUser,
-          customerData: annualDiscount || {},
+          customerData: {
+            annualDiscount,
+            isEligibleForTrial: currentUser && currentUser.isEligibleForTrial,
+          },
           theme: checkIsAccountNightMode(currentUser) ? 'night-mode' : '',
           isMobile,
           isDesktop: !isMobile,

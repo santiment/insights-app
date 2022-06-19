@@ -1,5 +1,5 @@
 import { query, newSSRQuery, mutate } from 'webkit/api'
-// import { ANNUAL_DISCOUT_FRAGMENT } from 'webkit/stores/user'
+import { ANNUAL_DISCOUT_FRAGMENT } from 'webkit/stores/user'
 
 export const CURRENT_USER_FRAGMENT = `
     id
@@ -36,6 +36,7 @@ export const CURRENT_USER_QUERY = `
     currentUser {
       ${CURRENT_USER_FRAGMENT}
     }
+    ${ANNUAL_DISCOUT_FRAGMENT}
   }
 `
 
