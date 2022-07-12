@@ -7,6 +7,7 @@
 
   let node
 
+  $: sanitized = sanitize(text)
   $: node && hookImageEnlarger()
 
   function hookImageEnlarger() {
@@ -15,10 +16,20 @@
       img.onclick = enlargeImage
     })
   }
+
+  function sanitize(text) {
+    return text
+      .replace(/<\s*script/g, '&lt;script')
+      .replace(/="?javascript:/g, '')
+      .replace(
+        /(onafterprint|onbeforeprint|onbeforeunload|onerror|onhashchange|onload|onoffline|ononline|onpageshow|onresize|onunload|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|onclick|ondblclick|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onwheel|onwheel|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onscroll|oncopy|oncut|onpaste|ontoggle)=/g,
+        '_=',
+      )
+  }
 </script>
 
 <div class={className} bind:this={node}>
-  {@html text}
+  {@html sanitized}
 </div>
 
 <style lang="scss">
