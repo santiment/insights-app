@@ -7,16 +7,14 @@
   import { startLogoutFlow } from '@/flow/logout'
 
   $: currentUser = $user
+  $: customerData = $customerData$
+  $: subscription = currentUser && currentUser.subscription
 
   function onLogoutClick() {
     startLogoutFlow()
   }
 </script>
 
-<AccountStatus
-  {currentUser}
-  subscription={currentUser && currentUser.subscription}
-  customerData={$customerData$}
-/>
+<AccountStatus {currentUser} {customerData} {subscription} />
 
-<AccountDropdown {currentUser} {ui} {onLogoutClick} />
+<AccountDropdown {currentUser} {customerData} {subscription} {ui} {onLogoutClick} />
