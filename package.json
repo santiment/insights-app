@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "author": "DmitriVanGuard <dimavanguard@gmail.com>",
   "lint-staged": {
-    "*.{js,ts,svelte,css,md,mdx}": [
+    "*.{js,ts,svelte,css}": [
       "eslint --cache --fix",
       "prettier --write"
     ]
