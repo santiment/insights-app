@@ -27,7 +27,7 @@
   }
   :global(.night-mode) div {
     height: 227px;
-    background: url('/empty-page_dark.svg') no-repeat 50% 0;
+    background-image: url('/empty-page_dark.svg');
   }
 
   p {
