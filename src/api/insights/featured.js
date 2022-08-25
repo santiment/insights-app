@@ -6,6 +6,7 @@ const FEATURED_INSIGHTS = `{
     id
     title
     isPro:isPaywallRequired
+    publishedAt
     user {
       id
       username
@@ -15,8 +16,12 @@ const FEATURED_INSIGHTS = `{
 
 const accessor = ({ insights }) => insights
 
+const sorter = (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
+const precacher = (data) => (data.insights.sort(sorter), data)
+const options = { precacher: () => precacher }
+
 export const queryFeaturedInsights = (reqOptions) =>
-  query(FEATURED_INSIGHTS, undefined, reqOptions).then(accessor)
+  query(FEATURED_INSIGHTS, options, reqOptions).then(accessor)
 
 export const queryFeaturedInsightsSSR = newSSRQuery(queryFeaturedInsights)
 
