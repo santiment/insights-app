@@ -3,11 +3,7 @@
 </script>
 
 <div class="column hv-center txt-center">
-  {#if $ui.nightMode}
-    <img src="empty-dark.svg" alt="empty dark" />
-  {:else}
-    <img src="empty.svg" alt="empty" />
-  {/if}
+  <img src={$ui.nightMode ? 'empty-dark.svg' : 'empty.svg'} alt="empty" />
   <p>Use Insights to journal your ideas, perform research, or share with others</p>
   <br />
   <a href="/new" class="btn-1 mrg-xl mrg--t v-center" sapper:prefetch>Add insight</a>
