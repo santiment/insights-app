@@ -39,12 +39,13 @@
 </script>
 
 <script>
+  import { onMount } from 'svelte'
   import { getDateFormats } from 'webkit/utils/dates'
   import ViewportObserver from 'webkit/ui/ViewportObserver.svelte'
   import { currentUser } from '@/stores/user'
   import { session } from '@/stores/session'
   import { checkIsFollowing } from '@/flow/follow'
-  import { InteractionType, storeUserActivitiy } from '@/api/userActivity'
+  import { InteractionType, mutateStoreUserActivitiy } from '@/api/userActivity'
   import Tags from '@cmp/Tags.svelte'
   import InsightText from '@cmp/InsightText.svelte'
   import Breadcrumbs from './_Breadcrumbs.svelte'
@@ -56,7 +57,6 @@
   import MetaTags from './_MetaTags.svelte'
   import Paywall from './_Paywall.svelte'
   import Comments from './_Comments.svelte'
-  import { onMount } from 'svelte'
 
   export let insight
   export let projectData
@@ -81,7 +81,7 @@
 
   onMount(() => {
     if ($currentUser) {
-      storeUserActivitiy(insight.id, InteractionType.VIEW)
+      mutateStoreUserActivitiy(insight.id, InteractionType.VIEW)
     }
   })
 </script>
