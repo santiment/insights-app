@@ -39,11 +39,13 @@
 </script>
 
 <script>
+  import { onMount } from 'svelte'
   import { getDateFormats } from 'webkit/utils/dates'
   import ViewportObserver from 'webkit/ui/ViewportObserver.svelte'
   import { currentUser } from '@/stores/user'
   import { session } from '@/stores/session'
   import { checkIsFollowing } from '@/flow/follow'
+  import { InteractionType, mutateStoreUserActivitiy } from '@/api/userActivity'
   import Tags from '@cmp/Tags.svelte'
   import InsightText from '@cmp/InsightText.svelte'
   import Breadcrumbs from './_Breadcrumbs.svelte'
@@ -76,6 +78,12 @@
 
   const showSidebar = () => (hidden = false)
   const hideSidebar = () => (hidden = true)
+
+  onMount(() => {
+    if ($currentUser) {
+      mutateStoreUserActivitiy(insight.id, InteractionType.VIEW)
+    }
+  })
 </script>
 
 <MetaTags {insight} />

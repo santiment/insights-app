@@ -1,6 +1,7 @@
 <script>
   import Comments from 'webkit/ui/Comments/svelte'
   import { CommentsType } from 'webkit/api/comments'
+  import { mutateStoreUserActivitiy, InteractionType } from '@/api/userActivity'
   import { currentUser } from '@/stores/user'
 
   export let insight
@@ -12,6 +13,7 @@
     commentsFor={insight}
     currentUser={$currentUser}
     titleClass="h4 c-waterloo"
+    onCommentSubmitted={() => mutateStoreUserActivitiy(insight.id, InteractionType.COMMENT)}
   />
 </div>
 
