@@ -1,5 +1,6 @@
 <script context="module">
   import { getIdFromSEOLink } from 'webkit/utils/url'
+  import { mutate } from 'webkit/api'
   import { queryInsightSSR } from '@/api/insights'
   import { RELATED_PROJECT_FRAGMENT, queryPriceDataSSR } from '@/api/insights/project'
   import { redirectNonAuthor } from '@/flow/redirect'
@@ -33,6 +34,16 @@
       project && queryPriceSincePublication(project.slug, publishedAt, queryPriceData)
 
     const projectData = await priceQuery
+
+    if (currentUser) {
+      await mutate(`mutation {
+        storeUserEntityInteraction(
+            entityType: INSIGHT
+            entityId: ${id}
+            interactionType: VIEW
+        )
+      }`)
+    }
 
     return { insight, projectData, slug, isAuthor, isDraft }
   }
