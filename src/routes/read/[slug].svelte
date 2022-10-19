@@ -2,7 +2,6 @@
   import { getIdFromSEOLink } from 'webkit/utils/url'
   import { queryInsightSSR } from '@/api/insights'
   import { RELATED_PROJECT_FRAGMENT, queryPriceDataSSR } from '@/api/insights/project'
-  import { InteractionType, storeUserActivitiy } from '@/api/userActivity'
   import { redirectNonAuthor } from '@/flow/redirect'
   import { queryPriceSincePublication } from '@cmp/PriceSincePublication.svelte'
 
@@ -35,10 +34,6 @@
 
     const projectData = await priceQuery
 
-    if (currentUser) {
-      storeUserActivitiy(id, InteractionType.VIEW)
-    }
-
     return { insight, projectData, slug, isAuthor, isDraft }
   }
 </script>
@@ -49,6 +44,7 @@
   import { currentUser } from '@/stores/user'
   import { session } from '@/stores/session'
   import { checkIsFollowing } from '@/flow/follow'
+  import { InteractionType, storeUserActivitiy } from '@/api/userActivity'
   import Tags from '@cmp/Tags.svelte'
   import InsightText from '@cmp/InsightText.svelte'
   import Breadcrumbs from './_Breadcrumbs.svelte'
@@ -60,6 +56,7 @@
   import MetaTags from './_MetaTags.svelte'
   import Paywall from './_Paywall.svelte'
   import Comments from './_Comments.svelte'
+  import { onMount } from 'svelte'
 
   export let insight
   export let projectData
@@ -81,6 +78,12 @@
 
   const showSidebar = () => (hidden = false)
   const hideSidebar = () => (hidden = true)
+
+  onMount(() => {
+    if ($currentUser) {
+      storeUserActivitiy(insight.id, InteractionType.VIEW)
+    }
+  })
 </script>
 
 <MetaTags {insight} />
