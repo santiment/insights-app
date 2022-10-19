@@ -1,8 +1,8 @@
 <script context="module">
   import { getIdFromSEOLink } from 'webkit/utils/url'
-  import { mutate } from 'webkit/api'
   import { queryInsightSSR } from '@/api/insights'
   import { RELATED_PROJECT_FRAGMENT, queryPriceDataSSR } from '@/api/insights/project'
+  import { InteractionType, storeUserActivitiy } from '@/api/userActivity'
   import { redirectNonAuthor } from '@/flow/redirect'
   import { queryPriceSincePublication } from '@cmp/PriceSincePublication.svelte'
 
@@ -36,13 +36,7 @@
     const projectData = await priceQuery
 
     if (currentUser) {
-      await mutate(`mutation {
-        storeUserEntityInteraction(
-            entityType: INSIGHT
-            entityId: ${id}
-            interactionType: VIEW
-        )
-      }`)
+      storeUserActivitiy(id, InteractionType.VIEW)
     }
 
     return { insight, projectData, slug, isAuthor, isDraft }
