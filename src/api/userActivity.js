@@ -7,12 +7,11 @@ export const InteractionType = {
   DOWNVOTE: 'DOWNVOTE',
 }
 
-export const storeUserActivitiy = (id, interactionType) => {
+export const storeUserActivitiy = (id, interactionType) =>
   mutate(`mutation {
-        storeUserEntityInteraction(
-            entityType: INSIGHT
-            entityId: ${id}
-            interactionType: ${interactionType}
-        )
-    }`)
-}
+    storeUserEntityInteraction(
+        entityType: INSIGHT
+        entityId: ${id}
+        interactionType: ${interactionType}
+    )
+}`)
