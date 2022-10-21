@@ -154,7 +154,9 @@ module.exports = {
           process.env.GQL_SERVER_URL || GQL_SERVER_FALLBACK,
         ),
 
-        'process.env.API_FETCH_ORIGIN': JSON.stringify(process.env.API_FETCH_ORIGIN),
+        'process.env.API_FETCH_ORIGIN': JSON.stringify(
+          process.env.API_FETCH_ORIGIN || 'https://app.santiment.net',
+        ),
       }),
     ],
     performance: {
