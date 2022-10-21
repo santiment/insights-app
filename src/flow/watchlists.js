@@ -1,5 +1,5 @@
 import { goto } from '@sapper/app'
-import { notifications } from 'webkit/ui/Notifications'
+import { notifications$ as notifications } from 'webkit/ui/Notifications'
 import { getSessionValue } from '@/stores/utils'
 import { showAddToWatchlistDialog } from '@cmp/AddToWatchlistDialog/index.svelte'
 

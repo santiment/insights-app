@@ -1,7 +1,7 @@
 import { createElement } from 'react'
 import { Block, addNewBlock } from 'medium-draft'
 import { upload } from 'webkit/api'
-import { notifications } from 'webkit/ui/Notifications'
+import { notifications$ as notifications } from 'webkit/ui/Notifications'
 import Svg from 'webkit/ui/Svg/react'
 
 const UPLOAD_IMAGE_MUTATION = `

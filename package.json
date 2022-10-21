@@ -10,7 +10,7 @@
     ]
   },
   "scripts": {
-    "dev": "BACKEND_URL=https://api-stage.santiment.net sapper dev",
+    "dev": "BACKEND_URL=https://api.santiment.net sapper dev",
     "build": "npm run webkit && NODE_ENV=production sapper build",
     "webkit": "node scripts/webkit",
     "postinstall": "patch-package && npm run webkit",
@@ -22,17 +22,19 @@
     "compression": "^1.7.1",
     "draft-convert": "2.1.8",
     "draft-js": "0.10.5",
-    "medium-draft": "0.5.17",
-    "sanitize-html": "1.20.1",
     "ethers": "^5.4.4",
+    "marked": "^4.0.12",
+    "medium-draft": "0.5.17",
+    "medium-editor": "^5.23.3",
     "mobile-detect": "^1.4.5",
     "node-fetch": "^2.6.1",
     "polka": "next",
-    "san-webkit": "https://github.com/santiment/san-webkit#2aeab55",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "san-webkit": "https://github.com/santiment/san-webkit#2f4fa65",
+    "sanitize-html": "1.20.1",
     "sirv": "^1.0.0",
-    "turndown": "^7.1.1",
-    "medium-editor": "^5.23.3",
-    "marked": "^4.0.12"
+    "turndown": "^7.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

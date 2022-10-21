@@ -3,7 +3,7 @@
   import { goto } from '@sapper/app'
   import { debounce } from 'webkit/utils/fn'
   import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
-  import { notifications } from 'webkit/ui/Notifications'
+  import { notifications$ as notifications } from 'webkit/ui/Notifications'
   import Text from './Text.svelte'
   import Bottom from './Bottom.svelte'
   import { checkIsTrendTag } from '@/utils/insights'
