@@ -1,6 +1,7 @@
 <script>
   import Product from 'webkit/ui/Product.svelte'
   import Products from 'webkit/ui/Products/svelte'
+  import HalloweenBtn from 'webkit/ui/Halloween/Button.svelte'
   import Search from './Search.svelte'
   import Account from './Account.svelte'
 
@@ -15,6 +16,10 @@
     <Search />
 
     <div class="break mrg-xl mrg--l mrg--r" />
+
+    {#if process.browser}
+      <HalloweenBtn class="mrg-l mrg--r" />
+    {/if}
 
     <Account />
   </div>
