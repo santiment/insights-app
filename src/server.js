@@ -28,6 +28,7 @@ polka()
           currentUser,
           customerData: {
             annualDiscount,
+            isLoggedIn: !!currentUser,
             isEligibleForTrial: currentUser && currentUser.isEligibleForTrial,
           },
           theme: checkIsAccountNightMode(currentUser) ? 'night-mode' : '',
