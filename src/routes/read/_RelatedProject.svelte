@@ -16,7 +16,7 @@
   $: queryInsightRelatedProjectPrice(project.slug).then(setData)
 
   function formatPrice(value) {
-    return +value.toFixed(value < 1 ? 6 : 2)
+    return +value.toFixed(value < 9 ? 6 : 2)
   }
 </script>
 
