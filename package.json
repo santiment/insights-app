@@ -31,7 +31,7 @@
     "polka": "next",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "san-webkit": "https://github.com/santiment/san-webkit#80babf8",
+    "san-webkit": "https://github.com/santiment/san-webkit#bd14f3d",
     "sanitize-html": "1.20.1",
     "sirv": "^1.0.0",
     "turndown": "^7.1.1"
