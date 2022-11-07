@@ -31,7 +31,6 @@
 </script>
 
 <script>
-  import Pumpkin from 'webkit/ui/Halloween/Pumpkin.svelte'
   import { session } from '@/stores/session'
   import TopLinks from './_TopLinks.svelte'
   import InsightsFeed from '@cmp/InsightsFeed.svelte'
@@ -68,12 +67,6 @@
   {/if}
 </div>
 
-{#if process.browser && $session.isDesktop}
-  <div class="pumpkin">
-    <Pumpkin showOn="insights" />
-  </div>
-{/if}
-
 <style>
   aside {
     width: 353px;
@@ -86,11 +79,5 @@
 
   .fluid {
     min-width: 0;
-  }
-
-  .pumpkin {
-    position: fixed;
-    left: 10px;
-    bottom: 10px;
   }
 </style>
