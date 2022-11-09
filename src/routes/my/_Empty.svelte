@@ -8,7 +8,7 @@
   <p class="body-2 mrg--b mrg-l">
     Use Insights to journal your ideas, perform research, or share with others
   </p>
-  <a href="/new" class="btn-1 v-center body-3" sapper:prefetch>Add insight</a>
+  <a href="/new" class="btn-1 v-center" sapper:prefetch>Add insight</a>
 </div>
 
 <style>
