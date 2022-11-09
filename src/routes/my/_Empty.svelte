@@ -3,10 +3,12 @@
 </script>
 
 <div class="column hv-center txt-center">
-  <img src={$ui.nightMode ? 'empty-dark.svg' : 'empty.svg'} alt="empty" />
-  <p>Use Insights to journal your ideas, perform research, or share with others</p>
-  <br />
-  <a href="/new" class="btn-1 mrg-xl mrg--t v-center" sapper:prefetch>Add insight</a>
+  <img class="mrg--b mrg-xl" src={$ui.nightMode ? 'empty-dark.svg' : 'empty.svg'} alt="empty" />
+  <h6 class="body-1 mrg--b mrg-s">No Insights yet</h6>
+  <p class="body-2 mrg--b mrg-l">
+    Use Insights to journal your ideas, perform research, or share with others
+  </p>
+  <a href="/new" class="btn-1 v-center" sapper:prefetch>Add insight</a>
 </div>
 
 <style>
@@ -17,13 +19,22 @@
     max-width: 100%;
   }
 
+  img {
+    max-width: 100%;
+    width: 430px;
+  }
+
+  h6 {
+    color: var(--rhino);
+  }
+
   p {
-    margin-top: 30px;
     max-width: 358px;
+    color: var(--fiord);
   }
 
   a {
     display: inline-flex;
-    height: 32pxgi;
+    height: 32px;
   }
 </style>
