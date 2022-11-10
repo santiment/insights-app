@@ -7,5 +7,5 @@
 </script>
 
 <div class="btn-2 btn-rounded {className}" on:click={() => showShareDialog()}>
-  <Svg id="share" w="16" h="14" />
+  <Svg id="share" w="14" h="16" />
 </div>

@@ -22,9 +22,13 @@
   <slot name="right" />
 </div>
 
-<style>
+<style lang="scss">
   .top {
     padding: 18px 16px 16px 24px;
+
+    :global(body:not(.desktop)) & {
+      padding: 16px 20px;
+    }
   }
 
   .fluid {

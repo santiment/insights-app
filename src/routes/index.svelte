@@ -3,15 +3,16 @@
   import { queryFeaturedInsightsSSR } from '@/api/insights/featured'
 
   const parseTags = (tags) => tags && tags.toUpperCase().split(',')
-  const parseOnlyPro = (onlyPro) => onlyPro !== undefined
+  const parseFlag = (flag) => flag !== undefined
 
   export async function preload(page) {
     const { query } = page
 
     const tags = parseTags(query.tags)
-    const onlyPro = parseOnlyPro(query.onlyPro)
+    const onlyPro = parseFlag(query.onlyPro)
+    const isPulse = query.isPulse
 
-    const insights = await queryAllInsightsSSR(1, tags, onlyPro, undefined, this).catch((e) => {
+    const insights = await queryAllInsightsSSR(1, tags, onlyPro, isPulse, this).catch((e) => {
       console.log('Insights error', e)
       return []
     })
@@ -67,7 +68,7 @@
   {/if}
 </div>
 
-<style>
+<style lang="scss">
   aside {
     width: 353px;
     min-width: 353px;
@@ -79,5 +80,17 @@
 
   .fluid {
     min-width: 0;
+  }
+
+  :global(body:not(.desktop)) {
+    .fluid {
+      height: calc(100vh - 228px);
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+
+    .row {
+      padding-top: 72px;
+    }
   }
 </style>

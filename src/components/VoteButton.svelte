@@ -4,6 +4,8 @@
   import { currentUser } from '@/stores/user'
   import { InteractionType, mutateStoreUserActivitiy } from '@/api/userActivity'
 
+  let className = ''
+  export { className as class }
   export let insight
 
   $: ({ id, votes } = insight)
@@ -22,4 +24,5 @@
   disabled={!$currentUser}
   totalVotes={votes.totalVotes}
   userVotes={votes.currentUserVotes}
+  class={className}
 />

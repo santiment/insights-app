@@ -1,6 +1,7 @@
 <script>
   import { getDateFormats } from 'webkit/utils/dates'
   import Profile from 'webkit/ui/Profile/index.svelte'
+  import { session } from '@/stores/session'
   import Card from './Card.svelte'
   import Price from './Price.svelte'
   import Editorial from './Editorial.svelte'
@@ -12,6 +13,7 @@
 
   $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
+  $: isMobile = $session.isMobile
 
   function formatDate(date) {
     const { MMM, D, YYYY } = getDateFormats(new Date(date))
@@ -20,28 +22,35 @@
 </script>
 
 <Card {insight} class={className} let:node let:href>
-  <a {href} class="title body-2 mrg-m mrg--b" sapper:prefetch>{title}</a>
+  <a
+    {href}
+    class="title {isMobile ? 'body-1' : 'body-2'} single-line line-clamp mrg-m mrg--b"
+    sapper:prefetch>{title}</a
+  >
 
   <div class="row v-center">
-    <Profile {user}>
-      <div class="caption c-waterloo">{date}</div>
+    <Profile {user} class="$style.profile {isMobile ? 'txt-m' : ''}">
+      <div class="{isMobile ? 'body-3' : 'caption'} txt-r c-waterloo">{date}</div>
     </Profile>
 
     <Editorial {user} />
   </div>
 
   <svelte:fragment slot="right">
-    {#if isWithPrice && node && tags.length}<Price {node} {insight} />{/if}
+    {#if isWithPrice && node && tags.length}
+      <Price {node} {insight} />
+    {/if}
   </svelte:fragment>
 </Card>
 
-<style>
+<style lang="scss">
   .title {
     display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: var(--overflow-lines, 2);
-    -webkit-box-orient: vertical;
+  }
+
+  .profile {
+    :global(body:not(.desktop)) & {
+      --img-size: 40px;
+    }
   }
 </style>

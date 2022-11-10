@@ -50,14 +50,15 @@
   <PageLoadProgress {preloading} />
 {/if}
 
-<style>
+<style lang="scss">
   main {
     padding: 32px 0;
     flex: 1;
     width: 100%;
   }
 
-  :global(.isMobile) main {
-    padding: 16px 16px 76px;
+  :global(body:not(.desktop)) main {
+    overflow: hidden;
+    padding: 73px 0 83px;
   }
 </style>
