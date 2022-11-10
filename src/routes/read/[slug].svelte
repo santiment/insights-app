@@ -75,6 +75,7 @@
   $: ({ MMM, D, YYYY } = getDateFormats(new Date(publishedAt || updatedAt)))
   $: date = `${MMM} ${D}, ${YYYY}`
   $: isFollowing = checkIsFollowing($currentUser, user.id)
+  $: isMobile = $session.isMobile
 
   const showSidebar = () => (hidden = false)
   const hideSidebar = () => (hidden = true)
@@ -88,49 +89,53 @@
 
 <MetaTags {insight} />
 
-<div class="insight">
-  {#if process.browser && $session.isDesktop}
-    <FixedControls {insight} {link} {hidden} {isAuthor} {isDraft} />
-    {#if projectData && isPaywalled === false}
-      <Assets {insight} {projectData} />
+<div class="content relative">
+  <div class="insight">
+    {#if process.browser && $session.isDesktop}
+      <FixedControls {insight} {link} {hidden} {isAuthor} {isDraft} />
+      {#if projectData && isPaywalled === false}
+        <Assets {insight} {projectData} />
+      {/if}
+
+      <Breadcrumbs {title} {link} />
     {/if}
-  {/if}
 
-  <Breadcrumbs {title} {link} />
-
-  <h1 class="h2 mrg-xl mrg--b mrg--t">{title}</h1>
-
-  <Author {user} {date} {isAuthor} {isFollowing} />
-
-  <InsightText {text} class="mrg-xl mrg--t body-1" />
-
-  {#if isPaywalled}
-    <Paywall />
-  {:else}
-    <div class="tags c-waterloo mrg-xl mrg--t caption">
-      <Tags {tags} />
-    </div>
+    <h1 class={isMobile ? 'h3' : 'h2 mrg-xl mrg--b mrg--t'}>{title}</h1>
 
     <Author {user} {date} {isAuthor} {isFollowing} />
 
-    <ViewportObserver
-      top
-      options={{ rootMargin: '160px 0px -135px' }}
-      on:intersect={hideSidebar}
-      on:leaving={showSidebar}
-    >
-      <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
-    </ViewportObserver>
+    <InsightText {text} class="$style.insight-text mrg-xl mrg--t body-1" />
 
-    <Comments {insight} />
+    {#if isPaywalled}
+      <Paywall />
+    {:else}
+      <div class="tags c-waterloo mrg-xl mrg--t caption row">
+        <Tags {tags} />
+      </div>
+
+      <div class="divider" />
+
+      <Author {user} {date} {isAuthor} {isFollowing} />
+
+      <ViewportObserver
+        top
+        options={{ rootMargin: '160px 0px -135px' }}
+        on:intersect={hideSidebar}
+        on:leaving={showSidebar}
+      >
+        <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
+      </ViewportObserver>
+
+      <Comments {insight} />
+    {/if}
+  </div>
+
+  {#if process.browser}
+    <SuggestedInsights {insight} {user} />
   {/if}
 </div>
 
-{#if process.browser}
-  <SuggestedInsights {insight} {user} />
-{/if}
-
-<style>
+<style lang="scss">
   .insight {
     max-width: 720px;
     margin: 0 auto;
@@ -138,8 +143,39 @@
   }
 
   .tags {
-    padding: 0 0 16px;
+    gap: 4px;
+  }
+
+  .divider {
+    height: 1px;
+    background-color: var(--porcelain);
+    margin-top: 16px;
     margin-bottom: 20px;
-    border-bottom: 1px solid var(--porcelain);
+  }
+
+  :global(body:not(.desktop)) {
+    .content {
+      height: calc(100vh - 156px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 24px 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .insight-text {
+      margin-top: 40px;
+    }
+
+    .tags {
+      margin-top: 40px;
+      gap: 8px;
+    }
+
+    .divider {
+      margin-top: 20px;
+    }
   }
 </style>

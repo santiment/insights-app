@@ -6,6 +6,7 @@
   import ShareBtn from '@cmp/ShareButton.svelte'
   import EditBtn from '@cmp/EditButton.svelte'
   import { currentUser } from '@/stores/user'
+  import { session } from '@/stores/session'
 
   export let insight
   export let link
@@ -16,6 +17,7 @@
   $: ({ user, commentsCount } = insight)
   $: ({ username } = user)
   $: followMsg = `Follow ${username}`
+  $: isMobile = $session.isMobile
 
   const delay = () => ({ delay: 500 })
 
@@ -43,14 +45,14 @@
     with your friends!
   </p>
 
-  <div class="row h-center body-3">
-    <VoteButton {insight} />
-    <CommentBtn href="read/{link}" count={commentsCount} />
-    {#if !isDraft}<ShareBtn {insight} />{/if}
-    {#if isAuthor}<EditBtn {insight} />{/if}
+  <div class="actions row h-center {isMobile ? 'body-2' : 'body-3'}">
+    <VoteButton {insight} class="$style.vote" />
+    <CommentBtn href="read/{link}" count={commentsCount} class="$style.comment row hv-center" />
+    {#if !isDraft}<ShareBtn {insight} class="$style.action row hv-center" />{/if}
+    {#if isAuthor}<EditBtn {insight} class="$style.action row hv-center" />{/if}
   </div>
 
-  {#if !isAuthor && !isFollowing}
+  {#if !isAuthor && !isFollowing && !isMobile}
     <div class="follow column v-center" out:delay>
       <h3 class="h4 txt-m mrg-s mrg--b c-black">Never miss a post from {username}!</h3>
       <p class="mrg-xl mrg--b">Get 'early bird' alerts for new insights from this author</p>
@@ -60,10 +62,11 @@
   {/if}
 </div>
 
-<style>
+<style lang="scss">
   .epilogue {
     text-align: center;
   }
+
   .cta {
     max-width: 460px;
     margin: 14px auto 28px;
@@ -94,5 +97,36 @@
     top: 0;
     left: 0;
     width: 100%;
+  }
+
+  .actions {
+    gap: 16px;
+  }
+
+  :global(body:not(.desktop)) {
+    .epilogue {
+      margin-top: 64px;
+    }
+
+    .cta {
+      margin: 12px auto 40px;
+    }
+
+    .actions {
+      height: 40px;
+    }
+
+    .vote {
+      padding: 7px 16px !important;
+    }
+
+    .comment {
+      gap: 2px;
+    }
+
+    .action {
+      height: 100%;
+      padding: 12px 16px !important;
+    }
   }
 </style>
