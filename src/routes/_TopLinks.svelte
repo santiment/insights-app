@@ -2,7 +2,7 @@
   import TagFilters from '@cmp/TagFilters.svelte'
   import { session } from '@/stores/session'
 
-  export let isPulse
+  export let isPulse = false
 </script>
 
 {#if !$session.isMobile}

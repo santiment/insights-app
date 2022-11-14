@@ -11,7 +11,7 @@
 
 {#if SANTIMENT.has(+user.id)}
   {#if isMobile}
-    <Svg illus id="editorial-mobile" w="40" h="40" class="mrg-a mrg--l" />
+    <Svg illus id="editorial-mobile" w="40" class="mrg-a mrg--l" />
   {:else}
     <Svg illus id="editorial" w="118" h="40" class="mrg-a mrg--l $style.icon" />
   {/if}

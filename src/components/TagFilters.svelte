@@ -15,10 +15,10 @@
   ]
 
   $: ({ tags, onlyPro, isPulse } = $page.query)
-  $: active = (tags, onlyPro, isPulse, setActive())
+  $: active = setActive(tags, onlyPro, isPulse)
   $: isMobile = $session.isMobile
 
-  function setActive() {
+  function setActive(tags, onlyPro, isPulse) {
     if (onlyPro !== undefined) return 'pro'
     if (isPulse !== undefined) return 'pulse'
 
@@ -26,24 +26,28 @@
   }
 </script>
 
-<div class="row c-waterloo {isMobile ? 'body-2 nowrap' : 'mrg-xl'} mrg--t mrg--b">
-  {#each TAGS as [link, label], idx}
-    {@const href = link ? `${base}?tags=${link}` : base}
-    {#if idx === 0 && isMobile}
-      <a href="/" class="btn-2" class:active={active === link}>{label}</a>
-      <a href="?isPulse" class="btn-2" class:active={active === 'pulse'}>Pulse</a>
-      <a href="?onlyPro" class="pro btn-2 btn-1 btn--orange" class:active={active === 'pro'}>
-        Only for PRO
-      </a>
-    {:else}
-      <a {href} class="btn-2" class:active={active === link}>{label}</a>
-    {/if}
-  {/each}
-
-  {#if !base && !isMobile}
+<div class="row c-waterloo {isMobile ? 'body-2 nowrap no-scrollbar' : 'mrg-xl'} mrg--t mrg--b">
+  {#if isMobile}
+    <a href="/" class="btn-2" class:active={active === ''}>All</a>
+    <a href="?isPulse" class="btn-2" class:active={active === 'pulse'}>Pulse</a>
     <a href="?onlyPro" class="pro btn-2 btn-1 btn--orange" class:active={active === 'pro'}>
       Only for PRO
     </a>
+    {#each TAGS.slice(1) as [link, label], idx}
+      {@const href = link ? `${base}?tags=${link}` : base}
+      <a {href} class="btn-2" class:active={active === link}>{label}</a>
+    {/each}
+  {:else}
+    {#each TAGS as [link, label], idx}
+      {@const href = link ? `${base}?tags=${link}` : base}
+      <a {href} class="btn-2" class:active={active === link}>{label}</a>
+    {/each}
+
+    {#if !base}
+      <a href="?onlyPro" class="pro btn-2 btn-1 btn--orange" class:active={active === 'pro'}>
+        Only for PRO
+      </a>
+    {/if}
   {/if}
 </div>
 
@@ -81,10 +85,6 @@
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       -ms-overflow-style: -ms-autohiding-scrollbar;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
     }
 
     a {
