@@ -58,7 +58,10 @@
   }
 
   :global(body:not(.desktop)) main {
-    overflow: hidden;
-    padding: 73px 0 83px;
+    margin-top: 145px;
+    margin-bottom: 83px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0;
   }
 </style>
