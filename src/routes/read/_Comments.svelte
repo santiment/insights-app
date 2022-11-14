@@ -53,16 +53,13 @@
         }
 
         form > div {
-          min-height: 40px;
           padding: 7px 10px;
         }
 
         form button {
-          height: 40px;
           flex: 0 0;
           justify-content: center;
           margin-left: 12px;
-          white-space: nowrap;
         }
 
         > div {

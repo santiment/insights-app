@@ -10,7 +10,7 @@
 
   let insights = []
   let node, observer
-  let w
+  let width
 
   $: user.id && node && setupObserver()
   $: isMobile = $session.isMobile
@@ -41,9 +41,9 @@
   })
 </script>
 
-<svelte:window bind:innerWidth={w} />
+<svelte:window bind:innerWidth={width} />
 
-<section class="column v-center" style="width: {w}" bind:this={node}>
+<section class="column v-center" style="width: {width}" bind:this={node}>
   <h3 class="{isMobile ? 'h4' : 'body-1'} mrg-xl mrg--b">Suggested insights</h3>
 
   <div class="visible">
@@ -87,7 +87,7 @@
   :global(body:not(.desktop)) {
     section {
       height: 305px;
-      margin: 40px 0 -24px -20px;
+      margin: 40px 0 -24px 0;
       padding: 40px 20px;
     }
 

@@ -89,51 +89,49 @@
 
 <MetaTags {insight} />
 
-<div class="content relative">
-  <div class="insight">
-    {#if process.browser && $session.isDesktop}
-      <FixedControls {insight} {link} {hidden} {isAuthor} {isDraft} />
-      {#if projectData && isPaywalled === false}
-        <Assets {insight} {projectData} />
-      {/if}
-
-      <Breadcrumbs {title} {link} />
+<div class="insight">
+  {#if process.browser && $session.isDesktop}
+    <FixedControls {insight} {link} {hidden} {isAuthor} {isDraft} />
+    {#if projectData && isPaywalled === false}
+      <Assets {insight} {projectData} />
     {/if}
 
-    <h1 class={isMobile ? 'h3' : 'h2 mrg-xl mrg--b mrg--t'}>{title}</h1>
+    <Breadcrumbs {title} {link} />
+  {/if}
+
+  <h1 class={isMobile ? 'h3' : 'h2 mrg-xl mrg--b mrg--t'}>{title}</h1>
+
+  <Author {user} {date} {isAuthor} {isFollowing} />
+
+  <InsightText {text} class="$style.insight-text mrg-xl mrg--t body-1" />
+
+  {#if isPaywalled}
+    <Paywall />
+  {:else}
+    <div class="tags c-waterloo mrg-xl mrg--t caption row">
+      <Tags {tags} />
+    </div>
+
+    <div class="divider" />
 
     <Author {user} {date} {isAuthor} {isFollowing} />
 
-    <InsightText {text} class="$style.insight-text mrg-xl mrg--t body-1" />
+    <ViewportObserver
+      top
+      options={{ rootMargin: '160px 0px -135px' }}
+      on:intersect={hideSidebar}
+      on:leaving={showSidebar}
+    >
+      <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
+    </ViewportObserver>
 
-    {#if isPaywalled}
-      <Paywall />
-    {:else}
-      <div class="tags c-waterloo mrg-xl mrg--t caption row">
-        <Tags {tags} />
-      </div>
-
-      <div class="divider" />
-
-      <Author {user} {date} {isAuthor} {isFollowing} />
-
-      <ViewportObserver
-        top
-        options={{ rootMargin: '160px 0px -135px' }}
-        on:intersect={hideSidebar}
-        on:leaving={showSidebar}
-      >
-        <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
-      </ViewportObserver>
-
-      <Comments {insight} />
-    {/if}
-  </div>
-
-  {#if process.browser}
-    <SuggestedInsights {insight} {user} />
+    <Comments {insight} />
   {/if}
 </div>
+
+{#if process.browser}
+  <SuggestedInsights {insight} {user} />
+{/if}
 
 <style lang="scss">
   .insight {
@@ -149,16 +147,12 @@
   .divider {
     height: 1px;
     background-color: var(--porcelain);
-    margin-top: 16px;
-    margin-bottom: 20px;
+    margin: 16px 0 20px;
   }
 
   :global(body:not(.desktop)) {
-    .content {
-      height: calc(100vh - 156px);
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 24px 20px;
+    .insight {
+      padding: 0 20px;
     }
 
     h1 {
