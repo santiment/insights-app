@@ -86,14 +86,12 @@
 
   :global(body:not(.desktop)) {
     section {
-      height: 305px;
-      margin: 40px 0 -24px 0;
+      margin: 40px 0 0;
       padding: 40px 20px;
     }
 
     .scroll {
       width: 100%;
-      height: 100%;
     }
 
     .item {
