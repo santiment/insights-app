@@ -26,7 +26,7 @@
   }
 </script>
 
-<div class="row c-waterloo {isMobile ? 'body-2 nowrap' : 'mrg-xl'} mrg--t mrg--b">
+<div class="row c-waterloo {isMobile ? 'body-2 nowrap no-scrollbar' : 'mrg-xl'} mrg--t mrg--b">
   {#if isMobile}
     <a href="/" class="btn-2" class:active={active === ''}>All</a>
     <a href="?isPulse" class="btn-2" class:active={active === 'pulse'}>Pulse</a>
@@ -85,10 +85,6 @@
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       -ms-overflow-style: -ms-autohiding-scrollbar;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
     }
 
     a {
