@@ -83,7 +83,7 @@
   }
 
   :global(body:not(.desktop)) {
-    .fluid {
+    .row {
       overflow-y: auto;
       padding: 16px 20px;
     }
