@@ -77,9 +77,9 @@
       background-color: var(--white);
       gap: 12px;
       flex-wrap: nowrap;
-      z-index: 50;
-      position: fixed;
-      top: 73px;
+      z-index: 98;
+      position: sticky;
+      top: 0;
       left: 0;
       padding: 24px 20px 16px;
       overflow-x: auto;
