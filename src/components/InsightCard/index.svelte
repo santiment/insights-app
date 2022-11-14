@@ -22,7 +22,7 @@
 </script>
 
 <Card {insight} class={className} let:node let:href>
-  <a {href} class="{isMobile ? 'body-1' : 'body-2'} line-clamp mrg-m mrg--b" sapper:prefetch>
+  <a {href} class="{isMobile ? 'body-1' : 'body-2'} single-line mrg-m mrg--b" sapper:prefetch>
     {title}
   </a>
 
