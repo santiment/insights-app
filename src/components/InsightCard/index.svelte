@@ -22,11 +22,9 @@
 </script>
 
 <Card {insight} class={className} let:node let:href>
-  <a
-    {href}
-    class="title {isMobile ? 'body-1' : 'body-2'} single-line line-clamp mrg-m mrg--b"
-    sapper:prefetch>{title}</a
-  >
+  <a {href} class="{isMobile ? 'body-1' : 'body-2'} line-clamp mrg-m mrg--b" sapper:prefetch>
+    {title}
+  </a>
 
   <div class="row v-center">
     <Profile {user} class="$style.profile {isMobile ? 'txt-m' : ''}">
@@ -44,10 +42,6 @@
 </Card>
 
 <style lang="scss">
-  .title {
-    display: block;
-  }
-
   .profile {
     :global(body:not(.desktop)) & {
       --img-size: 40px;

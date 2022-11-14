@@ -84,13 +84,8 @@
 
   :global(body:not(.desktop)) {
     .fluid {
-      height: calc(100vh - 228px);
       overflow-y: auto;
       padding: 16px 20px;
-    }
-
-    .row {
-      padding-top: 72px;
     }
   }
 </style>

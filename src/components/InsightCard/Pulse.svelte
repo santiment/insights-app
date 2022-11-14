@@ -1,7 +1,6 @@
 <script>
   import { getDateFormats, getTimeFormats } from 'webkit/utils/dates'
   import Profile from 'webkit/ui/Profile/index.svelte'
-  import { session } from '@/stores/session'
   import InsightText from '@cmp/InsightText.svelte'
   import Card from './Card.svelte'
   import Editorial from './Editorial.svelte'
@@ -12,8 +11,6 @@
 
   $: ({ title, user, publishedAt, pulseText, text = pulseText } = insight)
   $: date = formatDate(publishedAt)
-  $: shortDate = formatShortDate(publishedAt)
-  $: isMobile = $session.isMobile
 
   function formatDate(date) {
     date = new Date(date)
@@ -21,35 +18,18 @@
     const { HH, mm } = getTimeFormats(date)
     return `${D}-${MM}-${YY}, ${HH}:${mm}`
   }
-
-  function formatShortDate(date) {
-    const { MMM, D, YYYY } = getDateFormats(new Date(date))
-    return `${MMM} ${D}, ${YYYY}`
-  }
 </script>
 
 <Card {insight} class={className} let:href>
-  <a
-    {href}
-    class="{isMobile ? 'body-1 single-line line-clamp' : 'h4'} row justify mrg-m mrg--b"
-    sapper:prefetch
-  >
+  <a {href} class="h4 row justify mrg-m mrg--b" sapper:prefetch>
     {title}
-    {#if !isMobile}
-      <span class="c-waterloo caption">{date}</span>
-    {/if}
+    <span class="c-waterloo caption">{date}</span>
   </a>
 
-  {#if !isMobile}
-    <InsightText {text} class="$style.text body-2" />
-  {/if}
+  <InsightText {text} class="$style.text body-2" />
 
   <div class="row v-center">
-    <Profile {user} class="$style.profile {isMobile ? 'txt-m' : 'c-waterloo caption mrg-m mrg--t'}">
-      {#if isMobile}
-        <div class="body-3 txt-r c-waterloo">{shortDate}</div>
-      {/if}
-    </Profile>
+    <Profile {user} class="$style.profile c-waterloo caption mrg-m mrg--t" />
     <Editorial {user} />
   </div>
 </Card>
@@ -57,10 +37,6 @@
 <style lang="scss">
   a {
     word-break: break-all;
-
-    :global(body:not(.desktop)) & {
-      display: block;
-    }
   }
 
   span {
@@ -71,10 +47,6 @@
 
   .profile {
     --img-size: 24px;
-
-    :global(body:not(.desktop)) & {
-      --img-size: 40px;
-    }
   }
 
   .text {
