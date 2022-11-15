@@ -152,7 +152,7 @@
 
   :global(body:not(.desktop)) {
     .insight {
-      padding: 0 20px;
+      padding: 24px 20px 0;
     }
 
     h1 {
