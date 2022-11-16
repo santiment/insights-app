@@ -1,11 +1,13 @@
 import * as sapper from '@sapper/app'
 import { startResponsiveController } from 'webkit/responsive'
+import { isTrackingEnabled } from 'webkit/analytics'
 import { bootIntercom } from 'webkit/analytics/intercom'
 import { initTwitterPixel } from 'webkit/analytics/twitter'
 import { initGA } from 'webkit/analytics/ga'
-import { initAmplitude } from 'webkit/analytics/amplitude'
+import { initAmplitude, updateAmplitude } from 'webkit/analytics/amplitude'
 import { newHeadScript } from 'webkit/analytics/utils'
 import { ANON_EVENT } from 'webkit/ui/FollowButton/flow'
+import { currentUser } from '@/stores/user'
 
 startResponsiveController()
 
@@ -15,10 +17,18 @@ sapper.start({
 
 if (process.env.IS_PROD_MODE) {
   bootIntercom('cyjjko9u')
-  initGA('UA-100571693-11')
-  newHeadScript('gtag("config", "UA-100571693-1");')
-  initTwitterPixel()
-  initAmplitude()
+
+  if (isTrackingEnabled) {
+    initGA('UA-100571693-11')
+    newHeadScript('gtag("config", "UA-100571693-1");')
+    initTwitterPixel()
+    initAmplitude()
+
+    currentUser.subscribe((user) => {
+      if (!user) return
+      updateAmplitude(user.id, user.username, user.email)
+    })
+  }
 }
 
 const APP_LINK = 'https://insights.santiment.net'
