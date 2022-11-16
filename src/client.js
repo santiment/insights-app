@@ -4,10 +4,9 @@ import { isTrackingEnabled } from 'webkit/analytics'
 import { bootIntercom } from 'webkit/analytics/intercom'
 import { initTwitterPixel } from 'webkit/analytics/twitter'
 import { initGA } from 'webkit/analytics/ga'
-import { initAmplitude, updateAmplitude } from 'webkit/analytics/amplitude'
+import { initAmplitude } from 'webkit/analytics/amplitude'
 import { newHeadScript } from 'webkit/analytics/utils'
 import { ANON_EVENT } from 'webkit/ui/FollowButton/flow'
-import { currentUser } from '@/stores/user'
 
 startResponsiveController()
 
@@ -23,11 +22,6 @@ if (process.env.IS_PROD_MODE) {
     newHeadScript('gtag("config", "UA-100571693-1");')
     initTwitterPixel()
     initAmplitude()
-
-    currentUser.subscribe((user) => {
-      if (!user) return
-      updateAmplitude(user.id, user.username, user.email)
-    })
   }
 }
 
