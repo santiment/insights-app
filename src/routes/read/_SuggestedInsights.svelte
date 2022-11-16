@@ -44,7 +44,12 @@
   <div class="visible">
     <div class="scroll row no-scrollbar">
       {#each insights as insight}
-        <InsightCard {insight} isWithPrice={false} class="$style.item mrg-xl mrg--r" />
+        <InsightCard
+          {insight}
+          source="insights-article-suggested-insights"
+          isWithPrice={false}
+          class="$style.item mrg-xl mrg--r"
+        />
       {/each}
     </div>
   </div>
@@ -80,6 +85,6 @@
   .item {
     width: 365px;
     min-width: 365px;
-    --overflow-lines: 1;
+    --line-clamp: 1;
   }
 </style>

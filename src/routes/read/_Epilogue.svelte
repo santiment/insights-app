@@ -13,7 +13,9 @@
   export let isFollowing
   export let isDraft
 
-  $: ({ user, commentsCount } = insight)
+  const source = 'insights_article_epilogue'
+
+  $: ({ id, user, commentsCount } = insight)
   $: ({ username } = user)
   $: followMsg = `Follow ${username}`
 
@@ -44,9 +46,9 @@
   </p>
 
   <div class="row h-center body-3">
-    <VoteButton {insight} />
-    <CommentBtn href="read/{link}" count={commentsCount} />
-    {#if !isDraft}<ShareBtn {insight} />{/if}
+    <VoteButton {insight} {source} />
+    <CommentBtn {id} {source} href="read/{link}" count={commentsCount} />
+    {#if !isDraft}<ShareBtn {insight} {source} />{/if}
     {#if isAuthor}<EditBtn {insight} />{/if}
   </div>
 

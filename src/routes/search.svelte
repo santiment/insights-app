@@ -73,7 +73,7 @@
     Loading...
   {:else}
     {#each filteredInsights as insight (insight.id)}
-      <InsightCard {insight} class="mrg-l mrg--t" />
+      <InsightCard {insight} source="insights_search" class="mrg-l mrg--t" />
     {/each}
   {/if}
 </ViewportObserver>

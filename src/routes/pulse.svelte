@@ -35,7 +35,7 @@
 
 <div class="row">
   <div class="fluid">
-    <InsightsFeed {insights} {tags} {onlyPro} isOnlyPulse />
+    <InsightsFeed {insights} {tags} {onlyPro} source="insights_pulse" isOnlyPulse />
   </div>
 </div>
 

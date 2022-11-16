@@ -9,6 +9,7 @@
   export let insights, tags, onlyPro
   export let isOnlyPulse = undefined
   export let query = queryAllInsights
+  export let source = 'insights'
 
   let reset
 
@@ -21,9 +22,9 @@
 <ViewportPagination bind:reset items={insights} query={loadInsights} let:items>
   <Feed {items} let:item>
     {#if item.isPulse}
-      <PulseCard insight={item} class="mrg-xl mrg--b" />
+      <PulseCard insight={item} {source} class="mrg-xl mrg--b" />
     {:else}
-      <InsightCard insight={item} class="mrg-xl mrg--b" {isWithPrice} />
+      <InsightCard insight={item} {source} class="mrg-xl mrg--b" {isWithPrice} />
     {/if}
   </Feed>
 </ViewportPagination>

@@ -10,14 +10,22 @@
   export let isAuthor
   export let isDraft
 
-  $: ({ votes, commentsCount } = insight)
+  const source = 'insights_article_side_actions'
+
+  $: ({ id, commentsCount } = insight)
 </script>
 
 <aside>
   <div class:hidden class="fixed column c-waterloo">
-    <VoteButton {insight} />
-    <CommentBtn href="/read/{link}" class="mrg-s mrg--t mrg--b" count={commentsCount} />
-    {#if !isDraft}<ShareBtn {insight} class="mrg-s mrg--b" />{/if}
+    <VoteButton {insight} {source} />
+    <CommentBtn
+      {id}
+      href="/read/{link}"
+      {source}
+      class="mrg-s mrg--t mrg--b"
+      count={commentsCount}
+    />
+    {#if !isDraft}<ShareBtn {insight} {source} class="mrg-s mrg--b" />{/if}
     {#if isAuthor}<EditBtn {insight} class="" />{/if}
   </div>
 </aside>

@@ -6,14 +6,15 @@
 
   export let insight
   export let href
+  export let source
 
-  $: ({ tags, commentsCount, isPro } = insight)
+  $: ({ id, tags, commentsCount, isPro } = insight)
 </script>
 
 <div class="bottom row v-center c-waterloo">
-  <VoteButton {insight} />
+  <VoteButton {insight} {source} />
 
-  <CommentBtn {href} count={commentsCount} />
+  <CommentBtn {id} {href} {source} count={commentsCount} />
 
   <div class="tags c-waterloo mrg-a mrg--l caption row">
     <Tags {tags} />

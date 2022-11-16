@@ -9,6 +9,7 @@
   export { className as class }
   export let insight
   export let isWithPrice = process.browser
+  export let source
 
   $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
@@ -19,11 +20,11 @@
   }
 </script>
 
-<Card {insight} class={className} let:node let:href>
-  <a {href} class="title body-2 mrg-m mrg--b" sapper:prefetch>{title}</a>
+<Card {insight} {source} class={className} let:node let:href>
+  <a {href} class="title line-clamp body-2 mrg-m mrg--b" sapper:prefetch>{title}</a>
 
   <div class="row v-center">
-    <Profile {user}>
+    <Profile {user} {source} feature="insight">
       <div class="caption c-waterloo">{date}</div>
     </Profile>
 
@@ -36,12 +37,9 @@
 </Card>
 
 <style>
-  .title {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: var(--overflow-lines, 2);
-    -webkit-box-orient: vertical;
+  @supports not (display: -webkit-box) {
+    .title {
+      display: block;
+    }
   }
 </style>

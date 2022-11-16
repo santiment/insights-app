@@ -12,7 +12,7 @@
 <script>
   import { setContext } from 'svelte'
   import { stores } from '@sapper/app'
-  import { track } from 'webkit/analytics'
+  import { trackPageView } from 'webkit/analytics/events/general'
   import PageLoadProgress from 'webkit/ui/PageLoadProgress.svelte'
   import BackToTop from 'webkit/ui/BackToTop.svelte'
   import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
@@ -26,7 +26,22 @@
 
   setContext('isMobile', $session.isMobile)
 
-  $: process.browser && $page.path && track.pageview('insights')
+  let source = ''
+
+  $: if (process.browser) {
+    page.subscribe(({ path }) => {
+      if (source && source !== path) {
+        trackPageView({
+          url: path,
+          type: 'insights',
+          sourceType: 'insights',
+          sourceUrl: source,
+        })
+      }
+
+      source = path
+    })
+  }
 </script>
 
 {#if $session.isMobile}

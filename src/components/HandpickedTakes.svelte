@@ -8,7 +8,7 @@
 
 <div class="scroll">
   {#each insights as insight}
-    <SmallCard {insight} class="mrg-l mrg--b" />
+    <SmallCard {insight} source="insights_handpicked" class="mrg-l mrg--b" />
   {/each}
 </div>
 
