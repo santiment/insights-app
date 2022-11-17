@@ -14,7 +14,9 @@
   import { stores } from '@sapper/app'
   import { isTrackingEnabled } from 'webkit/analytics'
   import { updateAmplitude } from 'webkit/analytics/amplitude'
-  import { trackPageView } from 'webkit/analytics/events/general'
+  import { trackPageView, trackLoginFinish } from 'webkit/analytics/events/general'
+  import { getSavedLoginMethod } from 'webkit/analytics/events/utils'
+  import { trackSignupFinish } from 'webkit/analytics/events/onboarding'
   import PageLoadProgress from 'webkit/ui/PageLoadProgress.svelte'
   import BackToTop from 'webkit/ui/BackToTop.svelte'
   import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
@@ -49,6 +51,15 @@
       currentUser.subscribe((user) => {
         if (!user) return
         updateAmplitude(user.id, user.username, user.email)
+
+        const { method } = getSavedLoginMethod() || {}
+        if (method) {
+          if (user.firstLogin) {
+            trackSignupFinish(method)
+          } else {
+            trackLoginFinish(method)
+          }
+        }
       })
     }
   }
