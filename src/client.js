@@ -14,7 +14,7 @@ sapper.start({
   target: document.querySelector('#sapper'),
 })
 
-if (process.env.IS_PROD_MODE) {
+if (process.env.IS_PROD_MODE && process.env.IS_PROD_BACKEND) {
   bootIntercom('cyjjko9u')
 
   if (isTrackingEnabled) {
