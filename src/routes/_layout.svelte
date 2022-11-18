@@ -58,8 +58,7 @@
   }
 
   :global(body:not(.desktop)) main {
-    margin-top: 73px;
-    margin-bottom: 83px;
+    margin: 73px 0 83px;
     overflow-y: auto;
     padding: 0;
   }

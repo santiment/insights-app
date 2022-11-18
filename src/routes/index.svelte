@@ -84,7 +84,6 @@
 
   :global(body:not(.desktop)) {
     .row {
-      overflow-y: auto;
       padding: 16px 20px;
     }
   }

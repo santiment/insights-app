@@ -74,7 +74,7 @@
   :global(body:not(.desktop)) {
     div {
       width: 100%;
-      background-color: var(--white);
+      background: var(--white);
       gap: 12px;
       flex-wrap: nowrap;
       z-index: 98;
@@ -116,8 +116,7 @@
     }
 
     .pro.active {
-      padding: 4px 12px;
-      border: none;
+      border-color: var(--orange-light-1);
     }
   }
 </style>
