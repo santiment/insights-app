@@ -100,7 +100,7 @@
 
   <h1 class="h2 mrg-xl mrg--b mrg--t">{title}</h1>
 
-  <Author {user} {date} {isAuthor} {isFollowing} />
+  <Author {user} {date} {isAuthor} {isFollowing} source="insights_article_top" />
 
   <InsightText {text} class="mrg-xl mrg--t body-1" />
 
@@ -111,7 +111,7 @@
       <Tags {tags} />
     </div>
 
-    <Author {user} {date} {isAuthor} {isFollowing} />
+    <Author {user} {date} {isAuthor} {isFollowing} source="insights_article_bottom" />
 
     <ViewportObserver
       top

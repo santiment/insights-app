@@ -7,23 +7,23 @@
 
   export let insight
   export let href
+  export let source
 
-  $: ({ tags, commentsCount, isPro } = insight)
+  $: ({ id, tags, commentsCount, isPro } = insight)
   $: isMobile = $session.isMobile
 </script>
 
 <div class="bottom row justify v-center c-waterloo">
   <div class="row v-center">
-    <VoteButton {insight} />
+    <VoteButton {insight} {source} />
 
-    <CommentBtn {href} count={commentsCount} />
+    <CommentBtn {id} {href} {source} count={commentsCount} />
   </div>
 
   <div class="row v-center">
     <div class="tags c-waterloo mrg-a mrg--l caption row">
       <Tags {tags} {isPro} shouldSliceTags={isMobile} />
     </div>
-
     {#if isPro}
       <Svg id="crown" w="12" h="9" class="$style.crown" />
     {/if}

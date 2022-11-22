@@ -7,6 +7,7 @@ export const CURRENT_USER_FRAGMENT = `
     username
     privacyPolicyAccepted
     avatarUrl
+    firstLogin
     isEligibleForTrial:isEligibleForSanbaseTrial
     settings {
       theme

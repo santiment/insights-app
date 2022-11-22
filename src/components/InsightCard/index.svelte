@@ -10,6 +10,7 @@
   export { className as class }
   export let insight
   export let isWithPrice = process.browser
+  export let source
 
   $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
@@ -21,13 +22,13 @@
   }
 </script>
 
-<Card {insight} class={className} let:node let:href>
+<Card {insight} {source} class={className} let:node let:href>
   <a {href} class="{isMobile ? 'body-1' : 'body-2'} line-clamp mrg-m mrg--b" sapper:prefetch>
     {title}
   </a>
 
   <div class="row v-center">
-    <Profile {user} class="$style.profile {isMobile ? 'txt-m' : ''}">
+    <Profile {user} {source} feature="insight" class="$style.profile {isMobile ? 'txt-m' : ''}">
       <div class="{isMobile ? 'body-3' : 'caption'} txt-r c-waterloo">{date}</div>
     </Profile>
 
@@ -45,6 +46,12 @@
   .profile {
     :global(body:not(.desktop)) & {
       --img-size: 40px;
+    }
+  }
+
+  @supports not (display: -webkit-box) {
+    .title {
+      display: block;
     }
   }
 </style>

@@ -6,10 +6,11 @@
   export let user, date
   export let isAuthor
   export let isFollowing
+  export let source
 </script>
 
 <div class="row v-center justify">
-  <Profile {user}>
+  <Profile {user} feature="insight" {source}>
     <div class="caption c-waterloo">{date}</div>
   </Profile>
 

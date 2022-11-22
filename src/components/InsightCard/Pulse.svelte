@@ -8,6 +8,7 @@
   let className = ''
   export { className as class }
   export let insight
+  export let source
 
   $: ({ title, user, publishedAt, pulseText, text = pulseText } = insight)
   $: date = formatDate(publishedAt)
@@ -29,7 +30,12 @@
   <InsightText {text} class="$style.text body-2" />
 
   <div class="row v-center">
-    <Profile {user} class="$style.profile c-waterloo caption mrg-m mrg--t" />
+    <Profile
+      {user}
+      {source}
+      feature="insight"
+      class="$style.profile c-waterloo caption mrg-m mrg--t"
+    />
     <Editorial {user} />
   </div>
 </Card>

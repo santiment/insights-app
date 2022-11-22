@@ -1,19 +1,18 @@
 <script>
   import { goto } from '@sapper/app'
-  import { track } from 'webkit/analytics'
   import { showPaymentDialog, dataPreloader } from 'webkit/ui/PaymentDialog/index.svelte'
   import { currentUser } from '@/stores/user'
   // import { showPaymentDialog, dataPreloader } from '@cmp/PaymentDialog/index.svelte'
 
   function onUpgradeClick() {
-    track.event('upgrade', { method: 'Insight Paywall' })
-
     if (!$currentUser) {
       // postponePayment()
       return goto('/login')
     }
 
-    showPaymentDialog()
+    showPaymentDialog({
+      source: 'insights-article-paywall',
+    })
   }
 </script>
 

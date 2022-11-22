@@ -1,28 +1,15 @@
 <script>
-  import { vote, VoteType } from 'webkit/api/vote'
   import LikeBtn from 'webkit/ui/LikeButton/svelte'
   import { currentUser } from '@/stores/user'
   import { InteractionType, mutateStoreUserActivitiy } from '@/api/userActivity'
 
-  let className = ''
-  export { className as class }
   export let insight
+  export let source
 
   $: ({ id, votes } = insight)
-  function onVote() {
-    vote(id, VoteType.Insight)
-      .then(() => mutateStoreUserActivitiy(id, InteractionType.UPVOTE))
-      .catch(() => {
-        votes.totalVotes -= 1
-        votes.userVotes -= 1
-      })
+  function onVoted() {
+    mutateStoreUserActivitiy(id, InteractionType.UPVOTE)
   }
 </script>
 
-<LikeBtn
-  {onVote}
-  disabled={!$currentUser}
-  totalVotes={votes.totalVotes}
-  userVotes={votes.currentUserVotes}
-  class={className}
-/>
+<LikeBtn {id} {source} {onVoted} type="insightId" disabled={!$currentUser} bind:votes />
