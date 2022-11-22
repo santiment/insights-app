@@ -15,7 +15,7 @@
 
 <div class="border row {className}" bind:this={node}>
   <div class="column fluid">
-    <div class="top">
+    <div class="top column">
       <slot {href} {node} />
     </div>
     <Bottom {insight} {href} {source} />

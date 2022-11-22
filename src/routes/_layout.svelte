@@ -94,7 +94,7 @@
   }
 
   :global(body:not(.desktop)) main {
-    margin: 73px 0 83px;
+    margin-bottom: 83px;
     overflow-y: auto;
     padding: 0;
   }

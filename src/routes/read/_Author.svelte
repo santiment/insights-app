@@ -2,19 +2,39 @@
   import Profile from 'webkit/ui/Profile/index.svelte'
   import FollowButton from 'webkit/ui/FollowButton/svelte'
   import { currentUser } from '@/stores/user'
+  import { session } from '@/stores/session'
 
   export let user, date
   export let isAuthor
   export let isFollowing
   export let source
+
+  $: isMobile = $session.isMobile
 </script>
 
 <div class="row v-center justify">
-  <Profile {user} feature="insight" {source}>
-    <div class="caption c-waterloo">{date}</div>
+  <Profile {user} feature="insight" {source} class="$style.profile {isMobile ? 'txt-m' : ''}">
+    <div class="{isMobile ? 'body-3' : 'caption'} txt-r c-waterloo">{date}</div>
   </Profile>
 
   {#if !isAuthor}
-    <FollowButton {isFollowing} {user} currentUser={$currentUser} />
+    <FollowButton
+      {isFollowing}
+      {user}
+      currentUser={$currentUser}
+      class="$style.follow {isMobile ? 'body-2' : ''}"
+    />
   {/if}
 </div>
+
+<style lang="scss">
+  :global(body:not(.desktop)) {
+    .profile {
+      --img-size: 40px;
+    }
+
+    .follow {
+      padding: 8px 12px;
+    }
+  }
+</style>

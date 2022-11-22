@@ -1,16 +1,19 @@
 <script>
+  import { onDestroy } from 'svelte'
   import { querySuggestedUserInsights } from '@/api/insights/user'
   import { querySuggestedFeaturedInsights } from '@/api/insights/featured'
   import InsightCard from '@cmp/InsightCard/index.svelte'
-  import { onDestroy } from 'svelte'
+  import { session } from '@/stores/session'
 
   export let insight
   export let user
 
   let insights = []
   let node, observer
+  let width
 
   $: user.id && node && setupObserver()
+  $: isMobile = $session.isMobile
 
   function loadSuggestions() {
     if (!observer) return
@@ -38,8 +41,10 @@
   })
 </script>
 
-<section class="column v-center" bind:this={node}>
-  <h3 class="body-1 mrg-xl mrg--b">Suggested insights</h3>
+<svelte:window bind:innerWidth={width} />
+
+<section class="column v-center" style="width: {width}" bind:this={node}>
+  <h3 class="{isMobile ? 'h4' : 'body-1'} mrg-xl mrg--b">Suggested insights</h3>
 
   <div class="visible">
     <div class="scroll row no-scrollbar">
@@ -48,23 +53,19 @@
           {insight}
           source="insights-article-suggested-insights"
           isWithPrice={false}
-          class="$style.item mrg-xl mrg--r"
+          class="$style.item {isMobile ? 'mrg-m' : 'mrg-xl'} mrg--r"
         />
       {/each}
     </div>
   </div>
 </section>
 
-<style>
+<style lang="scss">
   section {
     background: var(--athens);
     margin: 32px 0 -32px calc((1140px - 100vw) / 2);
     width: 100vw;
     padding: 40px;
-  }
-  :global(body:not(.desktop)) section {
-    margin: 32px -16px 64px -16px;
-    padding: 24px 16px;
   }
 
   .visible {
@@ -78,13 +79,31 @@
     -ms-overflow-style: none;
   }
 
-  :global(body:not(.desktop) .scroll) {
-    width: 100%;
-  }
-
   .item {
     width: 365px;
     min-width: 365px;
     --line-clamp: 1;
+  }
+
+  :global(body:not(.desktop)) {
+    section {
+      width: 100%;
+      margin: 40px 0 0;
+      padding: 40px 20px;
+    }
+
+    .scroll {
+      height: 168px;
+      width: 100%;
+    }
+
+    .item {
+      width: 320px;
+      min-width: 320px;
+
+      &:last-of-type {
+        margin: 0;
+      }
+    }
   }
 </style>
