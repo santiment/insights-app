@@ -79,7 +79,7 @@
       flex-wrap: nowrap;
       z-index: 98;
       position: sticky;
-      top: 0;
+      top: 73px;
       left: 0;
       padding: 24px 20px 16px;
       overflow-x: auto;

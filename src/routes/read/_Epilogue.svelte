@@ -57,7 +57,7 @@
       class="$style.comment row hv-center"
     />
     {#if !isDraft}<ShareBtn {insight} {source} class="$style.action row hv-center" />{/if}
-    {#if isAuthor}<EditBtn {insight} class="$style.action row hv-center" />{/if}
+    {#if isAuthor && !isMobile}<EditBtn {insight} class="$style.action row hv-center" />{/if}
   </div>
 
   {#if !isAuthor && !isFollowing && !isMobile}

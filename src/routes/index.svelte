@@ -38,11 +38,14 @@
   import HandpickedTakes from '@cmp/HandpickedTakes.svelte'
   import Conversations from '@cmp/Conversations.svelte'
   import BecomeAnAuthor from '@cmp/BecomeAnAuthor.svelte'
+  import MobileHeader from '@cmp/MobileHeader.svelte'
 
   export let insights = []
   export let featured = []
   export let tags
   export let onlyPro
+
+  $: isMobile = $session.isMobile
 </script>
 
 <svelte:head>
@@ -51,6 +54,10 @@
   <meta name="description" content="All Community Insights" />
   <meta property="og:description" content="All Commmunity Insights" />
 </svelte:head>
+
+{#if isMobile}
+  <MobileHeader />
+{/if}
 
 <TopLinks />
 

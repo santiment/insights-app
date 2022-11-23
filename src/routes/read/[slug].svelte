@@ -48,6 +48,7 @@
   import { InteractionType, mutateStoreUserActivitiy } from '@/api/userActivity'
   import Tags from '@cmp/Tags.svelte'
   import InsightText from '@cmp/InsightText.svelte'
+  import MobileHeader from '@cmp/MobileHeader.svelte'
   import Breadcrumbs from './_Breadcrumbs.svelte'
   import Author from './_Author.svelte'
   import Epilogue from './_Epilogue.svelte'
@@ -87,6 +88,10 @@
   })
 </script>
 
+{#if isMobile}
+  <MobileHeader {insight} {isDraft} />
+{/if}
+
 <MetaTags {insight} />
 
 <div class="insight">
@@ -108,7 +113,7 @@
   {#if isPaywalled}
     <Paywall />
   {:else}
-    <div class="tags c-waterloo mrg-xl mrg--t caption row">
+    <div class="tags c-waterloo mrg-xl mrg--t mrg--b caption row">
       <Tags {tags} />
     </div>
 

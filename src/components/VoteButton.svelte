@@ -3,6 +3,8 @@
   import { currentUser } from '@/stores/user'
   import { InteractionType, mutateStoreUserActivitiy } from '@/api/userActivity'
 
+  let className = ''
+  export { className as class }
   export let insight
   export let source
 
@@ -12,4 +14,12 @@
   }
 </script>
 
-<LikeBtn {id} {source} {onVoted} type="insightId" disabled={!$currentUser} bind:votes />
+<LikeBtn
+  {id}
+  {source}
+  {onVoted}
+  type="insightId"
+  disabled={!$currentUser}
+  bind:votes
+  class={className}
+/>

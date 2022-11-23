@@ -46,11 +46,7 @@
   import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
   import CookiePopup from 'webkit/ui/CookiesPopup.svelte'
   import Notifications from 'webkit/ui/Notifications'
-  import Header from 'webkit/ui/MobileHeader/Header.svelte'
   import Navbar from 'webkit/ui/MobileNavbar/Navbar.svelte'
-  import Search from 'webkit/ui/MobileSearch/Search.svelte'
-  import Product from 'webkit/ui/Product.svelte'
-  import Svg from 'webkit/ui/Svg'
   import Nav from '@cmp/Nav/index.svelte'
   import { session } from '@/stores/session'
   import { currentUser } from '@/stores/user'
@@ -60,7 +56,6 @@
   setContext('isMobile', $session.isMobile)
 
   let source = ''
-  let show = false
 
   if (process.browser) {
     page.subscribe(({ path }) => {
@@ -95,20 +90,7 @@
 </script>
 
 {#if $session.isMobile}
-  <Header onSearchClick={() => (show = true)}>
-    <svelte:fragment slot="left">
-      {#if $page.path.startsWith('/read')}
-        <a href="/" class="btn row v-center body-2">
-          <Svg id="arrow-left-big" w="8" h="14" class="mrg-m mrg--r" />
-          All insights
-        </a>
-      {:else}
-        <Product title="Sanbase" />
-      {/if}
-    </svelte:fragment>
-  </Header>
   <Navbar links={MOBILE_NAVBAR_LINKS} path={$page.path} user={$currentUser} isFullLink />
-  <Search bind:show />
 {:else}
   <Nav />
 {/if}
