@@ -138,4 +138,30 @@
       }
     }
   }
+
+  :global(body:not(.desktop)) {
+    div {
+      :global {
+        h1 {
+          --text-h1-size: 24px;
+          line-height: 32px;
+          font-weight: 500;
+        }
+
+        h2 {
+          font-size: var(--text-h2-size, 22px);
+          line-height: 30px;
+          font-weight: 500;
+        }
+
+        iframe {
+          height: 320px;
+        }
+
+        .md-block-iframe {
+          margin-top: 16px;
+        }
+      }
+    }
+  }
 </style>

@@ -24,7 +24,7 @@
   <button class="btn" on:click={closeDialog}><Svg id="close" w="16" /></button>
 </Dialog>
 
-<style>
+<style lang="scss">
   .dialog {
     background: none;
     border: none;
@@ -42,5 +42,11 @@
     right: -32px;
     --fill: #fff;
     --fill-hover: var(--green);
+  }
+
+  :global(body:not(.desktop)) {
+    .dialog {
+      align-self: center;
+    }
   }
 </style>

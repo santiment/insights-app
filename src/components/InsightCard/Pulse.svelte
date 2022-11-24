@@ -22,8 +22,8 @@
 </script>
 
 <Card {insight} class={className} let:href>
-  <a {href} class="h4 row justify mrg-m mrg--b" sapper:prefetch
-    >{title}
+  <a {href} class="h4 row justify mrg-m mrg--b" sapper:prefetch>
+    {title}
     <span class="c-waterloo caption">{date}</span>
   </a>
 
@@ -40,7 +40,7 @@
   </div>
 </Card>
 
-<style>
+<style lang="scss">
   a {
     word-break: break-all;
   }

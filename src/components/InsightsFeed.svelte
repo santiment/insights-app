@@ -14,17 +14,17 @@
   let reset
 
   $: reset && reset(tags, onlyPro)
-  $: isWithPrice = !$session.isMobile
+  $: isMobile = $session.isMobile
 
   const loadInsights = (page) => query(page, tags, onlyPro, isOnlyPulse)
 </script>
 
 <ViewportPagination bind:reset items={insights} query={loadInsights} let:items>
   <Feed {items} let:item>
-    {#if item.isPulse}
+    {#if item.isPulse && !isMobile}
       <PulseCard insight={item} {source} class="mrg-xl mrg--b" />
     {:else}
-      <InsightCard insight={item} {source} class="mrg-xl mrg--b" {isWithPrice} />
+      <InsightCard insight={item} {source} class="mrg-xl mrg--b" isWithPrice={!isMobile} />
     {/if}
   </Feed>
 </ViewportPagination>

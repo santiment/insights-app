@@ -3,15 +3,16 @@
   import { queryFeaturedInsightsSSR } from '@/api/insights/featured'
 
   const parseTags = (tags) => tags && tags.toUpperCase().split(',')
-  const parseOnlyPro = (onlyPro) => onlyPro !== undefined
+  const parseFlag = (flag) => flag !== undefined
 
   export async function preload(page) {
     const { query } = page
 
     const tags = parseTags(query.tags)
-    const onlyPro = parseOnlyPro(query.onlyPro)
+    const onlyPro = parseFlag(query.onlyPro)
+    const isPulse = query.isPulse
 
-    const insights = await queryAllInsightsSSR(1, tags, onlyPro, undefined, this).catch((e) => {
+    const insights = await queryAllInsightsSSR(1, tags, onlyPro, isPulse, this).catch((e) => {
       console.log('Insights error', e)
       return []
     })
@@ -37,11 +38,14 @@
   import HandpickedTakes from '@cmp/HandpickedTakes.svelte'
   import Conversations from '@cmp/Conversations.svelte'
   import BecomeAnAuthor from '@cmp/BecomeAnAuthor.svelte'
+  import MobileHeader from '@cmp/MobileHeader.svelte'
 
   export let insights = []
   export let featured = []
   export let tags
   export let onlyPro
+
+  $: isMobile = $session.isMobile
 </script>
 
 <svelte:head>
@@ -50,6 +54,10 @@
   <meta name="description" content="All Community Insights" />
   <meta property="og:description" content="All Commmunity Insights" />
 </svelte:head>
+
+{#if isMobile}
+  <MobileHeader />
+{/if}
 
 <TopLinks />
 
@@ -67,7 +75,7 @@
   {/if}
 </div>
 
-<style>
+<style lang="scss">
   aside {
     width: 353px;
     min-width: 353px;
@@ -79,5 +87,11 @@
 
   .fluid {
     min-width: 0;
+  }
+
+  :global(body:not(.desktop)) {
+    .row {
+      padding: 16px 20px;
+    }
   }
 </style>

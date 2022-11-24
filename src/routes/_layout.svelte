@@ -7,6 +7,30 @@
       return this.redirect(302, '/gdpr')
     }
   }
+
+  export const MOBILE_NAVBAR_LINKS = [
+    {
+      title: 'Market',
+      icon: 'market',
+      href: 'https://app.santiment.net/assets',
+    },
+    {
+      title: 'Chart',
+      icon: 'chart',
+      href: 'https://app.santiment.net/projects',
+      slug: '/bitcoin',
+    },
+    {
+      title: 'Watchlist',
+      icon: 'watchlist',
+      href: 'https://app.santiment.net/watchlists',
+    },
+    {
+      title: 'Insights',
+      icon: 'insights',
+      href: '/',
+    },
+  ]
 </script>
 
 <script>
@@ -22,10 +46,10 @@
   import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
   import CookiePopup from 'webkit/ui/CookiesPopup.svelte'
   import Notifications from 'webkit/ui/Notifications'
+  import Navbar from 'webkit/ui/MobileNavbar/Navbar.svelte'
+  import Nav from '@cmp/Nav/index.svelte'
   import { session } from '@/stores/session'
   import { currentUser } from '@/stores/user'
-  import Nav from '@cmp/Nav/index.svelte'
-  import NavMobile from '@cmp/Nav/Mobile.svelte'
 
   const { preloading, page } = stores()
 
@@ -66,7 +90,7 @@
 </script>
 
 {#if $session.isMobile}
-  <NavMobile />
+  <Navbar links={MOBILE_NAVBAR_LINKS} path={$page.path} user={$currentUser} isFullLink />
 {:else}
   <Nav />
 {/if}
@@ -86,14 +110,16 @@
   <PageLoadProgress {preloading} />
 {/if}
 
-<style>
+<style lang="scss">
   main {
     padding: 32px 0;
     flex: 1;
     width: 100%;
   }
 
-  :global(.isMobile) main {
-    padding: 16px 16px 76px;
+  :global(body:not(.desktop)) main {
+    margin-bottom: 83px;
+    overflow-y: auto;
+    padding: 0;
   }
 </style>

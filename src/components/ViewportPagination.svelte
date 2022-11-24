@@ -34,8 +34,8 @@
 
 {#if hasMore}
   <div>
-    <ViewportObserver options={{ rootMargin }} on:intersect={onIntersect}
-      >Loading...</ViewportObserver
-    >
+    <ViewportObserver options={{ rootMargin }} on:intersect={onIntersect}>
+      Loading...
+    </ViewportObserver>
   </div>
 {/if}

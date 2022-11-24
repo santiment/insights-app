@@ -48,6 +48,7 @@
   import { InteractionType, mutateStoreUserActivitiy } from '@/api/userActivity'
   import Tags from '@cmp/Tags.svelte'
   import InsightText from '@cmp/InsightText.svelte'
+  import MobileHeader from '@cmp/MobileHeader.svelte'
   import Breadcrumbs from './_Breadcrumbs.svelte'
   import Author from './_Author.svelte'
   import Epilogue from './_Epilogue.svelte'
@@ -75,6 +76,7 @@
   $: ({ MMM, D, YYYY } = getDateFormats(new Date(publishedAt || updatedAt)))
   $: date = `${MMM} ${D}, ${YYYY}`
   $: isFollowing = checkIsFollowing($currentUser, user.id)
+  $: isMobile = $session.isMobile
 
   const showSidebar = () => (hidden = false)
   const hideSidebar = () => (hidden = true)
@@ -86,6 +88,10 @@
   })
 </script>
 
+{#if isMobile}
+  <MobileHeader {insight} {isDraft} />
+{/if}
+
 <MetaTags {insight} />
 
 <div class="insight">
@@ -94,24 +100,26 @@
     {#if projectData && isPaywalled === false}
       <Assets {insight} {projectData} />
     {/if}
+
+    <Breadcrumbs {title} {link} />
   {/if}
 
-  <Breadcrumbs {title} {link} />
-
-  <h1 class="h2 mrg-xl mrg--b mrg--t">{title}</h1>
+  <h1 class={isMobile ? 'h3' : 'h2 mrg-xl mrg--b mrg--t'}>{title}</h1>
 
   <Author {user} {date} {isAuthor} {isFollowing} source="insights_article_top" />
 
-  <InsightText {text} class="mrg-xl mrg--t body-1" />
+  <InsightText {text} class="$style.insight-text mrg-xl mrg--t body-1" />
 
   {#if isPaywalled}
     <Paywall />
   {:else}
-    <div class="tags c-waterloo mrg-xl mrg--t caption">
+    <div class="tags c-waterloo mrg-xl mrg--t mrg--b caption row">
       <Tags {tags} />
     </div>
 
     <Author {user} {date} {isAuthor} {isFollowing} source="insights_article_bottom" />
+
+    <div class="divider" />
 
     <ViewportObserver
       top
@@ -130,7 +138,7 @@
   <SuggestedInsights {insight} {user} />
 {/if}
 
-<style>
+<style lang="scss">
   .insight {
     max-width: 720px;
     margin: 0 auto;
@@ -138,8 +146,35 @@
   }
 
   .tags {
-    padding: 0 0 16px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--porcelain);
+    gap: 4px;
+  }
+
+  .divider {
+    height: 1px;
+    background-color: var(--porcelain);
+    margin: 16px 0 20px;
+  }
+
+  :global(body:not(.desktop)) {
+    .insight {
+      padding: 24px 20px 0;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .insight-text {
+      margin-top: 40px;
+    }
+
+    .tags {
+      margin-top: 40px;
+      gap: 8px;
+    }
+
+    .divider {
+      margin-top: 20px;
+    }
   }
 </style>

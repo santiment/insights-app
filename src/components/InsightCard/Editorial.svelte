@@ -1,13 +1,20 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
+  import { session } from '@/stores/session'
 
   export let user
+
+  $: isMobile = $session.isMobile
 
   const SANTIMENT = new Set([6, 7, 1269, 3031, 4522, 79570])
 </script>
 
 {#if SANTIMENT.has(+user.id)}
-  <Svg illus id="editorial" w="118" h="40" class="mrg-a mrg--l $style.icon" />
+  {#if isMobile}
+    <Svg illus id="editorial-mobile" w="40" class="mrg-a mrg--l" />
+  {:else}
+    <Svg illus id="editorial" w="118" h="40" class="mrg-a mrg--l $style.icon" />
+  {/if}
 {/if}
 
 <style>
