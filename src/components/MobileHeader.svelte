@@ -1,7 +1,6 @@
 <script>
   import { stores } from '@sapper/app'
   import Header from 'webkit/ui/MobileHeader/Header.svelte'
-  import Product from 'webkit/ui/Product.svelte'
   import Search from 'webkit/ui/MobileSearch/Search.svelte'
   import Svg from 'webkit/ui/Svg'
   import VoteButton from '@cmp/VoteButton.svelte'
@@ -24,7 +23,7 @@
         All insights
       </a>
     {:else}
-      <Product title="Sanbase" />
+      <h4 class="h4 txt-m">Insights</h4>
     {/if}
   </svelte:fragment>
   <svelte:fragment slot="right">
