@@ -6,6 +6,7 @@ import { initTwitterPixel } from 'webkit/analytics/twitter'
 import { initGA } from 'webkit/analytics/ga'
 import { initAmplitude } from 'webkit/analytics/amplitude'
 import { newHeadScript } from 'webkit/analytics/utils'
+import { trackAppOpen } from 'webkit/analytics/events/general'
 import { ANON_EVENT } from 'webkit/ui/FollowButton/flow'
 
 startResponsiveController()
@@ -45,3 +46,5 @@ window.__onLinkClick = (e) => {
 }
 
 window.addEventListener(ANON_EVENT, () => sapper.goto('/login'))
+
+trackAppOpen()

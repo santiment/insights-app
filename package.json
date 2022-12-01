@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "npm run dev",
-    "dev": "BACKEND_URL=https://api.santiment.net sapper dev",
+    "dev": "BACKEND_URL=https://api-stage.santiment.net sapper dev",
     "build": "npm run webkit && NODE_ENV=production sapper build",
     "webkit": "node scripts/webkit",
     "postinstall": "patch-package && npm run webkit",
@@ -32,7 +32,7 @@
     "polka": "next",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "san-webkit": "https://github.com/santiment/san-webkit#2921465",
+    "san-webkit": "https://github.com/santiment/san-webkit#008013e",
     "sanitize-html": "1.20.1",
     "sirv": "^1.0.0",
     "turndown": "^7.1.1"

@@ -59,7 +59,7 @@
 
   if (process.browser) {
     page.subscribe(({ path }) => {
-      if (source && source !== path) {
+      if (source !== path) {
         trackPageView({
           url: path,
           type: 'insights',
