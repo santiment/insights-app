@@ -79,7 +79,7 @@
         const { method } = getSavedLoginMethod() || {}
         if (method) {
           if (user.firstLogin) {
-            trackSignupFinish(method)
+            window.onGdprAccept = () => trackSignupFinish(method)
           } else {
             trackLoginFinish(method)
           }

@@ -12,5 +12,5 @@
 </script>
 
 <Layout>
-  <SignUp />
+  <SignUp title="Welcome to Insights" />
 </Layout>

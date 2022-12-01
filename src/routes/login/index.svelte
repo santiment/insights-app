@@ -10,4 +10,4 @@
   }
 </script>
 
-<LoginPrompt {onMetamaskClick} />
+<LoginPrompt title="Welcome back" {onMetamaskClick} />
