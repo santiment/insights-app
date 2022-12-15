@@ -4,7 +4,7 @@
 </script>
 
 {#if hasNoInsights}
-  <a href="/new" class="btn-2 btn-1 mrg-xl mrg--b" sapper:prefetch>Become an Author</a>
+  <a href="/new" class="btn-2 btn-1 mrg-xl mrg--b" sapper:prefetch>Write Insight</a>
 {/if}
 
 <style>

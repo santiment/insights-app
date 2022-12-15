@@ -12,9 +12,12 @@
   export let isWithPrice = process.browser
   export let source
 
+  const NFT_BATTLE_TAGE = 'nftbattle'
+
   $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
   $: isMobile = $session.isMobile
+  $: isNftBattle = tags.some((tag) => tag.name.toLowerCase() === NFT_BATTLE_TAGE)
 
   function formatDate(date) {
     const { MMM, D, YYYY } = getDateFormats(new Date(date))
@@ -32,7 +35,7 @@
       <div class="{isMobile ? 'body-3' : 'caption'} txt-r c-waterloo">{date}</div>
     </Profile>
 
-    <Editorial {user} />
+    <Editorial {user} {isNftBattle} />
   </div>
 
   <svelte:fragment slot="right">
