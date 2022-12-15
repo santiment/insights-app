@@ -12,12 +12,12 @@
   export let isWithPrice = process.browser
   export let source
 
-  const NFT_BATTLE_TAGE = 'nftbattle'
+  const NFT_BATTLE_TAG = 'nftbattle'
 
   $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
   $: isMobile = $session.isMobile
-  $: isNftBattle = tags.some((tag) => tag.name.toLowerCase() === NFT_BATTLE_TAGE)
+  $: isNftBattle = tags.some((tag) => tag.name.toLowerCase() === NFT_BATTLE_TAG)
 
   function formatDate(date) {
     const { MMM, D, YYYY } = getDateFormats(new Date(date))
