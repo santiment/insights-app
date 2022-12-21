@@ -6,7 +6,7 @@
   import { notifications$ as notifications } from 'webkit/ui/Notifications'
   import Text from './Text.svelte'
   import Bottom from './Bottom.svelte'
-  import { checkIsTrendTag } from '@/utils/insights'
+  import { checkIsNFTTag, checkIsTrendTag, NFT_BATTLE_TAG } from '@/utils/insights'
   import { clearQueryInsightCache } from '@/api/insights'
   import { mutateUpdateDraft, mutateCreateDraft, mutatePublishDraft } from '@/api/insights/draft'
   import { currentUser } from '@/stores/user'
@@ -28,17 +28,24 @@
     insight.text = contentRef.current.sanitize()
 
     checkRequirements()
+
     if (!requirements.title || !requirements.text) return
     if (isDraft) updateInsight()
   })
+
   function updateInsight() {
     const mutate = insight.id ? mutateUpdateDraft : mutateCreateDraft
+    let tags = trendTag ? insight.tags.concat(trendTag) : insight.tags
+
+    if (insight.isNFTBattle) {
+      tags = [...new Set([NFT_BATTLE_TAG].concat(tags))]
+    }
 
     mutate({
       id: +insight.id,
       title: insight.title,
       text: insight.text,
-      tags: trendTag ? insight.tags.concat(trendTag) : insight.tags,
+      tags,
       isPro: insight.isPro,
       isPulse: insight.isPulse,
       projectId: insight.project ? +insight.project.id : null,
@@ -112,7 +119,10 @@
     if (!process.browser) return {}
 
     const tags = insight.tags ? insight.tags.map(({ name }) => name) : []
-    insight.tags = tags.filter((tag) => !checkIsTrendTag(tag))
+    const isNFTBattle = tags.some(checkIsNFTTag)
+
+    insight.tags = tags.filter((tag) => !checkIsTrendTag(tag) && !checkIsNFTTag(tag))
+    insight.isNFTBattle = isNFTBattle
 
     return tags.find(checkIsTrendTag)
   }

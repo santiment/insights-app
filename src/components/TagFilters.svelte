@@ -1,13 +1,14 @@
 <script>
   import { stores } from '@sapper/app'
   import { session } from '@/stores/session'
+  import { NFT_BATTLE_TAG } from '@/utils/insights'
 
   export let base = ''
 
   const { page } = stores()
   const TAGS = [
     ['', 'All'],
-    ['nftbattle', 'NFT battle'],
+    [NFT_BATTLE_TAG.toLowerCase(), 'NFT battle'],
     ['btc', 'BTC'],
     ['eth,erc-20', 'ETH + ERC-20'],
     ['strategies/alpha', 'Strategies/Alpha'],
@@ -33,12 +34,12 @@
     <a href="?onlyPro" class="pro btn-2 btn-1 btn--orange" class:active={active === 'pro'}>
       Only for PRO
     </a>
-    {#each TAGS.slice(1) as [link, label], idx}
+    {#each TAGS.slice(1) as [link, label]}
       {@const href = link ? `${base}?tags=${link}` : base}
       <a {href} class="btn-2" class:active={active === link}>{label}</a>
     {/each}
   {:else}
-    {#each TAGS as [link, label], idx}
+    {#each TAGS as [link, label]}
       {@const href = link ? `${base}?tags=${link}` : base}
       <a {href} class="btn-2" class:active={active === link}>{label}</a>
     {/each}

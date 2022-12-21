@@ -2,6 +2,7 @@
   import { getDateFormats } from 'webkit/utils/dates'
   import Profile from 'webkit/ui/Profile/index.svelte'
   import { session } from '@/stores/session'
+  import { checkIsNFTTag } from '@/utils/insights'
   import Card from './Card.svelte'
   import Price from './Price.svelte'
   import Editorial from './Editorial.svelte'
@@ -12,12 +13,10 @@
   export let isWithPrice = process.browser
   export let source
 
-  const NFT_BATTLE_TAG = 'nftbattle'
-
   $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
   $: isMobile = $session.isMobile
-  $: isNftBattle = tags.some((tag) => tag.name.toLowerCase() === NFT_BATTLE_TAG)
+  $: isNftBattle = tags.some((tag) => checkIsNFTTag(tag.name))
 
   function formatDate(date) {
     const { MMM, D, YYYY } = getDateFormats(new Date(date))

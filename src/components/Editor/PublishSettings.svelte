@@ -51,7 +51,7 @@
       <ProToggle {insight} {update} />
     {/if}
 
-    <button class="btn-1 fluid mrg-xl mrg--t" class:loading on:click={onPublishClick}
+    <button class="btn-1 fluid txt-center mrg-xl mrg--t" class:loading on:click={onPublishClick}
       >{isDraft ? 'Publish' : 'Update'} insight</button
     >
   </svelte:fragment>
@@ -65,7 +65,7 @@
     left: unset !important;
     top: unset !important;
     right: 0;
-    bottom: 55px;
+    bottom: 75px;
   }
 
   .label {
