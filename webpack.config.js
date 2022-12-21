@@ -52,6 +52,8 @@ const ENVS = {
 
   'process.env.MEDIA_PATH': JSON.stringify('webkit'),
   'process.env.ICONS_PATH': JSON.stringify('webkit/icons'),
+
+  'process.env.SERVER_FETCH': 'require("node-fetch")',
 }
 
 const URL_LOADER = {

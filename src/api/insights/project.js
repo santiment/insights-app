@@ -20,7 +20,7 @@ const PRICE_QUERY = (slug, from, publishedAt, interval = '1d') => `{
   }
 }`
 
-function normalizeInterval(from) {
+export function normalizeInterval(from) {
   const fromDate = new Date(from)
   const diff = (Date.now() - fromDate) / ONE_DAY_IN_MS
 
@@ -32,6 +32,14 @@ function normalizeInterval(from) {
   if (diff < 200) return '2d'
   if (diff < 250) return '3d'
   return '7d'
+}
+
+export function offsetStartDate(date, offset = 0.5) {
+  const timestamp = Date.parse(date)
+  const diff = Date.now() - timestamp
+  const from = new Date(timestamp - diff * offset)
+  from.setMinutes(0, 0, 0)
+  return from
 }
 
 const accessor = ({ getMetric }) => getMetric

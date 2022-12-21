@@ -1,16 +1,12 @@
 <script context="module">
-  import { queryPriceData } from '@/api/insights/project'
+  import { offsetStartDate, queryPriceData } from '@/api/insights/project'
 
   export function getPublishTimestamp(publishedAt) {
-    return +new Date(publishedAt)
+    return Date.parse(publishedAt)
   }
 
   export function queryPriceSincePublication(slug, publishedAt, query = queryPriceData) {
-    const timestamp = getPublishTimestamp(publishedAt)
-    const diff = Date.now() - timestamp
-    const from = new Date(timestamp - diff * 0.5)
-    from.setMinutes(0, 0, 0)
-
+    const from = offsetStartDate(publishedAt)
     return query(slug, from.toISOString(), publishedAt)
   }
 </script>
