@@ -1,15 +1,19 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import { session } from '@/stores/session'
+  import NftBattle from './NftBattle'
 
   export let user
+  export let isNftBattle = false
 
   $: isMobile = $session.isMobile
 
   const SANTIMENT = new Set([6, 7, 1269, 3031, 4522, 79570])
 </script>
 
-{#if SANTIMENT.has(+user.id)}
+{#if isNftBattle}
+  <NftBattle />
+{:else if SANTIMENT.has(+user.id)}
   {#if isMobile}
     <Svg illus id="editorial-mobile" w="40" class="mrg-a mrg--l" />
   {:else}
