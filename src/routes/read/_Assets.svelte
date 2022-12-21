@@ -4,6 +4,7 @@
   import PriceSincePublication from '@cmp/PriceSincePublication.svelte'
   import { queryInsightRelatedProjects } from '@/api/insights/project'
   import RelatedProject from './_RelatedProject.svelte'
+  import Sanr from './_Sanr/index.svelte'
 
   export let insight
   export let projectData
@@ -36,7 +37,9 @@
 </script>
 
 <aside bind:this={node}>
-  <h2 class="c-waterloo mrg-l mrg--b">Assets from this insight</h2>
+  <Sanr {insight} />
+
+  <h2 class="body-2 txt-m c-waterloo mrg-xl mrg--b">Assets from this insight</h2>
 
   <Asset asset={project}>
     <PriceSincePublication width={201} {insight} {project} {...projectData} />
@@ -53,5 +56,9 @@
     top: 95px;
     left: calc(100% + 60px);
     white-space: nowrap;
+  }
+
+  h2 {
+    margin-top: 58px;
   }
 </style>

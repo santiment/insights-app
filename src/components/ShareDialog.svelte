@@ -82,7 +82,7 @@
           {href}
           class="btn-2 btn--s mrg-s mrg--t"
           target="_blank"
-          rel="noopened noreferrer"
+          rel="noopener noreferrer"
           on:click={() => onMediaClick(icon)}
         >
           <Svg id={icon} w="16" class="mrg-s mrg--r" />
