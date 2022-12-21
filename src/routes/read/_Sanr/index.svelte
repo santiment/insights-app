@@ -82,9 +82,13 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: var(--red);
-    border: 4px solid var(--red-light-1);
+    background: var(--casper);
+    border: 4px solid var(--border, #e5e8f0);
   }
+  :global(.night-mode) .status {
+    --border: var(--waterloo);
+  }
+
   .opened {
     background: var(--lima);
     border: 4px solid var(--lima-light-1);
