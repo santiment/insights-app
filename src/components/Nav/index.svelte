@@ -2,10 +2,43 @@
   import Product from 'webkit/ui/Product.svelte'
   import Products from 'webkit/ui/Products/svelte'
   import NftButton from 'webkit/ui/ChristmasNFTDialog/Button.svelte'
+  import { checkIsGameStarted } from 'webkit/ui/ChristmasNFTDialog/api'
+  import { showChristmasNFTDialog } from 'webkit/ui/ChristmasNFTDialog/Dialog.svelte'
   import Search from './Search.svelte'
   import Account from './Account.svelte'
+  import { onDestroy, onMount } from 'svelte'
 
   let isMenuOpened = false
+
+  let timer
+  onMount(() => {
+    if (!checkIsGameStarted()) {
+      timer = setTimeout(() => showChristmasNFTDialog(), 2000)
+    }
+
+    window.onNftGameStart = () => {
+      const data = { campaign_participant: 'nft_battle_2022' }
+
+      if (window.Intercom) {
+        window.Intercom('update', data)
+      }
+
+      if (window.identifyAmplitude) {
+        window.identifyAmplitude((identity) => {
+          Object.keys(data).forEach((key) => {
+            identity.set(key, data[key])
+          })
+        })
+      }
+    }
+  })
+
+  onDestroy(() => {
+    if (!process.browser) return
+
+    delete window.onNftGameStart
+    clearTimeout(timer)
+  })
 </script>
 
 <nav class:fixed={isMenuOpened}>

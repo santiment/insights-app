@@ -28,6 +28,10 @@ if (process.env.IS_PROD_MODE && process.env.IS_PROD_BACKEND) {
 
 const APP_LINK = 'https://insights.santiment.net'
 window.__onLinkClick = (e) => {
+  if (typeof e === 'string') {
+    return sapper.goto(e)
+  }
+
   const node = e.currentTarget
   if (!node) return
 

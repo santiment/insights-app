@@ -8,7 +8,7 @@
   const { page } = stores()
   const TAGS = [
     ['', 'All'],
-    [NFT_BATTLE_TAG.toLowerCase(), 'NFT battle'],
+    [NFT_BATTLE_TAG.toLowerCase(), 'NFT Battle'],
     ['btc', 'BTC'],
     ['eth,erc-20', 'ETH + ERC-20'],
     ['strategies/alpha', 'Strategies/Alpha'],
