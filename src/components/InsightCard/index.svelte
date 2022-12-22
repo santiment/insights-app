@@ -2,7 +2,6 @@
   import { getDateFormats } from 'webkit/utils/dates'
   import Profile from 'webkit/ui/Profile/index.svelte'
   import { session } from '@/stores/session'
-  import { checkIsNFTTag } from '@/utils/insights'
   import Card from './Card.svelte'
   import Price from './Price.svelte'
   import Editorial from './Editorial.svelte'
@@ -16,7 +15,6 @@
   $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
   $: isMobile = $session.isMobile
-  $: isNftBattle = tags.some((tag) => checkIsNFTTag(tag.name))
 
   function formatDate(date) {
     const { MMM, D, YYYY } = getDateFormats(new Date(date))
@@ -34,7 +32,7 @@
       <div class="{isMobile ? 'body-3' : 'caption'} txt-r c-waterloo">{date}</div>
     </Profile>
 
-    <Editorial {user} {isNftBattle} />
+    <Editorial {user} {tags} />
   </div>
 
   <svelte:fragment slot="right">

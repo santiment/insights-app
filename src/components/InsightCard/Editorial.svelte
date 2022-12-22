@@ -1,12 +1,14 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import { session } from '@/stores/session'
+  import { checkIsNFTTag } from '@/utils/insights'
   import NftBattle from './NftBattle'
 
   export let user
-  export let isNftBattle = false
+  export let tags
 
   $: isMobile = $session.isMobile
+  $: isNftBattle = (tags || []).some((tag) => tag && checkIsNFTTag(tag.name))
 
   const SANTIMENT = new Set([6, 7, 1269, 3031, 4522, 79570])
 </script>

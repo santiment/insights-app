@@ -1,6 +1,7 @@
 <script>
   import Product from 'webkit/ui/Product.svelte'
   import Products from 'webkit/ui/Products/svelte'
+  import NftButton from 'webkit/ui/ChristmasNFTDialog/Button.svelte'
   import Search from './Search.svelte'
   import Account from './Account.svelte'
 
@@ -15,6 +16,8 @@
     <Search />
 
     <div class="break mrg-xl mrg--l mrg--r" />
+
+    <NftButton class="mrg-l mrg--r" />
 
     <Account />
   </div>
