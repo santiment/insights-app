@@ -5,7 +5,8 @@
   const querySignals = () =>
     window
       .fetch(
-        'https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D&take=10',
+        // 'https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D&take=10',
+        'https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D&sort=sanbaseInsight:ASC&groupBySort=true&take=10',
       )
       .then((res) => res.json())
 
@@ -15,14 +16,11 @@
 
   const querySignalInsight = (insightId) => query(SIGNAL_INSIGHT_QUERY(insightId))
   function querySignalsInsights(signals) {
-    const wasShown = new Set()
     return Promise.all(
       signals
         .map((signal) => {
           const { sanbaseInsight } = signal
-          if (wasShown.has(sanbaseInsight)) return
 
-          wasShown.add(sanbaseInsight)
           return querySignalInsight(sanbaseInsight).then((data) => Object.assign(signal, data))
         })
         .filter(Boolean),
@@ -56,7 +54,7 @@
 
   <section class="hover-scroll column">
     {#each signals as signal}
-      {@const { insight = {} } = signal}
+      {@const { insight = {}, performance } = signal}
       <a href="/read/{getSEOLinkFromIdAndTitle(insight.id, insight.title)}" class="column border">
         <div class="title body-2">
           <span class="line-clamp">{insight.title}</span>
@@ -70,7 +68,9 @@
               <Direction {signal} />
 
               <span class="mrg-l mrg--l"
-                >Perf. <span class="performance c-green">{getPerformance(signal)}</span></span
+                >Perf. <span class="performance c-green" class:down={performance < 0}
+                  >{getPerformance(signal)}</span
+                ></span
               >
             </div>
           </div>
@@ -108,5 +108,9 @@
   .signal {
     padding: 14px 16px;
     background: linear-gradient(180deg, var(--athens), var(--white));
+  }
+
+  .down {
+    color: var(--red);
   }
 </style>
