@@ -3,6 +3,7 @@
   import Asset from '@cmp/Asset.svelte'
   import PriceSincePublication from '@cmp/PriceSincePublication.svelte'
   import { queryInsightRelatedProjects } from '@/api/insights/project'
+  import { checkIsNFTTag } from '@/utils/insights'
   import RelatedProject from './_RelatedProject.svelte'
   import Sanr from './_Sanr/index.svelte'
 
@@ -13,8 +14,9 @@
   let observer
   let relatedProjects = []
 
-  $: ({ id, project } = insight)
+  $: ({ id, project, tags } = insight)
   $: id && node && setupObserver()
+  $: isNftBattle = (tags || []).some((tag) => tag && checkIsNFTTag(tag.name))
 
   const projectFilter = ({ slug }) => project.slug !== slug
   function loadRelatedProjects() {
@@ -37,7 +39,9 @@
 </script>
 
 <aside bind:this={node}>
-  <Sanr {insight} />
+  {#if isNftBattle}
+    <Sanr {insight} />
+  {/if}
 
   <h2 class="body-2 txt-m c-waterloo mrg-xl mrg--b">Assets from this insight</h2>
 
@@ -56,9 +60,5 @@
     top: 95px;
     left: calc(100% + 60px);
     white-space: nowrap;
-  }
-
-  h2 {
-    margin-top: 58px;
   }
 </style>

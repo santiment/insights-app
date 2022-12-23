@@ -60,6 +60,8 @@
   </a>
 {/each}
 
+<div class="margin" />
+
 <style>
   .title {
     border-bottom: 1px solid var(--porcelain);
@@ -72,5 +74,9 @@
 
   .open {
     --fill: var(--waterloo);
+  }
+
+  .margin {
+    margin-bottom: 58px;
   }
 </style>
