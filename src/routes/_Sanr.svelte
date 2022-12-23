@@ -38,7 +38,6 @@
   import { getPerformance } from './read/_Sanr/index.svelte'
 
   let signals = []
-  $: console.log(signals)
 
   querySignals()
     .then(({ data }) => {
