@@ -1,8 +1,12 @@
+<script context="module">
+  export const getPerformance = ({ performance }) => +(performance * 100).toFixed(2) + '%'
+</script>
+
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
   import Price from './Price.svelte'
-  import { queryProjectByTicker, querySignals } from './api'
+  import { querySignals, querySignalsProjectData } from './api'
 
   export let insight
 
@@ -13,14 +17,7 @@
   function getSignals(insightId) {
     querySignals(insightId)
       .then(({ data }) => {
-        return Promise.all(
-          data.slice(0, 5).map((signal) => {
-            const [ticker, pair] = signal.symbol.split('/')
-            return queryProjectByTicker(ticker).then((project) => {
-              return Object.assign(signal, project, { metric: 'price_' + pair.toLowerCase() })
-            })
-          }),
-        )
+        return querySignalsProjectData(data.slice(0, 5))
       })
       .then((data) => (signals = data))
   }
@@ -38,7 +35,7 @@
 </a>
 
 {#each signals as signal (signal.id)}
-  {@const { status, signalID, contractAddress, direction, symbol, performance, logoUrl } = signal}
+  {@const { status, signalID, contractAddress, direction, symbol, logoUrl } = signal}
   {@const up = direction === 'up'}
   {@const opened = status === 'open'}
 
@@ -63,7 +60,7 @@
 
         <div class="perf txt-right">
           <div class="caption c-waterloo">Performance</div>
-          {+(performance * 100).toFixed(2)}%
+          {getPerformance(signal)}
         </div>
       </div>
 

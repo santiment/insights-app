@@ -34,6 +34,7 @@
 <script>
   import { session } from '@/stores/session'
   import TopLinks from './_TopLinks.svelte'
+  import Sanr from './_Sanr.svelte'
   import InsightsFeed from '@cmp/InsightsFeed.svelte'
   import HandpickedTakes from '@cmp/HandpickedTakes.svelte'
   import Conversations from '@cmp/Conversations.svelte'
@@ -69,6 +70,9 @@
   {#if $session.isDesktop}
     <aside class="column">
       <BecomeAnAuthor />
+      {#if process.browser}
+        <Sanr />
+      {/if}
       <HandpickedTakes insights={featured} />
       <Conversations />
     </aside>

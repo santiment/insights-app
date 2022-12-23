@@ -5,9 +5,8 @@
 
   export let insight
   export let signal
-
-  const width = 193
-  const height = 65
+  export let width = 193
+  export let height = 65
 
   $: ({ publishedAt } = insight)
   $: ({ slug, metric, createdAt, performance, closeDate } = signal)

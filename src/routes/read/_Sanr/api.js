@@ -7,7 +7,19 @@ export const querySignals = (id) =>
     .fetch(
       `https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%22${id}%22`,
     )
+
     .then((res) => res.json())
+
+export function querySignalsProjectData(signals) {
+  return Promise.all(
+    signals.map((signal) => {
+      const [ticker, pair] = signal.symbol.split('/')
+      return queryProjectByTicker(ticker).then((project) => {
+        return Object.assign(signal, project, { metric: 'price_' + pair.toLowerCase() })
+      })
+    }),
+  )
+}
 
 const PROJECT_BY_TICKER_QUERY = (ticker) => `{
     allProjectsByTicker(ticker:"${ticker}") { slug logoUrl }
