@@ -4,8 +4,9 @@
 
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
-  import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
+  import Title from './Title.svelte'
   import Price from './Price.svelte'
+  import Direction from './Direction.svelte'
   import { querySignals, querySignalsProjectData } from './api'
 
   export let insight
@@ -17,7 +18,7 @@
   function getSignals(insightId) {
     querySignals(insightId)
       .then(({ data }) => {
-        return querySignalsProjectData(data.slice(0, 5))
+        return querySignalsProjectData(data)
       })
       .then((data) => (signals = data))
   }
@@ -35,28 +36,18 @@
 </a>
 
 {#each signals as signal (signal.id)}
-  {@const { status, signalID, contractAddress, direction, symbol, logoUrl } = signal}
-  {@const up = direction === 'up'}
-  {@const opened = status === 'open'}
+  {@const { signalID, contractAddress } = signal}
 
   <a
     href="https://sanr.app/?signal={signalID}*{contractAddress}"
     rel="noreferrer noopener"
     class="column border mrg-m mrg--t"
   >
-    <h4 class="row v-center body-2">
-      <ProjectIcon class="mrg-s mrg--r" {logoUrl} />
-      {symbol}
-
-      <div class="status mrg-a mrg--l mrg-a mrg--l" class:opened />
-    </h4>
+    <Title {signal} class="$style.title" />
 
     <section class="column c-black">
       <div class="row v-center justify mrg-m mrg--b">
-        <span class="direction" class:up>
-          {up ? 'SanRise' : 'SanSet'}
-          <Svg id="pointer" w="12" class="$style.pointer mrg-s mrg--l" />
-        </span>
+        <Direction {signal} />
 
         <div class="perf txt-right">
           <div class="caption c-waterloo">Performance</div>
@@ -70,46 +61,13 @@
 {/each}
 
 <style>
-  h4 {
+  .title {
     border-bottom: 1px solid var(--porcelain);
     padding: 18px 20px;
   }
 
-  .status {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--casper);
-    border: 4px solid var(--border, #e5e8f0);
-  }
-  :global(.night-mode) .status {
-    --border: var(--waterloo);
-  }
-
-  .opened {
-    background: var(--lima);
-    border: 4px solid var(--lima-light-1);
-  }
-
   section {
     padding: 16px 20px;
-  }
-
-  .direction {
-    padding: 10px 12px;
-    background: var(--red-light-1);
-    border-radius: 6px;
-    fill: var(--red);
-    --deg: 45deg;
-  }
-  .up {
-    background: var(--green-light-1);
-    fill: var(--green);
-    --deg: -45deg;
-  }
-
-  .pointer {
-    rotate: var(--deg);
   }
 
   .open {

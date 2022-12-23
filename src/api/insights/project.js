@@ -25,7 +25,7 @@ export function normalizeInterval(from) {
   const diff = (Date.now() - fromDate) / ONE_DAY_IN_MS
 
   if (diff < 1) return '30m'
-  if (diff < 30) return '6h'
+  if (diff < 30) return '4h'
   if (diff < 63) return '8h'
   if (diff < 100) return '12h'
   if (diff < 150) return '1d'

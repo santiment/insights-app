@@ -5,7 +5,7 @@ import { offsetStartDate } from '@/api/insights/project'
 export const querySignals = (id) =>
   window
     .fetch(
-      `https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%22${id}%22`,
+      `https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%22${id}%22&take=4`,
     )
 
     .then((res) => res.json())
@@ -41,9 +41,9 @@ export function normalizeInterval(from) {
   const diff = (Date.now() - fromDate) / ONE_DAY_IN_MS
 
   if (diff < 1) return '15m'
-  if (diff < 10) return '1h'
-  if (diff < 30) return '2h'
-  if (diff < 63) return '3h'
+  if (diff < 10) return '2h'
+  if (diff < 30) return '3h'
+  if (diff < 63) return '4h'
   if (diff < 100) return '6h'
   if (diff < 150) return '1d'
   if (diff < 200) return '2d'

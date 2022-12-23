@@ -5,7 +5,7 @@
   const querySignals = () =>
     window
       .fetch(
-        'https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D',
+        'https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D&take=10',
       )
       .then((res) => res.json())
 
@@ -51,7 +51,7 @@
 
 {#if signals.length}
   <h2 class="h4 mrg-l mrg--b row v-center">
-    SanR signal
+    SanR signals
     <span class="new c-green caption txt-m mrg-m mrg--l">NEW</span>
   </h2>
 
