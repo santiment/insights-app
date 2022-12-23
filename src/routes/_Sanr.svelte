@@ -6,7 +6,8 @@
     window
       .fetch(
         // 'https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D&take=10',
-        'https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D&sort=sanbaseInsight:ASC&groupBySort=true&take=10',
+
+        'https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D&groupBy=sanbaseInsight&sort=performance:DESC&take=10',
       )
       .then((res) => res.json())
 
@@ -41,7 +42,7 @@
     .then(({ data }) => {
       const insightsPromise = querySignalsInsights(data)
       const projectsPromise = querySignalsProjectData(data)
-      return Promise.all([projectsPromise, insightsPromise]).then(() => insightsPromise)
+      return Promise.all([projectsPromise, insightsPromise]).then(() => projectsPromise)
     })
     .then((data) => (signals = data))
 </script>
