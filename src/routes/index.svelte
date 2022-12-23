@@ -32,6 +32,7 @@
 </script>
 
 <script>
+  import Banner from 'webkit/ui/ChristmasNFTDialog/Banner.svelte'
   import { session } from '@/stores/session'
   import TopLinks from './_TopLinks.svelte'
   import Sanr from './_Sanr.svelte'
@@ -60,7 +61,19 @@
   <MobileHeader />
 {/if}
 
+{#if !isMobile}
+  <div class="banner">
+    <Banner />
+  </div>
+{/if}
+
 <TopLinks />
+
+{#if isMobile}
+  <div class="row hv-center">
+    <Banner />
+  </div>
+{/if}
 
 <div class="row">
   <div class="fluid">
@@ -91,6 +104,10 @@
 
   .fluid {
     min-width: 0;
+  }
+
+  .banner {
+    margin-bottom: 48px;
   }
 
   :global(body:not(.desktop)) {
