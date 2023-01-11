@@ -9,6 +9,8 @@ import { newHeadScript } from 'webkit/analytics/utils'
 import { trackAppOpen } from 'webkit/analytics/events/general'
 import { ANON_EVENT } from 'webkit/ui/FollowButton/flow'
 
+window.__SESSION__ = window.__SAPPER__.session
+
 startResponsiveController()
 
 sapper.start({

@@ -3,7 +3,7 @@ import polka from 'polka'
 import compression from 'compression'
 import MobileDetect from 'mobile-detect'
 import * as sapper from '@sapper/server'
-import { queryCurrentUserSSR } from '@/api/user'
+import { queryCurrentUserSSR, queryUserAnnualDiscountSSR } from '@/api/user'
 
 const { PORT, NODE_ENV } = process.env
 const dev = NODE_ENV === 'development'
@@ -16,12 +16,18 @@ polka()
     sirv('static', { dev }),
     sapper.middleware({
       session: async (req) => {
-        const { currentUser, annualDiscount } = await queryCurrentUserSSR({
-          req,
-        }).catch((e) => {
+        const ssr = { req }
+
+        let annualDiscount = {}
+
+        const { currentUser } = await queryCurrentUserSSR(ssr).catch((e) => {
           console.log('CurrentUser error', e)
-          return { currentUser: null, annualDiscount: {} }
+          return { currentUser: null }
         })
+
+        if (currentUser) {
+          annualDiscount = (await queryUserAnnualDiscountSSR(ssr)).annualDiscount
+        }
 
         const isMobile = !!new MobileDetect(req.headers['user-agent'] || '').mobile()
         const session = {

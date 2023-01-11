@@ -37,13 +37,21 @@ export const CURRENT_USER_QUERY = `
     currentUser {
       ${CURRENT_USER_FRAGMENT}
     }
-    ${ANNUAL_DISCOUT_FRAGMENT}
   }
 `
 
 export const queryCurrentUser = (reqOptions) => query(CURRENT_USER_QUERY, undefined, reqOptions)
 
 export const queryCurrentUserSSR = newSSRQuery(queryCurrentUser)
+
+// ---------
+
+export const USER_ANNUAL_DISCOUNT = `{${ANNUAL_DISCOUT_FRAGMENT}}`
+
+export const queryUserAnnualDiscount = (reqOptions) =>
+  query(USER_ANNUAL_DISCOUNT, undefined, reqOptions)
+
+export const queryUserAnnualDiscountSSR = newSSRQuery(queryUserAnnualDiscount)
 
 // ---------
 
