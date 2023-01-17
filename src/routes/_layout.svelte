@@ -80,7 +80,11 @@
         let { method } = getSavedLoginMethod() || {}
         const { auth } = parseAuthSearchParams()
 
-        if (auth) method = auth
+        if (auth) {
+          method = auth
+
+          window.history.replaceState(window.history.state, null, window.location.pathname)
+        }
 
         if (method) {
           if (user.firstLogin) {
