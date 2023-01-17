@@ -41,6 +41,7 @@
   import { trackPageView, trackLoginFinish } from 'webkit/analytics/events/general'
   import { getSavedLoginMethod } from 'webkit/analytics/events/utils'
   import { trackSignupFinish } from 'webkit/analytics/events/onboarding'
+  import { parseAuthSearchParams } from 'webkit/utils/auth'
   import PageLoadProgress from 'webkit/ui/PageLoadProgress.svelte'
   import BackToTop from 'webkit/ui/BackToTop.svelte'
   import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
@@ -76,7 +77,11 @@
         if (!user) return
         updateAmplitude(user.id, user.username, user.email)
 
-        const { method } = getSavedLoginMethod() || {}
+        let { method } = getSavedLoginMethod() || {}
+        const { auth } = parseAuthSearchParams()
+
+        if (auth) method = auth
+
         if (method) {
           if (user.firstLogin) {
             window.onGdprAccept = () => trackSignupFinish(method)
