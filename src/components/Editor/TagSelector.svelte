@@ -2,6 +2,7 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import { queryTags } from '@/api/tags'
   import Selector from './Selector.svelte'
+  import { checkIsNFTTag } from '@/utils/insights'
 
   export let tags = []
   export let update
@@ -11,7 +12,11 @@
 
   $: isEnabled = tags.length < 5
 
-  if (process.browser) queryTags().then((data) => (allTags = data))
+  if (process.browser) {
+    queryTags().then((data) => {
+      allTags = data.filter((tag) => !checkIsNFTTag(tag))
+    })
+  }
 
   function filter(value, items) {
     const searchTerm = value.toLowerCase()

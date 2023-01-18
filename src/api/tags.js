@@ -9,6 +9,8 @@ const TAGS_QUERY = `{
 
 const noTrendingTags = (tag) => !checkIsTrendTag(tag)
 const getTag = ({ name }) => name
+
 const precacher = ({ allTags }) => allTags.map(getTag).filter(noTrendingTags)
+
 const options = { precacher: () => precacher }
 export const queryTags = () => query(TAGS_QUERY, options)

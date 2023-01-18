@@ -83,7 +83,7 @@
     mutatePublishDraft(insight.id).then(() => {
       clearQueryInsightCache(insight.id, $session.isMobile)
       goto('/my')
-      notifications.shown({
+      notifications.show({
         type: 'success',
         title: 'Thanks for your thoughts',
         description: 'We will check your insight and publish it very soon.',
