@@ -44,7 +44,10 @@
         />
       </Chart>
     </div>
-    <Change {change} class="$style.change" />
+
+    {#if Number.isFinite(change)}
+      <Change {change} class="$style.change" />
+    {/if}
   </div>
 {/if}
 
