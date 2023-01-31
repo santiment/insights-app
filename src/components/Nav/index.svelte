@@ -56,11 +56,13 @@
 
     <div class="break mrg-xl mrg--l mrg--r" />
 
-    <NftButton
-      class="mrg-l mrg--r"
-      isWinner={isNftWinner || isDiscountWinner}
-      props={{ currentUser, discountCode, isNftWinner }}
-    />
+    {#if isNftWinner || isDiscountWinner}
+      <NftButton
+        class="mrg-l mrg--r"
+        isWinner={isNftWinner || isDiscountWinner}
+        props={{ currentUser, discountCode, isNftWinner }}
+      />
+    {/if}
 
     <Account />
   </div>
