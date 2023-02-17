@@ -1,50 +1,10 @@
 <script>
   import Product from 'webkit/ui/Product.svelte'
   import Products from 'webkit/ui/Products/svelte'
-  import NftButton from 'webkit/ui/ChristmasNFTDialog/Button.svelte'
-  import { queryUserNftInsights } from 'webkit/ui/ChristmasNFTDialog/api'
-  import { currentUser as currentUser$ } from '@/stores/user'
   import Search from './Search.svelte'
   import Account from './Account.svelte'
-  import { onDestroy, onMount } from 'svelte'
 
   let isMenuOpened = false
-  let insights = []
-  let timer
-
-  $: currentUser = $currentUser$
-  $: discountCode = currentUser && +currentUser.id === 2414 ? 'caKHq5Zo' : ''
-  $: isNftWinner = currentUser && currentUser.sanbaseNft && currentUser.sanbaseNft.hasValidNft
-  $: isDiscountWinner = discountCode && insights.length
-
-  onMount(() => {
-    queryUserNftInsights().then((data) => {
-      insights = data
-    })
-
-    window.onNftGameStart = () => {
-      const data = { campaign_participant: 'nft_battle_2022' }
-
-      if (window.Intercom) {
-        window.Intercom('update', data)
-      }
-
-      if (window.identifyAmplitude) {
-        window.identifyAmplitude((identity) => {
-          Object.keys(data).forEach((key) => {
-            identity.set(key, data[key])
-          })
-        })
-      }
-    }
-  })
-
-  onDestroy(() => {
-    if (!process.browser) return
-
-    delete window.onNftGameStart
-    clearTimeout(timer)
-  })
 </script>
 
 <nav class:fixed={isMenuOpened}>
@@ -55,14 +15,6 @@
     <Search />
 
     <div class="break mrg-xl mrg--l mrg--r" />
-
-    {#if isNftWinner || isDiscountWinner}
-      <NftButton
-        class="mrg-l mrg--r"
-        isWinner={isNftWinner || isDiscountWinner}
-        props={{ currentUser, discountCode, isNftWinner }}
-      />
-    {/if}
 
     <Account />
   </div>
