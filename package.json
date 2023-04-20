@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "npm run dev",
-    "dev": "BACKEND_URL=https://api.santiment.net sapper dev",
+    "dev": "BACKEND_URL=https://api-stage.santiment.net sapper dev",
     "build": "npm run webkit && NODE_ENV=production sapper build",
     "webkit": "node scripts/webkit",
     "postinstall": "patch-package && npm run webkit",
@@ -25,7 +25,7 @@
     "draft-js": "0.10.5",
     "ethers": "^5.4.4",
     "marked": "^4.0.12",
-    "medium-draft": "0.5.17",
+    "medium-draft": "0.5.18",
     "medium-editor": "^5.23.3",
     "mobile-detect": "^1.4.5",
     "node-fetch": "^2.6.1",

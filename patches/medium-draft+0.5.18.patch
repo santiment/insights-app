@@ -195,7 +195,7 @@ index 0000000..c948f5d
 +}
 +exports.default = IframeBlock
 diff --git a/node_modules/medium-draft/lib/components/customrenderer.js b/node_modules/medium-draft/lib/components/customrenderer.js
-index a0fe47d..d7be888 100644
+index a0fe47d..8fbfa7c 100644
 --- a/node_modules/medium-draft/lib/components/customrenderer.js
 +++ b/node_modules/medium-draft/lib/components/customrenderer.js
 @@ -24,6 +24,9 @@ var _image = require('./blocks/image');
@@ -224,8 +224,20 @@ index a0fe47d..d7be888 100644
        default:
          return null;
      }
+diff --git a/node_modules/medium-draft/lib/components/toolbar.js b/node_modules/medium-draft/lib/components/toolbar.js
+index ea3149b..9cba689 100644
+--- a/node_modules/medium-draft/lib/components/toolbar.js
++++ b/node_modules/medium-draft/lib/components/toolbar.js
+@@ -106,6 +106,7 @@ var Toolbar = function (_React$Component) {
+         return;
+       }
+       var selectionBoundary = (0, _index.getSelectionRect)(nativeSelection);
++      if(!selectionBoundary) return
+ 
+       // eslint-disable-next-line react/no-find-dom-node
+       var toolbarNode = _reactDom2.default.findDOMNode(this);
 diff --git a/node_modules/medium-draft/lib/exporter.js b/node_modules/medium-draft/lib/exporter.js
-index 51c8f15..1caf56a 100644
+index 5e8f571..7b146ae 100644
 --- a/node_modules/medium-draft/lib/exporter.js
 +++ b/node_modules/medium-draft/lib/exporter.js
 @@ -63,6 +63,16 @@ var blockToHTML = exports.blockToHTML = function blockToHTML(block) {
@@ -246,7 +258,7 @@ index 51c8f15..1caf56a 100644
        {
          var imgData = block.data;
 diff --git a/node_modules/medium-draft/lib/importer.js b/node_modules/medium-draft/lib/importer.js
-index 63aaa41..bdcd506 100644
+index 63aaa41..bb2d3e1 100644
 --- a/node_modules/medium-draft/lib/importer.js
 +++ b/node_modules/medium-draft/lib/importer.js
 @@ -85,6 +85,20 @@ var htmlToBlock = exports.htmlToBlock = function htmlToBlock(nodeName, node) {
@@ -271,7 +283,7 @@ index 63aaa41..bdcd506 100644
        return {
          type: _constants.Block.ATOMIC,
 diff --git a/node_modules/medium-draft/lib/util/blockStyleFn.js b/node_modules/medium-draft/lib/util/blockStyleFn.js
-index 3a31b31..1f5daa8 100644
+index 3a31b31..410edbb 100644
 --- a/node_modules/medium-draft/lib/util/blockStyleFn.js
 +++ b/node_modules/medium-draft/lib/util/blockStyleFn.js
 @@ -30,6 +30,8 @@ exports.default = function (block) {
@@ -284,7 +296,7 @@ index 3a31b31..1f5daa8 100644
        return BASE_BLOCK_CLASS + ' ' + BASE_BLOCK_CLASS + '-image';
      case _constants.Block.BLOCKQUOTE_CAPTION:
 diff --git a/node_modules/medium-draft/lib/util/constants.js b/node_modules/medium-draft/lib/util/constants.js
-index 51e3381..98c5de0 100644
+index 51e3381..ac6266d 100644
 --- a/node_modules/medium-draft/lib/util/constants.js
 +++ b/node_modules/medium-draft/lib/util/constants.js
 @@ -26,6 +26,7 @@ var Block = exports.Block = {
@@ -296,7 +308,7 @@ index 51e3381..98c5de0 100644
    BREAK: 'atomic:break'
  };
 diff --git a/node_modules/medium-draft/lib/util/rendermap.js b/node_modules/medium-draft/lib/util/rendermap.js
-index 11b17a8..3882a6c 100644
+index 11b17a8..65748f1 100644
 --- a/node_modules/medium-draft/lib/util/rendermap.js
 +++ b/node_modules/medium-draft/lib/util/rendermap.js
 @@ -23,6 +23,8 @@ var RenderMap = (0, _immutable.Map)((_Map = {}, _defineProperty(_Map, _constants
