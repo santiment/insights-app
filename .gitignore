@@ -4,7 +4,6 @@ yarn-error.log
 /__sapper__/
 /static/san-icons
 /static/webkit
-/lib/
 .log/
 .eslintcache
 /.idea/

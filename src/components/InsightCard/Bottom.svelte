@@ -3,14 +3,13 @@
   import CommentBtn from '@cmp/CommentButton.svelte'
   import VoteButton from '@cmp/VoteButton.svelte'
   import Tags from '@cmp/Tags.svelte'
-  import { session } from '@/stores/session'
 
   export let insight
   export let href
   export let source
 
   $: ({ id, tags, commentsCount, isPro } = insight)
-  $: isMobile = $session.isMobile
+  $: isMobile = false
 </script>
 
 <div class="bottom row justify v-center c-waterloo">

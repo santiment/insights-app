@@ -1,6 +1,7 @@
 <script>
-  import { getDateFormats } from 'webkit/utils/dates'
-  import Profile from 'webkit/ui/Profile/index.svelte'
+  import { getDateFormats } from 'san-webkit/lib/utils/dates'
+  import Profile from 'san-webkit/lib/ui/Profile/index.svelte'
+  import { session } from './../../stores/session'
   import Card from './Card.svelte'
   import Price from './Price.svelte'
   import Editorial from './Editorial.svelte'
@@ -13,7 +14,7 @@
 
   $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
-  $: isMobile = false
+  $: isMobile = $session.isMobile
 
   function formatDate(date) {
     const { MMM, D, YYYY } = getDateFormats(new Date(date))
@@ -27,7 +28,7 @@
   </a>
 
   <div class="row v-center">
-    <Profile {user} {source} feature="insight" class="$style.profile {isMobile ? 'txt-m' : ''}">
+    <Profile {user} {source} feature="insight" class="profile-5xhCHP {isMobile ? 'txt-m' : ''}">
       <div class="{isMobile ? 'body-3' : 'caption'} txt-r c-waterloo">{date}</div>
     </Profile>
 
@@ -41,16 +42,12 @@
   </svelte:fragment>
 </Card>
 
-<style lang="scss">
-  .profile {
-    :global(body:not(.desktop)) & {
-      --img-size: 40px;
-    }
-  }
+<style lang="scss">:global(body:not(.desktop)) :global(.profile-5xhCHP) {
+  --img-size: 40px;
+}
 
-  @supports not (display: -webkit-box) {
-    .title {
-      display: block;
-    }
+@supports not (display: -webkit-box) {
+  .title {
+    display: block;
   }
-</style>
+}</style>

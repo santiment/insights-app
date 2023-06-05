@@ -14,7 +14,6 @@
     "dev": "BACKEND_URL=https://api-stage.santiment.net sapper dev",
     "build": "npm run webkit && NODE_ENV=production sapper build",
     "webkit": "node scripts/webkit",
-    "postinstall": "patch-package && npm run webkit",
     "prepare": "husky install",
     "lib": "node scripts/lib.js",
     "install": "npm run lib"

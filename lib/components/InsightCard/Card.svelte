@@ -1,5 +1,5 @@
 <script>
-  import { getSEOLinkFromIdAndTitle } from 'webkit/utils/url'
+  import { getSEOLinkFromIdAndTitle } from 'san-webkit/lib/utils/url'
   import Bottom from './Bottom.svelte'
 
   let className = ''
@@ -10,7 +10,7 @@
   let node
 
   $: ({ id, title } = insight)
-  $: href = '/insights/read/' + getSEOLinkFromIdAndTitle(id, title)
+  $: href = '/read/' + getSEOLinkFromIdAndTitle(id, title)
 </script>
 
 <div class="border row {className}" bind:this={node}>
@@ -23,16 +23,13 @@
   <slot name="right" />
 </div>
 
-<style lang="scss">
-  .top {
-    padding: 18px 16px 16px 24px;
+<style lang="scss">.top {
+  padding: 18px 16px 16px 24px;
+}
+:global(body:not(.desktop)) .top {
+  padding: 16px 20px;
+}
 
-    :global(body:not(.desktop)) & {
-      padding: 16px 20px;
-    }
-  }
-
-  .fluid {
-    min-width: 0;
-  }
-</style>
+.fluid {
+  min-width: 0;
+}</style>
