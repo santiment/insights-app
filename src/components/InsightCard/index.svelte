@@ -10,6 +10,7 @@
   export let insight
   export let isWithPrice = process.browser
   export let source
+  export let currentUser
 
   $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
@@ -21,7 +22,7 @@
   }
 </script>
 
-<Card {insight} {source} class={className} let:node let:href>
+<Card {insight} {source} class={className} {currentUser} let:node let:href>
   <a {href} class="{isMobile ? 'body-1' : 'body-2'} line-clamp mrg-m mrg--b" sapper:prefetch>
     {title}
   </a>

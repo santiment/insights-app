@@ -1,7 +1,7 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
   import { checkIsNFTTag } from '@/utils/insights'
-  import NftBattle from './NftBattle'
+  import NftBattle from './NftBattle.svelte'
 
   export let user
   export let tags

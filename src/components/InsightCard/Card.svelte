@@ -6,6 +6,7 @@
   export { className as class }
   export let insight
   export let source
+  export let currentUser
 
   let node
 
@@ -18,7 +19,7 @@
     <div class="top column">
       <slot {href} {node} />
     </div>
-    <Bottom {insight} {href} {source} />
+    <Bottom {insight} {href} {source} {currentUser} />
   </div>
   <slot name="right" />
 </div>

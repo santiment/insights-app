@@ -7,6 +7,7 @@
   export let insight
   export let href
   export let source
+  export let currentUser
 
   $: ({ id, tags, commentsCount, isPro } = insight)
   $: isMobile = false
@@ -14,7 +15,7 @@
 
 <div class="bottom row justify v-center c-waterloo">
   <div class="row v-center">
-    <VoteButton {insight} {source} />
+    <VoteButton {insight} {source} {currentUser} />
 
     <CommentBtn {id} {href} {source} count={commentsCount} />
   </div>

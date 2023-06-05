@@ -1,7 +1,5 @@
 <script>
   import { onMount } from 'svelte'
-  import { stores } from '@sapper/app'
-  import { session } from './../stores/session'
 
   export let tags = []
   export let isPro = false
@@ -9,8 +7,6 @@
   let tagsWidth = []
   let windowWidth
   let maxTagsAmount = tags.length
-
-  const { page } = stores()
 
   const checkIsTrendTag = (tag) => tag.toLowerCase().endsWith('-trending-words')
   const noTrendTagsFilter = ({ name }) => !checkIsTrendTag(name)
@@ -44,8 +40,8 @@
     maxTagsAmount = amount
   }
 
-  $: base = $page.path === '/pulse' ? 'pulse' : ''
-  $: isMobile = $session.isMobile
+  $: base = 'https://insights.santiment.net/'
+  $: isMobile = false
   $: tags = tags.filter(noTrendTagsFilter)
 
   onMount(() => setMaxTagsAmount())
@@ -65,11 +61,13 @@
   </div>
 {/if}
 
-<style lang="scss">.tag {
-  width: fit-content;
-  padding: 1px 6px;
-}
+<style lang="scss">
+  .tag {
+    width: fit-content;
+    padding: 1px 6px;
+  }
 
-:global(body:not(.desktop)) .tag {
-  padding: 5px 12px;
-}</style>
+  :global(body:not(.desktop)) .tag {
+    padding: 5px 12px;
+  }
+</style>

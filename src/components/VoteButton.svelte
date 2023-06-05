@@ -1,12 +1,12 @@
 <script>
   import LikeBtn from 'webkit/ui/LikeButton/svelte'
-  import { currentUser } from '@/stores/user'
   import { InteractionType, mutateStoreUserActivitiy } from '@/api/userActivity'
 
   let className = ''
   export { className as class }
   export let insight
   export let source
+  export let currentUser
 
   $: ({ id, votes } = insight)
   function onVoted() {
@@ -19,7 +19,7 @@
   {source}
   {onVoted}
   type="insightId"
-  disabled={!$currentUser}
+  disabled={!currentUser}
   bind:votes
   class={className}
 />
