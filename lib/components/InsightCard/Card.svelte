@@ -10,7 +10,7 @@
   let node
 
   $: ({ id, title } = insight)
-  $: href = '/read/' + getSEOLinkFromIdAndTitle(id, title)
+  $: href = '/insights/read/' + getSEOLinkFromIdAndTitle(id, title)
 </script>
 
 <div class="border row {className}" bind:this={node}>
@@ -23,13 +23,15 @@
   <slot name="right" />
 </div>
 
-<style lang="scss">.top {
-  padding: 18px 16px 16px 24px;
-}
-:global(body:not(.desktop)) .top {
-  padding: 16px 20px;
-}
+<style lang="scss">
+  .top {
+    padding: 18px 16px 16px 24px;
+  }
+  :global(body:not(.desktop)) .top {
+    padding: 16px 20px;
+  }
 
-.fluid {
-  min-width: 0;
-}</style>
+  .fluid {
+    min-width: 0;
+  }
+</style>

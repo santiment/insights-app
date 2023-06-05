@@ -1,7 +1,6 @@
 <script>
   import { getDateFormats } from 'san-webkit/lib/utils/dates'
   import Profile from 'san-webkit/lib/ui/Profile/index.svelte'
-  import { session } from './../../stores/session'
   import Card from './Card.svelte'
   import Price from './Price.svelte'
   import Editorial from './Editorial.svelte'
@@ -14,7 +13,7 @@
 
   $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
-  $: isMobile = $session.isMobile
+  $: isMobile = false
 
   function formatDate(date) {
     const { MMM, D, YYYY } = getDateFormats(new Date(date))
@@ -42,12 +41,14 @@
   </svelte:fragment>
 </Card>
 
-<style lang="scss">:global(body:not(.desktop)) :global(.profile-5xhCHP) {
-  --img-size: 40px;
-}
-
-@supports not (display: -webkit-box) {
-  .title {
-    display: block;
+<style lang="scss">
+  :global(body:not(.desktop)) :global(.profile-5xhCHP) {
+    --img-size: 40px;
   }
-}</style>
+
+  @supports not (display: -webkit-box) {
+    .title {
+      display: block;
+    }
+  }
+</style>
