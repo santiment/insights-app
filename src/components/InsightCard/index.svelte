@@ -11,10 +11,10 @@
   export let isWithPrice = process.browser
   export let source
   export let currentUser
+  export let isMobile = false
 
   $: ({ title, user, publishedAt, tags } = insight)
   $: date = formatDate(publishedAt)
-  $: isMobile = false
 
   function formatDate(date) {
     const { MMM, D, YYYY } = getDateFormats(new Date(date))
