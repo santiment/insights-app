@@ -32,7 +32,7 @@
       <div class="{isMobile ? 'body-3' : 'caption'} txt-r c-waterloo">{date}</div>
     </Profile>
 
-    <Editorial {user} {tags} />
+    <Editorial {user} {tags} {isMobile} />
   </div>
 
   <svelte:fragment slot="right">

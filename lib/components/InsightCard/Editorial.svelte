@@ -5,8 +5,8 @@
 
   export let user
   export let tags
+  export let isMobile = false
 
-  $: isMobile = false
   $: isNftBattle = (tags || []).some((tag) => tag && checkIsNFTTag(tag.name))
 
   const SANTIMENT = new Set([6, 7, 1269, 3031, 4522, 79570])
