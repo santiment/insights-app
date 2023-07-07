@@ -2,7 +2,7 @@ import * as sapper from '@sapper/app'
 import { startResponsiveController } from 'webkit/responsive'
 import { isTrackingEnabled } from 'webkit/analytics'
 import { bootIntercom } from 'webkit/analytics/intercom'
-import { initTwitterPixel } from 'webkit/analytics/twitter'
+// import { initTwitterPixel } from 'webkit/analytics/twitter'
 import { initGA } from 'webkit/analytics/ga'
 import { initAmplitude } from 'webkit/analytics/amplitude'
 import { newHeadScript } from 'webkit/analytics/utils'
@@ -22,8 +22,10 @@ if (process.env.IS_PROD_MODE && process.env.IS_PROD_BACKEND) {
 
   if (isTrackingEnabled) {
     initGA('UA-100571693-11')
+    initGA('G-H53MB0V33X')
     newHeadScript('gtag("config", "UA-100571693-1");')
-    initTwitterPixel()
+    newHeadScript('gtag("config", "G-H53MB0V33X");')
+    // initTwitterPixel()
     initAmplitude()
   }
 }
