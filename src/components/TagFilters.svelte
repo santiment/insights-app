@@ -27,7 +27,7 @@
   }
 </script>
 
-<div class="row c-waterloo {isMobile ? 'body-2 nowrap no-scrollbar' : 'mrg-xl'} mrg--t mrg--b">
+<div class="tags row c-waterloo {isMobile ? 'body-2 nowrap no-scrollbar' : 'mrg-xl'} mrg--t mrg--b">
   {#if isMobile}
     <a href="/" class="btn-2" class:active={active === ''}>All</a>
     <a href="?isPulse" class="btn-2" class:active={active === 'pulse'}>Pulse</a>
@@ -61,7 +61,7 @@
 {/if}
 
 <style lang="scss">
-  div {
+  .tags {
     flex-wrap: wrap;
   }
 
@@ -80,8 +80,12 @@
     --color: var(--orange);
   }
 
+  .description {
+    margin: 0 0 32px;
+  }
+
   :global(body:not(.desktop)) {
-    div {
+    .tags {
       width: 100%;
       background: var(--white);
       gap: 12px;
@@ -127,9 +131,10 @@
     .pro.active {
       border-color: var(--orange-light-1);
     }
-  }
 
-  .description {
-    margin: 0 0 32px;
+    .description {
+      padding: 0 20px;
+      margin-bottom: 16px;
+    }
   }
 </style>
