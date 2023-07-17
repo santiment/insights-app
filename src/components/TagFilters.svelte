@@ -52,6 +52,14 @@
   {/if}
 </div>
 
+{#if active === NFT_BATTLE_TAG.toLowerCase()}
+  <div class="description c-waterloo">
+    NFT Battle was a friendly contest we held at the end of 2022 and the beginning of 2023, opening
+    the floor to researchers and crypto analysts to deep dive into the NFT dynamics and publish on
+    the Santiment platform.
+  </div>
+{/if}
+
 <style lang="scss">
   div {
     flex-wrap: wrap;
@@ -119,5 +127,9 @@
     .pro.active {
       border-color: var(--orange-light-1);
     }
+  }
+
+  .description {
+    margin: 0 0 32px;
   }
 </style>
