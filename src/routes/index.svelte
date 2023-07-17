@@ -32,6 +32,7 @@
 </script>
 
 <script>
+  import { stores } from '@sapper/app'
   import { session } from '@/stores/session'
   import TopLinks from './_TopLinks.svelte'
   import Sanr from './_Sanr.svelte'
@@ -40,6 +41,7 @@
   import Conversations from '@cmp/Conversations.svelte'
   import BecomeAnAuthor from '@cmp/BecomeAnAuthor.svelte'
   import MobileHeader from '@cmp/MobileHeader.svelte'
+  import { NFT_BATTLE_TAG } from '@/utils/insights'
 
   export let insights = []
   export let featured = []
@@ -47,6 +49,10 @@
   export let onlyPro
 
   $: isMobile = $session.isMobile
+
+  const { page } = stores()
+  $: tags = $page.query.tags
+  $: tag = (Array.isArray(tags) ? tags[0] : tags) || ''
 </script>
 
 <svelte:head>
@@ -64,6 +70,14 @@
 
 <div class="row">
   <div class="fluid">
+    {#if tag.toLowerCase() === NFT_BATTLE_TAG.toLowerCase()}
+      <div class="description c-waterloo">
+        NFT Battle was a friendly contest we held at the end of 2022 and the beginning of 2023,
+        opening the floor to researchers and crypto analysts to deep dive into the NFT dynamics and
+        publish on the Santiment platform.
+      </div>
+    {/if}
+
     <InsightsFeed {insights} {tags} {onlyPro} />
   </div>
 
@@ -93,9 +107,17 @@
     min-width: 0;
   }
 
+  .description {
+    margin: 0 0 16px;
+  }
+
   :global(body:not(.desktop)) {
     .row {
       padding: 16px 20px;
+    }
+
+    .description {
+      margin: -8px 0 32px;
     }
   }
 </style>
