@@ -14,11 +14,10 @@
     "dev": "BACKEND_URL=https://api-stage.santiment.net sapper dev",
     "build": "npm run webkit && NODE_ENV=production sapper build",
     "webkit": "node scripts/webkit",
-    "prepare": "husky install",
-    "lib": "node scripts/lib.js",
-    "install": "npm run lib"
+    "lib": "node scripts/lib.js"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "compression": "^1.7.1",
     "draft-convert": "2.1.8",
     "draft-js": "0.10.5",
@@ -27,16 +26,13 @@
     "medium-draft": "0.5.18",
     "medium-editor": "^5.23.3",
     "mobile-detect": "^1.4.5",
-    "node-fetch": "^2.6.1",
     "polka": "next",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "san-webkit": "https://github.com/santiment/san-webkit#148efc0",
     "sanitize-html": "1.20.1",
     "sirv": "^1.0.0",
-    "turndown": "^7.1.1"
-  },
-  "devDependencies": {
+    "turndown": "^7.1.1",
+    "san-webkit": "https://github.com/santiment/san-webkit#148efc0",
     "@babel/core": "^7.17.9",
     "@babel/plugin-proposal-optional-chaining": "^7.16.7",
     "babel-eslint": "^10.1.0",
