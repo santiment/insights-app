@@ -21,7 +21,7 @@
     </div>
     <Bottom {insight} {href} {source} {currentUser} />
   </div>
-  <slot name="right" />
+  <slot name="right" {node} />
 </div>
 
 <style lang="scss">

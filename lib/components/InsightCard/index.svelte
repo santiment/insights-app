@@ -22,7 +22,7 @@
   }
 </script>
 
-<Card {insight} {source} class={className} {currentUser} let:node let:href>
+<Card {insight} {source} class={className} {currentUser} let:href>
   <a {href} class="{isMobile ? 'body-1' : 'body-2'} line-clamp mrg-m mrg--b" sapper:prefetch>
     {title}
   </a>
@@ -35,7 +35,7 @@
     <Editorial {user} {tags} {isMobile} />
   </div>
 
-  <svelte:fragment slot="right">
+  <svelte:fragment slot="right" let:node>
     {#if isWithPrice && !isMobile && node && tags.length}
       <Price {node} {insight} />
     {/if}
