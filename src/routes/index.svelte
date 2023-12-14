@@ -56,10 +56,19 @@
 </script>
 
 <svelte:head>
-  <title>Insights</title>
-  <meta property="og:title" content="Insights" />
-  <meta name="description" content="All Community Insights" />
-  <meta property="og:description" content="All Commmunity Insights" />
+  <title>Crypto Insights & Research - Blockchain Analysis & Social Data</title>
+  <meta
+    property="og:title"
+    content="Crypto Insights & Research - Blockchain Analysis & Social Data"
+  />
+  <meta
+    name="description"
+    content="Explore our crypto insights and research, which are based on blockchain and social data. We pioneer using behavioral analytics to enhance your investment decisions."
+  />
+  <meta
+    property="og:description"
+    content="Explore our crypto insights and research, which are based on blockchain and social data. We pioneer using behavioral analytics to enhance your investment decisions."
+  />
 </svelte:head>
 
 {#if isMobile}
