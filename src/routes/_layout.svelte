@@ -72,6 +72,13 @@
       source = path
     })
 
+    currentUser.subscribe((user) => {
+      if (!user) return
+
+      const { id, email, username } = user
+      if (window.$FPROM) window.$FPROM.trackSignup({ id, email, username })
+    })
+
     if (isTrackingEnabled) {
       currentUser.subscribe((user) => {
         if (!user) return
