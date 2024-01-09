@@ -42,7 +42,7 @@
 
 <style lang="scss">
   a {
-    word-break: break-all;
+    word-break: break-word;
   }
 
   span {
