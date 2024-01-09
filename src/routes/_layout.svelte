@@ -59,6 +59,8 @@
   let source = ''
 
   if (process.browser) {
+    let isFpromTracked = false
+
     page.subscribe(({ path }) => {
       if (source !== path) {
         trackPageView({
@@ -74,9 +76,14 @@
 
     currentUser.subscribe((user) => {
       if (!user) return
+      if (isFpromTracked) return
 
       const { id, email, username } = user
-      if (window.$FPROM) window.$FPROM.trackSignup({ id, email, username })
+
+      if (window.$FPROM) {
+        isFpromTracked = true
+        window.$FPROM.trackSignup({ id, email, username })
+      }
     })
 
     if (isTrackingEnabled) {
