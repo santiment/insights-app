@@ -81,7 +81,7 @@
       const { id, email, username } = user
 
       if (window.$FPROM) {
-        isFpromTracked = true
+        isFpromTracked = true //
         window.$FPROM.trackSignup({ id, email, username })
       }
     })
