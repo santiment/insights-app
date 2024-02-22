@@ -7,7 +7,7 @@
 
   export function queryPriceSincePublication(slug, publishedAt, query = queryPriceData) {
     const from = offsetStartDate(publishedAt)
-    return query(slug, from.toISOString(), publishedAt)
+    return query(slug, +from ? from.toISOString() : '', publishedAt)
   }
 </script>
 
