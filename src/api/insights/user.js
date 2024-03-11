@@ -21,6 +21,28 @@ export const queryCurrentUserInsights = (page, reqOptions) =>
 export const queryCurrentUserInsightsSSR = newSSRQuery(queryCurrentUserInsights)
 
 // --------------------------------------
+
+export const queryUserInsights = (page, userId, reqOptions) =>
+  query(
+    `query($currentUserDataOnly: Boolean) {
+  getMostRecent(page:${page}, pageSize: 10, type: INSIGHT, minTitleLength: 0, minDescriptionLength: 0, userIdDataOnly:${userId}, currentUserDataOnly: $currentUserDataOnly) {
+    items: data {
+      item: insight {
+        ${INSIGHT_FRAGMENT}
+        pulseText
+        isPulse
+        readyState
+      }
+    }
+  }
+}`,
+    NO_CACHE,
+    reqOptions,
+  ).then((data) => data.getMostRecent.items.map((item) => item.item))
+
+export const queryUserInsightsSSR = newSSRQuery(queryUserInsights)
+
+// --------------------------------------
 const DRAFT_INSIGHTS_QUERY = (page) => `{
     currentUser {
       insights(page:${page},pageSize:10) {

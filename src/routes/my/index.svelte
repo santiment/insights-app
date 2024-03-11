@@ -1,18 +1,21 @@
 <script context="module">
   import { redirectToLoginPage } from '@/flow/redirect'
-  import { queryCurrentUserInsightsSSR, queryCurrentUserInsights } from '@/api/insights/user'
+  import { queryUserInsights, queryUserInsightsSSR } from '@/api/insights/user'
 
   const onlyPublishedFilter = ({ readyState }) => readyState === 'published'
 
   export async function preload(_, session) {
     if (redirectToLoginPage(this, session)) return
 
-    const insights = await queryCurrentUserInsightsSSR(1, this).catch((e) => {
-      console.log("User's insights error", e)
-      return []
-    })
+    const userId = session.currentUser && session.currentUser.id
 
-    return { insights: insights.filter(onlyPublishedFilter) }
+    return {
+      userId,
+      insights: await queryUserInsightsSSR(1, userId, this).catch((e) => {
+        console.log("User's insights error", e)
+        return []
+      }),
+    }
   }
 </script>
 
@@ -20,10 +23,11 @@
   import InsightsFeed from '@cmp/InsightsFeed.svelte'
   import Empty from './_Empty.svelte'
 
+  export let userId = 0
   export let insights = []
 
   const onData = (insights) => insights.filter(onlyPublishedFilter)
-  const query = (page) => queryCurrentUserInsights(page).then(onData)
+  const query = (page) => queryUserInsights(page, userId).then(onData)
 </script>
 
 <svelte:head>
