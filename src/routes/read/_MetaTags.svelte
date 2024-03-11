@@ -47,11 +47,14 @@
   <meta property="og:type" content="article" />
   <meta property="og:title" content="{title} - Santiment Community Insights" />
   <meta property="og:description" content={metaDescriptionText} />
+  <meta name="author" content={author.name || author.username} />
+  <meta name="publish_date" property="og:publish_date" content={publishedAt} />
 
   {#if previewImgLink}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={previewImgLink} />
     <meta name="og:image" content={previewImgLink} />
+    <meta name="image" property="og:image" content={previewImgLink} />
   {/if}
 
   {@html ARTICLE_DATA_OPEN + '</script>'}
