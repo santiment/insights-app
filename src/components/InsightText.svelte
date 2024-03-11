@@ -40,6 +40,7 @@
         font-size: var(--text-h1-size, 28px);
         line-height: 40px;
         font-weight: 500;
+        margin: 40px 0 4px;
       }
       h2 {
         font-size: var(--text-h2-size, 22px);
