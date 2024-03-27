@@ -1,14 +1,12 @@
 <script>
   import { stores } from '@sapper/app'
   import { session } from '@/stores/session'
-  import { NFT_BATTLE_TAG } from '@/utils/insights'
 
   export let base = ''
 
   const { page } = stores()
   const TAGS = [
     ['', 'All'],
-    [NFT_BATTLE_TAG.toLowerCase(), 'NFT Battle'],
     ['btc', 'BTC'],
     ['eth,erc-20', 'ETH + ERC-20'],
     ['strategies/alpha', 'Strategies/Alpha'],
