@@ -25,6 +25,7 @@
         /(onafterprint|onbeforeprint|onbeforeunload|onerror|onhashchange|onload|onoffline|ononline|onpageshow|onresize|onunload|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|onclick|ondblclick|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onwheel|onwheel|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onscroll|oncopy|oncut|onpaste|ontoggle)=/g,
         '_=',
       )
+      .replace(/([^>])(<br ?\/?>)(<\/p)/g, '$1$2$2$3')
   }
 </script>
 
