@@ -96,11 +96,20 @@ export default ({ text, contentRef, onChange: onContentChange }) => {
     }
   }
 
+  function processURL(url) {
+    if (!url) return false
+
+    if (url.startsWith('?emsg=1')) {
+      return url
+    }
+  }
+
   return createElement(Editor, {
     editorState,
     onChange,
     placeholder: 'Write something interesting ...',
     toolbarConfig: TOOLBAR,
     sideButtons: [IMAGE_SIDE_BUTTON, CHART_SIDE_BUTTON],
+    processURL,
   })
 }

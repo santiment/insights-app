@@ -9,12 +9,49 @@
 
   $: sanitized = sanitize(text)
   $: node && hookImageEnlarger()
+  $: node && hookLinksClick()
 
   function hookImageEnlarger() {
     const images = node.querySelectorAll('img')
     Array.from(images).forEach((img) => {
       img.onclick = enlargeImage
     })
+  }
+
+  function hookLinksClick() {
+    const links = node.querySelectorAll('a[href^="?emsg=1"]')
+    const embeds = node.querySelectorAll('iframe[src^="https://embed.santiment.net/chart"]')
+
+    for (const node of links) {
+      node.removeAttribute('target')
+      node.setAttribute('href', window.location.pathname + node.getAttribute('href'))
+
+      node.addEventListener('click', onLinkClick)
+    }
+
+    function onLinkClick(e) {
+      e.preventDefault()
+      const { searchParams } = new URL(e.currentTarget.href)
+
+      if (!searchParams.has('emsg')) return
+
+      const { type = 'chart_asset' } = searchParams
+      let data
+
+      switch (type) {
+        case 'chart_asset': {
+          data = { slug: searchParams.get('slug'), ticker: searchParams.get('ticker') }
+          if (!data.slug || !data.ticker) return
+          break
+        }
+      }
+
+      if (!data) return
+
+      for (const iframeNode of embeds) {
+        iframeNode.contentWindow.postMessage({ type, data }, '*')
+      }
+    }
   }
 
   function sanitize(text) {
