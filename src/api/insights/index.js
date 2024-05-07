@@ -29,7 +29,10 @@ export const INSIGHT_FRAGMENT =
 `
 
 const ALL_INSIGHTS = (page = 1, tags, isOnlyPro = false, isOnlyPulse = undefined) => {
-  tags = tags ? `,tags:${JSON.stringify(tags.map((tag) => tag.toUpperCase()))}` : ''
+  if (typeof tags === 'string') tags = tags.toUpperCase()
+  else if (Array.isArray(tags)) tags = tags.map((tag) => tag.toUpperCase())
+
+  tags = tags ? `,tags:${JSON.stringify(tags)}` : ''
   isOnlyPulse = isOnlyPulse !== undefined ? `,isPulse:${isOnlyPulse}` : ''
 
   return `
