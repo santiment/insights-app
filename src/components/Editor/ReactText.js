@@ -102,6 +102,8 @@ export default ({ text, contentRef, onChange: onContentChange }) => {
     if (url.startsWith('?emsg=1')) {
       return url
     }
+
+    return url
   }
 
   return createElement(Editor, {
