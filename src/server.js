@@ -26,7 +26,9 @@ polka()
         })
 
         if (currentUser) {
-          annualDiscount = (await queryUserAnnualDiscountSSR(ssr)).annualDiscount
+          annualDiscount = (
+            await queryUserAnnualDiscountSSR(ssr).catch(() => ({ annualDiscount: {} }))
+          ).annualDiscount
         }
 
         const isMobile = !!new MobileDetect(req.headers['user-agent'] || '').mobile()
