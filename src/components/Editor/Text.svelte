@@ -242,6 +242,10 @@
       margin: 5px 0 0;
     }
 
+    .md-block-code-block {
+      white-space: normal;
+    }
+
     @keyframes fade {
       from {
         opacity: 0;
