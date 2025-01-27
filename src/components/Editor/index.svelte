@@ -106,7 +106,7 @@
     requirements = {
       title: title.length > 5,
       text: text.length > 5,
-      pulse: insight.isPulse ? text.split(' ').length < 151 : true,
+      pulse: insight.isPulse ? text.split(' ').length <= 300 : true,
     }
   }
 

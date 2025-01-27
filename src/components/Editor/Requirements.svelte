@@ -24,7 +24,7 @@
     {#if isPulse}
       <p class:active={requirements.pulse}>
         <Svg id="checkmark" w="8" h="6" />
-        Text contains less than 150 words
+        Text contains less than 300 words
       </p>
     {/if}
   </div>
