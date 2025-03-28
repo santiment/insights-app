@@ -1,4 +1,6 @@
 <script>
+  import { GOOGLE_READER_SYNC } from './reader'
+
   export let insight
 
   $: ({ title, text, updatedAt, publishedAt, user, isPro = false } = insight)
@@ -39,6 +41,7 @@
         }]
     }
 `
+
 </script>
 
 <svelte:head>
@@ -58,4 +61,9 @@
   {/if}
 
   {@html ARTICLE_DATA_OPEN + '</script>'}
+
+  {@html GOOGLE_READER_SYNC}
 </svelte:head>
+
+
+
