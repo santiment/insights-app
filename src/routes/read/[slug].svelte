@@ -8,6 +8,7 @@
   export async function preload(page, session) {
     const { currentUser, isMobile } = session
     const { slug } = page.params
+    console.log(`[DEBUG] Loading ${page.path}...`)
 
     const id = getIdFromSEOLink(slug)
     const DATA = isMobile ? undefined : RELATED_PROJECT_FRAGMENT
@@ -16,11 +17,13 @@
     })
 
     if (!insight) {
+      console.log('[DEBUG] Insight not found. Redirecting to /', { slug })
       return this.redirect(302, '/')
     }
 
     const isDraft = insight.readyState === 'draft'
     if (isDraft && redirectNonAuthor(this, session, insight)) {
+      console.log('[DEBUG] Unauthorized draft access. Redirected to /', { slug })
       return
     }
 
@@ -34,6 +37,7 @@
 
     const projectData = await priceQuery
 
+    console.log('[DEBUG] Insight data loaded successfully', { slug })
     return { insight, projectData, slug, isAuthor, isDraft }
   }
 </script>
@@ -66,6 +70,8 @@
   export let isDraft
 
   let hidden = true
+
+  console.log('[DEBUG] Component rendered', { slug })
 
   $: ({ title, text, user, updatedAt, publishedAt, tags, isPro } = insight)
   $: subscription = $currentUser && $currentUser.subscription
@@ -125,8 +131,7 @@
       top
       options={{ rootMargin: '160px 0px -135px' }}
       on:intersect={hideSidebar}
-      on:leaving={showSidebar}
-    >
+      on:leaving={showSidebar}>
       <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
     </ViewportObserver>
 
