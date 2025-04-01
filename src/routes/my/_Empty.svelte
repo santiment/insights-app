@@ -3,7 +3,11 @@
 </script>
 
 <div class="column hv-center txt-center">
-  <img class="mrg--b mrg-xl" src={$ui.nightMode ? 'empty-dark.svg' : 'empty.svg'} alt="empty" />
+  <img
+    class="mrg--b mrg-xl"
+    src={$ui.nightMode ? 'binoculars-dark.svg' : 'binoculars.svg'}
+    alt="empty"
+  />
   <h6 class="body-1 mrg--b mrg-s txt-m">No Insights yet</h6>
   <p class="body-2 mrg--b mrg-l">
     Use Insights to journal your ideas, perform research, or share with others
@@ -21,7 +25,8 @@
 
   img {
     max-width: 100%;
-    width: 430px;
+    width: 300px;
+    height: 140px;
   }
 
   h6 {
