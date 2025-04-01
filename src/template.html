@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="theme-color" content="#333333" />
-    %sapper.base%
-    <link rel="stylesheet" href="global.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <link rel="manifest" href="manifest.json" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180x180.png" />
 
-    %sapper.scripts%
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="theme-color" content="#333333" />
+  %sapper.base%
+  <link rel="stylesheet" href="/global.css" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png" />
 
-    <!-- Sapper generates a <style> tag containing critical CSS
+  %sapper.scripts%
+
+  <!-- Sapper generates a <style> tag containing critical CSS
 	     for the current page. CSS for the rest of the app is
 	     lazily loaded when it precaches secondary pages -->
-    %sapper.styles%
+  %sapper.styles%
 
-    <!-- This contains the contents of the <svelte:head> component, if
+  <!-- This contains the contents of the <svelte:head> component, if
 	     the current page has one -->
-    %sapper.head%
+  %sapper.head%
 
-    <meta name="google-site-verification" content="JA5jmj69hPNxRpZn9j-9f5eg3BS5CCwuGE-uJkNYq_0" />
+  <meta name="google-site-verification" content="JA5jmj69hPNxRpZn9j-9f5eg3BS5CCwuGE-uJkNYq_0" />
 
-    <meta name="og:image" content="/preview.jpg" />
-    <meta name="image" property="og:image" content="/preview.jpg" />
-  </head>
-  <body class="%sapper.theme%">
-    <div id="sapper">%sapper.html%</div>
-  </body>
+  <meta name="og:image" content="/preview.jpg" />
+  <meta name="image" property="og:image" content="/preview.jpg" />
+</head>
+
+<body class="%sapper.theme%">
+  <div id="sapper">%sapper.html%</div>
+</body>
+
 </html>
