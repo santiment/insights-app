@@ -8,3 +8,4 @@ yarn-error.log
 .log/
 .eslintcache
 /.idea/
+.vscode/
