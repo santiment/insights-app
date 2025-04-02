@@ -8,9 +8,9 @@ RUN GIT_HEAD=$GIT_HEAD
 
 WORKDIR /app
 
-RUN mkdir -p /app/.log
+RUN mkdir -p /.log
 
-VOLUME /app/.log
+VOLUME /.log
 
 COPY ./ /app
 
