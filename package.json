@@ -35,7 +35,8 @@
     "san-webkit": "https://github.com/santiment/san-webkit#01c631c",
     "sanitize-html": "1.20.1",
     "sirv": "^1.0.0",
-    "turndown": "^7.1.1"
+    "turndown": "^7.1.1",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
