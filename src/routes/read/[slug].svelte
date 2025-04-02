@@ -116,26 +116,28 @@
 
   <InsightText {text} class="$style.insight-text mrg-xl mrg--t body-1" />
 
-  {#if isPaywalled}
-    <Paywall />
-  {:else}
-    <div class="tags c-waterloo mrg-xl mrg--t mrg--b caption row">
-      <Tags {tags} />
-    </div>
+  {#if process.browser}
+    {#if isPaywalled}
+      <Paywall />
+    {:else}
+      <div class="tags c-waterloo mrg-xl mrg--t mrg--b caption row">
+        <Tags {tags} />
+      </div>
 
-    <Author {user} {date} {isAuthor} {isFollowing} source="insights_article_bottom" />
+      <Author {user} {date} {isAuthor} {isFollowing} source="insights_article_bottom" />
 
-    <div class="divider" />
+      <div class="divider" />
 
-    <ViewportObserver
-      top
-      options={{ rootMargin: '160px 0px -135px' }}
-      on:intersect={hideSidebar}
-      on:leaving={showSidebar}>
-      <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
-    </ViewportObserver>
+      <ViewportObserver
+        top
+        options={{ rootMargin: '160px 0px -135px' }}
+        on:intersect={hideSidebar}
+        on:leaving={showSidebar}>
+        <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
+      </ViewportObserver>
 
-    <Comments {insight} />
+      <Comments {insight} />
+    {/if}
   {/if}
 </div>
 
