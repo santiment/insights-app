@@ -3,7 +3,6 @@
   import { queryInsightSSR } from '@/api/insights'
   import { RELATED_PROJECT_FRAGMENT, queryPriceDataSSR } from '@/api/insights/project'
   import { redirectNonAuthor } from '@/flow/redirect'
-  import { queryPriceSincePublication } from '@cmp/PriceSincePublication.svelte'
 
   export async function preload(page, session) {
     const { currentUser, isMobile } = session
@@ -31,14 +30,14 @@
     const publishedAt = insight.publishedAt || updatedAt
     const isAuthor = currentUser && +currentUser.id === +user.id
 
-    const queryPriceData = (...args) => queryPriceDataSSR(...args, this)
-    const priceQuery =
-      project && queryPriceSincePublication(project.slug, publishedAt, queryPriceData)
+    // const queryPriceData = (...args) => queryPriceDataSSR(...args, this)
+    // const priceQuery =
+    //   project && queryPriceSincePublication(project.slug, publishedAt, queryPriceData)
 
-    const projectData = await priceQuery
+    // const projectData = await priceQuery
 
     console.log('[DEBUG] Insight data loaded successfully', { slug })
-    return { insight, projectData, slug, isAuthor, isDraft }
+    return { insight, projectSlug: project && project.slug, publishedAt, slug, isAuthor, isDraft }
   }
 </script>
 
@@ -50,6 +49,7 @@
   import { session } from '@/stores/session'
   import { checkIsFollowing } from '@/flow/follow'
   import { InteractionType, mutateStoreUserActivitiy } from '@/api/userActivity'
+  import { queryPriceSincePublication } from '@cmp/PriceSincePublication.svelte'
   import Tags from '@cmp/Tags.svelte'
   import InsightText from '@cmp/InsightText.svelte'
   import MobileHeader from '@cmp/MobileHeader.svelte'
@@ -64,12 +64,14 @@
   import Comments from './_Comments.svelte'
 
   export let insight
-  export let projectData
   export let slug
   export let isAuthor
   export let isDraft
+  export let projectSlug
+  export let publishedAt
 
   let hidden = true
+  let projectData = undefined
 
   console.log('[DEBUG] Component rendered', { slug })
 
@@ -90,6 +92,14 @@
   onMount(() => {
     if ($currentUser) {
       mutateStoreUserActivitiy(insight.id, InteractionType.VIEW)
+    }
+
+    if (projectSlug) {
+      queryPriceSincePublication(projectSlug, publishedAt)
+        .then((_data) => (projectData = _data))
+        .catch((err) => {
+          console.error(err)
+        })
     }
   })
 </script>
@@ -116,26 +126,28 @@
 
   <InsightText {text} class="$style.insight-text mrg-xl mrg--t body-1" />
 
-  {#if isPaywalled}
-    <Paywall />
-  {:else}
-    <div class="tags c-waterloo mrg-xl mrg--t mrg--b caption row">
-      <Tags {tags} />
-    </div>
+  {#if process.browser}
+    {#if isPaywalled}
+      <Paywall />
+    {:else}
+      <div class="tags c-waterloo mrg-xl mrg--t mrg--b caption row">
+        <Tags {tags} />
+      </div>
 
-    <Author {user} {date} {isAuthor} {isFollowing} source="insights_article_bottom" />
+      <Author {user} {date} {isAuthor} {isFollowing} source="insights_article_bottom" />
 
-    <div class="divider" />
+      <div class="divider" />
 
-    <ViewportObserver
-      top
-      options={{ rootMargin: '160px 0px -135px' }}
-      on:intersect={hideSidebar}
-      on:leaving={showSidebar}>
-      <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
-    </ViewportObserver>
+      <ViewportObserver
+        top
+        options={{ rootMargin: '160px 0px -135px' }}
+        on:intersect={hideSidebar}
+        on:leaving={showSidebar}>
+        <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
+      </ViewportObserver>
 
-    <Comments {insight} />
+      <Comments {insight} />
+    {/if}
   {/if}
 </div>
 
