@@ -10,6 +10,10 @@ WORKDIR /app
 
 COPY ./ /app
 
+RUN mkdir -p /app/.log
+
+VOLUME /app/.log
+
 RUN npm install --unsafe-perm
 RUN npm run build
 
