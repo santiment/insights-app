@@ -8,11 +8,11 @@ RUN GIT_HEAD=$GIT_HEAD
 
 WORKDIR /app
 
-COPY ./ /app
-
 RUN mkdir -p /app/.log
 
 VOLUME /app/.log
+
+COPY ./ /app
 
 RUN npm install --unsafe-perm
 RUN npm run build
