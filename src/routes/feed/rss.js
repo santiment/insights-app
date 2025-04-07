@@ -2,6 +2,7 @@ import { query } from 'san-webkit/lib/api'
 import { getSEOLinkFromIdAndTitle } from 'san-webkit/lib/utils/url'
 import { getDateFormats } from 'san-webkit/lib/utils/dates'
 import { getRawText } from '../../utils/insights'
+import { logger, memUsageMessage } from '@/logger'
 
 function queryInsights() {
   return query(`{
@@ -34,6 +35,8 @@ function getPublishDate(publishedAt) {
 }
 
 export async function get(req, res) {
+  logger.debug(`Loading rss feed | ${memUsageMessage()}`)
+
   const { insights } = await queryInsights()
 
   const rssItems = insights.map(
@@ -60,4 +63,6 @@ export async function get(req, res) {
 </channel>
 
 </rss>`)
+
+  logger.debug(`RSS feed loaded | ${memUsageMessage()}`)
 }

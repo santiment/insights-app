@@ -4,27 +4,14 @@ import compression from 'compression'
 import MobileDetect from 'mobile-detect'
 import * as sapper from '@sapper/server'
 import { queryCurrentUserSSR, queryUserAnnualDiscountSSR } from '@/api/user'
-import { loggerMiddleware, logger } from './logger'
+import { loggerMiddleware, logger, memUsageMessage } from './logger'
 
 const { PORT, NODE_ENV } = process.env
 const dev = NODE_ENV === 'development'
 
 const checkIsAccountNightMode = (user) => (user ? user.settings.theme === 'nightmode' : false)
 
-function formatMem(mem) {
-  return `${(mem / 1024 / 1024).toFixed(2)}MB`
-}
-
-setInterval(() => {
-  const used = process.memoryUsage()
-  logger.debug(
-    `[MEMORY]: RSS=${formatMem(used.rss)}, Heap Used=${formatMem(
-      used.heapUsed,
-    )}, Heap Total=${formatMem(used.heapTotal)}, External=${formatMem(
-      used.external,
-    )}, Array Buffers=${formatMem(used.arrayBuffers)}MB`,
-  )
-}, 10 * 1000)
+setInterval(() => logger.debug(memUsageMessage()), 10 * 1000)
 
 polka()
   .use(
