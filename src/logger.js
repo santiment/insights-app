@@ -27,3 +27,16 @@ export const loggerMiddleware = (req, res, next) => {
   next()
   logger.debug(`Response for ${req.path}: ${res.statusCode} ${res.statusMessage}`)
 }
+
+function formatMem(mem) {
+  return `${(mem / 1024 / 1024).toFixed(2)}MB`
+}
+
+export function memUsageMessage() {
+  const used = process.memoryUsage()
+  return `[MEMORY]: RSS=${formatMem(used.rss)}, Heap Used=${formatMem(
+    used.heapUsed,
+  )}, Heap Total=${formatMem(used.heapTotal)}, External=${formatMem(
+    used.external,
+  )}, Array Buffers=${formatMem(used.arrayBuffers)}MB`
+}
