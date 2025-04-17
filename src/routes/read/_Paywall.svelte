@@ -16,7 +16,7 @@
   }
 </script>
 
-<section class="top mrg-xxl mrg--t">
+<section class="mrg-xxl mrg--t">
   <h2 class="h4 txt-m mrg-s mrg--b">There’s more of this Insight</h2>
   <h3 class="c-waterloo mrg-xxl mrg--b">Choose your subscription plan</h3>
 
@@ -27,8 +27,7 @@
       $49<span class="c-casper">/mo</span>
     </div>
     <button on:click={onUpgradeClick} class="upgrade btn-1 btn--orange btn--l" use:dataPreloader
-      >Upgrade to PRO</button
-    >
+      >Upgrade to PRO</button>
   </div>
 </section>
 
@@ -48,14 +47,12 @@
 
     <h5 class="mrg-s mrg--t mrg--b">Our previous TOP calls:</h5>
     <div class="column body-3">
-      <a class="btn" href="/read/waves-crowd-sentiment-pattern-124">WAVES crowd sentiment pattern</a
-      >
+      <a class="btn" href="/read/waves-crowd-sentiment-pattern-124"
+        >WAVES crowd sentiment pattern</a>
       <a class="btn" href="/read/matic-charts-a-new-ath%3A-is-the-top-in%3F-2959"
-        >MATIC charts a new ATH: is the top in?</a
-      >
+        >MATIC charts a new ATH: is the top in?</a>
       <a class="btn" href="/read/icx-insanity.-how-far-could-it-go%3F-5611"
-        >ICX insanity. How far could it go?</a
-      >
+        >ICX insanity. How far could it go?</a>
     </div>
   </div>
 
@@ -87,42 +84,12 @@
   <button
     on:click={onUpgradeClick}
     class="upgrade btn-1 btn--orange btn--l body-3"
-    use:dataPreloader>Subscribe to PRO</button
-  >
+    use:dataPreloader>Subscribe to PRO</button>
 </section>
 
 <style>
   section {
     text-align: center;
-  }
-
-  .top {
-    position: relative;
-    padding: 95px 0 0;
-    background: url('/paywall.svg') no-repeat 50% 0;
-  }
-  .top::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 100%;
-    height: 300px;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.8) 51.04%,
-      #fff 100%
-    );
-  }
-
-  :global(.night-mode) .top::before {
-    background: linear-gradient(
-      180deg,
-      rgba(24, 27, 43, 0) 0%,
-      rgba(24, 27, 43, 0.8) 51.04%,
-      #181b2b 100%
-    );
   }
 
   .plan {
