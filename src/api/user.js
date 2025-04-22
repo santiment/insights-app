@@ -15,10 +15,13 @@ export const CURRENT_USER_FRAGMENT = `
     insightsCount {
       totalCount
     }
-    subscription: primaryUserSanbaseSubscription {
+
+    subscriptions {
+      id
       status
       trialEnd
       plan {
+        id
         name
         product {
           id
@@ -40,7 +43,39 @@ export const CURRENT_USER_QUERY = `
   }
 `
 
-export const queryCurrentUser = (reqOptions) => query(CURRENT_USER_QUERY, undefined, reqOptions)
+const Status = {
+  ACTIVE: 'ACTIVE',
+  TRIALING: 'TRIALING',
+  INCOMPLETE: 'INCOMPLETE',
+}
+
+const checkIsActiveSubscription = ({ status } = {}) =>
+  status === Status.ACTIVE || status === Status.TRIALING || status === Status.INCOMPLETE
+
+function getPrimarySubscription(subscriptions) {
+  const businessSubscription = subscriptions.find(
+    (subscription) =>
+      checkIsActiveSubscription(subscription) && subscription.plan.product.id === '1',
+  )
+
+  if (businessSubscription) {
+    return businessSubscription
+  }
+
+  return subscriptions.find(
+    (subscription) =>
+      checkIsActiveSubscription(subscription) && subscription.plan.product.id === '2',
+  )
+}
+
+export const queryCurrentUser = (reqOptions) =>
+  query(CURRENT_USER_QUERY, undefined, reqOptions).then((data) => {
+    if (data.currentUser) {
+      data.currentUser.subscription = getPrimarySubscription(data.currentUser.subscriptions)
+    }
+
+    return data
+  })
 
 export const queryCurrentUserSSR = newSSRQuery(queryCurrentUser)
 

@@ -1,4 +1,17 @@
 <script context="module">
+  import { PlanName } from 'webkit/utils/plans'
+
+  Object.assign(PlanName, {
+    PRO_PLUS: 'Pro+',
+
+    PRO: 'Sanbase Pro',
+    MAX: 'Sanbase Max',
+
+    BUSINESS_PRO: 'Business Pro',
+    BUSINESS_MAX: 'Business Max',
+    CUSTOM: 'Enterprise',
+  })
+
   export function preload(page, session) {
     if (page.path === '/gdpr') return
 

@@ -1,0 +1,14 @@
+diff --git a/node_modules/san-webkit/lib/ui/AccountDropdown/UserInfo.svelte b/node_modules/san-webkit/lib/ui/AccountDropdown/UserInfo.svelte
+index 448293a..1ffb22b 100644
+--- a/node_modules/san-webkit/lib/ui/AccountDropdown/UserInfo.svelte
++++ b/node_modules/san-webkit/lib/ui/AccountDropdown/UserInfo.svelte
+@@ -64,9 +64,6 @@ $: href = subscriptionInfo.userPlanName ? 'https://academy.santiment.net/product
+ 
+   <div class="caption c-waterloo">
+     <div class="mrg-s mrg--t">
+-      {#if subscriptionInfo.userPlanName && !subscriptionInfo.trialDaysLeft}
+-        SanAPI: Basic plan<br />
+-      {/if}
+       {sunbasePlan}
+     </div>
+     <a
