@@ -16,7 +16,7 @@
   }
 </script>
 
-<section class="top mrg-xxl mrg--t">
+<section class="mrg-xxl mrg--t">
   <h2 class="h4 txt-m mrg-s mrg--b">There’s more of this Insight</h2>
   <h3 class="c-waterloo mrg-xxl mrg--b">Choose your subscription plan</h3>
 
@@ -94,35 +94,6 @@
 <style>
   section {
     text-align: center;
-  }
-
-  .top {
-    position: relative;
-    padding: 95px 0 0;
-    background: url('/paywall.svg') no-repeat 50% 0;
-  }
-  .top::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 100%;
-    height: 300px;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.8) 51.04%,
-      #fff 100%
-    );
-  }
-
-  :global(.night-mode) .top::before {
-    background: linear-gradient(
-      180deg,
-      rgba(24, 27, 43, 0) 0%,
-      rgba(24, 27, 43, 0.8) 51.04%,
-      #181b2b 100%
-    );
   }
 
   .plan {
