@@ -1,17 +1,20 @@
 <script context="module">
-  import { queryAllInsightsSSR } from '@/api/insights'
+  // import { queryAllInsightsSSR } from '@/api/insights'
+  import { getSanbaseHref, feedQueryToSanbaseSearch } from '@/utils/url'
 
-  const parseTags = (tags) => tags && tags.toUpperCase().split(',')
-  const parseOnlyPro = (onlyPro) => onlyPro !== undefined
+  // const parseTags = (tags) => tags && tags.toUpperCase().split(',')
+  // const parseOnlyPro = (onlyPro) => onlyPro !== undefined
 
   export async function preload(page) {
     const { query } = page
 
-    const tags = parseTags(query.tags)
-    const onlyPro = parseOnlyPro(query.onlyPro)
-    const insights = await queryAllInsightsSSR(1, tags, onlyPro, true, this)
+    this.redirect(303, getSanbaseHref(`/insights${feedQueryToSanbaseSearch(query)}`))
 
-    return { insights, onlyPro, tags }
+    // const tags = parseTags(query.tags)
+    // const onlyPro = parseOnlyPro(query.onlyPro)
+    // const insights = await queryAllInsightsSSR(1, tags, onlyPro, true, this)
+
+    // return { insights, onlyPro, tags }
   }
 </script>
 

@@ -1,23 +1,27 @@
 <script context="module">
-  import { redirectToLoginPage } from '@/flow/redirect'
-  import { queryDraftInsights, queryDraftInsightsSSR } from '@/api/insights/user'
+  // import { redirectToLoginPage } from '@/flow/redirect'
+  // import { queryDraftInsights, queryDraftInsightsSSR } from '@/api/insights/user'
+  import { getSanbaseHref } from '@/utils/url'
 
   const onlyDrafts = ({ readyState }) => readyState === 'draft'
 
-  export async function preload(_, session) {
-    if (redirectToLoginPage(this, session)) return
+  export async function preload() {
+    this.redirect(303, getSanbaseHref('/insights/my?tab=drafts'))
 
-    const insights = await queryDraftInsightsSSR(1, this).catch((e) => {
-      console.log("User's draft insights error", e)
-      return []
-    })
+    // if (redirectToLoginPage(this, session)) return
 
-    return { insights: insights.filter(onlyDrafts) }
+    // const insights = await queryDraftInsightsSSR(1, this).catch((e) => {
+    //   console.log("User's draft insights error", e)
+    //   return []
+    // })
+
+    // return { insights: insights.filter(onlyDrafts) }
   }
 </script>
 
 <script>
   import ViewportPagination from '@cmp/ViewportPagination.svelte'
+  import { queryDraftInsights } from '@/api/insights/user'
   import Draft from '@cmp/InsightCard/Draft.svelte'
   import Empty from './_Empty.svelte'
 

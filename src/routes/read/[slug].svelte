@@ -1,43 +1,46 @@
 <script context="module">
-  import { getIdFromSEOLink } from 'webkit/utils/url'
-  import { queryInsightSSR } from '@/api/insights'
-  import { RELATED_PROJECT_FRAGMENT, queryPriceDataSSR } from '@/api/insights/project'
-  import { redirectNonAuthor } from '@/flow/redirect'
+  // import { getIdFromSEOLink } from 'webkit/utils/url'
+  // import { queryInsightSSR } from '@/api/insights'
+  // import { RELATED_PROJECT_FRAGMENT, queryPriceDataSSR } from '@/api/insights/project'
+  // import { redirectNonAuthor } from '@/flow/redirect'
+  import { getSanbaseHref } from '@/utils/url'
 
-  export async function preload(page, session) {
-    const { currentUser, isMobile } = session
+  export async function preload(page) {
     const { slug } = page.params
-    console.log(`[DEBUG] Loading ${page.path}...`)
 
-    const id = getIdFromSEOLink(slug)
-    const DATA = isMobile ? undefined : RELATED_PROJECT_FRAGMENT
-    const insight = await queryInsightSSR(id, DATA, this).catch((e) => {
-      console.log("Insight doesn't exist", e)
-    })
+    this.redirect(303, getSanbaseHref(`/insights/read/${slug}`))
+    // const { currentUser, isMobile } = session
+    // console.log(`[DEBUG] Loading ${page.path}...`)
 
-    if (!insight) {
-      console.log('[DEBUG] Insight not found. Redirecting to /', { slug })
-      return this.redirect(302, '/')
-    }
+    // const id = getIdFromSEOLink(slug)
+    // const DATA = isMobile ? undefined : RELATED_PROJECT_FRAGMENT
+    // const insight = await queryInsightSSR(id, DATA, this).catch((e) => {
+    //   console.log("Insight doesn't exist", e)
+    // })
 
-    const isDraft = insight.readyState === 'draft'
-    if (isDraft && redirectNonAuthor(this, session, insight)) {
-      console.log('[DEBUG] Unauthorized draft access. Redirected to /', { slug })
-      return
-    }
+    // if (!insight) {
+    //   console.log('[DEBUG] Insight not found. Redirecting to /', { slug })
+    //   return this.redirect(302, '/')
+    // }
 
-    const { user, project, updatedAt } = insight
-    const publishedAt = insight.publishedAt || updatedAt
-    const isAuthor = currentUser && +currentUser.id === +user.id
+    // const isDraft = insight.readyState === 'draft'
+    // if (isDraft && redirectNonAuthor(this, session, insight)) {
+    //   console.log('[DEBUG] Unauthorized draft access. Redirected to /', { slug })
+    //   return
+    // }
 
-    // const queryPriceData = (...args) => queryPriceDataSSR(...args, this)
-    // const priceQuery =
-    //   project && queryPriceSincePublication(project.slug, publishedAt, queryPriceData)
+    // const { user, project, updatedAt } = insight
+    // const publishedAt = insight.publishedAt || updatedAt
+    // const isAuthor = currentUser && +currentUser.id === +user.id
 
-    // const projectData = await priceQuery
+    // // const queryPriceData = (...args) => queryPriceDataSSR(...args, this)
+    // // const priceQuery =
+    // //   project && queryPriceSincePublication(project.slug, publishedAt, queryPriceData)
 
-    console.log('[DEBUG] Insight data loaded successfully', { slug })
-    return { insight, projectSlug: project && project.slug, publishedAt, slug, isAuthor, isDraft }
+    // // const projectData = await priceQuery
+
+    // console.log('[DEBUG] Insight data loaded successfully', { slug })
+    // return { insight, projectSlug: project && project.slug, publishedAt, slug, isAuthor, isDraft }
   }
 </script>
 
@@ -142,7 +145,8 @@
         top
         options={{ rootMargin: '160px 0px -135px' }}
         on:intersect={hideSidebar}
-        on:leaving={showSidebar}>
+        on:leaving={showSidebar}
+      >
         <Epilogue {insight} {link} {isDraft} {isAuthor} {isFollowing} />
       </ViewportObserver>
 
