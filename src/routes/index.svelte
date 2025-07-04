@@ -1,33 +1,33 @@
 <script context="module">
-  import { queryAllInsightsSSR } from '@/api/insights'
-  import { queryFeaturedInsightsSSR } from '@/api/insights/featured'
-
-  const parseTags = (tags) => tags && tags.toUpperCase().split(',')
-  const parseFlag = (flag) => flag !== undefined
+  // import { queryAllInsightsSSR } from '@/api/insights'
+  // import { queryFeaturedInsightsSSR } from '@/api/insights/featured'
+  import { getSanbaseHref, feedQueryToSanbaseSearch } from '@/utils/url'
 
   export async function preload(page) {
     const { query } = page
 
-    const tags = parseTags(query.tags)
-    const onlyPro = parseFlag(query.onlyPro)
-    const isPulse = query.isPulse
+    this.redirect(301, getSanbaseHref(`/insights${feedQueryToSanbaseSearch(query)}`))
 
-    const insights = await queryAllInsightsSSR(1, tags, onlyPro, isPulse, this).catch((e) => {
-      console.log('Insights error', e)
-      return []
-    })
+    // const tags = parseTags(query.tags)
+    // const onlyPro = parseFlag(query.onlyPro)
+    // const isPulse = query.isPulse
 
-    const featured = await queryFeaturedInsightsSSR(this).catch((e) => {
-      console.log('Featured insights error', e)
-      return []
-    })
+    // const insights = await queryAllInsightsSSR(1, tags, onlyPro, isPulse, this).catch((e) => {
+    //   console.log('Insights error', e)
+    //   return []
+    // })
 
-    return {
-      insights,
-      onlyPro,
-      tags,
-      featured,
-    }
+    // const featured = await queryFeaturedInsightsSSR(this).catch((e) => {
+    //   console.log('Featured insights error', e)
+    //   return []
+    // })
+
+    // return {
+    //   insights,
+    //   onlyPro,
+    //   tags,
+    //   featured,
+    // }
   }
 </script>
 

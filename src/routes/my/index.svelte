@@ -1,26 +1,30 @@
 <script context="module">
-  import { redirectToLoginPage } from '@/flow/redirect'
-  import { queryUserInsights, queryUserInsightsSSR } from '@/api/insights/user'
+  // import { redirectToLoginPage } from '@/flow/redirect'
+  // import { queryUserInsights, queryUserInsightsSSR } from '@/api/insights/user'
+  import { getSanbaseHref } from '@/utils/url'
 
   const onlyPublishedFilter = ({ readyState }) => readyState === 'published'
 
-  export async function preload(_, session) {
-    if (redirectToLoginPage(this, session)) return
+  export async function preload() {
+    this.redirect(301, getSanbaseHref('/insights/my'))
 
-    const userId = session.currentUser && session.currentUser.id
+    // if (redirectToLoginPage(this, session)) return
 
-    return {
-      userId,
-      insights: await queryUserInsightsSSR(1, userId, this).catch((e) => {
-        console.log("User's insights error", e)
-        return []
-      }),
-    }
+    // const userId = session.currentUser && session.currentUser.id
+
+    // return {
+    //   userId,
+    //   insights: await queryUserInsightsSSR(1, userId, this).catch((e) => {
+    //     console.log("User's insights error", e)
+    //     return []
+    //   }),
+    // }
   }
 </script>
 
 <script>
   import InsightsFeed from '@cmp/InsightsFeed.svelte'
+  import { queryUserInsights } from '@/api/insights/user'
   import Empty from './_Empty.svelte'
 
   export let userId = 0
