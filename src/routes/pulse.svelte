@@ -8,7 +8,7 @@
   export async function preload(page) {
     const { query } = page
 
-    this.redirect(303, getSanbaseHref(`/insights${feedQueryToSanbaseSearch(query)}`))
+    this.redirect(301, getSanbaseHref(`/insights${feedQueryToSanbaseSearch(query)}`))
 
     // const tags = parseTags(query.tags)
     // const onlyPro = parseOnlyPro(query.onlyPro)

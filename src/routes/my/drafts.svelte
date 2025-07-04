@@ -6,7 +6,7 @@
   const onlyDrafts = ({ readyState }) => readyState === 'draft'
 
   export async function preload() {
-    this.redirect(303, getSanbaseHref('/insights/my?tab=drafts'))
+    this.redirect(301, getSanbaseHref('/insights/my?tab=drafts'))
 
     // if (redirectToLoginPage(this, session)) return
 

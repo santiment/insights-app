@@ -8,7 +8,7 @@
   export async function preload(page) {
     const { slug } = page.params
 
-    this.redirect(303, getSanbaseHref(`/insights/read/${slug}`))
+    this.redirect(301, getSanbaseHref(`/insights/read/${slug}`))
     // const { currentUser, isMobile } = session
     // console.log(`[DEBUG] Loading ${page.path}...`)
 

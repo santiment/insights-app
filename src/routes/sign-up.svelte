@@ -3,6 +3,6 @@
   import { getSanbaseHref } from '@/utils/url'
 
   export function preload() {
-    this.redirect(303, getSanbaseHref(`/sign-up?from=${encodeURIComponent('/insights')}`))
+    this.redirect(301, getSanbaseHref(`/sign-up?from=${encodeURIComponent('/insights')}`))
   }
 </script>

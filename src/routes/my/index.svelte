@@ -6,7 +6,7 @@
   const onlyPublishedFilter = ({ readyState }) => readyState === 'published'
 
   export async function preload() {
-    this.redirect(303, getSanbaseHref('/insights/my'))
+    this.redirect(301, getSanbaseHref('/insights/my'))
 
     // if (redirectToLoginPage(this, session)) return
 
