@@ -5,7 +5,7 @@
  */
 export function getSanbaseHref(path) {
   const stage = process.env.IS_STAGE_BACKEND ? '-stage' : ''
-  return `https://app${stage}.santiment.net${path}`
+  return encodeURI(`https://app${stage}.santiment.net${path}`)
 }
 
 export function feedQueryToSanbaseSearch({ tags, onlyPro }) {
