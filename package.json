@@ -16,8 +16,7 @@
     "webkit": "node scripts/webkit",
     "postinstall": "patch-package && npm run webkit",
     "prepare": "husky install",
-    "lib": "node scripts/lib.js",
-    "install": "npm run lib"
+    "lib": "node scripts/lib.js"
   },
   "dependencies": {
     "compression": "^1.7.1",
