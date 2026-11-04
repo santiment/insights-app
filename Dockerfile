@@ -1,4 +1,4 @@
-FROM node:13 AS builder
+FROM node:22.23.4 AS builder
 
 ARG BACKEND_URL
 ARG API_FETCH_ORIGIN
@@ -17,7 +17,7 @@ COPY ./ /app
 RUN npm install --unsafe-perm
 RUN npm run build
 
-FROM node:13
+FROM node:22.23.4
 
 WORKDIR /app
 
