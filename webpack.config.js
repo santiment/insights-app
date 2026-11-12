@@ -14,6 +14,8 @@ const alias = {
   '@': path.resolve('src'),
   '@cmp': path.resolve('src', 'components'),
   webkit: path.resolve('node_modules/san-webkit/lib/'),
+  // webpack 4 ignores package.json "exports"; htmlparser2 (via sanitize-html) imports this subpath
+  'entities/decode$': path.resolve('node_modules/entities/dist/decode.js'),
 }
 const extensions = ['.mjs', '.js', '.json', '.svelte', '.html']
 const mainFields = ['svelte', 'module', 'browser', 'main']
@@ -68,6 +70,22 @@ const URL_LOADER = {
   ],
 }
 
+// sanitize-html >= 2.17.6 depends on ESM-only htmlparser2 and friends that ship
+// syntax webpack 4's parser can't read (export * as, ?., ??), so transpile them.
+const MODERN_DEPS_RULE = {
+  test: /\.js$/,
+  include:
+    /node_modules[\\/](htmlparser2|domhandler|domutils|domelementtype|dom-serializer|entities)[\\/]/,
+  use: {
+    loader: 'babel-loader',
+    options: {
+      babelrc: false,
+      configFile: false,
+      presets: [['@babel/preset-env', { modules: false }]],
+    },
+  },
+}
+
 const BABEL_PREPROCESS = {
   assumptions: {
     noDocumentAll: true,
@@ -100,6 +118,7 @@ module.exports = {
         },
         cssLoaderRule,
         fileLoaderRule,
+        MODERN_DEPS_RULE,
       ],
     },
     mode,
@@ -143,6 +162,7 @@ module.exports = {
         },
         cssLoaderRule,
         fileLoaderRule,
+        MODERN_DEPS_RULE,
       ],
     },
     mode,
