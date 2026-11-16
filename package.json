@@ -20,49 +20,47 @@
     "install": "npm run lib"
   },
   "dependencies": {
-    "compression": "^1.7.1",
+    "compression": "^1.8.2",
     "draft-convert": "2.1.8",
     "draft-js": "0.10.5",
-    "ethers": "^5.4.4",
+    "ethers": "^5.8.0",
     "marked": "^4.0.12",
     "medium-draft": "0.5.18",
     "medium-editor": "^5.23.3",
     "mobile-detect": "^1.4.5",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.7.0",
     "polka": "next",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "san-webkit": "https://github.com/santiment/san-webkit#01c631c",
-    "sanitize-html": "1.20.1",
+    "san-webkit": "https://github.com/santiment/san-webkit#01c631cbb98c61c7faadbb199dc8c2bb6999b22a",
+    "sanitize-html": "^2.18.0",
     "sirv": "^1.0.0",
     "turndown": "^7.1.1",
     "winston": "^3.17.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.9",
+    "@babel/core": "^7.29.6",
     "@babel/plugin-proposal-optional-chaining": "^7.16.7",
+    "@babel/preset-env": "^7.29.7",
     "babel-eslint": "^10.1.0",
-    "copy-webpack-plugin": "5.1.2",
+    "babel-loader": "^8.4.1",
     "css-loader": "^5.1.4",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-svelte3": "^3.4.1",
-    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^6.0.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.7",
-    "node-fetch": "^2.6.1",
-    "node-sass": "^6.0.1",
+    "node-fetch": "^2.7.0",
     "patch-package": "^6.2.2",
     "phoenix": "^1.6.6",
     "prettier": "^2.5.1",
     "prettier-plugin-svelte": "^2.6.0",
     "sapper": "^0.29.3",
     "sass": "^1.49.7",
-    "sass-loader": "^12.2.0",
     "style-loader": "^2.0.0",
-    "svelte": "^3.48.0",
+    "svelte": "^3.59.2",
     "svelte-loader": "^3.1.2",
     "svelte-preprocess": "^4.6.9",
     "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#3b24f22",
@@ -72,5 +70,24 @@
   },
   "peerDependencies": {
     "san-webkit": "https://github.com/santiment/san-webkit.git"
+  },
+  "overrides": {
+    "@ethersproject/providers": {
+      "ws": "^8.21.3"
+    },
+    "@walletconnect/socket-transport": {
+      "ws": "^7.5.11"
+    },
+    "@walletconnect/utils": {
+      "bn.js": "^4.12.3"
+    },
+    "draft-js": {
+      "immutable": "~3.8.4"
+    },
+    "draft-convert": {
+      "immutable": "~3.8.4"
+    },
+    "serialize-javascript": "^7.0.3",
+    "tmp": "^0.2.6"
   }
 }

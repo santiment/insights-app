@@ -74,7 +74,7 @@ function processJs() {
 }
 
 function main() {
-  fs.rmdirSync(LIB, { recursive: true })
+  fs.rmSync(LIB, { recursive: true, force: true })
   processJs()
   processSvelte()
 }

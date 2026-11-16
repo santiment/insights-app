@@ -1,7 +1,7 @@
 import { createElement, useState } from 'react'
 import { convertToRaw } from 'draft-js'
 import { BLOCK_BUTTONS, INLINE_BUTTONS, Editor, createEditorState } from 'medium-draft'
-import sanitizeHtml from 'sanitize-html/dist/sanitize-html'
+import sanitizeHtml from 'sanitize-html'
 import mediumDraftImporter from 'medium-draft/lib/importer'
 import mediumDraftExporter from 'medium-draft/lib/exporter'
 import Svg from 'webkit/ui/Svg/react'
@@ -59,6 +59,9 @@ const sanitizeMediumDraftHtml = (html) =>
         'h1',
         'h2',
         'u',
+        // sanitize-html v2 dropped these from its defaults; chart embeds are exported as iframes
+        'iframe',
+        'strike',
       ],
       allowedAttributes: {
         ...sanitizeHtml.defaults.allowedAttributes,
